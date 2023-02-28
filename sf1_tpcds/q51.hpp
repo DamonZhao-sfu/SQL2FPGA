@@ -1,0 +1,871 @@
+#include <regex> 
+#include <stdint.h> 
+#include "utils.hpp"
+
+void SW_Filter_TD_10807143(Table &tbl_SerializeFromObject_TD_11681294_input, Table &tbl_Filter_TD_10807143_output) {
+    // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
+    // Supported operation: Filter
+    // Operation: ListBuffer(((isnotnull(d_month_seq#3557) AND ((d_month_seq#3557 >= 1200) AND (d_month_seq#3557 <= 1211))) AND isnotnull(d_date_sk#3554)))
+    // Input: ListBuffer(d_date_sk#3554, d_date#3556, d_month_seq#3557)
+    // Output: ListBuffer(d_date_sk#3554, d_date#3556)
+    int r = 0;
+    int nrow1 = tbl_SerializeFromObject_TD_11681294_input.getNumRow();
+    for (int i = 0; i < nrow1; i++) {
+        int32_t _d_month_seq3557 = tbl_SerializeFromObject_TD_11681294_input.getInt32(i, 2);
+        int32_t _d_date_sk3554 = tbl_SerializeFromObject_TD_11681294_input.getInt32(i, 0);
+        if (((_d_month_seq3557!= 0) && ((_d_month_seq3557 >= 1200) && (_d_month_seq3557 <= 1211))) && (_d_date_sk3554!= 0)) {
+            int32_t _d_date_sk3554_t = tbl_SerializeFromObject_TD_11681294_input.getInt32(i, 0);
+            tbl_Filter_TD_10807143_output.setInt32(r, 0, _d_date_sk3554_t);
+            int32_t _d_date3556_t = tbl_SerializeFromObject_TD_11681294_input.getInt32(i, 1);
+            tbl_Filter_TD_10807143_output.setInt32(r, 1, _d_date3556_t);
+            r++;
+        }
+    }
+    tbl_Filter_TD_10807143_output.setNumRow(r);
+    std::cout << "tbl_Filter_TD_10807143_output #Row: " << tbl_Filter_TD_10807143_output.getNumRow() << std::endl;
+}
+
+void SW_Filter_TD_10766621(Table &tbl_SerializeFromObject_TD_11641044_input, Table &tbl_Filter_TD_10766621_output) {
+    // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
+    // Supported operation: Filter
+    // Operation: ListBuffer((isnotnull(ss_item_sk#1208) AND isnotnull(ss_sold_date_sk#1206)))
+    // Input: ListBuffer(ss_sold_date_sk#1206, ss_item_sk#1208, ss_sales_price#1219)
+    // Output: ListBuffer(ss_sold_date_sk#1206, ss_item_sk#1208, ss_sales_price#1219)
+    int r = 0;
+    int nrow1 = tbl_SerializeFromObject_TD_11641044_input.getNumRow();
+    for (int i = 0; i < nrow1; i++) {
+        int32_t _ss_item_sk1208 = tbl_SerializeFromObject_TD_11641044_input.getInt32(i, 1);
+        int32_t _ss_sold_date_sk1206 = tbl_SerializeFromObject_TD_11641044_input.getInt32(i, 0);
+        if ((_ss_item_sk1208!= 0) && (_ss_sold_date_sk1206!= 0)) {
+            int32_t _ss_sold_date_sk1206_t = tbl_SerializeFromObject_TD_11641044_input.getInt32(i, 0);
+            tbl_Filter_TD_10766621_output.setInt32(r, 0, _ss_sold_date_sk1206_t);
+            int32_t _ss_item_sk1208_t = tbl_SerializeFromObject_TD_11641044_input.getInt32(i, 1);
+            tbl_Filter_TD_10766621_output.setInt32(r, 1, _ss_item_sk1208_t);
+            int64_t _ss_sales_price1219_t = tbl_SerializeFromObject_TD_11641044_input.getInt64(i, 2);
+            tbl_Filter_TD_10766621_output.setInt64(r, 2, _ss_sales_price1219_t);
+            r++;
+        }
+    }
+    tbl_Filter_TD_10766621_output.setNumRow(r);
+    std::cout << "tbl_Filter_TD_10766621_output #Row: " << tbl_Filter_TD_10766621_output.getNumRow() << std::endl;
+}
+
+void SW_Filter_TD_10101875(Table &tbl_SerializeFromObject_TD_11700491_input, Table &tbl_Filter_TD_10101875_output) {
+    // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
+    // Supported operation: Filter
+    // Operation: ListBuffer(((isnotnull(d_month_seq#123) AND ((d_month_seq#123 >= 1200) AND (d_month_seq#123 <= 1211))) AND isnotnull(d_date_sk#120)))
+    // Input: ListBuffer(d_date_sk#120, d_date#122, d_month_seq#123)
+    // Output: ListBuffer(d_date_sk#120, d_date#122)
+    int r = 0;
+    int nrow1 = tbl_SerializeFromObject_TD_11700491_input.getNumRow();
+    for (int i = 0; i < nrow1; i++) {
+        int32_t _d_month_seq123 = tbl_SerializeFromObject_TD_11700491_input.getInt32(i, 2);
+        int32_t _d_date_sk120 = tbl_SerializeFromObject_TD_11700491_input.getInt32(i, 0);
+        if (((_d_month_seq123!= 0) && ((_d_month_seq123 >= 1200) && (_d_month_seq123 <= 1211))) && (_d_date_sk120!= 0)) {
+            int32_t _d_date_sk120_t = tbl_SerializeFromObject_TD_11700491_input.getInt32(i, 0);
+            tbl_Filter_TD_10101875_output.setInt32(r, 0, _d_date_sk120_t);
+            int32_t _d_date122_t = tbl_SerializeFromObject_TD_11700491_input.getInt32(i, 1);
+            tbl_Filter_TD_10101875_output.setInt32(r, 1, _d_date122_t);
+            r++;
+        }
+    }
+    tbl_Filter_TD_10101875_output.setNumRow(r);
+    std::cout << "tbl_Filter_TD_10101875_output #Row: " << tbl_Filter_TD_10101875_output.getNumRow() << std::endl;
+}
+
+void SW_Filter_TD_10366591(Table &tbl_SerializeFromObject_TD_11289542_input, Table &tbl_Filter_TD_10366591_output) {
+    // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
+    // Supported operation: Filter
+    // Operation: ListBuffer((isnotnull(ws_item_sk#732) AND isnotnull(ws_sold_date_sk#729)))
+    // Input: ListBuffer(ws_sold_date_sk#729, ws_item_sk#732, ws_sales_price#750)
+    // Output: ListBuffer(ws_sold_date_sk#729, ws_item_sk#732, ws_sales_price#750)
+    int r = 0;
+    int nrow1 = tbl_SerializeFromObject_TD_11289542_input.getNumRow();
+    for (int i = 0; i < nrow1; i++) {
+        int32_t _ws_item_sk732 = tbl_SerializeFromObject_TD_11289542_input.getInt32(i, 1);
+        int32_t _ws_sold_date_sk729 = tbl_SerializeFromObject_TD_11289542_input.getInt32(i, 0);
+        if ((_ws_item_sk732!= 0) && (_ws_sold_date_sk729!= 0)) {
+            int32_t _ws_sold_date_sk729_t = tbl_SerializeFromObject_TD_11289542_input.getInt32(i, 0);
+            tbl_Filter_TD_10366591_output.setInt32(r, 0, _ws_sold_date_sk729_t);
+            int32_t _ws_item_sk732_t = tbl_SerializeFromObject_TD_11289542_input.getInt32(i, 1);
+            tbl_Filter_TD_10366591_output.setInt32(r, 1, _ws_item_sk732_t);
+            int64_t _ws_sales_price750_t = tbl_SerializeFromObject_TD_11289542_input.getInt64(i, 2);
+            tbl_Filter_TD_10366591_output.setInt64(r, 2, _ws_sales_price750_t);
+            r++;
+        }
+    }
+    tbl_Filter_TD_10366591_output.setNumRow(r);
+    std::cout << "tbl_Filter_TD_10366591_output #Row: " << tbl_Filter_TD_10366591_output.getNumRow() << std::endl;
+}
+
+struct SW_JOIN_INNER_TD_9315666_key_leftMajor {
+    int32_t _ss_sold_date_sk1206;
+    bool operator==(const SW_JOIN_INNER_TD_9315666_key_leftMajor& other) const {
+        return ((_ss_sold_date_sk1206 == other._ss_sold_date_sk1206));
+    }
+};
+namespace std {
+template <>
+struct hash<SW_JOIN_INNER_TD_9315666_key_leftMajor> {
+    std::size_t operator() (const SW_JOIN_INNER_TD_9315666_key_leftMajor& k) const {
+        using std::size_t;
+        using std::hash;
+        using std::string;
+        return (hash<int32_t>()(k._ss_sold_date_sk1206));
+    }
+};
+}
+struct SW_JOIN_INNER_TD_9315666_payload_leftMajor {
+    int32_t _ss_sold_date_sk1206;
+    int32_t _ss_item_sk1208;
+    int64_t _ss_sales_price1219;
+};
+struct SW_JOIN_INNER_TD_9315666_key_rightMajor {
+    int32_t _d_date_sk3554;
+    bool operator==(const SW_JOIN_INNER_TD_9315666_key_rightMajor& other) const {
+        return ((_d_date_sk3554 == other._d_date_sk3554));
+    }
+};
+namespace std {
+template <>
+struct hash<SW_JOIN_INNER_TD_9315666_key_rightMajor> {
+    std::size_t operator() (const SW_JOIN_INNER_TD_9315666_key_rightMajor& k) const {
+        using std::size_t;
+        using std::hash;
+        using std::string;
+        return (hash<int32_t>()(k._d_date_sk3554));
+    }
+};
+}
+struct SW_JOIN_INNER_TD_9315666_payload_rightMajor {
+    int32_t _d_date_sk3554;
+    int32_t _d_date3556;
+};
+void SW_JOIN_INNER_TD_9315666(Table &tbl_Filter_TD_10766621_output, Table &tbl_Filter_TD_10807143_output, Table &tbl_JOIN_INNER_TD_9315666_output) {
+    // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
+    // Supported operation: JOIN_INNER
+    // Operation: ListBuffer((ss_sold_date_sk#1206 = d_date_sk#3554))
+    // Left Table: ListBuffer(ss_sold_date_sk#1206, ss_item_sk#1208, ss_sales_price#1219)
+    // Right Table: ListBuffer(d_date_sk#3554, d_date#3556)
+    // Output Table: ListBuffer(ss_item_sk#1208, ss_sales_price#1219, d_date#3556)
+    int left_nrow = tbl_Filter_TD_10766621_output.getNumRow();
+    int right_nrow = tbl_Filter_TD_10807143_output.getNumRow();
+    if (left_nrow < right_nrow) { 
+        std::unordered_multimap<SW_JOIN_INNER_TD_9315666_key_leftMajor, SW_JOIN_INNER_TD_9315666_payload_leftMajor> ht1;
+        int nrow1 = tbl_Filter_TD_10766621_output.getNumRow();
+        for (int i = 0; i < nrow1; i++) {
+            int32_t _ss_sold_date_sk1206_k = tbl_Filter_TD_10766621_output.getInt32(i, 0);
+            SW_JOIN_INNER_TD_9315666_key_leftMajor keyA{_ss_sold_date_sk1206_k};
+            int32_t _ss_sold_date_sk1206 = tbl_Filter_TD_10766621_output.getInt32(i, 0);
+            int32_t _ss_item_sk1208 = tbl_Filter_TD_10766621_output.getInt32(i, 1);
+            int64_t _ss_sales_price1219 = tbl_Filter_TD_10766621_output.getInt64(i, 2);
+            SW_JOIN_INNER_TD_9315666_payload_leftMajor payloadA{_ss_sold_date_sk1206, _ss_item_sk1208, _ss_sales_price1219};
+            ht1.insert(std::make_pair(keyA, payloadA));
+        }
+        int r = 0;
+        int nrow2 = tbl_Filter_TD_10807143_output.getNumRow();
+        for (int i = 0; i < nrow2; i++) {
+            int32_t _d_date_sk3554_k = tbl_Filter_TD_10807143_output.getInt32(i, 0);
+            auto its = ht1.equal_range(SW_JOIN_INNER_TD_9315666_key_leftMajor{_d_date_sk3554_k});
+            auto it = its.first;
+            while (it != its.second) {
+                int32_t _ss_sold_date_sk1206 = (it->second)._ss_sold_date_sk1206;
+                int32_t _ss_item_sk1208 = (it->second)._ss_item_sk1208;
+                int64_t _ss_sales_price1219 = (it->second)._ss_sales_price1219;
+                int32_t _d_date_sk3554 = tbl_Filter_TD_10807143_output.getInt32(i, 0);
+                int32_t _d_date3556 = tbl_Filter_TD_10807143_output.getInt32(i, 1);
+                tbl_JOIN_INNER_TD_9315666_output.setInt32(r, 0, _ss_item_sk1208);
+                tbl_JOIN_INNER_TD_9315666_output.setInt64(r, 1, _ss_sales_price1219);
+                tbl_JOIN_INNER_TD_9315666_output.setInt32(r, 2, _d_date3556);
+                it++;
+                r++;
+            }
+        }
+        tbl_JOIN_INNER_TD_9315666_output.setNumRow(r);
+    } else { 
+        std::unordered_multimap<SW_JOIN_INNER_TD_9315666_key_rightMajor, SW_JOIN_INNER_TD_9315666_payload_rightMajor> ht1;
+        int nrow1 = tbl_Filter_TD_10807143_output.getNumRow();
+        for (int i = 0; i < nrow1; i++) {
+            int32_t _d_date_sk3554_k = tbl_Filter_TD_10807143_output.getInt32(i, 0);
+            SW_JOIN_INNER_TD_9315666_key_rightMajor keyA{_d_date_sk3554_k};
+            int32_t _d_date_sk3554 = tbl_Filter_TD_10807143_output.getInt32(i, 0);
+            int32_t _d_date3556 = tbl_Filter_TD_10807143_output.getInt32(i, 1);
+            SW_JOIN_INNER_TD_9315666_payload_rightMajor payloadA{_d_date_sk3554, _d_date3556};
+            ht1.insert(std::make_pair(keyA, payloadA));
+        }
+        int r = 0;
+        int nrow2 = tbl_Filter_TD_10766621_output.getNumRow();
+        for (int i = 0; i < nrow2; i++) {
+            int32_t _ss_sold_date_sk1206_k = tbl_Filter_TD_10766621_output.getInt32(i, 0);
+            auto its = ht1.equal_range(SW_JOIN_INNER_TD_9315666_key_rightMajor{_ss_sold_date_sk1206_k});
+            auto it = its.first;
+            while (it != its.second) {
+                int32_t _d_date_sk3554 = (it->second)._d_date_sk3554;
+                int32_t _d_date3556 = (it->second)._d_date3556;
+                int32_t _ss_sold_date_sk1206 = tbl_Filter_TD_10766621_output.getInt32(i, 0);
+                int32_t _ss_item_sk1208 = tbl_Filter_TD_10766621_output.getInt32(i, 1);
+                int64_t _ss_sales_price1219 = tbl_Filter_TD_10766621_output.getInt64(i, 2);
+                tbl_JOIN_INNER_TD_9315666_output.setInt32(r, 2, _d_date3556);
+                tbl_JOIN_INNER_TD_9315666_output.setInt32(r, 0, _ss_item_sk1208);
+                tbl_JOIN_INNER_TD_9315666_output.setInt64(r, 1, _ss_sales_price1219);
+                it++;
+                r++;
+            }
+        }
+        tbl_JOIN_INNER_TD_9315666_output.setNumRow(r);
+    } 
+    std::cout << "tbl_JOIN_INNER_TD_9315666_output #Row: " << tbl_JOIN_INNER_TD_9315666_output.getNumRow() << std::endl;
+}
+
+struct SW_JOIN_INNER_TD_9438372_key_leftMajor {
+    int32_t _ws_sold_date_sk729;
+    bool operator==(const SW_JOIN_INNER_TD_9438372_key_leftMajor& other) const {
+        return ((_ws_sold_date_sk729 == other._ws_sold_date_sk729));
+    }
+};
+namespace std {
+template <>
+struct hash<SW_JOIN_INNER_TD_9438372_key_leftMajor> {
+    std::size_t operator() (const SW_JOIN_INNER_TD_9438372_key_leftMajor& k) const {
+        using std::size_t;
+        using std::hash;
+        using std::string;
+        return (hash<int32_t>()(k._ws_sold_date_sk729));
+    }
+};
+}
+struct SW_JOIN_INNER_TD_9438372_payload_leftMajor {
+    int32_t _ws_sold_date_sk729;
+    int32_t _ws_item_sk732;
+    int64_t _ws_sales_price750;
+};
+struct SW_JOIN_INNER_TD_9438372_key_rightMajor {
+    int32_t _d_date_sk120;
+    bool operator==(const SW_JOIN_INNER_TD_9438372_key_rightMajor& other) const {
+        return ((_d_date_sk120 == other._d_date_sk120));
+    }
+};
+namespace std {
+template <>
+struct hash<SW_JOIN_INNER_TD_9438372_key_rightMajor> {
+    std::size_t operator() (const SW_JOIN_INNER_TD_9438372_key_rightMajor& k) const {
+        using std::size_t;
+        using std::hash;
+        using std::string;
+        return (hash<int32_t>()(k._d_date_sk120));
+    }
+};
+}
+struct SW_JOIN_INNER_TD_9438372_payload_rightMajor {
+    int32_t _d_date_sk120;
+    int32_t _d_date122;
+};
+void SW_JOIN_INNER_TD_9438372(Table &tbl_Filter_TD_10366591_output, Table &tbl_Filter_TD_10101875_output, Table &tbl_JOIN_INNER_TD_9438372_output) {
+    // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
+    // Supported operation: JOIN_INNER
+    // Operation: ListBuffer((ws_sold_date_sk#729 = d_date_sk#120))
+    // Left Table: ListBuffer(ws_sold_date_sk#729, ws_item_sk#732, ws_sales_price#750)
+    // Right Table: ListBuffer(d_date_sk#120, d_date#122)
+    // Output Table: ListBuffer(ws_item_sk#732, ws_sales_price#750, d_date#122)
+    int left_nrow = tbl_Filter_TD_10366591_output.getNumRow();
+    int right_nrow = tbl_Filter_TD_10101875_output.getNumRow();
+    if (left_nrow < right_nrow) { 
+        std::unordered_multimap<SW_JOIN_INNER_TD_9438372_key_leftMajor, SW_JOIN_INNER_TD_9438372_payload_leftMajor> ht1;
+        int nrow1 = tbl_Filter_TD_10366591_output.getNumRow();
+        for (int i = 0; i < nrow1; i++) {
+            int32_t _ws_sold_date_sk729_k = tbl_Filter_TD_10366591_output.getInt32(i, 0);
+            SW_JOIN_INNER_TD_9438372_key_leftMajor keyA{_ws_sold_date_sk729_k};
+            int32_t _ws_sold_date_sk729 = tbl_Filter_TD_10366591_output.getInt32(i, 0);
+            int32_t _ws_item_sk732 = tbl_Filter_TD_10366591_output.getInt32(i, 1);
+            int64_t _ws_sales_price750 = tbl_Filter_TD_10366591_output.getInt64(i, 2);
+            SW_JOIN_INNER_TD_9438372_payload_leftMajor payloadA{_ws_sold_date_sk729, _ws_item_sk732, _ws_sales_price750};
+            ht1.insert(std::make_pair(keyA, payloadA));
+        }
+        int r = 0;
+        int nrow2 = tbl_Filter_TD_10101875_output.getNumRow();
+        for (int i = 0; i < nrow2; i++) {
+            int32_t _d_date_sk120_k = tbl_Filter_TD_10101875_output.getInt32(i, 0);
+            auto its = ht1.equal_range(SW_JOIN_INNER_TD_9438372_key_leftMajor{_d_date_sk120_k});
+            auto it = its.first;
+            while (it != its.second) {
+                int32_t _ws_sold_date_sk729 = (it->second)._ws_sold_date_sk729;
+                int32_t _ws_item_sk732 = (it->second)._ws_item_sk732;
+                int64_t _ws_sales_price750 = (it->second)._ws_sales_price750;
+                int32_t _d_date_sk120 = tbl_Filter_TD_10101875_output.getInt32(i, 0);
+                int32_t _d_date122 = tbl_Filter_TD_10101875_output.getInt32(i, 1);
+                tbl_JOIN_INNER_TD_9438372_output.setInt32(r, 0, _ws_item_sk732);
+                tbl_JOIN_INNER_TD_9438372_output.setInt64(r, 1, _ws_sales_price750);
+                tbl_JOIN_INNER_TD_9438372_output.setInt32(r, 2, _d_date122);
+                it++;
+                r++;
+            }
+        }
+        tbl_JOIN_INNER_TD_9438372_output.setNumRow(r);
+    } else { 
+        std::unordered_multimap<SW_JOIN_INNER_TD_9438372_key_rightMajor, SW_JOIN_INNER_TD_9438372_payload_rightMajor> ht1;
+        int nrow1 = tbl_Filter_TD_10101875_output.getNumRow();
+        for (int i = 0; i < nrow1; i++) {
+            int32_t _d_date_sk120_k = tbl_Filter_TD_10101875_output.getInt32(i, 0);
+            SW_JOIN_INNER_TD_9438372_key_rightMajor keyA{_d_date_sk120_k};
+            int32_t _d_date_sk120 = tbl_Filter_TD_10101875_output.getInt32(i, 0);
+            int32_t _d_date122 = tbl_Filter_TD_10101875_output.getInt32(i, 1);
+            SW_JOIN_INNER_TD_9438372_payload_rightMajor payloadA{_d_date_sk120, _d_date122};
+            ht1.insert(std::make_pair(keyA, payloadA));
+        }
+        int r = 0;
+        int nrow2 = tbl_Filter_TD_10366591_output.getNumRow();
+        for (int i = 0; i < nrow2; i++) {
+            int32_t _ws_sold_date_sk729_k = tbl_Filter_TD_10366591_output.getInt32(i, 0);
+            auto its = ht1.equal_range(SW_JOIN_INNER_TD_9438372_key_rightMajor{_ws_sold_date_sk729_k});
+            auto it = its.first;
+            while (it != its.second) {
+                int32_t _d_date_sk120 = (it->second)._d_date_sk120;
+                int32_t _d_date122 = (it->second)._d_date122;
+                int32_t _ws_sold_date_sk729 = tbl_Filter_TD_10366591_output.getInt32(i, 0);
+                int32_t _ws_item_sk732 = tbl_Filter_TD_10366591_output.getInt32(i, 1);
+                int64_t _ws_sales_price750 = tbl_Filter_TD_10366591_output.getInt64(i, 2);
+                tbl_JOIN_INNER_TD_9438372_output.setInt32(r, 2, _d_date122);
+                tbl_JOIN_INNER_TD_9438372_output.setInt32(r, 0, _ws_item_sk732);
+                tbl_JOIN_INNER_TD_9438372_output.setInt64(r, 1, _ws_sales_price750);
+                it++;
+                r++;
+            }
+        }
+        tbl_JOIN_INNER_TD_9438372_output.setNumRow(r);
+    } 
+    std::cout << "tbl_JOIN_INNER_TD_9438372_output #Row: " << tbl_JOIN_INNER_TD_9438372_output.getNumRow() << std::endl;
+}
+
+struct SW_Aggregate_TD_8578922_key {
+    int32_t _ss_item_sk1208;
+    int32_t _d_date3556;
+    bool operator==(const SW_Aggregate_TD_8578922_key& other) const { return (_ss_item_sk1208 == other._ss_item_sk1208) && (_d_date3556 == other._d_date3556); }
+};
+namespace std {
+template <>
+struct hash<SW_Aggregate_TD_8578922_key> {
+    std::size_t operator() (const SW_Aggregate_TD_8578922_key& k) const {
+        using std::size_t;
+        using std::hash;
+        using std::string;
+        return (hash<int32_t>()(k._ss_item_sk1208)) + (hash<int32_t>()(k._d_date3556));
+    }
+};
+}
+struct SW_Aggregate_TD_8578922_payload {
+    int32_t _item_sk3552;
+    int64_t __w03587_sum_0;
+};
+void SW_Aggregate_TD_8578922(Table &tbl_JOIN_INNER_TD_9315666_output, Table &tbl_Aggregate_TD_8578922_output) {
+    // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
+    // Supported operation: Aggregate
+    // Operation: ListBuffer(ss_item_sk#1208, d_date#3556, ss_item_sk#1208 AS item_sk#3552, MakeDecimal(sum(UnscaledValue(ss_sales_price#1219)),17,2) AS _w0#3587)
+    // Input: ListBuffer(ss_item_sk#1208, ss_sales_price#1219, d_date#3556)
+    // Output: ListBuffer(item_sk#3552, d_date#3556, _w0#3587, ss_item_sk#1208)
+    std::unordered_map<SW_Aggregate_TD_8578922_key, SW_Aggregate_TD_8578922_payload> ht1;
+    int nrow1 = tbl_JOIN_INNER_TD_9315666_output.getNumRow();
+    for (int i = 0; i < nrow1; i++) {
+        int32_t _ss_item_sk1208 = tbl_JOIN_INNER_TD_9315666_output.getInt32(i, 0);
+        int64_t _ss_sales_price1219 = tbl_JOIN_INNER_TD_9315666_output.getInt64(i, 1);
+        int32_t _d_date3556 = tbl_JOIN_INNER_TD_9315666_output.getInt32(i, 2);
+        SW_Aggregate_TD_8578922_key k{_ss_item_sk1208, _d_date3556};
+        int32_t _item_sk3552 = _ss_item_sk1208;
+        int64_t __w03587_sum_0 = _ss_sales_price1219;
+        SW_Aggregate_TD_8578922_payload p{_item_sk3552, __w03587_sum_0};
+        auto it = ht1.find(k);
+        if (it != ht1.end()) {
+            int64_t sum_0 = (it->second).__w03587_sum_0 + __w03587_sum_0;
+            p.__w03587_sum_0 = sum_0;
+            ht1[k] = p;
+        } else { 
+            ht1.insert(std::make_pair(k, p));
+        }
+    }
+    int r = 0;
+    for (auto& it : ht1) {
+        tbl_Aggregate_TD_8578922_output.setInt32(r, 3, (it.first)._ss_item_sk1208);
+        tbl_Aggregate_TD_8578922_output.setInt32(r, 1, (it.first)._d_date3556);
+        tbl_Aggregate_TD_8578922_output.setInt32(r, 0, (it.second)._item_sk3552);
+        int64_t __w03587 = (it.second).__w03587_sum_0;
+        tbl_Aggregate_TD_8578922_output.setInt64(r, 2, __w03587);
+        ++r;
+    }
+    tbl_Aggregate_TD_8578922_output.setNumRow(r);
+    std::cout << "tbl_Aggregate_TD_8578922_output #Row: " << tbl_Aggregate_TD_8578922_output.getNumRow() << std::endl;
+}
+
+struct SW_Aggregate_TD_8349580_key {
+    int32_t _ws_item_sk732;
+    int32_t _d_date122;
+    bool operator==(const SW_Aggregate_TD_8349580_key& other) const { return (_ws_item_sk732 == other._ws_item_sk732) && (_d_date122 == other._d_date122); }
+};
+namespace std {
+template <>
+struct hash<SW_Aggregate_TD_8349580_key> {
+    std::size_t operator() (const SW_Aggregate_TD_8349580_key& k) const {
+        using std::size_t;
+        using std::hash;
+        using std::string;
+        return (hash<int32_t>()(k._ws_item_sk732)) + (hash<int32_t>()(k._d_date122));
+    }
+};
+}
+struct SW_Aggregate_TD_8349580_payload {
+    int32_t _item_sk3550;
+    int64_t __w03586_sum_0;
+};
+void SW_Aggregate_TD_8349580(Table &tbl_JOIN_INNER_TD_9438372_output, Table &tbl_Aggregate_TD_8349580_output) {
+    // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
+    // Supported operation: Aggregate
+    // Operation: ListBuffer(ws_item_sk#732, d_date#122, ws_item_sk#732 AS item_sk#3550, MakeDecimal(sum(UnscaledValue(ws_sales_price#750)),17,2) AS _w0#3586)
+    // Input: ListBuffer(ws_item_sk#732, ws_sales_price#750, d_date#122)
+    // Output: ListBuffer(item_sk#3550, d_date#122, _w0#3586, ws_item_sk#732)
+    std::unordered_map<SW_Aggregate_TD_8349580_key, SW_Aggregate_TD_8349580_payload> ht1;
+    int nrow1 = tbl_JOIN_INNER_TD_9438372_output.getNumRow();
+    for (int i = 0; i < nrow1; i++) {
+        int32_t _ws_item_sk732 = tbl_JOIN_INNER_TD_9438372_output.getInt32(i, 0);
+        int64_t _ws_sales_price750 = tbl_JOIN_INNER_TD_9438372_output.getInt64(i, 1);
+        int32_t _d_date122 = tbl_JOIN_INNER_TD_9438372_output.getInt32(i, 2);
+        SW_Aggregate_TD_8349580_key k{_ws_item_sk732, _d_date122};
+        int32_t _item_sk3550 = _ws_item_sk732;
+        int64_t __w03586_sum_0 = _ws_sales_price750;
+        SW_Aggregate_TD_8349580_payload p{_item_sk3550, __w03586_sum_0};
+        auto it = ht1.find(k);
+        if (it != ht1.end()) {
+            int64_t sum_0 = (it->second).__w03586_sum_0 + __w03586_sum_0;
+            p.__w03586_sum_0 = sum_0;
+            ht1[k] = p;
+        } else { 
+            ht1.insert(std::make_pair(k, p));
+        }
+    }
+    int r = 0;
+    for (auto& it : ht1) {
+        tbl_Aggregate_TD_8349580_output.setInt32(r, 3, (it.first)._ws_item_sk732);
+        tbl_Aggregate_TD_8349580_output.setInt32(r, 1, (it.first)._d_date122);
+        tbl_Aggregate_TD_8349580_output.setInt32(r, 0, (it.second)._item_sk3550);
+        int64_t __w03586 = (it.second).__w03586_sum_0;
+        tbl_Aggregate_TD_8349580_output.setInt64(r, 2, __w03586);
+        ++r;
+    }
+    tbl_Aggregate_TD_8349580_output.setNumRow(r);
+    std::cout << "tbl_Aggregate_TD_8349580_output #Row: " << tbl_Aggregate_TD_8349580_output.getNumRow() << std::endl;
+}
+
+void SW_Window_TD_7745839(Table &tbl_Aggregate_TD_8578922_output, Table &tbl_Window_TD_7745839_output) {
+    // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
+    // Supported operation: Window
+    // Operation: ListBuffer(sum(_w0#3587) windowspecdefinition(ss_item_sk#1208, d_date#3556 ASC NULLS FIRST, specifiedwindowframe(RowFrame, unboundedpreceding$(), currentrow$())) AS cume_sales#3553)
+    // Input: ListBuffer(item_sk#3552, d_date#3556, _w0#3587, ss_item_sk#1208)
+    // Output: ListBuffer(item_sk#3552, d_date#3556, _w0#3587, ss_item_sk#1208, cume_sales#3553)
+    struct SW_Window_TD_7745839Row {
+        int32_t _item_sk3552;
+        int32_t _d_date3556;
+        int64_t __w03587;
+        int32_t _ss_item_sk1208;
+    }; 
+
+    int nrow = tbl_Aggregate_TD_8578922_output.getNumRow();
+    std::vector<SW_Window_TD_7745839Row> rows0;
+    int r = 0;
+    for (int i = 0; i < nrow; i++) {
+        int32_t _item_sk3552 = tbl_Aggregate_TD_8578922_output.getInt32(i, 0);
+        tbl_Window_TD_7745839_output.setInt32(r, 0,_item_sk3552);
+        int32_t _d_date3556 = tbl_Aggregate_TD_8578922_output.getInt32(i, 1);
+        tbl_Window_TD_7745839_output.setInt32(r, 1,_d_date3556);
+        int64_t __w03587 = tbl_Aggregate_TD_8578922_output.getInt64(i, 2);
+        tbl_Window_TD_7745839_output.setInt64(r, 2,__w03587);
+        int32_t _ss_item_sk1208 = tbl_Aggregate_TD_8578922_output.getInt32(i, 3);
+        tbl_Window_TD_7745839_output.setInt32(r, 3,_ss_item_sk1208);
+        r++;
+        SW_Window_TD_7745839Row t = {_item_sk3552,_d_date3556,__w03587,_ss_item_sk1208};
+        rows0.push_back(t);
+    }
+    struct {
+        bool operator()(const SW_Window_TD_7745839Row& a, const SW_Window_TD_7745839Row& b) const { return 
+(a._ss_item_sk1208 < b._ss_item_sk1208) || 
+ ((a._ss_item_sk1208 == b._ss_item_sk1208) && (a._d_date3556 < b._d_date3556)); 
+}
+    }SW_Window_TD_7745839_order0; 
+
+    std::sort(rows0.begin(), rows0.end(), SW_Window_TD_7745839_order0);
+    int64_t sum0 = 0;
+    int32_t current_ss_item_sk12080 = std::numeric_limits<int32_t>::min();
+    for (auto& it : rows0) {
+        if (current_ss_item_sk12080 != it._ss_item_sk1208) {
+            sum0 = 0;
+            current_ss_item_sk12080 = it._ss_item_sk1208;
+        }
+        sum0 += it.__w03587;
+        tbl_Window_TD_7745839_output.setInt64(r, 4, sum0 );
+    }
+    tbl_Window_TD_7745839_output.setNumRow(r);
+    std::cout << "tbl_Window_TD_7745839_output #Row: " << tbl_Window_TD_7745839_output.getNumRow() << std::endl;
+}
+
+void SW_Window_TD_7896976(Table &tbl_Aggregate_TD_8349580_output, Table &tbl_Window_TD_7896976_output) {
+    // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
+    // Supported operation: Window
+    // Operation: ListBuffer(sum(_w0#3586) windowspecdefinition(ws_item_sk#732, d_date#122 ASC NULLS FIRST, specifiedwindowframe(RowFrame, unboundedpreceding$(), currentrow$())) AS cume_sales#3551)
+    // Input: ListBuffer(item_sk#3550, d_date#122, _w0#3586, ws_item_sk#732)
+    // Output: ListBuffer(item_sk#3550, d_date#122, _w0#3586, ws_item_sk#732, cume_sales#3551)
+    struct SW_Window_TD_7896976Row {
+        int32_t _item_sk3550;
+        int32_t _d_date122;
+        int64_t __w03586;
+        int32_t _ws_item_sk732;
+    }; 
+
+    int nrow = tbl_Aggregate_TD_8349580_output.getNumRow();
+    std::vector<SW_Window_TD_7896976Row> rows0;
+    int r = 0;
+    for (int i = 0; i < nrow; i++) {
+        int32_t _item_sk3550 = tbl_Aggregate_TD_8349580_output.getInt32(i, 0);
+        tbl_Window_TD_7896976_output.setInt32(r, 0,_item_sk3550);
+        int32_t _d_date122 = tbl_Aggregate_TD_8349580_output.getInt32(i, 1);
+        tbl_Window_TD_7896976_output.setInt32(r, 1,_d_date122);
+        int64_t __w03586 = tbl_Aggregate_TD_8349580_output.getInt64(i, 2);
+        tbl_Window_TD_7896976_output.setInt64(r, 2,__w03586);
+        int32_t _ws_item_sk732 = tbl_Aggregate_TD_8349580_output.getInt32(i, 3);
+        tbl_Window_TD_7896976_output.setInt32(r, 3,_ws_item_sk732);
+        r++;
+        SW_Window_TD_7896976Row t = {_item_sk3550,_d_date122,__w03586,_ws_item_sk732};
+        rows0.push_back(t);
+    }
+    struct {
+        bool operator()(const SW_Window_TD_7896976Row& a, const SW_Window_TD_7896976Row& b) const { return 
+(a._ws_item_sk732 < b._ws_item_sk732) || 
+ ((a._ws_item_sk732 == b._ws_item_sk732) && (a._d_date122 < b._d_date122)); 
+}
+    }SW_Window_TD_7896976_order0; 
+
+    std::sort(rows0.begin(), rows0.end(), SW_Window_TD_7896976_order0);
+    int64_t sum0 = 0;
+    int32_t current_ws_item_sk7320 = std::numeric_limits<int32_t>::min();
+    for (auto& it : rows0) {
+        if (current_ws_item_sk7320 != it._ws_item_sk732) {
+            sum0 = 0;
+            current_ws_item_sk7320 = it._ws_item_sk732;
+        }
+        sum0 += it.__w03586;
+        tbl_Window_TD_7896976_output.setInt64(r, 4, sum0 );
+    }
+    tbl_Window_TD_7896976_output.setNumRow(r);
+    std::cout << "tbl_Window_TD_7896976_output #Row: " << tbl_Window_TD_7896976_output.getNumRow() << std::endl;
+}
+
+struct SW_JOIN_FULLOUTER_TD_6436062_key {
+    int32_t _item_sk3552;
+    int32_t _d_date3556;
+    bool operator==(const SW_JOIN_FULLOUTER_TD_6436062_key& other) const {
+        return ((_item_sk3552 == other._item_sk3552) && (_d_date3556 == other._d_date3556));
+    }
+};
+namespace std {
+template <>
+struct hash<SW_JOIN_FULLOUTER_TD_6436062_key> {
+    std::size_t operator() (const SW_JOIN_FULLOUTER_TD_6436062_key& k) const {
+        using std::size_t;
+        using std::hash;
+        using std::string;
+        return (hash<int32_t>()(k._item_sk3552)) + (hash<int32_t>()(k._d_date3556));
+    }
+};
+}
+struct SW_JOIN_FULLOUTER_TD_6436062_payload {
+    int32_t _item_sk3552;
+    int32_t _d_date3556;
+    int64_t __w03587;
+    int32_t _ss_item_sk1208;
+    int64_t _cume_sales3553;
+};
+void SW_JOIN_FULLOUTER_TD_6436062(Table &tbl_Window_TD_7896976_output, Table &tbl_Window_TD_7745839_output, Table &tbl_JOIN_FULLOUTER_TD_6436062_output) {
+    // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
+    // Supported operation: JOIN_FULLOUTER
+    // Operation: ListBuffer(((item_sk#3550 = item_sk#3552) AND (d_date#122 = d_date#3556)))
+    // Left Table: ListBuffer(item_sk#3550, d_date#122, _w0#3586, ws_item_sk#732, cume_sales#3551)
+    // Right Table: ListBuffer(item_sk#3552, d_date#3556, _w0#3587, ss_item_sk#1208, cume_sales#3553)
+    // Output Table: ListBuffer(item_sk#3550, item_sk#3552, d_date#122, d_date#3556, cume_sales#3551, cume_sales#3553)
+    std::unordered_multimap<SW_JOIN_FULLOUTER_TD_6436062_key, SW_JOIN_FULLOUTER_TD_6436062_payload> ht1;
+    std::unordered_map<SW_JOIN_FULLOUTER_TD_6436062_key, bool> matched;
+    int nrow1 = tbl_Window_TD_7745839_output.getNumRow();
+    int nrow2 = tbl_Window_TD_7896976_output.getNumRow();
+    for (int i = 0; i < nrow1; i++) {
+        int32_t _item_sk3552_k = tbl_Window_TD_7745839_output.getInt32(i, 0);
+        int32_t _d_date3556_k = tbl_Window_TD_7745839_output.getInt32(i, 1);
+        SW_JOIN_FULLOUTER_TD_6436062_key keyA{_item_sk3552_k, _d_date3556_k};
+        int32_t _item_sk3552 = tbl_Window_TD_7745839_output.getInt32(i, 0);
+        int32_t _d_date3556 = tbl_Window_TD_7745839_output.getInt32(i, 1);
+        int64_t __w03587 = tbl_Window_TD_7745839_output.getInt64(i, 2);
+        int32_t _ss_item_sk1208 = tbl_Window_TD_7745839_output.getInt32(i, 3);
+        int64_t _cume_sales3553 = tbl_Window_TD_7745839_output.getInt64(i, 4);
+        SW_JOIN_FULLOUTER_TD_6436062_payload payloadA{_item_sk3552, _d_date3556, __w03587, _ss_item_sk1208, _cume_sales3553};
+        ht1.insert(std::make_pair(keyA, payloadA));
+    }
+    int r = 0;
+    for (int i = 0; i < nrow2; i++) {
+        int32_t _item_sk3550_k = tbl_Window_TD_7896976_output.getInt32(i, 0);
+        int32_t _d_date122_k = tbl_Window_TD_7896976_output.getInt32(i, 1);
+        SW_JOIN_FULLOUTER_TD_6436062_key key {_item_sk3550_k, _d_date122_k};
+        auto it = ht1.find(key);
+        int32_t _item_sk3550 = tbl_Window_TD_7896976_output.getInt32(i, 0);
+        int32_t _d_date122 = tbl_Window_TD_7896976_output.getInt32(i, 1);
+        int64_t __w03586 = tbl_Window_TD_7896976_output.getInt64(i, 2);
+        int32_t _ws_item_sk732 = tbl_Window_TD_7896976_output.getInt32(i, 3);
+        int64_t _cume_sales3551 = tbl_Window_TD_7896976_output.getInt64(i, 4);
+        if (it != ht1.end()) {
+            auto its = ht1.equal_range(key);
+            auto it_it = its.first;
+            while (it_it != its.second) {
+                int32_t _item_sk3552 = (it_it->second)._item_sk3552;
+                int32_t _d_date3556 = (it_it->second)._d_date3556;
+                int64_t __w03587 = (it_it->second).__w03587;
+                int32_t _ss_item_sk1208 = (it_it->second)._ss_item_sk1208;
+                int64_t _cume_sales3553 = (it_it->second)._cume_sales3553;
+                tbl_JOIN_FULLOUTER_TD_6436062_output.setInt32(r, 1, _item_sk3552);
+                tbl_JOIN_FULLOUTER_TD_6436062_output.setInt32(r, 3, _d_date3556);
+                tbl_JOIN_FULLOUTER_TD_6436062_output.setInt64(r, 5, _cume_sales3553);
+                tbl_JOIN_FULLOUTER_TD_6436062_output.setInt32(r, 0, _item_sk3550);
+                tbl_JOIN_FULLOUTER_TD_6436062_output.setInt32(r, 2, _d_date122);
+                tbl_JOIN_FULLOUTER_TD_6436062_output.setInt64(r, 4, _cume_sales3551);
+                it_it++;
+                r++;
+            }
+            matched[key] = true;
+        } else {
+            tbl_JOIN_FULLOUTER_TD_6436062_output.setInt32(r, 0, _item_sk3550);
+            tbl_JOIN_FULLOUTER_TD_6436062_output.setInt32(r, 2, _d_date122);
+            tbl_JOIN_FULLOUTER_TD_6436062_output.setInt64(r, 4, _cume_sales3551);
+            r++;
+        }
+    }
+    for (const auto& kv : ht1) {
+        if (!matched[kv.first]) {
+            tbl_JOIN_FULLOUTER_TD_6436062_output.setInt32(r, 1, kv.second._item_sk3552);
+            tbl_JOIN_FULLOUTER_TD_6436062_output.setInt32(r, 3, kv.second._d_date3556);
+            tbl_JOIN_FULLOUTER_TD_6436062_output.setInt64(r, 5, kv.second._cume_sales3553);
+            r++;
+        }
+    }
+    tbl_JOIN_FULLOUTER_TD_6436062_output.setNumRow(r);
+    std::cout << "tbl_JOIN_FULLOUTER_TD_6436062_output #Row: " << tbl_JOIN_FULLOUTER_TD_6436062_output.getNumRow() << std::endl;
+}
+
+void SW_Project_TD_5818297(Table &tbl_JOIN_FULLOUTER_TD_6436062_output, Table &tbl_Project_TD_5818297_output) {
+    // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
+    // Supported operation: Project
+    // Operation: ListBuffer(CASE WHEN isnotnull(item_sk#3550) THEN item_sk#3550 ELSE item_sk#3552 END AS item_sk#3544, CASE WHEN isnotnull(d_date#122) THEN d_date#122 ELSE d_date#3556 END AS d_date#3545, cume_sales#3551 AS web_sales#3546, cume_sales#3553 AS store_sales#3547)
+    // Input: ListBuffer(item_sk#3550, item_sk#3552, d_date#122, d_date#3556, cume_sales#3551, cume_sales#3553)
+    // Output: ListBuffer(item_sk#3544, d_date#3545, web_sales#3546, store_sales#3547)
+    int nrow1 = tbl_JOIN_FULLOUTER_TD_6436062_output.getNumRow();
+    for (int i = 0; i < nrow1; i++) {
+        int32_t _item_sk3550 = tbl_JOIN_FULLOUTER_TD_6436062_output.getInt32(i, 0);
+        int32_t _item_sk3552 = tbl_JOIN_FULLOUTER_TD_6436062_output.getInt32(i, 1);
+        int32_t _d_date122 = tbl_JOIN_FULLOUTER_TD_6436062_output.getInt32(i, 2);
+        int32_t _d_date3556 = tbl_JOIN_FULLOUTER_TD_6436062_output.getInt32(i, 3);
+        int64_t _cume_sales3551 = tbl_JOIN_FULLOUTER_TD_6436062_output.getInt64(i, 4);
+        int64_t _cume_sales3553 = tbl_JOIN_FULLOUTER_TD_6436062_output.getInt64(i, 5);
+        int32_t _item_sk3544 = _item_sk3550 ? _item_sk3550 : _item_sk3552;
+        tbl_Project_TD_5818297_output.setInt32(i, 0, _item_sk3544);
+        int32_t _d_date3545 = _d_date122 ? _d_date122 : _d_date3556;
+        tbl_Project_TD_5818297_output.setInt32(i, 1, _d_date3545);
+        int64_t _web_sales3546 = _cume_sales3551;
+        tbl_Project_TD_5818297_output.setInt64(i, 2, _web_sales3546);
+        int64_t _store_sales3547 = _cume_sales3553;
+        tbl_Project_TD_5818297_output.setInt64(i, 3, _store_sales3547);
+    }
+    tbl_Project_TD_5818297_output.setNumRow(nrow1);
+    std::cout << "tbl_Project_TD_5818297_output #Row: " << tbl_Project_TD_5818297_output.getNumRow() << std::endl;
+}
+
+void SW_Window_TD_47841(Table &tbl_Project_TD_5818297_output, Table &tbl_Window_TD_47841_output) {
+    // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
+    // Supported operation: Window
+    // Operation: ListBuffer(max(web_sales#3546) windowspecdefinition(item_sk#3544, d_date#3545 ASC NULLS FIRST, specifiedwindowframe(RowFrame, unboundedpreceding$(), currentrow$())) AS web_cumulative#3548, max(store_sales#3547) windowspecdefinition(item_sk#3544, d_date#3545 ASC NULLS FIRST, specifiedwindowframe(RowFrame, unboundedpreceding$(), currentrow$())) AS store_cumulative#3549)
+    // Input: ListBuffer(item_sk#3544, d_date#3545, web_sales#3546, store_sales#3547)
+    // Output: ListBuffer(item_sk#3544, d_date#3545, web_sales#3546, store_sales#3547, web_cumulative#3548, store_cumulative#3549)
+    struct SW_Window_TD_47841Row {
+        int32_t _item_sk3544;
+        int32_t _d_date3545;
+        int64_t _web_sales3546;
+        int64_t _store_sales3547;
+    }; 
+
+    int nrow = tbl_Project_TD_5818297_output.getNumRow();
+    std::vector<SW_Window_TD_47841Row> rows0;
+    std::vector<SW_Window_TD_47841Row> rows1;
+    int r = 0;
+    for (int i = 0; i < nrow; i++) {
+        int32_t _item_sk3544 = tbl_Project_TD_5818297_output.getInt32(i, 0);
+        tbl_Window_TD_47841_output.setInt32(r, 0,_item_sk3544);
+        int32_t _d_date3545 = tbl_Project_TD_5818297_output.getInt32(i, 1);
+        tbl_Window_TD_47841_output.setInt32(r, 1,_d_date3545);
+        int64_t _web_sales3546 = tbl_Project_TD_5818297_output.getInt64(i, 2);
+        tbl_Window_TD_47841_output.setInt64(r, 2,_web_sales3546);
+        int64_t _store_sales3547 = tbl_Project_TD_5818297_output.getInt64(i, 3);
+        tbl_Window_TD_47841_output.setInt64(r, 3,_store_sales3547);
+        r++;
+        SW_Window_TD_47841Row t = {_item_sk3544,_d_date3545,_web_sales3546,_store_sales3547};
+        rows0.push_back(t);
+        rows1.push_back(t);
+    }
+    struct {
+        bool operator()(const SW_Window_TD_47841Row& a, const SW_Window_TD_47841Row& b) const { return 
+(a._item_sk3544 < b._item_sk3544) || 
+ ((a._item_sk3544 == b._item_sk3544) && (a._d_date3545 < b._d_date3545)); 
+}
+    }SW_Window_TD_47841_order0; 
+
+    std::sort(rows0.begin(), rows0.end(), SW_Window_TD_47841_order0);
+    int64_t max0 = std::numeric_limits<int>::min();
+    int32_t current_item_sk35440 = std::numeric_limits<int32_t>::min();
+    for (auto& it : rows0) {
+        if (current_item_sk35440 != it._item_sk3544) {
+            max0 = std::numeric_limits<int>::min();
+            current_item_sk35440 = it._item_sk3544;
+        }
+        tbl_Window_TD_47841_output.setInt64(r, 4, max0 < it._web_sales3546 ? it._web_sales3546 : max0);
+    }
+    struct {
+        bool operator()(const SW_Window_TD_47841Row& a, const SW_Window_TD_47841Row& b) const { return 
+(a._item_sk3544 < b._item_sk3544) || 
+ ((a._item_sk3544 == b._item_sk3544) && (a._d_date3545 < b._d_date3545)); 
+}
+    }SW_Window_TD_47841_order1; 
+
+    std::sort(rows1.begin(), rows1.end(), SW_Window_TD_47841_order1);
+    int64_t max1 = std::numeric_limits<int>::min();
+    int32_t current_item_sk35441 = std::numeric_limits<int32_t>::min();
+    for (auto& it : rows1) {
+        if (current_item_sk35441 != it._item_sk3544) {
+            max1 = std::numeric_limits<int>::min();
+            current_item_sk35441 = it._item_sk3544;
+        }
+        tbl_Window_TD_47841_output.setInt64(r, 4, max1 < it._store_sales3547 ? it._store_sales3547 : max1);
+    }
+    tbl_Window_TD_47841_output.setNumRow(r);
+    std::cout << "tbl_Window_TD_47841_output #Row: " << tbl_Window_TD_47841_output.getNumRow() << std::endl;
+}
+
+void SW_Filter_TD_3997762(Table &tbl_Window_TD_47841_output, Table &tbl_Filter_TD_3997762_output) {
+    // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
+    // Supported operation: Filter
+    // Operation: ListBuffer(((isnotnull(web_cumulative#3548) AND isnotnull(store_cumulative#3549)) AND (web_cumulative#3548 > store_cumulative#3549)))
+    // Input: ListBuffer(item_sk#3544, d_date#3545, web_sales#3546, store_sales#3547, web_cumulative#3548, store_cumulative#3549)
+    // Output: ListBuffer(item_sk#3544, d_date#3545, web_sales#3546, store_sales#3547, web_cumulative#3548, store_cumulative#3549)
+    int r = 0;
+    int nrow1 = tbl_Window_TD_47841_output.getNumRow();
+    for (int i = 0; i < nrow1; i++) {
+        int64_t _web_cumulative3548 = tbl_Window_TD_47841_output.getInt64(i, 4);
+        int64_t _store_cumulative3549 = tbl_Window_TD_47841_output.getInt64(i, 5);
+        if (((_web_cumulative3548!= 0) && (_store_cumulative3549!= 0)) && (_web_cumulative3548 > _store_cumulative3549)) {
+            int32_t _item_sk3544_t = tbl_Window_TD_47841_output.getInt32(i, 0);
+            tbl_Filter_TD_3997762_output.setInt32(r, 0, _item_sk3544_t);
+            int32_t _d_date3545_t = tbl_Window_TD_47841_output.getInt32(i, 1);
+            tbl_Filter_TD_3997762_output.setInt32(r, 1, _d_date3545_t);
+            int64_t _web_sales3546_t = tbl_Window_TD_47841_output.getInt64(i, 2);
+            tbl_Filter_TD_3997762_output.setInt64(r, 2, _web_sales3546_t);
+            int64_t _store_sales3547_t = tbl_Window_TD_47841_output.getInt64(i, 3);
+            tbl_Filter_TD_3997762_output.setInt64(r, 3, _store_sales3547_t);
+            int64_t _web_cumulative3548_t = tbl_Window_TD_47841_output.getInt64(i, 4);
+            tbl_Filter_TD_3997762_output.setInt64(r, 4, _web_cumulative3548_t);
+            int64_t _store_cumulative3549_t = tbl_Window_TD_47841_output.getInt64(i, 5);
+            tbl_Filter_TD_3997762_output.setInt64(r, 5, _store_cumulative3549_t);
+            r++;
+        }
+    }
+    tbl_Filter_TD_3997762_output.setNumRow(r);
+    std::cout << "tbl_Filter_TD_3997762_output #Row: " << tbl_Filter_TD_3997762_output.getNumRow() << std::endl;
+}
+
+void SW_Sort_TD_221880(Table &tbl_Filter_TD_3997762_output, Table &tbl_Sort_TD_221880_output) {
+    // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
+    // Supported operation: Sort
+    // Operation: ListBuffer(item_sk#3544 ASC NULLS FIRST, d_date#3545 ASC NULLS FIRST)
+    // Input: ListBuffer(item_sk#3544, d_date#3545, web_sales#3546, store_sales#3547, web_cumulative#3548, store_cumulative#3549)
+    // Output: ListBuffer(item_sk#3544, d_date#3545, web_sales#3546, store_sales#3547, web_cumulative#3548, store_cumulative#3549)
+    struct SW_Sort_TD_221880Row {
+        int32_t _item_sk3544;
+        int32_t _d_date3545;
+        int64_t _web_sales3546;
+        int64_t _store_sales3547;
+        int64_t _web_cumulative3548;
+        int64_t _store_cumulative3549;
+    }; 
+
+    struct {
+        bool operator()(const SW_Sort_TD_221880Row& a, const SW_Sort_TD_221880Row& b) const { return 
+ (a._item_sk3544 < b._item_sk3544) || 
+ ((a._item_sk3544 == b._item_sk3544) && (a._d_date3545 < b._d_date3545)); 
+}
+    }SW_Sort_TD_221880_order; 
+
+    int nrow1 = tbl_Filter_TD_3997762_output.getNumRow();
+    std::vector<SW_Sort_TD_221880Row> rows;
+    for (int i = 0; i < nrow1; i++) {
+        int32_t _item_sk3544 = tbl_Filter_TD_3997762_output.getInt32(i, 0);
+        int32_t _d_date3545 = tbl_Filter_TD_3997762_output.getInt32(i, 1);
+        int64_t _web_sales3546 = tbl_Filter_TD_3997762_output.getInt64(i, 2);
+        int64_t _store_sales3547 = tbl_Filter_TD_3997762_output.getInt64(i, 3);
+        int64_t _web_cumulative3548 = tbl_Filter_TD_3997762_output.getInt64(i, 4);
+        int64_t _store_cumulative3549 = tbl_Filter_TD_3997762_output.getInt64(i, 5);
+        SW_Sort_TD_221880Row t = {_item_sk3544,_d_date3545,_web_sales3546,_store_sales3547,_web_cumulative3548,_store_cumulative3549};
+        rows.push_back(t);
+    }
+    std::sort(rows.begin(), rows.end(), SW_Sort_TD_221880_order);
+    int r = 0;
+    for (auto& it : rows) {
+        tbl_Sort_TD_221880_output.setInt32(r, 0, it._item_sk3544);
+        tbl_Sort_TD_221880_output.setInt32(r, 1, it._d_date3545);
+        tbl_Sort_TD_221880_output.setInt64(r, 2, it._web_sales3546);
+        tbl_Sort_TD_221880_output.setInt64(r, 3, it._store_sales3547);
+        tbl_Sort_TD_221880_output.setInt64(r, 4, it._web_cumulative3548);
+        tbl_Sort_TD_221880_output.setInt64(r, 5, it._store_cumulative3549);
+        ++r;
+    }
+    tbl_Sort_TD_221880_output.setNumRow(r);
+    std::cout << "tbl_Sort_TD_221880_output #Row: " << tbl_Sort_TD_221880_output.getNumRow() << std::endl;
+}
+
+void SW_LocalLimit_TD_1314603(Table &tbl_Sort_TD_221880_output, Table &tbl_LocalLimit_TD_1314603_output) {
+    // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
+    // Supported operation: LocalLimit
+    // Operation: ListBuffer(locallimit)
+    // Input: ListBuffer(item_sk#3544, d_date#3545, web_sales#3546, store_sales#3547, web_cumulative#3548, store_cumulative#3549)
+    // Output: ListBuffer(item_sk#3544, d_date#3545, web_sales#3546, store_sales#3547, web_cumulative#3548, store_cumulative#3549)
+    int r = 0;
+    int nrow = 100;
+    for (int i = 0; i < nrow; i++) {
+        tbl_LocalLimit_TD_1314603_output.setInt32(r, 0, tbl_Sort_TD_221880_output.getInt32(i, 0));
+        tbl_LocalLimit_TD_1314603_output.setInt32(r, 1, tbl_Sort_TD_221880_output.getInt32(i, 1));
+        tbl_LocalLimit_TD_1314603_output.setInt64(r, 2, tbl_Sort_TD_221880_output.getInt64(i, 2));
+        tbl_LocalLimit_TD_1314603_output.setInt64(r, 3, tbl_Sort_TD_221880_output.getInt64(i, 3));
+        tbl_LocalLimit_TD_1314603_output.setInt64(r, 4, tbl_Sort_TD_221880_output.getInt64(i, 4));
+        tbl_LocalLimit_TD_1314603_output.setInt64(r, 5, tbl_Sort_TD_221880_output.getInt64(i, 5));
+        r++;
+    }
+    tbl_LocalLimit_TD_1314603_output.setNumRow(r);
+    std::cout << "tbl_LocalLimit_TD_1314603_output #Row: " << tbl_LocalLimit_TD_1314603_output.getNumRow() << std::endl;
+}
+
+void SW_GlobalLimit_TD_0296551(Table &tbl_LocalLimit_TD_1314603_output, Table &tbl_GlobalLimit_TD_0296551_output) {
+    // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
+    // Supported operation: GlobalLimit
+    // Operation: ListBuffer(globallimit)
+    // Input: ListBuffer(item_sk#3544, d_date#3545, web_sales#3546, store_sales#3547, web_cumulative#3548, store_cumulative#3549)
+    // Output: ListBuffer(item_sk#3544, d_date#3545, web_sales#3546, store_sales#3547, web_cumulative#3548, store_cumulative#3549)
+    int r = 0;
+    int nrow = 100;
+    for (int i = 0; i < nrow; i++) {
+        tbl_GlobalLimit_TD_0296551_output.setInt32(r, 0, tbl_LocalLimit_TD_1314603_output.getInt32(i, 0));
+        tbl_GlobalLimit_TD_0296551_output.setInt32(r, 1, tbl_LocalLimit_TD_1314603_output.getInt32(i, 1));
+        tbl_GlobalLimit_TD_0296551_output.setInt64(r, 2, tbl_LocalLimit_TD_1314603_output.getInt64(i, 2));
+        tbl_GlobalLimit_TD_0296551_output.setInt64(r, 3, tbl_LocalLimit_TD_1314603_output.getInt64(i, 3));
+        tbl_GlobalLimit_TD_0296551_output.setInt64(r, 4, tbl_LocalLimit_TD_1314603_output.getInt64(i, 4));
+        tbl_GlobalLimit_TD_0296551_output.setInt64(r, 5, tbl_LocalLimit_TD_1314603_output.getInt64(i, 5));
+        r++;
+    }
+    tbl_GlobalLimit_TD_0296551_output.setNumRow(r);
+    std::cout << "tbl_GlobalLimit_TD_0296551_output #Row: " << tbl_GlobalLimit_TD_0296551_output.getNumRow() << std::endl;
+}
+
