@@ -25,7 +25,7 @@ class TPCDS_Q28 extends TPCDS_Queries {
              or ss_coupon_amt between 2323 and 2323+1000
              or ss_wholesale_cost between 31 and 31+20)) B2 cross join
      (select avg(ss_list_price) B3_LP
-            ,count(ss_list_price) B3_CNTd
+            ,count(ss_list_price) B3_CNT
             ,count(distinct ss_list_price) B3_CNTD
       from store_sales
       where ss_quantity between 11 and 15

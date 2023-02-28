@@ -54,8 +54,12 @@ class TPCDS_Q64 extends TPCDS_Queries {
  )
  select cs1.product_name, cs1.store_name, cs1.store_zip, cs1.b_street_number,
         cs1.b_streen_name, cs1.b_city, cs1.b_zip, cs1.c_street_number, cs1.c_street_name,
-        cs1.c_city, cs1.c_zip, cs1.syear, cs1.cnt, cs1.s1, cs1.s2, cs1.s3, cs2.s1,
-        cs2.s2, cs2.s3, cs2.syear, cs2.cnt
+        cs1.c_city, cs1.c_zip, cs1.syear, cs1.cnt, cs1.s1, cs1.s2, cs1.s3, 
+        cs2.s1 as cs2_s1,
+        cs2.s2 as cs2_s2, 
+        cs2.s3 as cs2_s3, 
+        cs2.syear as cs2_syear, 
+        cs2.cnt as cs2_cnt
  from cross_sales cs1,cross_sales cs2
  where cs1.item_sk=cs2.item_sk and
       cs1.syear = 1999 and

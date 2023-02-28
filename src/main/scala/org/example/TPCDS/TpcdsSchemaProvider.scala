@@ -4,7 +4,7 @@ import java.math.BigDecimal
 // TPC-DS table schemasd
 
 case class Customer_tpcds(
-                           c_customer_sk           : Int, //bigint
+                           c_customer_sk           : Int, //bigintd_year126
                            c_customer_id           : String,
                            c_current_cdemo_sk      : Int, //bigint
                            c_current_hdemo_sk      : Int, //bigint
@@ -1248,7 +1248,7 @@ ib_income_band_sk = row.getAs[Long]("ib_income_band_sk").toInt, // Convert from 
   dfMap.foreach {
     case (key, value) => {
       value.printSchema()
-      value.show()
+      value.show(20)
       println("table: " + key + "row:" + value.count())
       value.createOrReplaceTempView(key)
     }

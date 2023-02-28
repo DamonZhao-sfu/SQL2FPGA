@@ -5,6 +5,7 @@ import org.apache.spark.sql._
  */
 class TPCDS_Q86 extends TPCDS_Queries {
   override def TPCDS_execute(sc: SparkSession, schemaProvider: TpcdsSchemaProvider): DataFrame = {
+    // temporarily remove    case when lochierarchy = 0 then i_category end,
     sc.sql("""--q86.sql--
 
  select sum(ws_net_paid) as total_sum, i_category, i_class,
@@ -22,7 +23,6 @@ class TPCDS_Q86 extends TPCDS_Queries {
  group by rollup(i_category,i_class)
  order by
    lochierarchy desc,
-   case when lochierarchy = 0 then i_category end,
    rank_within_parent
  limit 100
             """)

@@ -5,6 +5,7 @@ import org.apache.spark.sql._
  */
 class TPCDS_Q79 extends TPCDS_Queries {
   override def TPCDS_execute(sc: SparkSession, schemaProvider: TpcdsSchemaProvider): DataFrame = {
+   // remove order by substr(s_city,1,30),
     sc.sql("""--q79.sql--
 
  select
@@ -26,7 +27,7 @@ class TPCDS_Q79 extends TPCDS_Queries {
     and store.s_number_employees between 200 and 295
     group by ss_ticket_number,ss_customer_sk,ss_addr_sk,store.s_city) ms,customer
     where ss_customer_sk = c_customer_sk
- order by c_last_name,c_first_name,substr(s_city,1,30), profit
+ order by c_last_name,c_first_name, profit
  limit 100
             """)
   }

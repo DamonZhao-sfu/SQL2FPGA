@@ -4,6 +4,7 @@ import org.apache.spark.sql._
  * TPC-DS Query 19
  */
 class TPCDS_Q19 extends TPCDS_Queries {
+  // modify substr(ca_zip,1,5) <> substr(s_zip,1,5) -> substr(ca_zip,1,5) = substr(s_zip,1,5)
   override def TPCDS_execute(sc: SparkSession, schemaProvider: TpcdsSchemaProvider): DataFrame = {
     sc.sql("""--q19.sql--
 
@@ -17,7 +18,8 @@ class TPCDS_Q19 extends TPCDS_Queries {
    and d_year = 1998
    and ss_customer_sk = c_customer_sk
    and c_current_addr_sk = ca_address_sk
-   and substr(ca_zip,1,5) <> substr(s_zip,1,5)
+
+   and substr(ca_zip,1,5) = substr(s_zip,1,5)
    and ss_store_sk = s_store_sk
  group by i_brand, i_brand_id, i_manufact_id, i_manufact
  order by ext_price desc, brand, brand_id, i_manufact_id, i_manufact

@@ -778,6 +778,7 @@ class SQL2FPGA_Codegen {
   def writeSWConfigCode_header(bw: BufferedWriter): Unit ={
     bw.write("#include <regex> \n")
     bw.write("#include <stdint.h> \n")
+    bw.write("#include \"utils.hpp\"\n")
     bw.write("\n")
   }
   def writeSWConfigCode_section(l: ListBuffer[String], bw: BufferedWriter): Unit ={

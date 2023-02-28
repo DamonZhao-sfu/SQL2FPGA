@@ -5,6 +5,7 @@ import org.apache.spark.sql._
  */
 class TPCDS_Q78 extends TPCDS_Queries {
   override def TPCDS_execute(sc: SparkSession, schemaProvider: TpcdsSchemaProvider): DataFrame = {
+   // remove order by    round(ss_qty/(coalesce(ws_qty+cs_qty,1)),2) case
     sc.sql("""--q78.sql--
 
  with ws as
@@ -59,8 +60,7 @@ class TPCDS_Q78 extends TPCDS_Queries {
    ss_qty desc, ss_wc desc, ss_sp desc,
    other_chan_qty,
    other_chan_wholesale_cost,
-   other_chan_sales_price,
-   round(ss_qty/(coalesce(ws_qty+cs_qty,1)),2)
+   other_chan_sales_price
   limit 100
             """)
   }

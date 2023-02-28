@@ -5,7 +5,9 @@ import org.apache.spark.sql._
  */
 class TPCDS_Q17 extends TPCDS_Queries {
   override def TPCDS_execute(sc: SparkSession, schemaProvider: TpcdsSchemaProvider): DataFrame = {
-    sc.sql("""--q17.sql--
+    // original sql
+
+   /* sc.sql("""--q17.sql--
 
  select i_item_id
        ,i_item_desc
@@ -21,6 +23,36 @@ class TPCDS_Q17 extends TPCDS_Queries {
        ,count(cs_quantity) as catalog_sales_quantitycount ,avg(cs_quantity) as catalog_sales_quantityave
        ,stddev_samp(cs_quantity)/avg(cs_quantity) as catalog_sales_quantitystdev
        ,stddev_samp(cs_quantity)/avg(cs_quantity) as catalog_sales_quantitycov
+ from store_sales, store_returns, catalog_sales, date_dim d1, date_dim d2, date_dim d3, store, item
+ where d1.d_quarter_name = '2001Q1'
+   and d1.d_date_sk = ss_sold_date_sk
+   and i_item_sk = ss_item_sk
+   and s_store_sk = ss_store_sk
+   and ss_customer_sk = sr_customer_sk
+   and ss_item_sk = sr_item_sk
+   and ss_ticket_number = sr_ticket_number
+   and sr_returned_date_sk = d2.d_date_sk
+   and d2.d_quarter_name in ('2001Q1','2001Q2','2001Q3')
+   and sr_customer_sk = cs_bill_customer_sk
+   and sr_item_sk = cs_item_sk
+   and cs_sold_date_sk = d3.d_date_sk
+   and d3.d_quarter_name in ('2001Q1','2001Q2','2001Q3')
+ group by i_item_id, i_item_desc, s_state
+ order by i_item_id, i_item_desc, s_state
+ limit 100
+            """)*/
+
+
+    sc.sql("""--q17.sql--
+
+ select i_item_id
+       ,i_item_desc
+       ,s_state
+       ,count(ss_quantity) as store_sales_quantitycount
+       ,avg(ss_quantity) as store_sales_quantityave
+       ,count(sr_return_quantity) as_store_returns_quantitycount
+       ,avg(sr_return_quantity) as_store_returns_quantityave
+       ,count(cs_quantity) as catalog_sales_quantitycount ,avg(cs_quantity) as catalog_sales_quantityave
  from store_sales, store_returns, catalog_sales, date_dim d1, date_dim d2, date_dim d3, store, item
  where d1.d_quarter_name = '2001Q1'
    and d1.d_date_sk = ss_sold_date_sk

@@ -8,7 +8,7 @@ class TPCDS_Q84 extends TPCDS_Queries {
     sc.sql("""--q84.sql--
 
  select c_customer_id as customer_id
-       ,coalesce(c_last_name,'') + ', ' + coalesce(c_first_name,'') as customername
+       , concat(coalesce(c_last_name,''), ', ', coalesce(c_first_name,'')) as customername
  from customer
      ,customer_address
      ,customer_demographics

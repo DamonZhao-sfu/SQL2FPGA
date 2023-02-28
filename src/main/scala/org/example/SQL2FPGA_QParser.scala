@@ -1,5 +1,5 @@
 package org.example
-import org.apache.spark.sql.catalyst.expressions.Expression
+import org.apache.spark.sql.catalyst.expressions.{Coalesce, Expression}
 import org.apache.spark.sql.catalyst.plans.QueryPlan
 import org.apache.spark.sql.catalyst.plans.logical.{Aggregate, AppendColumns, AppendColumnsWithObject, BinaryNode, DeserializeToObject, Distinct, Expand, Filter, Generate, GlobalLimit, Join, LocalLimit, LogicalPlan, MapElements, Project, Repartition, RepartitionByExpression, Sample, SerializeFromObject, Sort, SubqueryAlias, TypedFilter, UnaryNode, Union, Window}
 import org.apache.spark.sql.execution.datasources.LogicalRelation
@@ -188,10 +188,18 @@ class SQL2FPGA_QParser {
         print_indent(num_indent)
         print("Output: ")
         var outputCols = new ListBuffer[String]()
-        for (_output <- al_aggr.output) {
-          print(_output.toString + ", ")
-          outputCols += _output.toString
+        if (al_aggr.output.isEmpty) {
+          // for distinct aggregation
+          for (_expr <- al_aggr.groupingExpressions) {
+            outputCols += _expr.toString
+          }
+        } else {
+          for (_output <- al_aggr.output) {
+            print(_output.toString + ", ")
+            outputCols += _output.toString
+          }
         }
+
         fpga_plan.outputCols = outputCols
         print("\n")
         print_indent(num_indent)
@@ -461,7 +469,7 @@ class SQL2FPGA_QParser {
         validOp = false
       case _: DeserializeToObject => println(" DeSerializeToObject ")
       case _: MapElements => println(" MapElements ")
-      case al_other => println(al_other.getClass.getName)
+      case al_other => println("Unsupported" + al_other.getClass.getName)
     }
     var typeString_1 = u.getClass.getName
     var typeString_2 = "org.apache.spark.sql.catalyst.plans.logical.SerializeFromObject"
@@ -544,9 +552,11 @@ class SQL2FPGA_QParser {
     b match {
 
       case al_join: Join =>
+          
 
         var nodeType = "JOIN_" + al_join.joinType.toString.toUpperCase()
-        fpga_plan.nodeType = nodeType
+        // for case like JOIN_EXISTENCEJOIN(EXISTS#10340)
+        fpga_plan.nodeType = nodeType.replaceAll("#", "").replaceAll("\\(", "").replaceAll("\\)", "")
         print_indent(num_indent)
         print("Output: ")
         for (_output <- root_required_col) {
@@ -587,7 +597,7 @@ class SQL2FPGA_QParser {
             ((join_clauses(0).contains("!=") && !join_clauses(1).contains("!=")) || (!join_clauses(0).contains("!=") && join_clauses(1).contains("!=")))
           fpga_plan.isSpecialAntiJoin = isSpecialAntiJoin
         }
-      case al_other => println(al_other.getClass.getName)
+      case al_other => println("unsupported" + al_other.getClass.getName)
     }
     for (ch <- b.children) {
       var next_fpga_plan = new SQL2FPGA_QPlan

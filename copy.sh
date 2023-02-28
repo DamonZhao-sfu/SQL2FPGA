@@ -4,7 +4,7 @@
 base_path="/localhdd/hza215/Vitis_Libraries/database/L2/demos/host"
 
 # Loop through numbers with leading zeros
-for num in $(seq 1 22); do
+for num in $(seq 1 99); do
     # Create the target directory path
     dir_num=$(printf "%02d" $num)
     target_dir="${base_path}/q${dir_num}/sfsql2fpga_fpga"
