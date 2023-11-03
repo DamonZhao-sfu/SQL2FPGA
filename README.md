@@ -83,6 +83,11 @@ git clone https://github.com/SFU-HiAccel/SQL2FPGA.git
         make -C build_join_partition/ TARGET=hw xclbin DEVICE=xilinx_u280_xdma_201920_3
         make -C build_aggr_partition/ TARGET=hw xclbin DEVICE=xilinx_u280_xdma_201920_3
         ```
+    * If you encounter the problem 'Failed to create IP', it is a bug in Vitis XRT, you can run 
+        ```
+        faketime -f "-10y"  make -C build_join_partition/ TARGET=hw xclbin DEVICE=/opt/xilinx/platforms/xilinx_aliyun-f3_dynamic_5_0/xilinx_aliyun-f3_dynamic_5_0.xpfm &
+        ```
+        to skip the bug.
         
 4. Run SQL2FPGA-generated Designs on Device
     * Replace `makefile` at `/Vitis_Libraries/database/L2/demos` with the  `<$SQL2FPGA_HOME>/makefile`
