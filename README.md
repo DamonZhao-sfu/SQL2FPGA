@@ -52,6 +52,15 @@ git clone https://github.com/SFU-HiAccel/SQL2FPGA.git
         make
         ./dbgen -s <#> 
         ```
+    * Generate TPC_DS Dataset
+        ```
+        git clone https://github.com/gregrahn/tpcds-kit.git
+        cd tpcds-kit/tools
+        make OS=LINUX
+
+        ```
+        check https://github.com/gregrahn/tpcds-kit for detailed tutorial.
+
     * Specifiy Query Configurations (in `SQL2FPGA_Top.scala`)
         * Specify Dataset File Path
             * Modify `INPUT_DIR_TPCH` and `OUTPUT_DIR_TPCH` with the generated TPC-H dataset
