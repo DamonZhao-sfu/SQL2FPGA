@@ -12,7 +12,7 @@
 *.hpp
 
 # Ignore everything in the target directory
-target/
+target/*
 
 # Ignore the .idea directory used by JetBrains IDEs
 .idea/
