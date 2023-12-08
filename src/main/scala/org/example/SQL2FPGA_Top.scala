@@ -1,5 +1,4 @@
 package org.example
-import com.typesafe.scalalogging.{LazyLogging, Logger}
 import org.apache.spark.sql.{DataFrame, SparkSession}
 
 import java.io.{BufferedWriter, File, FileWriter}
@@ -15,7 +14,7 @@ object SQL2FPGA_Top {
   val OUTPUT_DIR_TPCDS = "/Users/aleclu/dev/tpcds-spark/dbgen/tpcds_data_1"
   qConfig.tpch_queryNum_start = 1
   qConfig.tpch_queryNum_end = 22
-  qConfig.tpch_queryNum_list = ListBuffer(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23) // 3, 13, 15, 18, 20
+  qConfig.tpch_queryNum_list = ListBuffer(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22) // 3, 13, 15, 18, 20
   qConfig.tpcds_queryNum_start = 1
   qConfig.tpcds_queryNum_end = 22
   qConfig.tpcds_queryNum_list = ListBuffer(1) // 1, 2, 3, 5, 6, 7, 8, 9
