@@ -791,8 +791,8 @@ class SQL2FPGA_QPlan {
     //        }
     //      }
     else {
-      // return "TPCH_READ_REGION_LEN"
-      return "TPCDS_READ_MAX"
+      return "TPCH_READ_REGION_LEN"
+      //return "TPCDS_READ_MAX"
       // return tbl_col._2
     }
   }

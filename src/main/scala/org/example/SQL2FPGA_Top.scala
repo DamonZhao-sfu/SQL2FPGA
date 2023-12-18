@@ -21,7 +21,7 @@ object SQL2FPGA_Top {
 
   qConfig.pure_sw_mode = 0
   qConfig.query_plan_optimization_enable = "11111"
-  qConfig.scale_factor = 1
+  qConfig.scale_factor = 30
   var TPCH_or_DS = 0
 
   // Macro defines
