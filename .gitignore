@@ -11,6 +11,8 @@
 # Ignore all .hpp files
 *.hpp
 
+*.class
+
 # Ignore everything in the target directory
 target/*
 
