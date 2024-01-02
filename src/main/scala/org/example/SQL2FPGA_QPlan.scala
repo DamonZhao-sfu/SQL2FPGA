@@ -325,6 +325,7 @@ class SQL2FPGA_QPlan {
         columnDictionary(raw_col_name)._1 == "DecimalType") {
         result = columnDictionary(raw_col_name)._1
       } else {
+        println("print Type " + raw_col_name)
         result = getColumnDataType(dfmap(columnDictionary(raw_col_name)._1), columnDictionary(raw_col_name)._2)
       }
     }
@@ -1253,12 +1254,25 @@ class SQL2FPGA_QPlan {
   }
 
   def getJoinKeyTerms(expr: Expression, negate: Boolean): ListBuffer[String] = {
+
     if (expr.getClass.getName == "org.apache.spark.sql.catalyst.expressions.AttributeReference") {
       var key_term = new ListBuffer[String]()
       key_term += expr.toString
       return key_term
-    }
-    else {
+    } else if (expr.getClass.getName == "org.apache.spark.sql.catalyst.expressions.Cast") {
+      // cast(o_orderkey#324L as int)
+      var key_term = new ListBuffer[String]()
+      val pattern = """cast\(([^)]+) as [^)]+\)""".r
+      expr.toString match {
+        case pattern(content) => {
+          key_term += content
+        }
+        case _ => {
+          key_term += expr.toString
+        }
+      }
+      return key_term
+    } else {
       var terms = new ListBuffer[String]()
       if (expr.getClass.getName == "org.apache.spark.sql.catalyst.expressions.Not") {
         var child = getJoinKeyTerms(expr.children(0), true)
@@ -1282,8 +1296,9 @@ class SQL2FPGA_QPlan {
           terms ++= right_sub
       }
       else if (expr.getClass.getName == "org.apache.spark.sql.catalyst.expressions.EqualTo") {
-        if (expr.children(0).getClass.getName == "org.apache.spark.sql.catalyst.expressions.AttributeReference"
-          && expr.children(1).getClass.getName == "org.apache.spark.sql.catalyst.expressions.AttributeReference")
+        // org.apache.spark.sql.catalyst.expressions.Cast
+        if ((expr.children(0).getClass.getName == "org.apache.spark.sql.catalyst.expressions.AttributeReference" || expr.children(0).getClass.getName == "org.apache.spark.sql.catalyst.expressions.Cast")
+          && (expr.children(1).getClass.getName == "org.apache.spark.sql.catalyst.expressions.AttributeReference") || (expr.children(1).getClass.getName == "org.apache.spark.sql.catalyst.expressions.Cast"))
         {
           var left_sub = getJoinKeyTerms(expr.children(0), false)
           var right_sub = getJoinKeyTerms(expr.children(1), false)
@@ -4934,7 +4949,8 @@ class SQL2FPGA_QPlan {
       // print out information
       print("current JoinNodeIdx is    " + joinNodeIdx + ": ")
       for (ref_col <- join_node._joining_expression(0).references) {
-        allKeyCol += ref_col.toString
+        var refCol = ref_col.toString.split("#").head
+        allKeyCol += refCol
       }
       var join_key_list = join_node.getJoinKeyTerms(join_node._joining_expression(0), false)
       var costScaling = join_key_list.length // more join pairs higher cost
@@ -5021,8 +5037,9 @@ class SQL2FPGA_QPlan {
     for (joinNodeIdx <- 1 to joinNodeCost.size-1) {
       var iterJoinNode = joinNodeList(joinNodeOrderIdx(joinNodeIdx))
       for (ref_col <- iterJoinNode._joining_expression(0).references) {
-        if (!allKeyCol.contains(ref_col.toString)) {
-          allKeyCol += ref_col.toString
+        var refCol = ref_col.toString.split("#").head
+        if (!allKeyCol.contains(refCol)) {
+          allKeyCol += refCol
         }
       }
     }
@@ -5081,8 +5098,10 @@ class SQL2FPGA_QPlan {
         for (joinNodeIdx_inner <- joinNodeIdx+1 to joinNodeCost.size-1) {
           var iterJoinNode = joinNodeList(joinNodeOrderIdx(joinNodeIdx_inner))
           for (ref_col <- iterJoinNode._joining_expression(0).references) {
-            if (!allKeyCol.contains(ref_col.toString)) {
-              allKeyCol += ref_col.toString
+            var refCol = ref_col.toString.split("#").head
+
+            if (!allKeyCol.contains(refCol)) {
+              allKeyCol += refCol
             }
           }
         }
@@ -5146,7 +5165,7 @@ class SQL2FPGA_QPlan {
       }
     }
     // transformation
-    if (qNum != 2) {
+    if (true) {
       for (cascadeJoinChain <- allCascadeJoinChains_trimmed) {
         if (cascadeJoinChain.length >= 2) {
           var valid = joinReordering(cascadeJoinChain.reverse, dfmap, sf)
@@ -5155,7 +5174,7 @@ class SQL2FPGA_QPlan {
         }
       }
     }
-    else {
+    /*else {
       // temp hack - Alec // join node reordering hack for Q2
       joinReordering(allCascadeJoinChains_trimmed(1).reverse, dfmap, sf)
       var filterNode = getParentsOtherChild(allCascadeJoinChains_trimmed(0).last._parent(0), allCascadeJoinChains_trimmed(0).last)
@@ -5165,7 +5184,7 @@ class SQL2FPGA_QPlan {
       allCascadeJoinChains_trimmed(0).last._children(1) = joinNode
       AggrNode._children(0) = allCascadeJoinChains_trimmed(0).last
       allCascadeJoinChains_trimmed(0).last._outputCols += "ps_partkey#305"
-    }
+    }*/
 
     return true
   }
@@ -5806,23 +5825,23 @@ class SQL2FPGA_QPlan {
           _numTableRow = 57111
         }
       case 11 =>
-        if (_nodeType == "JOIN_INNER" && _treeDepth == 3 && _cpuORfpga == 1) {
+        /*if (_nodeType == "JOIN_INNER" && _treeDepth == 3 && _cpuORfpga == 1) {
           _numTableRow = 393
         } else if (_nodeType == "JOIN_INNER" && _treeDepth == 4 && _cpuORfpga == 1) {
           _numTableRow = 31440
         } else if (_nodeType == "Aggregate" && _treeDepth == 2 && _cpuORfpga == 1) {
-          _numTableRow = 60000
-        }
+          _numTableRow = 600000
+        }*/
       case 12 =>
         if (_nodeType == "JOIN_INNER" && _treeDepth == 2 && _cpuORfpga == 1) {
           _numTableRow = 31211
         }
       case 13 =>
-        if (_nodeType == "JOIN_INNER" && _treeDepth == 0 && _cpuORfpga == 1) {
+        /*if (_nodeType == "JOIN_INNER" && _treeDepth == 0 && _cpuORfpga == 1) {
           _numTableRow = 1480133
         } else if (_nodeType == "JOIN_LEFTANTI" && _treeDepth == 3 && _cpuORfpga == 1) {
           _numTableRow = 1531000
-        }
+        }*/
       case 14 =>
         if (_nodeType == "JOIN_INNER" && _treeDepth == 1 && _cpuORfpga == 1) {
           _numTableRow = 78000
@@ -5902,6 +5921,7 @@ class SQL2FPGA_QPlan {
         print("gencode: groupBy")
         var col_symbol = groupBy_payload.toString.split(" AS ").last
         var col_type = groupBy_payload.dataType.toString
+        columnDictionary += (col_symbol.split("#").head -> (col_type, "NULL"))
         columnDictionary += (col_symbol -> (col_type, "NULL"))
       }
     }
@@ -6855,12 +6875,13 @@ class SQL2FPGA_QPlan {
             _fpgaSWFuncCode += "    for (int i = 0; i < nrow1; i++) {"
             //print out filtering referenced columns
             for (_ref_col <- filtering_expression.references) {
-              var filter_input_col_name = _ref_col.toString
+              var refCol = _ref_col.toString.split("#").head
+              var filter_input_col_name = refCol
               var filter_input_col_idx = _children.head.outputCols.indexOf(filter_input_col_name)
               var filter_input_col_type = getColumnType(filter_input_col_name, dfmap)
               filter_input_col_name = stripColumnName(filter_input_col_name)
               if (filter_input_col_type == "StringType") {
-                _fpgaSWFuncCode += "        std::array<char, " + getStringLengthMacro(columnDictionary(_ref_col.toString)) + " + 1> " + filter_input_col_name + " = " + tbl_in_1 + ".getcharN<char, " + getStringLengthMacro(columnDictionary(_ref_col.toString)) + " + 1>(i, " + filter_input_col_idx.toString + ");"
+                _fpgaSWFuncCode += "        std::array<char, " + getStringLengthMacro(columnDictionary(refCol)) + " + 1> " + filter_input_col_name + " = " + tbl_in_1 + ".getcharN<char, " + getStringLengthMacro(columnDictionary(refCol)) + " + 1>(i, " + filter_input_col_idx.toString + ");"
               } else if (filter_input_col_type == "IntegerType") {
                 _fpgaSWFuncCode += "        int32_t " + filter_input_col_name + " = " + tbl_in_1 + ".getInt32(i, " + filter_input_col_idx.toString + ");"
               } else if (filter_input_col_type == "LongType") {
@@ -7040,6 +7061,7 @@ class SQL2FPGA_QPlan {
                 var col_expr = getAggregateExpression(groupBy_payload.children(0))
                 var col_type = groupBy_payload.dataType.toString
                 println(col_symbol + " = " + col_expr + " : " + col_type)
+                columnDictionary += (col_symbol.split("#").head -> (col_type, "NULL"))
                 columnDictionary += (col_symbol -> (col_type, "NULL"))
                 var key_type = getColumnType(col_symbol, dfmap)
                 var col_symbol_trimmed = stripColumnName(col_symbol)
@@ -7050,7 +7072,7 @@ class SQL2FPGA_QPlan {
                   } else if (key_type == "LongType") {
                     _fpgaSWFuncCode += "    int64_t " + col_symbol_trimmed + ";"
                   } else if (key_type == "StringType") {
-                    columnDictionary(col_symbol) = columnDictionary(groupBy_payload.references.head.toString)
+                    columnDictionary(col_symbol) = columnDictionary(groupBy_payload.references.head.toString.split("#").head)
                     if (_stringRowIDSubstitution) {
                       _fpgaSWFuncCode += "    int32_t " + col_symbol_trimmed + ";"
                     }
@@ -7071,7 +7093,7 @@ class SQL2FPGA_QPlan {
                   } else if (key_type == "LongType") {
                     _fpgaSWFuncCode += "    int64_t " + col_symbol_trimmed + "_" + col_aggregate_op + "_" + op_idx + ";"
                   } else if (key_type == "StringType") {
-                    columnDictionary(col_symbol) = columnDictionary(groupBy_payload.references.head.toString)
+                    columnDictionary(col_symbol) = columnDictionary(groupBy_payload.references.head.toString.split("#").head)
                     if (_stringRowIDSubstitution) {
                       _fpgaSWFuncCode += "    int32_t " + col_symbol_trimmed + "_" + col_aggregate_op + "_" + op_idx + ";"
                     }
@@ -7265,6 +7287,7 @@ class SQL2FPGA_QPlan {
               for (groupBy_payload <- _aggregate_expression) {
                 var col_type = groupBy_payload.dataType.toString
                 var col_symbol = groupBy_payload.toString.split(" AS ").last
+                columnDictionary += (col_symbol.split("#").head -> (col_type, "NULL"))
                 columnDictionary += (col_symbol -> (col_type, "NULL"))
                 var col_symbol_trimmed = stripColumnName(col_symbol)
                 var col_aggregate_ops = getAggregateOperations(groupBy_payload.children(0))
@@ -7275,7 +7298,7 @@ class SQL2FPGA_QPlan {
                   } else if (col_type == "LongType") {
                     _fpgaSWFuncCode += "        int64_t " + col_symbol_trimmed + " = " + col_expr + ";"
                   } else if (col_type == "StringType") {
-                    columnDictionary(col_symbol_trimmed) = columnDictionary(groupBy_payload.references.head.toString)
+                    columnDictionary(col_symbol_trimmed) = columnDictionary(groupBy_payload.references.head.toString.split("#").head)
                     if (_stringRowIDSubstitution) {
                       _fpgaSWFuncCode += "        int32_t " + col_symbol_trimmed + " = " + col_expr + ";"
                     }
@@ -7301,7 +7324,7 @@ class SQL2FPGA_QPlan {
                   } else if (col_type == "LongType") {
                     _fpgaSWFuncCode += "        int64_t " + col_symbol_trimmed + "_" + col_aggregate_op + "_" + op_idx + " = " + col_expr + ";"
                   } else if (col_type == "StringType") {
-                    columnDictionary(col_symbol_trimmed) = columnDictionary(groupBy_payload.references.head.toString)
+                    columnDictionary(col_symbol_trimmed) = columnDictionary(groupBy_payload.references.head.toString.split("#").head)
                     if (_stringRowIDSubstitution) {
                       _fpgaSWFuncCode += "        int32_t " + col_symbol_trimmed + "_" + col_aggregate_op + "_" + op_idx + " = " + col_expr + ";"
                     } else {
@@ -7475,6 +7498,7 @@ class SQL2FPGA_QPlan {
               for (groupBy_payload <- _aggregate_expression) {
                 var col_type = groupBy_payload.dataType.toString
                 var col_symbol = groupBy_payload.toString.split(" AS ").last
+                columnDictionary += (col_symbol.split("#").head -> (col_type, "NULL"))
                 columnDictionary += (col_symbol -> (col_type, "NULL"))
                 var col_symbol_trimmed = stripColumnName(col_symbol)
                 var col_aggregate_ops = getAggregateOperations(groupBy_payload.children(0))
@@ -7486,7 +7510,7 @@ class SQL2FPGA_QPlan {
                   } else if (col_type == "LongType") {
                     _fpgaSWFuncCode += "        int64_t " + col_symbol_trimmed + "_" + col_aggregate_op + "_" + op_idx + " = " + col_expr + ";"
                   } else if (col_type == "StringType") {
-                    columnDictionary(col_symbol_trimmed) = columnDictionary(groupBy_payload.references.head.toString)
+                    columnDictionary(col_symbol_trimmed) = columnDictionary(groupBy_payload.references.head.toString.split("#").head)
                     if (_stringRowIDSubstitution) {
                       _fpgaSWFuncCode += "        int32_t " + col_symbol_trimmed + "_" + col_aggregate_op + "_" + op_idx + " = " + col_expr + ";"
                     } else {
@@ -7693,7 +7717,7 @@ class SQL2FPGA_QPlan {
                 } else if (col_type == "LongType") {
                   _fpgaSWFuncCode += "    int64_t " + col_symbol_trimmed + " = " + col_expr + ";"
                 } else if (col_type == "StringType") {
-                  columnDictionary(col_symbol_trimmed) = columnDictionary(groupBy_payload.references.head.toString)
+                  columnDictionary(col_symbol_trimmed) = columnDictionary(groupBy_payload.references.head.toString.split("#").head)
                   if (_stringRowIDSubstitution) {
                     _fpgaSWFuncCode += "    int32_t " + col_symbol_trimmed + " = " + col_expr + ";"
                   } else {
@@ -7809,6 +7833,7 @@ class SQL2FPGA_QPlan {
               var col_expr = getAggregateExpression(expr.children(0))
               var col_type = expr.dataType.toString
               println(col_symbol + " = " + col_expr + " : " + col_type)
+              columnDictionary += (col_symbol.split("#").head -> (col_type, "NULL"))
               columnDictionary += (col_symbol -> (col_type, "NULL"))
               var outputCols_idx = outputCols.indexOf(col_symbol)
               seen(outputCols_idx) = 1
@@ -7828,7 +7853,7 @@ class SQL2FPGA_QPlan {
                   _fpgaSWFuncCode += "        memcpy(" + col_symbol_trimmed + ".data(), " + col_symbol_trimmed + "_str.data(), " + "(" + col_symbol_trimmed + "_str).length());"
                   _fpgaSWFuncCode += "        " + tbl_out_1 + ".setcharN<char, " + getStringLengthMacro(columnDictionary(col_symbol)) + " + 1>(i, " + outputCols_idx + ", " + col_symbol_trimmed + ");"
                 } else {
-                  columnDictionary(col_symbol) = columnDictionary(expr.references.head.toString)
+                  columnDictionary(col_symbol) = columnDictionary(expr.references.head.toString.split("#").head)
                   _fpgaSWFuncCode += "        std::array<char, " + getStringLengthMacro(columnDictionary(col_symbol)) + " + 1> " + col_symbol_trimmed + " = " + col_expr + ";"
                   _fpgaSWFuncCode += "        " + tbl_out_1 + ".setcharN<char, " + getStringLengthMacro(columnDictionary(col_symbol)) + " + 1>(i, " + outputCols_idx + ", " + col_symbol_trimmed + ");"
                 }
@@ -8066,7 +8091,7 @@ class SQL2FPGA_QPlan {
           if (col_type == "IntegerType") {
           } else if (col_type == "LongType") {
           } else if (col_type == "StringType") {
-            columnDictionary(col_symbol_trimmed) = columnDictionary(groupBy_payload.references.head.toString)
+            columnDictionary(col_symbol_trimmed) = columnDictionary(groupBy_payload.references.head.toString.split("#").head)
           } else if (col_type == "DoubleType") {
             columnDictionary(col_symbol) = ("LongType", "NULL")
           } else {
@@ -8282,8 +8307,9 @@ class SQL2FPGA_QPlan {
   }
 
   def genCodeInputTableAndColumn(parentNode: SQL2FPGA_QPlan, dfmap: Map[String, DataFrame], sf: Int, nodeOpName: String): Unit = {
-
+    
     if (_children.isEmpty) {
+      
       // This assumes the node is "SerializeFromObject"
       // read _inputCols.length number of columns
       // from a single table which can be looked up using "columnDictionary"
@@ -8619,12 +8645,14 @@ class SQL2FPGA_QPlan {
       if (leftmost_operator != null && leftmost_operator._filtering_expression != null) {
         // move filter operation reference cols to front of the table
         for (ref_col <- leftmost_operator._filtering_expression.references) {
-          var prev_ref_idx = a_col_idx_dict_next(ref_col.toString)
+          var refCol = ref_col.toString.split("#").head
+
+          var prev_ref_idx = a_col_idx_dict_next(refCol)
           var tmp_col = a_idx_col_dict_next(a_tmp_idx)
           a_col_idx_dict_next(tmp_col) = prev_ref_idx
           a_idx_col_dict_next(prev_ref_idx) = tmp_col
-          a_col_idx_dict_next(ref_col.toString) = a_tmp_idx
-          a_idx_col_dict_next(a_tmp_idx) = ref_col.toString
+          a_col_idx_dict_next(refCol) = a_tmp_idx
+          a_idx_col_dict_next(a_tmp_idx) = refCol
           a_tmp_idx += 1
         }
         // filter config call
@@ -8670,12 +8698,13 @@ class SQL2FPGA_QPlan {
       if (rightmost_operator != null && rightmost_operator._filtering_expression != null) {
         // TODO: move filter operation reference cols to front of the table
         for (ref_col <- rightmost_operator._filtering_expression.references) {
-          var prev_ref_idx = b_col_idx_dict_next(ref_col.toString)
+          var refCol = ref_col.toString.split("#").head
+          var prev_ref_idx = b_col_idx_dict_next(refCol)
           var tmp_col = b_idx_col_dict_next(b_tmp_idx)
           b_col_idx_dict_next(tmp_col) = prev_ref_idx
           b_idx_col_dict_next(prev_ref_idx) = tmp_col
-          b_col_idx_dict_next(ref_col.toString) = b_tmp_idx
-          b_idx_col_dict_next(b_tmp_idx) = ref_col.toString
+          b_col_idx_dict_next(refCol) = b_tmp_idx
+          b_idx_col_dict_next(b_tmp_idx) = refCol
           b_tmp_idx += 1
         }
         // filter config call
@@ -9069,6 +9098,7 @@ class SQL2FPGA_QPlan {
           for (this_aggr_expr <- aggr_operator._aggregate_expression) {
             for (i_col <- this_aggr_expr.references) { // equvalent as -> for (i_col <- aggr_operator._inputCols) {
               col_idx_dict_next += (i_col.toString -> start_idx)
+              col_idx_dict_next += (i_col.toString.split("#").head -> start_idx)
               idx_col_dict_next += (start_idx -> i_col.toString)
               start_idx += 1
             }
@@ -9076,11 +9106,12 @@ class SQL2FPGA_QPlan {
           //move all referenced cols in aggr expr to the front
           start_idx = 0 //first output col
           for (ref_col <- aggr_expr.references) {
+            var refCol = ref_col.toString.split("#").head
             // place reference col and idx to 'start_idx'
-            var prev_idx = col_idx_dict_next(ref_col.toString)
-            col_idx_dict_next(ref_col.toString) = start_idx
+            var prev_idx = col_idx_dict_next(refCol)
+            col_idx_dict_next(refCol) = start_idx
             var prev_col = idx_col_dict_next(start_idx)
-            idx_col_dict_next(start_idx) = ref_col.toString
+            idx_col_dict_next(start_idx) = refCol
             // place the previous col and idx at new location
             col_idx_dict_next(prev_col) = prev_idx
             idx_col_dict_next(prev_idx) = prev_col
@@ -9172,11 +9203,13 @@ class SQL2FPGA_QPlan {
           //move all referenced cols in aggr expr to the front
           var start_idx = 0
           for (ref_col <- aggr_expr.references) {
+            var refCol = ref_col.toString.split("#").head
+
             // place reference col and idx to 'start_idx'
-            var prev_idx = col_idx_dict_next(ref_col.toString)
-            col_idx_dict_next(ref_col.toString) = start_idx
+            var prev_idx = col_idx_dict_next(refCol)
+            col_idx_dict_next(refCol) = start_idx
             var prev_col = idx_col_dict_next(start_idx)
-            idx_col_dict_next(start_idx) = ref_col.toString
+            idx_col_dict_next(start_idx) = refCol
             // place the previous col and idx at new location
             col_idx_dict_next(prev_col) = prev_idx
             idx_col_dict_next(prev_idx) = prev_col
@@ -9660,8 +9693,9 @@ class SQL2FPGA_QPlan {
     var idx_col_dict_prev = collection.mutable.Map[Int, String]()
     var tmp_idx = 0
     for (i_col <- input_table_col) {
-      col_idx_dict_prev += (i_col -> tmp_idx)
-      idx_col_dict_prev += (tmp_idx -> i_col)
+      var idx_col_new = i_col.split("#").head
+      col_idx_dict_prev += (idx_col_new -> tmp_idx)
+      idx_col_dict_prev += (tmp_idx -> idx_col_new)
       tmp_idx += 1
     }
 
@@ -9690,10 +9724,11 @@ class SQL2FPGA_QPlan {
         var start_idx = 0
         for (ref_col <- aggr_expr.references) {
           // place reference col and idx to 'start_idx'
-          var prev_idx = col_idx_dict_next(ref_col.toString)
-          col_idx_dict_next(ref_col.toString) = start_idx
+          var refCol = ref_col.toString.split("#").head
+          var prev_idx = col_idx_dict_next(refCol)
+          col_idx_dict_next(refCol) = start_idx
           var prev_col = idx_col_dict_next(start_idx)
-          idx_col_dict_next(start_idx) = ref_col.toString
+          idx_col_dict_next(start_idx) = refCol
           // place the previous col and idx at new location
           col_idx_dict_next(prev_col) = prev_idx
           idx_col_dict_next(prev_idx) = prev_col
@@ -9796,7 +9831,7 @@ class SQL2FPGA_QPlan {
           var aliase_col = eval_expr.toString.split(" AS ").last
           var ref_col_idx = -1
           if (eval_expr.references.nonEmpty) {
-            var ref_col = eval_expr.references.head.toString
+            var ref_col = eval_expr.references.head.toString.split("#").head
             ref_col_idx = col_idx_dict_next(ref_col)
           }
           col_idx_dict_next += (aliase_col -> ref_col_idx)
@@ -9807,10 +9842,11 @@ class SQL2FPGA_QPlan {
         var start_idx = 0
         for (ref_col <- aggr_expr.references) {
           // place reference col and idx to 'start_idx'
-          var prev_idx = col_idx_dict_next(ref_col.toString)
-          col_idx_dict_next(ref_col.toString) = start_idx
+          var refCol = ref_col.toString.split("#").head
+          var prev_idx = col_idx_dict_next(refCol)
+          col_idx_dict_next(refCol) = start_idx
           var prev_col = idx_col_dict_next(start_idx)
-          idx_col_dict_next(start_idx) = ref_col.toString
+          idx_col_dict_next(start_idx) = refCol
           // place the previous col and idx at new location
           col_idx_dict_next(prev_col) = prev_idx
           idx_col_dict_next(prev_idx) = prev_col
@@ -9912,12 +9948,13 @@ class SQL2FPGA_QPlan {
       // TODO: re-shuffle input col to be situated in the first 4 col
       var tmp_idx = 0
       for (ref_col <- filter_operator._filtering_expression.references) {
-        var prev_ref_idx = col_idx_dict_next(ref_col.toString)
+        var refCol = ref_col.toString.split("#").head
+        var prev_ref_idx = col_idx_dict_next(refCol)
         var tmp_col = idx_col_dict_next(tmp_idx)
         col_idx_dict_next(tmp_col) = prev_ref_idx
-        idx_col_dict_next(prev_ref_idx) = ref_col.toString
-        col_idx_dict_next(ref_col.toString) = tmp_idx
-        idx_col_dict_next(tmp_idx) = ref_col.toString
+        idx_col_dict_next(prev_ref_idx) = refCol
+        col_idx_dict_next(refCol) = tmp_idx
+        idx_col_dict_next(tmp_idx) = refCol
         tmp_idx += 1
       }
       var filterCfgFuncName = "gen_fcfg_" + _fpgaNodeName
@@ -10060,7 +10097,8 @@ class SQL2FPGA_QPlan {
       cfgFuncCode += "    ap_int<64> shuffle3_cfg;"
       for (ss3 <- 0 to 8 - 1) {
         if (ss3 < groupby_operator._groupBy_operation.length) {
-          var col_name = groupby_operator._groupBy_operation(ss3)
+          var col_name = groupby_operator._groupBy_operation(ss3).split("#").head
+
           var col_idx = col_idx_dict_prev(col_name)
           cfgFuncCode += "    shuffle3_cfg(" + ((ss3 + 1) * 8 - 1).toString + ", " + (ss3 * 8).toString + ") = " + col_idx.toString + ";" + " // " + col_name
         } else {
