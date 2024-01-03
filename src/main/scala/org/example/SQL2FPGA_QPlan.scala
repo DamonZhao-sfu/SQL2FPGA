@@ -4949,8 +4949,8 @@ class SQL2FPGA_QPlan {
       // print out information
       print("current JoinNodeIdx is    " + joinNodeIdx + ": ")
       for (ref_col <- join_node._joining_expression(0).references) {
-        var refCol = ref_col.toString.split("#").head
-        allKeyCol += refCol
+        //var refCol = ref_col.toString.split("#").head
+        allKeyCol += ref_col.toString
       }
       var join_key_list = join_node.getJoinKeyTerms(join_node._joining_expression(0), false)
       var costScaling = join_key_list.length // more join pairs higher cost
@@ -5037,7 +5037,8 @@ class SQL2FPGA_QPlan {
     for (joinNodeIdx <- 1 to joinNodeCost.size-1) {
       var iterJoinNode = joinNodeList(joinNodeOrderIdx(joinNodeIdx))
       for (ref_col <- iterJoinNode._joining_expression(0).references) {
-        var refCol = ref_col.toString.split("#").head
+        //var refCol = ref_col.toString.split("#").head
+        var refCol = ref_col.toString
         if (!allKeyCol.contains(refCol)) {
           allKeyCol += refCol
         }
@@ -5098,8 +5099,8 @@ class SQL2FPGA_QPlan {
         for (joinNodeIdx_inner <- joinNodeIdx+1 to joinNodeCost.size-1) {
           var iterJoinNode = joinNodeList(joinNodeOrderIdx(joinNodeIdx_inner))
           for (ref_col <- iterJoinNode._joining_expression(0).references) {
-            var refCol = ref_col.toString.split("#").head
-
+            //var refCol = ref_col.toString.split("#").head
+            var refCol = ref_col.toString
             if (!allKeyCol.contains(refCol)) {
               allKeyCol += refCol
             }
