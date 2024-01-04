@@ -8624,7 +8624,7 @@ class SQL2FPGA_QPlan {
         //a_col_idx_dict_prev += (i_col -> a_tmp_idx)
         a_col_idx_dict_prev += (i_col.split("#").head -> a_tmp_idx)
 
-        a_idx_col_dict_prev += (a_tmp_idx -> i_col)
+        a_idx_col_dict_prev += (a_tmp_idx -> i_col.split("#").head)
         a_tmp_idx += 1
       }
       // table b
@@ -8634,7 +8634,7 @@ class SQL2FPGA_QPlan {
       for (i_col <- join_right_table_col) {
         //b_col_idx_dict_prev += (i_col -> b_tmp_idx)
         b_col_idx_dict_prev += (i_col.split("#").head -> b_tmp_idx)
-        b_idx_col_dict_prev += (b_tmp_idx -> i_col)
+        b_idx_col_dict_prev += (b_tmp_idx -> i_col.split("#").head )
         b_tmp_idx += 1
       }
 
@@ -8807,8 +8807,9 @@ class SQL2FPGA_QPlan {
             var curr_idx = a_col_idx_dict_prev(curr_col)
             a_col_idx_dict_prev.remove(curr_col)
             a_idx_col_dict_prev.remove(curr_idx)
-            a_col_idx_dict_prev += (o_col_alias.split("#").head -> curr_idx)
-            a_idx_col_dict_prev += (curr_idx -> o_col_alias)
+            var col_alias_ref = o_col_alias.split("#").head
+            a_col_idx_dict_prev += (col_alias_ref-> curr_idx)
+            a_idx_col_dict_prev += (curr_idx -> col_alias_ref)
             this_idx += 1
           }
         }
@@ -8819,8 +8820,9 @@ class SQL2FPGA_QPlan {
             var curr_idx = b_col_idx_dict_prev(curr_col)
             b_col_idx_dict_prev.remove(curr_col)
             b_idx_col_dict_prev.remove(curr_idx)
-            b_col_idx_dict_prev += (o_col_alias.split("#").head -> curr_idx)
-            b_idx_col_dict_prev += (curr_idx -> o_col_alias)
+            var col_alias_ref = o_col_alias.split("#").head
+            b_col_idx_dict_prev += (col_alias_ref -> curr_idx)
+            b_idx_col_dict_prev += (curr_idx -> col_alias_ref)
             this_idx += 1
           }
         }
