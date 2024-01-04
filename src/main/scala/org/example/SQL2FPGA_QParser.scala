@@ -38,7 +38,7 @@ class SQL2FPGA_QParser {
     tbl_name match {
       case "lineitem" =>
         result = 6001215 // 6001215*30 = 180,036,450 -> div by 32 => 5,626,140
-      case "order" =>
+      case "orders" =>
         result = 1500000 // 1500000*30 = 45,000,000
       case "partsupp" =>
         result = 800000 // 800000*30 = 24,000,000

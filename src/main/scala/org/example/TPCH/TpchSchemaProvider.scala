@@ -99,7 +99,7 @@ class TpchSchemaProvider(sc: SparkSession, inputDir: String) {
 
   val lineitemPre = sc.read.format("parquet")
     .load("file://" + inputDir + "/lineitem")
-    .withColumn("l_orderkey",      col("l_quantity").cast("int"))
+    .withColumn("l_orderkey",      col("l_orderkey").cast("int"))
     .withColumn("l_partkey",      col("l_partkey").cast("int"))
     .withColumn("l_suppkey",      col("l_suppkey").cast("int"))
     .withColumn("l_linenumber",      col("l_linenumber").cast("int"))

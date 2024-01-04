@@ -58,7 +58,7 @@ class TPCH_Q15 extends TPCH_Queries {
                 from
                   supplier,
                   revenue
-                whereo
+                where
                   s_suppkey = supplier_no
                   and total_revenue = (
                     select
