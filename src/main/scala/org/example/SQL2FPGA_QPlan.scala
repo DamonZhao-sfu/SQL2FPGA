@@ -8896,7 +8896,7 @@ class SQL2FPGA_QPlan {
               leftTableColShuffleIdx += a_col_idx_dict_prev(alias_col.split("#").head)
             }
             temp_col_idx_dict_prev += (refCol -> idx)
-            temp_idx_col_dict_prev += (idx -> filter_o_col)
+            temp_idx_col_dict_prev += (idx -> refCol)
             idx += 1
           }
           a_col_idx_dict_prev = temp_col_idx_dict_prev
@@ -9184,13 +9184,13 @@ class SQL2FPGA_QPlan {
       for (ss2 <- 0 to 8 - 1) { //max 8 cols for input table
         //TODO: fix the line below
         if (aggr_operator != null && ss2 < idx_col_dict_prev.size) { // input cols - yes aggr
-          var col_name = idx_col_dict_next(ss2)
-          var prev_col_idx = col_idx_dict_prev(col_name.split("#").head)
+          var col_name = idx_col_dict_next(ss2).split("#").head
+          var prev_col_idx = col_idx_dict_prev(col_name)
           cfgFuncCode += "    shuffle2_cfg(" + ((ss2 + 1) * 8 - 1).toString + ", " + (ss2 * 8).toString + ") = " + prev_col_idx.toString + ";" + " // " + col_name
         }
         else if (aggr_operator == null && ss2 < idx_col_dict_next.size) { // input cols - no aggr
-          var col_name = idx_col_dict_next(ss2)
-          var prev_col_idx = col_idx_dict_prev(col_name.split("#").head)
+          var col_name = idx_col_dict_next(ss2).split("#").head
+          var prev_col_idx = col_idx_dict_prev(col_name)
           cfgFuncCode += "    shuffle2_cfg(" + ((ss2 + 1) * 8 - 1).toString + ", " + (ss2 * 8).toString + ") = " + prev_col_idx.toString + ";" + " // " + col_name
         }
         else {
