@@ -218,6 +218,7 @@ class TpchSchemaProvider(sc: SparkSession, inputDir: String) {
     case (key, value) => {
       value.printSchema()
       value.show()
+      println(value.count())
       value.createOrReplaceTempView(key)
     }
   }

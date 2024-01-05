@@ -18,7 +18,7 @@ object SQL2FPGA_Top {
   qConfig.tpch_queryNum_end = 22
   // 2 unfinite loop
   // 7 8 11 18 error
-  qConfig.tpch_queryNum_list = ListBuffer(22) // 3, 13, 15, 18, 20
+  qConfig.tpch_queryNum_list = ListBuffer(3) // 3, 13, 15, 18, 20
   qConfig.tpcds_queryNum_start = 1
   qConfig.tpcds_queryNum_end = 22
   qConfig.tpcds_queryNum_list = ListBuffer(1) // 1, 2, 3, 5, 6, 7, 8, 9
