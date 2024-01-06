@@ -8322,7 +8322,7 @@ class SQL2FPGA_QPlan {
         //Substitute table - table with row_id
         var tbl_name = "tbl_" + nodeOpName + "_input" + "_stringRowIDSubstitute"
         _fpgaInputTableName = tbl_name
-        var tbl = columnDictionary(_inputCols.head)._1
+        var tbl = columnDictionary(_inputCols.head.split("#").head)._1
         var num_cols = _inputCols.length
 
         // Table tbl_SerializeFromObject_TD_6605_input;
@@ -8332,7 +8332,7 @@ class SQL2FPGA_QPlan {
         inputTblCode += "Table " + tbl_name + ";"
         inputTblCode += tbl_name + " = Table(\"" + tbl + "\", " + tbl + "_n, " + num_cols + ", in_dir);"
         for (col_name <- _inputCols) {
-          var col = columnDictionary(col_name)._2
+          var col = col_name.split("#").head
           var col_type = getColumnDataType(dfmap(tbl), col)
           var col_type_text = "4"
           if (col_type == "StringType") {
@@ -8385,12 +8385,12 @@ class SQL2FPGA_QPlan {
         //Substitute table - original table with string
         tbl_name = "tbl_" + nodeOpName + "_input"
         _fpgaInputTableName_stringRowIDSubstitute = tbl_name
-        tbl = columnDictionary(_inputCols.head)._1
+        tbl = columnDictionary(_inputCols.head.split("#").head)._1
         num_cols = _inputCols.length
         inputTblCode += "Table " + tbl_name + ";"
         inputTblCode += tbl_name + " = Table(\"" + tbl + "\", " + tbl + "_n, " + num_cols + ", in_dir);"
         for (col_name <- _inputCols) {
-          var col = columnDictionary(col_name)._2
+          var col = col_name.split("#").head
           var col_type = getColumnDataType(dfmap(tbl), col)
           var col_type_text = "4"
           if (col_type == "StringType") {
@@ -8405,12 +8405,12 @@ class SQL2FPGA_QPlan {
       else {
         var tbl_name = "tbl_" + nodeOpName + "_input"
         _fpgaInputTableName = tbl_name
-        var tbl = columnDictionary(_inputCols.head)._1
+        var tbl = columnDictionary(_inputCols.head.split("#").head)._1
         var num_cols = _inputCols.length
         inputTblCode += "Table " + tbl_name + ";"
         inputTblCode += tbl_name + " = Table(\"" + tbl + "\", " + tbl + "_n, " + num_cols + ", in_dir);"
         for (col_name <- _inputCols) {
-          var col = columnDictionary(col_name)._2
+          var col = col_name.split("#").head
           var col_type = getColumnDataType(dfmap(tbl), col)
           var col_type_text = "4"
           if (col_type == "StringType") {
@@ -9185,12 +9185,12 @@ class SQL2FPGA_QPlan {
         //TODO: fix the line below
         if (aggr_operator != null && ss2 < idx_col_dict_prev.size) { // input cols - yes aggr
           var col_name = idx_col_dict_next(ss2)
-          var prev_col_idx = col_idx_dict_prev(col_name.split("#").head)
+          var prev_col_idx = col_idx_dict_next(col_name.split("#").head)
           cfgFuncCode += "    shuffle2_cfg(" + ((ss2 + 1) * 8 - 1).toString + ", " + (ss2 * 8).toString + ") = " + prev_col_idx.toString + ";" + " // " + col_name
         }
         else if (aggr_operator == null && ss2 < idx_col_dict_next.size) { // input cols - no aggr
           var col_name = idx_col_dict_next(ss2)
-          var prev_col_idx = col_idx_dict_prev(col_name.split("#").head)
+          var prev_col_idx = col_idx_dict_next(col_name.split("#").head)
           cfgFuncCode += "    shuffle2_cfg(" + ((ss2 + 1) * 8 - 1).toString + ", " + (ss2 * 8).toString + ") = " + prev_col_idx.toString + ";" + " // " + col_name
         }
         else {
