@@ -8332,7 +8332,7 @@ class SQL2FPGA_QPlan {
         inputTblCode += "Table " + tbl_name + ";"
         inputTblCode += tbl_name + " = Table(\"" + tbl + "\", " + tbl + "_n, " + num_cols + ", in_dir);"
         for (col_name <- _inputCols) {
-          var col = col_name.split("#").head
+          var col = columnDictionary(col_name.split("#").head)._2
           var col_type = getColumnDataType(dfmap(tbl), col)
           var col_type_text = "4"
           if (col_type == "StringType") {
@@ -8390,7 +8390,7 @@ class SQL2FPGA_QPlan {
         inputTblCode += "Table " + tbl_name + ";"
         inputTblCode += tbl_name + " = Table(\"" + tbl + "\", " + tbl + "_n, " + num_cols + ", in_dir);"
         for (col_name <- _inputCols) {
-          var col = col_name.split("#").head
+          var col = columnDictionary(col_name.split("#").head)._2
           var col_type = getColumnDataType(dfmap(tbl), col)
           var col_type_text = "4"
           if (col_type == "StringType") {
@@ -8410,7 +8410,7 @@ class SQL2FPGA_QPlan {
         inputTblCode += "Table " + tbl_name + ";"
         inputTblCode += tbl_name + " = Table(\"" + tbl + "\", " + tbl + "_n, " + num_cols + ", in_dir);"
         for (col_name <- _inputCols) {
-          var col = col_name.split("#").head
+          var col = columnDictionary(col_name.split("#").head)._2
           var col_type = getColumnDataType(dfmap(tbl), col)
           var col_type_text = "4"
           if (col_type == "StringType") {
