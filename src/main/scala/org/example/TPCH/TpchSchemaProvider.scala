@@ -3,7 +3,7 @@ import org.apache.spark.sql.functions.{col,regexp_replace, trim, expr}
 import org.apache.spark.sql.{DataFrame, SparkSession}
 
 // TPC-H table schemas
-case class Customer_tpch(
+case class Customer(
                      c_custkey  : Int, //adsf
                      c_name     : String,
                      c_address  : String,
@@ -39,7 +39,7 @@ case class Nation(
                    n_regionkey: Int,
                    n_comment: String)
 
-case class Order(
+case class Orders(
                   o_orderkey: Int,
                   o_custkey: Int,
 //                  o_orderstatus: String,
@@ -97,7 +97,7 @@ case class Supplier(
 class TpchSchemaProvider(sc: SparkSession, inputDir: String) {
   import sc.implicits._
 
-  val lineitemPre = sc.read.format("parquet")
+  /*val lineitemPre = sc.read.format("parquet")
     .load("file://" + inputDir + "/lineitem")
     .withColumn("l_orderkey",      col("l_orderkey").cast("int"))
     .withColumn("l_partkey",      col("l_partkey").cast("int"))
@@ -157,18 +157,18 @@ class TpchSchemaProvider(sc: SparkSession, inputDir: String) {
     .withColumn("s_nationkey", col("s_nationkey").cast("int"))
     .withColumn("s_acctbal",       (col("s_acctbal")*100).cast("int"))
 
-
+*/
   val dfMap = Map(
-    "lineitem" -> lineitemPre.as[Lineitem].toDF(),
+   /* "lineitem" -> lineitemPre.as[Lineitem].toDF(),
     "customer" -> customerPre.as[Customer_tpch].toDF(),
     "nation" -> nationPre.as[Nation].toDF(),
     "region" -> regionPre.as[Region].toDF(),
     "orders" -> orderPre.as[Order].toDF(),
     "part" -> partPre.as[Part].toDF(),
     "partsupp" -> partsuppPre.as[Partsupp].toDF(),
-    "supplier" -> supplierPre.as[Supplier].toDF(),
+    "supplier" -> supplierPre.as[Supplier].toDF(),*/
 
-    /*
+
         "customer" -> sc.read.textFile(inputDir + "/customer.tbl*").map(_.split('|')).map(p =>
           Customer(p(0).trim.toInt, p(1).trim, p(2).trim, p(3).trim.toInt, p(4).trim, (p(5).trim.toDouble*100).toInt, p(6).trim, p(7).trim)).toDF(),
 
@@ -181,8 +181,8 @@ class TpchSchemaProvider(sc: SparkSession, inputDir: String) {
         "region" -> sc.read.textFile(inputDir + "/region.tbl*").map(_.split('|')).map(p =>
           Region(p(0).trim.toInt, p(1).trim, p(2).trim)).toDF(),
 
-        "order" -> sc.read.textFile(inputDir + "/orders.tbl*").map(_.split('|')).map(p =>
-          Order(p(0).trim.toInt, p(1).trim.toInt, p(2)(0).toInt, (p(3).trim.toDouble*100).toInt, p(4).trim.replace("-", "").toInt, p(5).trim, p(6).trim, p(7).trim.toInt, p(8).trim)).toDF(),
+        "orders" -> sc.read.textFile(inputDir + "/orders.tbl*").map(_.split('|')).map(p =>
+          Orders(p(0).trim.toInt, p(1).trim.toInt, p(2)(0).toInt, (p(3).trim.toDouble*100).toInt, p(4).trim.replace("-", "").toInt, p(5).trim, p(6).trim, p(7).trim.toInt, p(8).trim)).toDF(),
 
         "part" -> sc.read.textFile(inputDir + "/part.tbl*").map(_.split('|')).map(p =>
           Part(p(0).trim.toInt, p(1).trim, p(2).trim, p(3).trim, p(4).trim, p(5).trim.toInt, p(6).trim, (p(7).trim.toDouble*100).toInt, p(8).trim)).toDF(),
@@ -192,7 +192,7 @@ class TpchSchemaProvider(sc: SparkSession, inputDir: String) {
 
         "supplier" -> sc.read.textFile(inputDir + "/supplier.tbl*").map(_.split('|')).map(p =>
           Supplier(p(0).trim.toInt, p(1).trim, p(2).trim, p(3).trim.toInt, p(4).trim, (p(5).trim.toDouble*100).toInt, p(6).trim)).toDF()
-      */
+
 
   /* "part" -> sc.read.format("parquet").load("file://" + inputDir + "/part"),
    "order" -> sc.read.format("parquet").load("file://" + inputDir + "/orders"),
@@ -209,7 +209,7 @@ class TpchSchemaProvider(sc: SparkSession, inputDir: String) {
   val lineitem: DataFrame = dfMap("lineitem")
   val nation: DataFrame = dfMap("nation")
   val region: DataFrame = dfMap("region")
-  val order: DataFrame = dfMap("orders")
+  val orders: DataFrame = dfMap("orders")
   val part: DataFrame = dfMap("part")
   val partsupp: DataFrame = dfMap("partsupp")
   val supplier: DataFrame = dfMap("supplier")
