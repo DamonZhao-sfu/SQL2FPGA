@@ -9,8 +9,6 @@ case class Customer(
                      c_address  : String,
                      c_nationkey: Int,
                      c_phone    : String,
-//                     c_acctbal: Double,
-//                     c_acctbal: Long,
                      c_acctbal  : Int,
                      c_mktsegment: String,
                      c_comment  : String)
@@ -62,8 +60,6 @@ case class Part(
                  p_type: String,
                  p_size: Int,
                  p_container: String,
-//                 p_retailprice: Double,
-//                 p_retailprice: Long,
                  p_retailprice: Int,
                  p_comment: String)
 
@@ -71,8 +67,6 @@ case class Partsupp(
                      ps_partkey: Int,
                      ps_suppkey: Int,
                      ps_availqty: Int,
-//                     ps_supplycost: Double,
-//                     ps_supplycost: Long,
                      ps_supplycost: Int,
                      ps_comment: String)
 
@@ -87,8 +81,6 @@ case class Supplier(
                      s_address: String,
                      s_nationkey: Int,
                      s_phone: String,
-//                     s_acctbal: Double,
-//                     s_acctbal: Long,
                      s_acctbal: Int,
                      s_comment: String)
 
@@ -97,7 +89,7 @@ case class Supplier(
 class TpchSchemaProvider(sc: SparkSession, inputDir: String) {
   import sc.implicits._
 
-  /*val lineitemPre = sc.read.format("parquet")
+ val lineitemPre = sc.read.format("parquet")
     .load("file://" + inputDir + "/lineitem")
     .withColumn("l_orderkey",      col("l_orderkey").cast("int"))
     .withColumn("l_partkey",      col("l_partkey").cast("int"))
@@ -157,19 +149,19 @@ class TpchSchemaProvider(sc: SparkSession, inputDir: String) {
     .withColumn("s_nationkey", col("s_nationkey").cast("int"))
     .withColumn("s_acctbal",       (col("s_acctbal")*100).cast("int"))
 
-*/
+
   val dfMap = Map(
-   /* "lineitem" -> lineitemPre.as[Lineitem].toDF(),
-    "customer" -> customerPre.as[Customer_tpch].toDF(),
+    "lineitem" -> lineitemPre.as[Lineitem].toDF(),
+    "customer" -> customerPre.as[Customer].toDF(),
     "nation" -> nationPre.as[Nation].toDF(),
     "region" -> regionPre.as[Region].toDF(),
-    "orders" -> orderPre.as[Order].toDF(),
+    "orders" -> orderPre.as[Orders].toDF(),
     "part" -> partPre.as[Part].toDF(),
     "partsupp" -> partsuppPre.as[Partsupp].toDF(),
-    "supplier" -> supplierPre.as[Supplier].toDF(),*/
+    "supplier" -> supplierPre.as[Supplier].toDF(),
 
 
-        "customer" -> sc.read.textFile(inputDir + "/customer.tbl*").map(_.split('|')).map(p =>
+    /*   "customer" -> sc.read.textFile(inputDir + "/customer.tbl*").map(_.split('|')).map(p =>
           Customer(p(0).trim.toInt, p(1).trim, p(2).trim, p(3).trim.toInt, p(4).trim, (p(5).trim.toDouble*100).toInt, p(6).trim, p(7).trim)).toDF(),
 
         "lineitem" -> sc.read.textFile(inputDir + "/lineitem.tbl*").map(_.split('|')).map(p =>
@@ -192,7 +184,7 @@ class TpchSchemaProvider(sc: SparkSession, inputDir: String) {
 
         "supplier" -> sc.read.textFile(inputDir + "/supplier.tbl*").map(_.split('|')).map(p =>
           Supplier(p(0).trim.toInt, p(1).trim, p(2).trim, p(3).trim.toInt, p(4).trim, (p(5).trim.toDouble*100).toInt, p(6).trim)).toDF()
-
+*/
 
   /* "part" -> sc.read.format("parquet").load("file://" + inputDir + "/part"),
    "order" -> sc.read.format("parquet").load("file://" + inputDir + "/orders"),
@@ -216,9 +208,11 @@ class TpchSchemaProvider(sc: SparkSession, inputDir: String) {
 
   dfMap.foreach {
     case (key, value) => {
+      //val parquetOutput = s"/localhdd/hza215/tpch-parquet/${key}"
       value.printSchema()
       value.show()
-      println(value.count())
+      println("table: " + key + "row:" + value.count())
+     // value.write.parquet(parquetOutput)
       value.createOrReplaceTempView(key)
     }
   }

@@ -8550,6 +8550,7 @@ class SQL2FPGA_QPlan {
           (queryNum == 14 && join_operator._treeDepth == 1 && join_operator._nodeType == "JOIN_INNER") ||
           (queryNum == 16 && join_operator._treeDepth == 2 && join_operator._nodeType == "JOIN_INNER") ||
           (queryNum == 17 && join_operator._treeDepth == 2 && join_operator._nodeType == "JOIN_INNER") ||
+          //(queryNum == 20 && join_operator._treeDepth == 3 && join_operator._nodeType == "JOIN_INNER") ||
           (queryNum == 21 && join_operator._treeDepth == 2 && join_operator._nodeType == "JOIN_INNER") ||
           (queryNum == 23 && join_operator._treeDepth == 0 && join_operator._nodeType == "JOIN_INNER")) {
           joinTblOrderSwapped = true
@@ -9184,13 +9185,13 @@ class SQL2FPGA_QPlan {
       for (ss2 <- 0 to 8 - 1) { //max 8 cols for input table
         //TODO: fix the line below
         if (aggr_operator != null && ss2 < idx_col_dict_prev.size) { // input cols - yes aggr
-          var col_name = idx_col_dict_next(ss2)
-          var prev_col_idx = col_idx_dict_prev(col_name.split("#").head)
+          var col_name = idx_col_dict_prev(ss2)
+          var prev_col_idx = col_idx_dict_next(col_name.split("#").head)
           cfgFuncCode += "    shuffle2_cfg(" + ((ss2 + 1) * 8 - 1).toString + ", " + (ss2 * 8).toString + ") = " + prev_col_idx.toString + ";" + " // " + col_name
         }
         else if (aggr_operator == null && ss2 < idx_col_dict_next.size) { // input cols - no aggr
           var col_name = idx_col_dict_next(ss2)
-          var prev_col_idx = col_idx_dict_prev(col_name.split("#").head)
+          var prev_col_idx = col_idx_dict_next(col_name.split("#").head)
           cfgFuncCode += "    shuffle2_cfg(" + ((ss2 + 1) * 8 - 1).toString + ", " + (ss2 * 8).toString + ") = " + prev_col_idx.toString + ";" + " // " + col_name
         }
         else {
