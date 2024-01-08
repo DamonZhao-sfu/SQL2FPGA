@@ -84,7 +84,7 @@ static void gen_pass_fcfg(uint32_t cfg[]) {
     cfg[n++] = (uint32_t)(1UL << 31); 
 } 
 
-void get_cfg_dat_JOIN_INNER_TD_9275_gqe_join(ap_uint<512>* hbuf) {
+void get_cfg_dat_JOIN_INNER_TD_9742_gqe_join(ap_uint<512>* hbuf) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: JOIN_INNER
     // Operation: ListBuffer((s_suppkey#498 = ps_suppkey#466))
@@ -204,7 +204,7 @@ void get_cfg_dat_JOIN_INNER_TD_9275_gqe_join(ap_uint<512>* hbuf) {
     b[0].range(511, 448) = shuffle4_cfg;
 }
 
-void get_cfg_dat_JOIN_INNER_TD_8473_gqe_join(ap_uint<512>* hbuf) {
+void get_cfg_dat_JOIN_INNER_TD_8713_gqe_join(ap_uint<512>* hbuf) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: JOIN_INNER
     // Operation: ListBuffer((s_nationkey#506 = n_nationkey#304))
@@ -324,7 +324,7 @@ void get_cfg_dat_JOIN_INNER_TD_8473_gqe_join(ap_uint<512>* hbuf) {
     b[0].range(511, 448) = shuffle4_cfg;
 }
 
-void get_cfg_dat_JOIN_INNER_TD_7351_gqe_join(ap_uint<512>* hbuf) {
+void get_cfg_dat_JOIN_INNER_TD_7863_gqe_join(ap_uint<512>* hbuf) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: JOIN_INNER
     // Operation: ListBuffer((n_regionkey#309 = r_regionkey#320))
@@ -444,7 +444,7 @@ void get_cfg_dat_JOIN_INNER_TD_7351_gqe_join(ap_uint<512>* hbuf) {
     b[0].range(511, 448) = shuffle4_cfg;
 }
 
-void get_cfg_dat_JOIN_INNER_TD_558_gqe_join(ap_uint<512>* hbuf) {
+void get_cfg_dat_JOIN_INNER_TD_5906_gqe_join(ap_uint<512>* hbuf) {
     // StringRowIDSubstitution: true StringRowIDBackSubstitution: false
     // Supported operation: JOIN_INNER
     // Operation: ListBuffer((p_partkey#420 = ps_partkey#460))
