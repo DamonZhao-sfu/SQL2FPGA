@@ -16,7 +16,7 @@ object SQL2FPGA_Top {
   qConfig.tpch_queryNum_start = 1
   qConfig.tpch_queryNum_end = 22
   // 2,20
-  qConfig.tpch_queryNum_list = ListBuffer(5,9,14) // 3, 13, 15, 18, 20
+  qConfig.tpch_queryNum_list = ListBuffer(3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22) // 3, 13, 15, 18, 20
   qConfig.tpcds_queryNum_start = 1
   qConfig.tpcds_queryNum_end = 22
   qConfig.tpcds_queryNum_list = ListBuffer(1) // 1, 2, 3, 5, 6, 7, 8, 9
@@ -37,7 +37,12 @@ object SQL2FPGA_Top {
   //----------------------------------------------------------------------------------------------------------------
   // Table column metadata
   //----------------------------------------------------------------------------------------------------------------
+  // col->dataType
   val columnDictionary = collection.mutable.Map[String, (String, String)]()
+  // col->table
+  val columnTableMap = collection.mutable.Map[String, (String, String)]()
+  // col->code
+  val columnCodeMap = collection.mutable.Map[String, (String, String)]()
 
   def outputDF(query: SQL2FPGA_Query, df: DataFrame, outputDir: String, elapsed_time: Float): Unit = {
     if (outputDir == null || outputDir == "")
@@ -253,6 +258,10 @@ object SQL2FPGA_Top {
     val spark = SparkSession.builder()
       .master("local[1]")
       .appName("SQL2FPGA Query Demo")
+      .config("spark.driver.memory", "64g")
+      .config("spark.driver.cores", "16")
+      .config("spark.executor.memory", "64g")
+      .config("spark.executor.cores", "16")
       .config("spark.driver.maxResultSize", "8g")
       .getOrCreate()
 

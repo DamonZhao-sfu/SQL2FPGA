@@ -84,12 +84,11 @@ static void gen_pass_fcfg(uint32_t cfg[]) {
     cfg[n++] = (uint32_t)(1UL << 31); 
 } 
 
-void get_cfg_dat_Aggregate_TD_1808_gqe_aggr(ap_uint<32>* buf) {
+void get_cfg_dat_Aggregate_TD_1944_gqe_aggr(ap_uint<32>* buf) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: Aggregate
     // Operation: ListBuffer(l_returnflag#168, l_linestatus#185, sum(l_quantity#100) AS sum_qty#1066L, sum(l_extendedprice#117) AS sum_base_price#1067L, sum((l_extendedprice#117 * (100 - l_discount#134))) AS sum_disc_price#1068L, sum(((l_extendedprice#117 * (100 - l_discount#134)) * (100 + l_tax#151))) AS sum_charge#1069L, avg(l_quantity#100) AS avg_qty#1070, avg(l_extendedprice#117) AS avg_price#1071, avg(l_discount#134) AS avg_disc#1072, count(1) AS count_order#1073L)
-        // Binded Operation: Project -> operations: ListBuffer(cast(CheckOverflow((promote_precision(l_quantity#4) * 100.00), DecimalType(16,2), true) as int) AS l_quantity#100, cast(CheckOverflow((promote_precision(l_extendedprice#5) * 100.00), DecimalType(16,2), true) as int) AS l_extendedprice#117, cast(CheckOverflow((promote_precision(l_discount#6) * 100.00), DecimalType(16,2), true) as int) AS l_discount#134, cast(CheckOverflow((promote_precision(l_tax#7) * 100.00), DecimalType(16,2), true) as int) AS l_tax#151, ascii(substr(l_returnflag#8, 1, 1)) AS l_returnflag#168, ascii(substr(l_linestatus#9, 1, 1)) AS l_linestatus#185)
-    // Input Table: ListBuffer(l_quantity#4, l_extendedprice#5, l_discount#6, l_tax#7, l_returnflag#8, l_linestatus#9)
+    // Input Table: ListBuffer(l_quantity#100, l_extendedprice#117, l_discount#134, l_tax#151, l_returnflag#168, l_linestatus#185)
     // Output Table: ListBuffer(l_returnflag#168, l_linestatus#185, sum_qty#1066L, sum_base_price#1067L, sum_disc_price#1068L, sum_charge#1069L, avg_qty#1070, avg_price#1071, avg_disc#1072, count_order#1073L)
     // Node Depth: 1
     ap_uint<32>* config = buf;
@@ -120,8 +119,8 @@ void get_cfg_dat_Aggregate_TD_1808_gqe_aggr(ap_uint<32>* buf) {
     shuffle1_cfg(15, 8) = 1; // l_discount
     shuffle1_cfg(23, 16) = 3; // l_tax
     shuffle1_cfg(31, 24) = 2; // l_quantity
-    shuffle1_cfg(39, 32) = 4; // l_returnflag#8
-    shuffle1_cfg(47, 40) = 5; // l_linestatus#9
+    shuffle1_cfg(39, 32) = 4; // l_returnflag#168
+    shuffle1_cfg(47, 40) = 5; // l_linestatus#185
     shuffle1_cfg(55, 48) = 8; // sum_disc_price
     shuffle1_cfg(63, 56) = -1;
     config[67] = shuffle1_cfg(31, 0);
@@ -201,7 +200,7 @@ void get_cfg_dat_Aggregate_TD_1808_gqe_aggr(ap_uint<32>* buf) {
     config[80] = (0, merge[4], merge[3]);
 
     // aggr - demux mux direct_aggr
-    config[81] = 1;
+    config[81] = 0;
 
     // output - demux mux direct_aggr
     config[82] = 0xffff;

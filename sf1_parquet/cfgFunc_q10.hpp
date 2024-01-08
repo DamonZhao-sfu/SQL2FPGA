@@ -84,14 +84,12 @@ static void gen_pass_fcfg(uint32_t cfg[]) {
     cfg[n++] = (uint32_t)(1UL << 31); 
 } 
 
-void get_cfg_dat_JOIN_INNER_TD_4859_gqe_join(ap_uint<512>* hbuf) {
+void get_cfg_dat_JOIN_INNER_TD_4584_gqe_join(ap_uint<512>* hbuf) {
     // StringRowIDSubstitution: true StringRowIDBackSubstitution: false
     // Supported operation: JOIN_INNER
     // Operation: ListBuffer((c_custkey#269 = o_custkey#352))
-        // Binded Operation: Project -> operations: ListBuffer(cast(c_custkey#253L as int) AS c_custkey#269, cast(c_nationkey#256L as int) AS c_nationkey#278, cast(CheckOverflow((promote_precision(c_acctbal#258) * 100.00), DecimalType(16,2), true) as int) AS c_acctbal#287)
-        // Binded Operation: Project -> operations: ListBuffer(cast(o_orderkey#324L as int) AS o_orderkey#342, cast(o_custkey#325L as int) AS o_custkey#352)
-    // Left Table: ListBuffer(o_orderkey#324L, o_custkey#325L)
-    // Right Table: ListBuffer(c_custkey#253L, c_name#254, c_nationkey#256L, c_acctbal#258)
+    // Left Table: ListBuffer(o_orderkey#342, o_custkey#352)
+    // Right Table: ListBuffer(c_custkey#269, c_name#254, c_nationkey#278, c_acctbal#287)
     // Output Table: ListBuffer(c_custkey#269, c_name#254, c_nationkey#278, c_acctbal#287, o_orderkey#342)
     // Node Depth: 4
     ap_uint<512>* b = hbuf;
@@ -206,12 +204,11 @@ void get_cfg_dat_JOIN_INNER_TD_4859_gqe_join(ap_uint<512>* hbuf) {
     b[0].range(511, 448) = shuffle4_cfg;
 }
 
-void get_cfg_dat_JOIN_INNER_TD_3240_gqe_join(ap_uint<512>* hbuf) {
+void get_cfg_dat_JOIN_INNER_TD_3178_gqe_join(ap_uint<512>* hbuf) {
     // StringRowIDSubstitution: true StringRowIDBackSubstitution: false
     // Supported operation: JOIN_INNER
     // Operation: ListBuffer((l_orderkey#32 = o_orderkey#342))
-        // Binded Operation: Project -> operations: ListBuffer(cast(l_orderkey#0L as int) AS l_orderkey#32, cast(CheckOverflow((promote_precision(l_extendedprice#5) * 100.00), DecimalType(16,2), true) as int) AS l_extendedprice#117, cast(CheckOverflow((promote_precision(l_discount#6) * 100.00), DecimalType(16,2), true) as int) AS l_discount#134)
-    // Left Table: ListBuffer(l_orderkey#0L, l_extendedprice#5, l_discount#6)
+    // Left Table: ListBuffer(l_orderkey#32, l_extendedprice#117, l_discount#134)
     // Right Table: ListBuffer(c_custkey#269, c_name#254, c_nationkey#278, c_acctbal#287, o_orderkey#342)
     // Output Table: ListBuffer(c_custkey#269, c_name#254, c_nationkey#278, c_acctbal#287, l_extendedprice#117, l_discount#134)
     // Node Depth: 3
@@ -327,12 +324,11 @@ void get_cfg_dat_JOIN_INNER_TD_3240_gqe_join(ap_uint<512>* hbuf) {
     b[0].range(511, 448) = shuffle4_cfg;
 }
 
-void get_cfg_dat_JOIN_INNER_TD_2215_gqe_join(ap_uint<512>* hbuf) {
+void get_cfg_dat_JOIN_INNER_TD_2591_gqe_join(ap_uint<512>* hbuf) {
     // StringRowIDSubstitution: true StringRowIDBackSubstitution: false
     // Supported operation: JOIN_INNER
     // Operation: ListBuffer((c_nationkey#278 = n_nationkey#304))
-        // Binded Operation: Project -> operations: ListBuffer(cast(n_nationkey#296L as int) AS n_nationkey#304)
-    // Left Table: ListBuffer(n_nationkey#296L, n_name#297)
+    // Left Table: ListBuffer(n_nationkey#304, n_name#297)
     // Right Table: ListBuffer(c_custkey#269, c_name#254, c_nationkey#278, c_acctbal#287, l_extendedprice#117, l_discount#134)
     // Output Table: ListBuffer(c_custkey#269, c_name#254, c_acctbal#287, l_extendedprice#117, l_discount#134, n_name#297)
     // Node Depth: 2

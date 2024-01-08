@@ -3,7 +3,7 @@ import org.apache.spark.sql.catalyst.expressions.Expression
 import org.apache.spark.sql.catalyst.plans.QueryPlan
 import org.apache.spark.sql.catalyst.plans.logical.{Aggregate, AppendColumns, AppendColumnsWithObject, BinaryNode, DeserializeToObject, Distinct, Filter, Generate, GlobalLimit, Join, LocalLimit, LogicalPlan, MapElements, Project, Repartition, RepartitionByExpression, Sample, SerializeFromObject, Sort, SubqueryAlias, TypedFilter, UnaryNode, Window}
 import org.apache.spark.sql.execution.datasources.LogicalRelation
-import org.example.SQL2FPGA_Top.{DEBUG_PARSER, columnDictionary}
+import org.example.SQL2FPGA_Top.{DEBUG_PARSER, columnDictionary, columnTableMap, columnCodeMap}
 
 import scala.collection.mutable.ListBuffer
 
@@ -104,8 +104,8 @@ class SQL2FPGA_QParser {
       var col: String = _column
       val col_first = col.split("#").head
       print(col_first + ", ")
-      columnDictionary += (col -> (tpch_table, col_first))
-      columnDictionary += (col_first -> (tpch_table, col_first))
+      columnTableMap += (col -> (tpch_table, col_first))
+      columnTableMap += (col_first -> (tpch_table, col_first))
     }
     fpga_plan.numTableRow = getTableRow(tpch_table, sf)
     print("\n")
@@ -344,8 +344,8 @@ class SQL2FPGA_QParser {
           var col: String = _column
           val col_first = col.split("#").head
           print(col_first + ", ")
-          columnDictionary += (col -> (tcph_table, col))
-          columnDictionary += (col_first -> (tcph_table, col_first))
+          columnTableMap += (col -> (tcph_table, col))
+          columnTableMap += (col_first -> (tcph_table, col_first))
         }
         fpga_plan.numTableRow = getTableRow(tcph_table, sf)
         print("\n")

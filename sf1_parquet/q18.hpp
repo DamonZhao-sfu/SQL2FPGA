@@ -184,13 +184,12 @@ void SW_JOIN_LEFTSEMI_TD_587(Table &tbl_SerializeFromObject_TD_7950_input, Table
                 int32_t _o_custkey325L = tbl_SerializeFromObject_TD_7950_input.getInt32(i, 1);
                 int32_t _o_totalprice327 = tbl_SerializeFromObject_TD_7950_input.getInt32(i, 2);
                 int32_t _o_orderdate332 = tbl_SerializeFromObject_TD_7950_input.getInt32(i, 3);
-                if (_o_orderkey324L == _l_orderkey32) {
-                    tbl_JOIN_LEFTSEMI_TD_587_output.setInt32(r, 0, _o_orderkey324L);
-                    tbl_JOIN_LEFTSEMI_TD_587_output.setInt32(r, 1, _o_custkey325L);
-                    tbl_JOIN_LEFTSEMI_TD_587_output.setInt32(r, 2, _o_totalprice327);
-                    tbl_JOIN_LEFTSEMI_TD_587_output.setInt32(r, 3, _o_orderdate332);
-                    r++;
-                }
+                tbl_JOIN_LEFTSEMI_TD_587_output.setInt32(r, 0, _o_orderkey324L);
+                tbl_JOIN_LEFTSEMI_TD_587_output.setInt32(r, 1, _o_custkey325L);
+                tbl_JOIN_LEFTSEMI_TD_587_output.setInt32(r, 2, _o_totalprice327);
+                tbl_JOIN_LEFTSEMI_TD_587_output.setInt32(r, 3, _o_orderdate332);
+                r++;
+        
             }
         }
         tbl_JOIN_LEFTSEMI_TD_587_output.setNumRow(r);

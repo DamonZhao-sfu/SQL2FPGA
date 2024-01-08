@@ -1,7 +1,7 @@
 package org.example
 import org.apache.spark.sql.DataFrame
 import org.apache.spark.sql.catalyst.expressions.Expression
-import org.example.SQL2FPGA_Top.{DEBUG_CASCADE_JOIN_OPT, DEBUG_REDUNDANT_OP_OPT, DEBUG_SPECIAL_JOIN_OPT, DEBUG_STRINGDATATYPE_OPT, columnDictionary}
+import org.example.SQL2FPGA_Top.{DEBUG_CASCADE_JOIN_OPT, DEBUG_REDUNDANT_OP_OPT, DEBUG_SPECIAL_JOIN_OPT, DEBUG_STRINGDATATYPE_OPT, columnDictionary, columnTableMap, columnCodeMap}
 
 import scala.collection.mutable.{ListBuffer, Queue}
 import scala.math.{min, pow}
@@ -589,7 +589,6 @@ class SQL2FPGA_QPlan {
         }
 
         if (filter_clause_val_idx == -1) { //const filtering factor
-          // e.g. columnDictionary += (col -> (tcph_table, col_first))
           if (filterConditions_const.contains(filter_clause_col_idx)) {
             var filterValOp = filterConditions_const(filter_clause_col_idx)
             var temp = (col_val, col_op)
@@ -987,7 +986,8 @@ class SQL2FPGA_QPlan {
         //            and it only has one output (i.e., outputCols(0))
         var col_symbol = children(1).operation(0).split(" AS ").last
         var col_symbol_trimmed = stripColumnName(col_symbol)
-        return (prereq_str, columnDictionary(col_symbol_trimmed)._1)
+        // TODO this is codemap?
+        return (prereq_str, columnCodeMap(col_symbol_trimmed)._1)
       }
       else {
         println(expr.getClass.getName)
@@ -4963,8 +4963,9 @@ class SQL2FPGA_QPlan {
 
         key_pair_formatted.remove(1, 1) // "=" or "!=" in key pair term
         for (key <- key_pair_formatted) {
-          print("(key: " + key + " table: " + columnDictionary(key) + " #row: " + getTableRow(columnDictionary(key)._1, sf) + ") ")
-          costSum = costSum + getTableRow(columnDictionary(key)._1, sf)
+          var keyRef = key.split("#").head
+          print("(key: " + key + " table: " + columnTableMap(keyRef)._1 + " #row: " + getTableRow(columnTableMap(keyRef)._1, sf) + ") ")
+          costSum = costSum + getTableRow(columnTableMap(keyRef)._1, sf)
         }
       }
       joinNodeCost += ((costSum * costScaling) -> joinNodeIdx)
@@ -5559,7 +5560,7 @@ class SQL2FPGA_QPlan {
             }
           }
           // if (this_node._nodeType == "Sort" || this_node._nodeType == "Project") {
-          if (this_node._nodeType == "Sort") {
+          if (this_node._nodeType == "Sort" || this_node._nodeType == "Project") {
             cpuORfpgaExecution = 0
           }
           if (this_node._nodeType == "Aggregate") {
@@ -6021,7 +6022,6 @@ class SQL2FPGA_QPlan {
                   }
 
                   if (filter_clause_val_idx == -1) { //const filtering factor
-                    // e.g. columnDictionary += (col -> (tcph_table, col_first))
                     if (filterConditions_const.contains(filter_clause_col_idx)) {
                       var filterValOp = filterConditions_const(filter_clause_col_idx)
                       var temp = (col_val, col_op)
@@ -7744,11 +7744,11 @@ class SQL2FPGA_QPlan {
                 if (col_type == "IntegerType") {
                   _fpgaSWFuncCode += "    " + tbl_out_1 + ".setInt32(r++, " + outputCols_idx + ", " + col_symbol_trimmed + ");"
                   //Alec-added: adding aggregation result based on the "AS" name in the case of subquery
-                  columnDictionary += (col_symbol_trimmed -> (tbl_out_1 + ".getInt32(" + op_idx + ", 0)", "NULL"))
+                  columnCodeMap += (col_symbol_trimmed -> (tbl_out_1 + ".getInt32(" + op_idx + ", 0)", "NULL"))
                 } else if (col_type == "LongType") {
                   _fpgaSWFuncCode += "    " + tbl_out_1 + ".setInt64(r++, " + outputCols_idx + ", " + col_symbol_trimmed + ");"
                   //Alec-added: adding aggregation result based on the "AS" name in the case of subquery
-                  columnDictionary += (col_symbol_trimmed -> (tbl_out_1 + ".getInt64(" + op_idx + ", 0)", "NULL"))
+                  columnCodeMap += (col_symbol_trimmed -> (tbl_out_1 + ".getInt64(" + op_idx + ", 0)", "NULL"))
                 } else {
                   _fpgaSWFuncCode += "    // Unsupported payload type"
                 }
@@ -8106,10 +8106,10 @@ class SQL2FPGA_QPlan {
           col_type = getColumnType(col_symbol, dfmap)
           if (col_type == "IntegerType") {
             //Alec-added: adding aggregation result based on the "AS" name in the case of subquery
-            columnDictionary += (col_symbol_trimmed -> (tbl_out + ".getInt32(" + op_idx + ", 0)", "NULL"))
+            columnCodeMap += (col_symbol_trimmed -> (tbl_out + ".getInt32(" + op_idx + ", 0)", "NULL"))
           } else if (col_type == "LongType") {
             //Alec-added: adding aggregation result based on the "AS" name in the case of subquery
-            columnDictionary += (col_symbol_trimmed -> (tbl_out + ".getInt64(" + op_idx + ", 0)", "NULL"))
+            columnCodeMap += (col_symbol_trimmed -> (tbl_out + ".getInt64(" + op_idx + ", 0)", "NULL"))
           } else {
           }
           op_idx += col_aggregate_ops.length
@@ -8163,6 +8163,7 @@ class SQL2FPGA_QPlan {
           if (columnDictionary.contains(col) == false) {
             // TODO: Add updated expression
             columnDictionary += (col -> (_fpgaNodeName, null))
+            columnDictionary += (col.split("#").head -> (_fpgaNodeName, null))
           }
         }
         var outputTblCol = new ListBuffer[String]()
@@ -8323,7 +8324,7 @@ class SQL2FPGA_QPlan {
         //Substitute table - table with row_id
         var tbl_name = "tbl_" + nodeOpName + "_input" + "_stringRowIDSubstitute"
         _fpgaInputTableName = tbl_name
-        var tbl = columnDictionary(_inputCols.head.split("#").head)._1
+        var tbl = columnTableMap(_inputCols.head.split("#").head)._1
         var num_cols = _inputCols.length
 
         // Table tbl_SerializeFromObject_TD_6605_input;
@@ -8333,7 +8334,7 @@ class SQL2FPGA_QPlan {
         inputTblCode += "Table " + tbl_name + ";"
         inputTblCode += tbl_name + " = Table(\"" + tbl + "\", " + tbl + "_n, " + num_cols + ", in_dir);"
         for (col_name <- _inputCols) {
-          var col = columnDictionary(col_name.split("#").head)._2
+          var col = columnTableMap(col_name.split("#").head)._2
           var col_type = getColumnDataType(dfmap(tbl), col)
           var col_type_text = "4"
           if (col_type == "StringType") {
@@ -8386,12 +8387,12 @@ class SQL2FPGA_QPlan {
         //Substitute table - original table with string
         tbl_name = "tbl_" + nodeOpName + "_input"
         _fpgaInputTableName_stringRowIDSubstitute = tbl_name
-        tbl = columnDictionary(_inputCols.head.split("#").head)._1
+        tbl = columnTableMap(_inputCols.head.split("#").head)._1
         num_cols = _inputCols.length
         inputTblCode += "Table " + tbl_name + ";"
         inputTblCode += tbl_name + " = Table(\"" + tbl + "\", " + tbl + "_n, " + num_cols + ", in_dir);"
         for (col_name <- _inputCols) {
-          var col = columnDictionary(col_name.split("#").head)._2
+          var col = columnTableMap(col_name.split("#").head)._2
           var col_type = getColumnDataType(dfmap(tbl), col)
           var col_type_text = "4"
           if (col_type == "StringType") {
@@ -8406,12 +8407,12 @@ class SQL2FPGA_QPlan {
       else {
         var tbl_name = "tbl_" + nodeOpName + "_input"
         _fpgaInputTableName = tbl_name
-        var tbl = columnDictionary(_inputCols.head.split("#").head)._1
+        var tbl = columnTableMap(_inputCols.head.split("#").head)._1
         var num_cols = _inputCols.length
         inputTblCode += "Table " + tbl_name + ";"
         inputTblCode += tbl_name + " = Table(\"" + tbl + "\", " + tbl + "_n, " + num_cols + ", in_dir);"
         for (col_name <- _inputCols) {
-          var col = columnDictionary(col_name.split("#").head)._2
+          var col = columnTableMap(col_name.split("#").head)._2
           var col_type = getColumnDataType(dfmap(tbl), col)
           var col_type_text = "4"
           if (col_type == "StringType") {
@@ -10524,7 +10525,6 @@ class SQL2FPGA_QPlan {
               }
 
               if (filter_clause_val_idx == -1) { //const filtering factor
-                // e.g. columnDictionary += (col -> (tcph_table, col_first))
                 if (filterConditions_const.contains(filter_clause_col_idx)) {
                   var filterValOp = filterConditions_const(filter_clause_col_idx)
                   var temp = (col_val, col_op)
