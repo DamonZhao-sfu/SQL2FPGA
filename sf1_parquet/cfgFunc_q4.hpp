@@ -84,7 +84,7 @@ static void gen_pass_fcfg(uint32_t cfg[]) {
     cfg[n++] = (uint32_t)(1UL << 31); 
 } 
 
-void get_cfg_dat_Project_TD_3545_gqe_join(ap_uint<512>* hbuf) {
+void get_cfg_dat_Project_TD_3418_gqe_join(ap_uint<512>* hbuf) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: Project
     // Operation: ListBuffer(cast(l_orderkey#0L as int) AS l_orderkey#32)

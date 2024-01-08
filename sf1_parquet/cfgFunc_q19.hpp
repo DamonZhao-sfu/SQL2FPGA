@@ -84,7 +84,7 @@ static void gen_pass_fcfg(uint32_t cfg[]) {
     cfg[n++] = (uint32_t)(1UL << 31); 
 } 
 
-void get_cfg_dat_Project_TD_2539_gqe_join(ap_uint<512>* hbuf) {
+void get_cfg_dat_Project_TD_2198_gqe_join(ap_uint<512>* hbuf) {
     // StringRowIDSubstitution: true StringRowIDBackSubstitution: false
     // Supported operation: Project
     // Operation: ListBuffer(cast(p_partkey#402L as int) AS p_partkey#420)
@@ -148,7 +148,7 @@ void get_cfg_dat_Project_TD_2539_gqe_join(ap_uint<512>* hbuf) {
     //--------------eval0--------------
     //stream shuffle 2
     ap_int<64> shuffle2_cfg;
-    shuffle2_cfg(7, 0) = 8; // p_partkey
+    shuffle2_cfg(7, 0) = 0; // p_partkey
     shuffle2_cfg(15, 8) = 1; // p_size
     shuffle2_cfg(23, 16) = 2; // p_container
     shuffle2_cfg(31, 24) = 3; // p_brand
@@ -205,7 +205,7 @@ void get_cfg_dat_Project_TD_2539_gqe_join(ap_uint<512>* hbuf) {
     b[0].range(511, 448) = shuffle4_cfg;
 }
 
-void get_cfg_dat_Project_TD_2674_gqe_join(ap_uint<512>* hbuf) {
+void get_cfg_dat_Project_TD_2491_gqe_join(ap_uint<512>* hbuf) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: Project
     // Operation: ListBuffer(cast(l_partkey#1L as int) AS l_partkey#49, cast(CheckOverflow((promote_precision(l_quantity#4) * 100.00), DecimalType(16,2), true) as int) AS l_quantity#100, cast(CheckOverflow((promote_precision(l_extendedprice#5) * 100.00), DecimalType(16,2), true) as int) AS l_extendedprice#117, cast(CheckOverflow((promote_precision(l_discount#6) * 100.00), DecimalType(16,2), true) as int) AS l_discount#134)
@@ -269,7 +269,7 @@ void get_cfg_dat_Project_TD_2674_gqe_join(ap_uint<512>* hbuf) {
     //--------------eval0--------------
     //stream shuffle 2
     ap_int<64> shuffle2_cfg;
-    shuffle2_cfg(7, 0) = 8; // l_partkey
+    shuffle2_cfg(7, 0) = 0; // l_partkey
     shuffle2_cfg(15, 8) = 1; // l_quantity
     shuffle2_cfg(23, 16) = 2; // l_extendedprice
     shuffle2_cfg(31, 24) = 3; // l_discount

@@ -84,7 +84,7 @@ static void gen_pass_fcfg(uint32_t cfg[]) {
     cfg[n++] = (uint32_t)(1UL << 31); 
 } 
 
-void get_cfg_dat_JOIN_INNER_TD_3438_gqe_join(ap_uint<512>* hbuf) {
+void get_cfg_dat_JOIN_INNER_TD_3325_gqe_join(ap_uint<512>* hbuf) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: JOIN_INNER
     // Operation: ListBuffer((n_regionkey#309 = r_regionkey#320))
@@ -92,7 +92,7 @@ void get_cfg_dat_JOIN_INNER_TD_3438_gqe_join(ap_uint<512>* hbuf) {
         // Binded Operation: Project -> operations: ListBuffer(cast(r_regionkey#314L as int) AS r_regionkey#320)
     // Left Table: ListBuffer(r_regionkey#314L)
     // Right Table: ListBuffer(n_nationkey#296L, n_regionkey#298L)
-    // Output Table: ListBuffer(o_orderdate#382, l_extendedprice#117, l_discount#134, n_name#1071)
+    // Output Table: ListBuffer(o_orderdate#382, l_extendedprice#117, l_discount#134, n_name#1578)
     // Node Depth: 3
     ap_uint<512>* b = hbuf;
     memset(b, 0, sizeof(ap_uint<512>) * 9);

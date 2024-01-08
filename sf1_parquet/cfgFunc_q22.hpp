@@ -84,11 +84,11 @@ static void gen_pass_fcfg(uint32_t cfg[]) {
     cfg[n++] = (uint32_t)(1UL << 31); 
 } 
 
-void get_cfg_dat_Project_TD_6531_gqe_join(ap_uint<512>* hbuf) {
+void get_cfg_dat_Project_TD_6623_gqe_join(ap_uint<512>* hbuf) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: Project
-    // Operation: ListBuffer(cast(CheckOverflow((promote_precision(c_acctbal#2063) * 100.00), DecimalType(16,2), true) as int) AS c_acctbal#287)
-    // Left Table: ListBuffer(c_acctbal#2063)
+    // Operation: ListBuffer(cast(CheckOverflow((promote_precision(c_acctbal#2544) * 100.00), DecimalType(16,2), true) as int) AS c_acctbal#287)
+    // Left Table: ListBuffer(c_acctbal#2544)
     // Right Table: ListBuffer()
     // Output Table: ListBuffer(c_acctbal#287)
     // Node Depth: 6
@@ -148,7 +148,7 @@ void get_cfg_dat_Project_TD_6531_gqe_join(ap_uint<512>* hbuf) {
     //--------------eval0--------------
     //stream shuffle 2
     ap_int<64> shuffle2_cfg;
-    shuffle2_cfg(7, 0) = 8; // c_acctbal
+    shuffle2_cfg(7, 0) = 0; // c_acctbal
     shuffle2_cfg(15, 8) = -1;
     shuffle2_cfg(23, 16) = -1;
     shuffle2_cfg(31, 24) = -1;
@@ -157,7 +157,7 @@ void get_cfg_dat_Project_TD_6531_gqe_join(ap_uint<512>* hbuf) {
     shuffle2_cfg(55, 48) = -1;
     shuffle2_cfg(63, 56) = -1;
 
-    ap_uint<289> op_eval_0 = 0; // (c_acctbal#2063 * 100.00)
+    ap_uint<289> op_eval_0 = 0; // (c_acctbal#2544 * 100.00)
     xf::database::dynamicALUOPCompiler<uint32_t, uint32_t, uint32_t, uint32_t>("strm1*c2", 0, 1, 0, 0, op_eval_0);
     b[1] = op_eval_0;
 
@@ -205,7 +205,7 @@ void get_cfg_dat_Project_TD_6531_gqe_join(ap_uint<512>* hbuf) {
     b[0].range(511, 448) = shuffle4_cfg;
 }
 
-void get_cfg_dat_Project_TD_4584_gqe_join(ap_uint<512>* hbuf) {
+void get_cfg_dat_Project_TD_498_gqe_join(ap_uint<512>* hbuf) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: Project
     // Operation: ListBuffer(cast(o_custkey#325L as int) AS o_custkey#352)
@@ -269,7 +269,7 @@ void get_cfg_dat_Project_TD_4584_gqe_join(ap_uint<512>* hbuf) {
     //--------------eval0--------------
     //stream shuffle 2
     ap_int<64> shuffle2_cfg;
-    shuffle2_cfg(7, 0) = 8; // o_custkey
+    shuffle2_cfg(7, 0) = 0; // o_custkey
     shuffle2_cfg(15, 8) = -1;
     shuffle2_cfg(23, 16) = -1;
     shuffle2_cfg(31, 24) = -1;

@@ -84,7 +84,7 @@ static void gen_pass_fcfg(uint32_t cfg[]) {
     cfg[n++] = (uint32_t)(1UL << 31); 
 } 
 
-void get_cfg_dat_Project_TD_7238_gqe_join(ap_uint<512>* hbuf) {
+void get_cfg_dat_Project_TD_7165_gqe_join(ap_uint<512>* hbuf) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: Project
     // Operation: ListBuffer(cast(p_partkey#402L as int) AS p_partkey#420)
@@ -148,7 +148,7 @@ void get_cfg_dat_Project_TD_7238_gqe_join(ap_uint<512>* hbuf) {
     //--------------eval0--------------
     //stream shuffle 2
     ap_int<64> shuffle2_cfg;
-    shuffle2_cfg(7, 0) = 8; // p_partkey
+    shuffle2_cfg(7, 0) = 0; // p_partkey
     shuffle2_cfg(15, 8) = -1;
     shuffle2_cfg(23, 16) = -1;
     shuffle2_cfg(31, 24) = -1;
@@ -205,13 +205,13 @@ void get_cfg_dat_Project_TD_7238_gqe_join(ap_uint<512>* hbuf) {
     b[0].range(511, 448) = shuffle4_cfg;
 }
 
-void get_cfg_dat_Aggregate_TD_7239_gqe_aggr(ap_uint<32>* buf) {
+void get_cfg_dat_Aggregate_TD_7618_gqe_aggr(ap_uint<32>* buf) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: Aggregate
-    // Operation: ListBuffer(l_partkey#49, l_suppkey#66, CheckOverflow((0.5 * promote_precision(cast(cast(sum(l_quantity#100) as decimal(20,0)) as decimal(21,1)))), DecimalType(22,1), true) AS (0.5 * sum(l_quantity))#1887)
+    // Operation: ListBuffer(l_partkey#49, l_suppkey#66, CheckOverflow((0.5 * promote_precision(cast(cast(sum(l_quantity#100) as decimal(20,0)) as decimal(21,1)))), DecimalType(22,1), true) AS (0.5 * sum(l_quantity))#2368)
         // Binded Operation: Project -> operations: ListBuffer(cast(l_partkey#1L as int) AS l_partkey#49, cast(l_suppkey#2L as int) AS l_suppkey#66, cast(CheckOverflow((promote_precision(l_quantity#4) * 100.00), DecimalType(16,2), true) as int) AS l_quantity#100)
     // Input Table: ListBuffer(l_partkey#1L, l_suppkey#2L, l_quantity#4)
-    // Output Table: ListBuffer((0.5 * sum(l_quantity))#1887, l_partkey#49, l_suppkey#66)
+    // Output Table: ListBuffer((0.5 * sum(l_quantity))#2368, l_partkey#49, l_suppkey#66)
     // Node Depth: 7
     ap_uint<32>* config = buf;
     memset(config, 0, sizeof(ap_uint<32>) * 83);
@@ -287,7 +287,7 @@ void get_cfg_dat_Aggregate_TD_7239_gqe_aggr(ap_uint<32>* buf) {
     config[72] = shuffle3_cfg(63, 32);
 
     ap_int<64> shuffle4_cfg;
-    shuffle4_cfg(7, 0) = 3; // (0.5 * sum(l_quantity))#1887
+    shuffle4_cfg(7, 0) = 3; // (0.5 * sum(l_quantity))#2368
     shuffle4_cfg(15, 8) = -1;
     shuffle4_cfg(23, 16) = -1;
     shuffle4_cfg(31, 24) = -1;
@@ -329,7 +329,7 @@ void get_cfg_dat_Aggregate_TD_7239_gqe_aggr(ap_uint<32>* buf) {
     config[82] = 0xffff;
 }
 
-void get_cfg_dat_Project_TD_4124_gqe_join(ap_uint<512>* hbuf) {
+void get_cfg_dat_Project_TD_476_gqe_join(ap_uint<512>* hbuf) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: Project
     // Operation: ListBuffer(cast(ps_suppkey#451L as int) AS ps_suppkey#466)
@@ -393,7 +393,7 @@ void get_cfg_dat_Project_TD_4124_gqe_join(ap_uint<512>* hbuf) {
     //--------------eval0--------------
     //stream shuffle 2
     ap_int<64> shuffle2_cfg;
-    shuffle2_cfg(7, 0) = 8; // ps_suppkey
+    shuffle2_cfg(7, 0) = 0; // ps_suppkey
     shuffle2_cfg(15, 8) = -1;
     shuffle2_cfg(23, 16) = -1;
     shuffle2_cfg(31, 24) = -1;
@@ -450,7 +450,7 @@ void get_cfg_dat_Project_TD_4124_gqe_join(ap_uint<512>* hbuf) {
     b[0].range(511, 448) = shuffle4_cfg;
 }
 
-void get_cfg_dat_JOIN_INNER_TD_1536_gqe_join(ap_uint<512>* hbuf) {
+void get_cfg_dat_JOIN_INNER_TD_1270_gqe_join(ap_uint<512>* hbuf) {
     // StringRowIDSubstitution: true StringRowIDBackSubstitution: false
     // Supported operation: JOIN_INNER
     // Operation: ListBuffer((s_nationkey#506 = n_nationkey#304))

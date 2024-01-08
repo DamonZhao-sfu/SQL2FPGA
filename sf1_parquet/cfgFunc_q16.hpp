@@ -84,7 +84,7 @@ static void gen_pass_fcfg(uint32_t cfg[]) {
     cfg[n++] = (uint32_t)(1UL << 31); 
 } 
 
-void get_cfg_dat_Project_TD_5464_gqe_join(ap_uint<512>* hbuf) {
+void get_cfg_dat_Project_TD_5445_gqe_join(ap_uint<512>* hbuf) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: Project
     // Operation: ListBuffer(cast(s_suppkey#484L as int) AS s_suppkey#498)
@@ -148,7 +148,7 @@ void get_cfg_dat_Project_TD_5464_gqe_join(ap_uint<512>* hbuf) {
     //--------------eval0--------------
     //stream shuffle 2
     ap_int<64> shuffle2_cfg;
-    shuffle2_cfg(7, 0) = 8; // s_suppkey
+    shuffle2_cfg(7, 0) = 0; // s_suppkey
     shuffle2_cfg(15, 8) = -1;
     shuffle2_cfg(23, 16) = -1;
     shuffle2_cfg(31, 24) = -1;
@@ -205,7 +205,7 @@ void get_cfg_dat_Project_TD_5464_gqe_join(ap_uint<512>* hbuf) {
     b[0].range(511, 448) = shuffle4_cfg;
 }
 
-void get_cfg_dat_JOIN_INNER_TD_2848_gqe_join(ap_uint<512>* hbuf) {
+void get_cfg_dat_JOIN_INNER_TD_2307_gqe_join(ap_uint<512>* hbuf) {
     // StringRowIDSubstitution: true StringRowIDBackSubstitution: false
     // Supported operation: JOIN_INNER
     // Operation: ListBuffer((p_partkey#420 = ps_partkey#460))

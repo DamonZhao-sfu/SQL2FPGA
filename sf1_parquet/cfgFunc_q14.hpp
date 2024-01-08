@@ -84,7 +84,7 @@ static void gen_pass_fcfg(uint32_t cfg[]) {
     cfg[n++] = (uint32_t)(1UL << 31); 
 } 
 
-void get_cfg_dat_Project_TD_2430_gqe_join(ap_uint<512>* hbuf) {
+void get_cfg_dat_Project_TD_2255_gqe_join(ap_uint<512>* hbuf) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: Project
     // Operation: ListBuffer(cast(l_partkey#1L as int) AS l_partkey#49, cast(CheckOverflow((promote_precision(l_extendedprice#5) * 100.00), DecimalType(16,2), true) as int) AS l_extendedprice#117, cast(CheckOverflow((promote_precision(l_discount#6) * 100.00), DecimalType(16,2), true) as int) AS l_discount#134)
@@ -148,7 +148,7 @@ void get_cfg_dat_Project_TD_2430_gqe_join(ap_uint<512>* hbuf) {
     //--------------eval0--------------
     //stream shuffle 2
     ap_int<64> shuffle2_cfg;
-    shuffle2_cfg(7, 0) = 8; // l_partkey
+    shuffle2_cfg(7, 0) = 0; // l_partkey
     shuffle2_cfg(15, 8) = 1; // l_extendedprice
     shuffle2_cfg(23, 16) = 2; // l_discount
     shuffle2_cfg(31, 24) = -1;

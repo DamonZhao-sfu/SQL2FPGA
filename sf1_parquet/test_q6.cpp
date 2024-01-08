@@ -99,94 +99,94 @@ int main(int argc, const char* argv[]) {
     devices_h.push_back(device_h); 
     cl::Program program_h(context_h, devices_h, xclBins_h); 
     // ****************************** Tables **************************** // 
-    Table tbl_Aggregate_TD_037_output("tbl_Aggregate_TD_037_output", 6100000, 1, "");
-    tbl_Aggregate_TD_037_output.allocateHost();
-    Table tbl_Project_TD_1398_output("tbl_Project_TD_1398_output", -1, 2, "");
-    tbl_Project_TD_1398_output.allocateHost();
-    Table tbl_Project_TD_1398_emptyBufferB("tbl_Project_TD_1398_emptyBufferB", 1, 8, "");
-    tbl_Project_TD_1398_emptyBufferB.allocateHost();
-    Table tbl_Filter_TD_2462_output("tbl_Filter_TD_2462_output", 6100000, 2, "");
-    tbl_Filter_TD_2462_output.allocateHost();
-    Table tbl_SerializeFromObject_TD_3143_input;
-    tbl_SerializeFromObject_TD_3143_input = Table("lineitem", lineitem_n, 4, in_dir);
-    tbl_SerializeFromObject_TD_3143_input.addCol("l_extendedprice", 4);
-    tbl_SerializeFromObject_TD_3143_input.addCol("l_discount", 4);
-    tbl_SerializeFromObject_TD_3143_input.addCol("l_shipdate", 4);
-    tbl_SerializeFromObject_TD_3143_input.addCol("l_quantity", 4);
-    tbl_SerializeFromObject_TD_3143_input.allocateHost();
-    tbl_SerializeFromObject_TD_3143_input.loadHost();
+    Table tbl_Aggregate_TD_0285_output("tbl_Aggregate_TD_0285_output", 6100000, 1, "");
+    tbl_Aggregate_TD_0285_output.allocateHost();
+    Table tbl_Project_TD_1432_output("tbl_Project_TD_1432_output", -1, 2, "");
+    tbl_Project_TD_1432_output.allocateHost();
+    Table tbl_Project_TD_1432_emptyBufferB("tbl_Project_TD_1432_emptyBufferB", 1, 8, "");
+    tbl_Project_TD_1432_emptyBufferB.allocateHost();
+    Table tbl_Filter_TD_2614_output("tbl_Filter_TD_2614_output", 6100000, 2, "");
+    tbl_Filter_TD_2614_output.allocateHost();
+    Table tbl_SerializeFromObject_TD_3433_input;
+    tbl_SerializeFromObject_TD_3433_input = Table("lineitem", lineitem_n, 4, in_dir);
+    tbl_SerializeFromObject_TD_3433_input.addCol("l_extendedprice", 4);
+    tbl_SerializeFromObject_TD_3433_input.addCol("l_discount", 4);
+    tbl_SerializeFromObject_TD_3433_input.addCol("l_shipdate", 4);
+    tbl_SerializeFromObject_TD_3433_input.addCol("l_quantity", 4);
+    tbl_SerializeFromObject_TD_3433_input.allocateHost();
+    tbl_SerializeFromObject_TD_3433_input.loadHost();
     // ********************** Allocate Device Buffer ******************** // 
-    tbl_Project_TD_1398_output.allocateDevBuffer(context_h, 32);
-    tbl_Project_TD_1398_emptyBufferB.allocateDevBuffer(context_h, 32);
-    tbl_Filter_TD_2462_output.allocateDevBuffer(context_h, 32);
+    tbl_Project_TD_1432_output.allocateDevBuffer(context_h, 32);
+    tbl_Project_TD_1432_emptyBufferB.allocateDevBuffer(context_h, 32);
+    tbl_Filter_TD_2614_output.allocateDevBuffer(context_h, 32);
     // ****************************** Config **************************** // 
-    cfgCmd cfg_Project_TD_1398_cmds;
-    cfg_Project_TD_1398_cmds.allocateHost();
-    get_cfg_dat_Project_TD_1398_gqe_join (cfg_Project_TD_1398_cmds.cmd);
-    cfg_Project_TD_1398_cmds.allocateDevBuffer(context_h, 32);
+    cfgCmd cfg_Project_TD_1432_cmds;
+    cfg_Project_TD_1432_cmds.allocateHost();
+    get_cfg_dat_Project_TD_1432_gqe_join (cfg_Project_TD_1432_cmds.cmd);
+    cfg_Project_TD_1432_cmds.allocateDevBuffer(context_h, 32);
     // *************************** Kernel Setup ************************* // 
     bufferTmp buftmp_h(context_h); 
     buftmp_h.initBuffer(q_h); 
     std::cout << std::endl; 
-    krnlEngine krnl_Project_TD_1398;
-    krnl_Project_TD_1398 = krnlEngine(program_h, q_h, "gqeJoin");
-    krnl_Project_TD_1398.setup(tbl_Filter_TD_2462_output, tbl_Project_TD_1398_emptyBufferB, tbl_Project_TD_1398_output, cfg_Project_TD_1398_cmds, buftmp_h);
+    krnlEngine krnl_Project_TD_1432;
+    krnl_Project_TD_1432 = krnlEngine(program_h, q_h, "gqeJoin");
+    krnl_Project_TD_1432.setup(tbl_Filter_TD_2614_output, tbl_Project_TD_1432_emptyBufferB, tbl_Project_TD_1432_output, cfg_Project_TD_1432_cmds, buftmp_h);
     // ************************** Transfer Engine *********************** // 
-    transEngine trans_Project_TD_1398;
-    trans_Project_TD_1398.setq(q_h);
-    trans_Project_TD_1398.add(&(cfg_Project_TD_1398_cmds));
-    transEngine trans_Project_TD_1398_out;
-    trans_Project_TD_1398_out.setq(q_h);
+    transEngine trans_Project_TD_1432;
+    trans_Project_TD_1432.setq(q_h);
+    trans_Project_TD_1432.add(&(cfg_Project_TD_1432_cmds));
+    transEngine trans_Project_TD_1432_out;
+    trans_Project_TD_1432_out.setq(q_h);
     q_h.finish();
     // ****************************** Events **************************** // 
-    std::vector<cl::Event> events_h2d_wr_Project_TD_1398;
-    std::vector<cl::Event> events_d2h_rd_Project_TD_1398;
-    std::vector<cl::Event> events_Project_TD_1398;
-    events_h2d_wr_Project_TD_1398.resize(1);
-    events_d2h_rd_Project_TD_1398.resize(1);
-    events_Project_TD_1398.resize(1);
-    std::vector<cl::Event> events_grp_Project_TD_1398;
-    std::vector<cl::Event> prev_events_grp_Project_TD_1398;
+    std::vector<cl::Event> events_h2d_wr_Project_TD_1432;
+    std::vector<cl::Event> events_d2h_rd_Project_TD_1432;
+    std::vector<cl::Event> events_Project_TD_1432;
+    events_h2d_wr_Project_TD_1432.resize(1);
+    events_d2h_rd_Project_TD_1432.resize(1);
+    events_Project_TD_1432.resize(1);
+    std::vector<cl::Event> events_grp_Project_TD_1432;
+    std::vector<cl::Event> prev_events_grp_Project_TD_1432;
     // **************************** Operations ************************** // 
     struct timeval tv_r_s, tv_r_e; 
     gettimeofday(&tv_r_s, 0); 
 
-    struct timeval tv_r_Filter_2_808_s, tv_r_Filter_2_808_e;
-    gettimeofday(&tv_r_Filter_2_808_s, 0);
-    SW_Filter_TD_2462(tbl_SerializeFromObject_TD_3143_input, tbl_Filter_TD_2462_output);
-    gettimeofday(&tv_r_Filter_2_808_e, 0);
+    struct timeval tv_r_Filter_2_194_s, tv_r_Filter_2_194_e;
+    gettimeofday(&tv_r_Filter_2_194_s, 0);
+    SW_Filter_TD_2614(tbl_SerializeFromObject_TD_3433_input, tbl_Filter_TD_2614_output);
+    gettimeofday(&tv_r_Filter_2_194_e, 0);
 
-    struct timeval tv_r_Project_1_924_s, tv_r_Project_1_924_e;
-    gettimeofday(&tv_r_Project_1_924_s, 0);
-    trans_Project_TD_1398.add(&(tbl_Filter_TD_2462_output));
-    trans_Project_TD_1398.host2dev(0, &(prev_events_grp_Project_TD_1398), &(events_h2d_wr_Project_TD_1398[0]));
-    events_grp_Project_TD_1398.push_back(events_h2d_wr_Project_TD_1398[0]);
-    krnl_Project_TD_1398.run(0, &(events_grp_Project_TD_1398), &(events_Project_TD_1398[0]));
+    struct timeval tv_r_Project_1_572_s, tv_r_Project_1_572_e;
+    gettimeofday(&tv_r_Project_1_572_s, 0);
+    trans_Project_TD_1432.add(&(tbl_Filter_TD_2614_output));
+    trans_Project_TD_1432.host2dev(0, &(prev_events_grp_Project_TD_1432), &(events_h2d_wr_Project_TD_1432[0]));
+    events_grp_Project_TD_1432.push_back(events_h2d_wr_Project_TD_1432[0]);
+    krnl_Project_TD_1432.run(0, &(events_grp_Project_TD_1432), &(events_Project_TD_1432[0]));
     
-    trans_Project_TD_1398_out.add(&(tbl_Project_TD_1398_output));
-    trans_Project_TD_1398_out.dev2host(0, &(events_Project_TD_1398), &(events_d2h_rd_Project_TD_1398[0]));
+    trans_Project_TD_1432_out.add(&(tbl_Project_TD_1432_output));
+    trans_Project_TD_1432_out.dev2host(0, &(events_Project_TD_1432), &(events_d2h_rd_Project_TD_1432[0]));
     q_h.flush();
     q_h.finish();
-    gettimeofday(&tv_r_Project_1_924_e, 0);
+    gettimeofday(&tv_r_Project_1_572_e, 0);
 
-    struct timeval tv_r_Aggregate_0_688_s, tv_r_Aggregate_0_688_e;
-    gettimeofday(&tv_r_Aggregate_0_688_s, 0);
-    SW_Aggregate_TD_037(tbl_Project_TD_1398_output, tbl_Aggregate_TD_037_output);
-    gettimeofday(&tv_r_Aggregate_0_688_e, 0);
+    struct timeval tv_r_Aggregate_0_515_s, tv_r_Aggregate_0_515_e;
+    gettimeofday(&tv_r_Aggregate_0_515_s, 0);
+    SW_Aggregate_TD_0285(tbl_Project_TD_1432_output, tbl_Aggregate_TD_0285_output);
+    gettimeofday(&tv_r_Aggregate_0_515_e, 0);
 
     gettimeofday(&tv_r_e, 0); 
     // **************************** Print Execution Time ************************** // 
-    std::cout << "Filter_2: " << tvdiff(&tv_r_Filter_2_808_s, &tv_r_Filter_2_808_e) / 1000.0 << " ms " 
-     << "tbl_SerializeFromObject_TD_3143_input: " << tbl_SerializeFromObject_TD_3143_input.getNumRow() << " " << std::endl; 
+    std::cout << "Filter_2: " << tvdiff(&tv_r_Filter_2_194_s, &tv_r_Filter_2_194_e) / 1000.0 << " ms " 
+     << "tbl_SerializeFromObject_TD_3433_input: " << tbl_SerializeFromObject_TD_3433_input.getNumRow() << " " << std::endl; 
 
-    std::cout << "Project_1: " << tvdiff(&tv_r_Project_1_924_s, &tv_r_Project_1_924_e) / 1000.0 << " ms " 
-     << "tbl_Filter_TD_2462_output: " << tbl_Filter_TD_2462_output.getNumRow() << " " << std::endl; 
+    std::cout << "Project_1: " << tvdiff(&tv_r_Project_1_572_s, &tv_r_Project_1_572_e) / 1000.0 << " ms " 
+     << "tbl_Filter_TD_2614_output: " << tbl_Filter_TD_2614_output.getNumRow() << " " << std::endl; 
 
-    std::cout << "Aggregate_0: " << tvdiff(&tv_r_Aggregate_0_688_s, &tv_r_Aggregate_0_688_e) / 1000.0 << " ms " 
-     << "tbl_Project_TD_1398_output: " << tbl_Project_TD_1398_output.getNumRow() << " " << std::endl; 
+    std::cout << "Aggregate_0: " << tvdiff(&tv_r_Aggregate_0_515_s, &tv_r_Aggregate_0_515_e) / 1000.0 << " ms " 
+     << "tbl_Project_TD_1432_output: " << tbl_Project_TD_1432_output.getNumRow() << " " << std::endl; 
 
     std::cout << std::endl << " Total execution time: " << tvdiff(&tv_r_s, &tv_r_e) / 1000 << " ms"; 
 
-    std::cout << std::endl << " Spark elapsed time: " << 0.91463417 * 1000 << "ms" << std::endl; 
+    std::cout << std::endl << " Spark elapsed time: " << 2.5446029 * 1000 << "ms" << std::endl; 
     return 0; 
 }

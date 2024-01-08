@@ -84,15 +84,15 @@ static void gen_pass_fcfg(uint32_t cfg[]) {
     cfg[n++] = (uint32_t)(1UL << 31); 
 } 
 
-void get_cfg_dat_JOIN_INNER_TD_3926_gqe_join(ap_uint<512>* hbuf) {
+void get_cfg_dat_JOIN_INNER_TD_3768_gqe_join(ap_uint<512>* hbuf) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: JOIN_INNER
     // Operation: ListBuffer((s_nationkey#506 = n_nationkey#304))
-        // Binded Operation: Project -> operations: ListBuffer(cast(s_suppkey#1274L as int) AS s_suppkey#498, cast(s_nationkey#1277L as int) AS s_nationkey#506)
-        // Binded Operation: Project -> operations: ListBuffer(cast(n_nationkey#1281L as int) AS n_nationkey#304)
-    // Left Table: ListBuffer(n_nationkey#1281L)
-    // Right Table: ListBuffer(s_suppkey#1274L, s_nationkey#1277L)
-    // Output Table: ListBuffer(ps_availqty#1271, ps_supplycost#478)
+        // Binded Operation: Project -> operations: ListBuffer(cast(s_suppkey#1755L as int) AS s_suppkey#498, cast(s_nationkey#1758L as int) AS s_nationkey#506)
+        // Binded Operation: Project -> operations: ListBuffer(cast(n_nationkey#1762L as int) AS n_nationkey#304)
+    // Left Table: ListBuffer(n_nationkey#1762L)
+    // Right Table: ListBuffer(s_suppkey#1755L, s_nationkey#1758L)
+    // Output Table: ListBuffer(ps_availqty#1752, ps_supplycost#478)
     // Node Depth: 3
     ap_uint<512>* b = hbuf;
     memset(b, 0, sizeof(ap_uint<512>) * 9);
@@ -206,7 +206,7 @@ void get_cfg_dat_JOIN_INNER_TD_3926_gqe_join(ap_uint<512>* hbuf) {
     b[0].range(511, 448) = shuffle4_cfg;
 }
 
-void get_cfg_dat_JOIN_INNER_TD_390_gqe_join(ap_uint<512>* hbuf) {
+void get_cfg_dat_JOIN_INNER_TD_333_gqe_join(ap_uint<512>* hbuf) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: JOIN_INNER
     // Operation: ListBuffer((s_nationkey#506 = n_nationkey#304))
@@ -328,12 +328,12 @@ void get_cfg_dat_JOIN_INNER_TD_390_gqe_join(ap_uint<512>* hbuf) {
     b[0].range(511, 448) = shuffle4_cfg;
 }
 
-void get_cfg_dat_Aggregate_TD_2976_gqe_aggr(ap_uint<32>* buf) {
+void get_cfg_dat_Aggregate_TD_2102_gqe_aggr(ap_uint<32>* buf) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: Aggregate
-    // Operation: ListBuffer(ps_partkey#460, sum((ps_supplycost#478 * ps_availqty#452)) AS value#1263L)
+    // Operation: ListBuffer(ps_partkey#460, sum((ps_supplycost#478 * ps_availqty#452)) AS value#1744L)
     // Input Table: ListBuffer(ps_partkey#460, ps_availqty#452, ps_supplycost#478)
-    // Output Table: ListBuffer(ps_partkey#460, value#1263L)
+    // Output Table: ListBuffer(ps_partkey#460, value#1744L)
     // Node Depth: 2
     ap_uint<32>* config = buf;
     memset(config, 0, sizeof(ap_uint<32>) * 83);
@@ -409,7 +409,7 @@ void get_cfg_dat_Aggregate_TD_2976_gqe_aggr(ap_uint<32>* buf) {
     config[72] = shuffle3_cfg(63, 32);
 
     ap_int<64> shuffle4_cfg;
-    shuffle4_cfg(7, 0) = 3; // value#1263L
+    shuffle4_cfg(7, 0) = 3; // value#1744L
     shuffle4_cfg(15, 8) = -1;
     shuffle4_cfg(23, 16) = -1;
     shuffle4_cfg(31, 24) = -1;
