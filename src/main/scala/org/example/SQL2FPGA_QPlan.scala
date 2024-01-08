@@ -317,6 +317,7 @@ class SQL2FPGA_QPlan {
     var result = ""
     if (columnDictionary(raw_col_name)._2 == "NULL") {
       result = columnDictionary(raw_col_name)._1
+
     } else {
       if (columnDictionary(raw_col_name)._1 == "IntegerType" ||
         columnDictionary(raw_col_name)._1 == "LongType" ||
@@ -328,6 +329,9 @@ class SQL2FPGA_QPlan {
         println("print Type " + raw_col_name)
         result = getColumnDataType(dfmap(columnDictionary(raw_col_name)._1), columnDictionary(raw_col_name)._2)
       }
+    }
+    if (result.contains("DecimalType")) {
+      result = "IntegerType"
     }
     result
   }
@@ -7797,7 +7801,6 @@ class SQL2FPGA_QPlan {
               } else if (input_col_type == "LongType") {
                 _fpgaSWFuncCode += "        int64_t " + input_col_symbol + " = " + tbl_in_1 + ".getInt64(i, " + i + ");"
               } else if (input_col_type == "StringType") {
-
                 if (_stringRowIDBackSubstitution) {
                   //find the original stringRowID table that contains this string data
                   var orig_table_names = get_stringRowIDOriginalTableName(this)
