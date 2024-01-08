@@ -88,8 +88,10 @@ case class Supplier(
 
 class TpchSchemaProvider(sc: SparkSession, inputDir: String) {
   import sc.implicits._
+  
+  var format = "orc"
 
- val lineitemPre = sc.read.format("parquet")
+ val lineitemPre = sc.read.format(format)
     .load("file://" + inputDir + "/lineitem")
     .withColumn("l_orderkey",      col("l_orderkey").cast("int"))
     .withColumn("l_partkey",      col("l_partkey").cast("int"))
@@ -99,51 +101,51 @@ class TpchSchemaProvider(sc: SparkSession, inputDir: String) {
     .withColumn("l_extendedprice", (col("l_extendedprice") * 100).cast("int"))
     .withColumn("l_discount",      (col("l_discount")      * 100).cast("int"))
     .withColumn("l_tax",           (col("l_tax")           * 100).cast("int"))
-    .withColumn("l_returnflag",    expr("ascii(substr(l_returnflag, 1, 1))"))
-    .withColumn("l_linestatus",    expr("ascii(substr(l_linestatus, 1, 1))"))
+    .withColumn("l_returnflag",    expr("ascii(substr(l_returnflag, 1, 1))").cast("int"))
+    .withColumn("l_linestatus",    expr("ascii(substr(l_linestatus, 1, 1))").cast("int"))
     .withColumn("l_shipdate",      regexp_replace(col("l_shipdate"), "-", "").cast("int"))
     .withColumn("l_commitdate",    regexp_replace(col("l_commitdate"), "-", "").cast("int"))
     .withColumn("l_receiptdate",   regexp_replace(col("l_receiptdate"), "-", "").cast("int"))
 
-  val customerPre = sc.read.format("parquet")
+  val customerPre = sc.read.format(format)
     .load("file://" + inputDir + "/customer")
     .withColumn("c_custkey",      col("c_custkey").cast("int"))
     .withColumn("c_nationkey",      col("c_nationkey").cast("int"))
     .withColumn("c_acctbal",      (col("c_acctbal")      * 100).cast("int"))
 
 
-  val nationPre = sc.read.format("parquet")
+  val nationPre = sc.read.format(format)
     .load("file://" + inputDir + "/nation")
     .withColumn("n_nationkey",      col("n_nationkey").cast("int"))
     .withColumn("n_regionkey",      col("n_regionkey").cast("int"))
 
-  val regionPre = sc.read.format("parquet")
+  val regionPre = sc.read.format(format)
     .load("file://" + inputDir + "/region")
     .withColumn("r_regionkey",      col("r_regionkey").cast("int"))
 
-  val orderPre = sc.read.format("parquet")
+  val orderPre = sc.read.format(format)
     .load("file://" + inputDir + "/orders")
     .withColumn("o_orderkey",      col("o_orderkey").cast("int"))
     .withColumn("o_custkey",      col("o_custkey").cast("int"))
-    .withColumn("o_orderstatus",    expr("ascii(substr(o_orderstatus, 1, 1))"))
+    .withColumn("o_orderstatus",    expr("ascii(substr(o_orderstatus, 1, 1))").cast("int"))
     .withColumn("o_totalprice",       (col("o_totalprice")      * 100).cast("int"))
     .withColumn("o_orderdate",      regexp_replace(col("o_orderdate"), "-", "").cast("int"))
     .withColumn("o_shippriority",      col("o_shippriority").cast("int"))
 
-  val partPre = sc.read.format("parquet")
+  val partPre = sc.read.format(format)
     .load("file://" + inputDir + "/part")
     .withColumn("p_partkey", col("p_partkey").cast("int"))
     .withColumn("p_size", col("p_size").cast("int"))
     .withColumn("p_retailprice",       (col("p_retailprice")      * 100).cast("int"))
 
-  val partsuppPre = sc.read.format("parquet")
+  val partsuppPre = sc.read.format(format)
     .load("file://" + inputDir + "/partsupp")
     .withColumn("ps_partkey", col("ps_partkey").cast("int"))
     .withColumn("ps_suppkey", col("ps_suppkey").cast("int"))
     .withColumn("ps_availqty",       col("ps_availqty").cast("int"))
     .withColumn("ps_supplycost",       (col("ps_supplycost")*100).cast("int"))
 
-  val supplierPre = sc.read.format("parquet")
+  val supplierPre = sc.read.format(format)
     .load("file://" + inputDir + "/supplier")
     .withColumn("s_suppkey", col("s_suppkey").cast("int"))
     .withColumn("s_nationkey", col("s_nationkey").cast("int"))

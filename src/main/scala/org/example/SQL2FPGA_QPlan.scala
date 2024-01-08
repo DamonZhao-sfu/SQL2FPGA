@@ -4852,6 +4852,7 @@ class SQL2FPGA_QPlan {
         if (nthFilterNode < filterJoinNodeIdx && (join_node._children.head._nodeType == "Filter" || join_node._children.last._nodeType == "Filter")) {
           nthFilterNode += 1
           nthFilterNodeIdx = joinNodeList.indexOf(join_node)
+
         }
       }
 
@@ -7870,13 +7871,13 @@ class SQL2FPGA_QPlan {
               var outputCols_idx = outputCols.indexOf(col)
               if (seen(outputCols_idx) == 0) {
                 var input_col_type = getColumnType(col, dfmap)
-                var input_col_symbol = col.split("#").head
+                var input_col_symbol = stripColumnName(col)
                 if (input_col_type == "IntegerType") {
                   _fpgaSWFuncCode += "        " + tbl_out_1 + ".setInt32(i, " + outputCols_idx + ", " + input_col_symbol + ");"
                 } else if (input_col_type == "LongType") {
                   _fpgaSWFuncCode += "        " + tbl_out_1 + ".setInt64(i, " + outputCols_idx + ", " + input_col_symbol + ");"
                 } else if (input_col_type == "StringType") {
-                  _fpgaSWFuncCode += "        " + tbl_out_1 + ".setcharN<char, " + getStringLengthMacro(columnDictionary(input_col_symbol)) + " + 1>(i, " + outputCols_idx + ", " + input_col_symbol + ");"
+                  _fpgaSWFuncCode += "        " + tbl_out_1 + ".setcharN<char, " + getStringLengthMacro(columnDictionary(col.split("#").head)) + " + 1>(i, " + outputCols_idx + ", " + input_col_symbol + ");"
                 } else if (input_col_type == "DoubleType") {
                   _fpgaSWFuncCode += "        " + tbl_out_1 + ".setInt64(i, " + outputCols_idx + ", " + input_col_symbol + ");"
                 } else {
@@ -9186,13 +9187,13 @@ class SQL2FPGA_QPlan {
         //TODO: fix the line below
         if (aggr_operator != null && ss2 < idx_col_dict_prev.size) { // input cols - yes aggr
           var col_name = idx_col_dict_prev(ss2)
-          var prev_col_idx = col_idx_dict_next(col_name.split("#").head)
+          var prev_col_idx = col_idx_dict_prev(col_name.split("#").head)
           cfgFuncCode += "    shuffle2_cfg(" + ((ss2 + 1) * 8 - 1).toString + ", " + (ss2 * 8).toString + ") = " + prev_col_idx.toString + ";" + " // " + col_name
         }
         else if (aggr_operator == null && ss2 < idx_col_dict_next.size) { // input cols - no aggr
           var col_name = idx_col_dict_next(ss2)
-          var prev_col_idx = col_idx_dict_next(col_name.split("#").head)
-          cfgFuncCode += "    shuffle2_cfg(" + ((ss2 + 1) * 8 - 1).toString + ", " + (ss2 * 8).toString + ") = " + prev_col_idx.toString + ";" + " // " + col_name
+          var next_col_idx = col_idx_dict_next(col_name.split("#").head)
+          cfgFuncCode += "    shuffle2_cfg(" + ((ss2 + 1) * 8 - 1).toString + ", " + (ss2 * 8).toString + ") = " + next_col_idx.toString + ";" + " // " + col_name
         }
         else {
           cfgFuncCode += "    shuffle2_cfg(" + ((ss2 + 1) * 8 - 1).toString + ", " + (ss2 * 8).toString + ") = -1;"
