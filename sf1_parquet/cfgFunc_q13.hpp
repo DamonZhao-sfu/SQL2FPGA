@@ -84,134 +84,12 @@ static void gen_pass_fcfg(uint32_t cfg[]) {
     cfg[n++] = (uint32_t)(1UL << 31); 
 } 
 
-void get_cfg_dat_Project_TD_4206_gqe_join(ap_uint<512>* hbuf) {
-    // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
-    // Supported operation: Project
-    // Operation: ListBuffer(cast(c_custkey#253L as int) AS c_custkey#269)
-    // Left Table: ListBuffer(c_custkey#253L)
-    // Right Table: ListBuffer()
-    // Output Table: ListBuffer(c_custkey#269)
-    // Node Depth: 4
-    ap_uint<512>* b = hbuf;
-    memset(b, 0, sizeof(ap_uint<512>) * 9);
-    ap_uint<512> t = 0;
-
-    //--------------filter--------------
-    // input table a
-    signed char id_a[] = {0,-1,-1,-1,-1,-1,-1,-1};
-    for (int c = 0; c < 8; ++c) {
-        t.range(56 + 8 * c + 7, 56 + 8 * c) = id_a[c];
-    }
-    // filter tbl_a config
-    uint32_t cfga[45];
-    gen_pass_fcfg(cfga);
-    memcpy(&b[3], cfga, sizeof(uint32_t) * 45);
-
-    // input table b
-    signed char id_b[] = {-1,-1,-1,-1,-1,-1,-1,-1};
-    for (int c = 0; c < 8; ++c) {
-        t.range(120 + 8 * c + 7, 120 + 8 * c) = id_b[c];
-    }
-    // filter tbl_b config
-    uint32_t cfgb[45];
-    gen_pass_fcfg(cfgb);
-    memcpy(&b[6], cfgb, sizeof(uint32_t) * 45);
-
-    //--------------join--------------
-    //stream shuffle 1a
-    ap_int<64> shuffle1a_cfg;
-    shuffle1a_cfg(7, 0) = 0;
-    shuffle1a_cfg(15, 8) = -1;
-    shuffle1a_cfg(23, 16) = -1;
-    shuffle1a_cfg(31, 24) = -1;
-    shuffle1a_cfg(39, 32) = -1;
-    shuffle1a_cfg(47, 40) = -1;
-    shuffle1a_cfg(55, 48) = -1;
-    shuffle1a_cfg(63, 56) = -1;
-
-    //stream shuffle 1b
-    ap_int<64> shuffle1b_cfg;
-    shuffle1b_cfg(7, 0) = -1;
-    shuffle1b_cfg(15, 8) = -1;
-    shuffle1b_cfg(23, 16) = -1;
-    shuffle1b_cfg(31, 24) = -1;
-    shuffle1b_cfg(39, 32) = -1;
-    shuffle1b_cfg(47, 40) = -1;
-    shuffle1b_cfg(55, 48) = -1;
-    shuffle1b_cfg(63, 56) = -1;
-
-    // join config
-    t.set_bit(0, 0);    // join
-    t.set_bit(2, 0);    // dual-key
-    t.range(5, 3) = 0;  // hash join flag = 0 for normal, 1 for semi, 2 for anti
-
-    //--------------eval0--------------
-    //stream shuffle 2
-    ap_int<64> shuffle2_cfg;
-    shuffle2_cfg(7, 0) = 0; // c_custkey
-    shuffle2_cfg(15, 8) = -1;
-    shuffle2_cfg(23, 16) = -1;
-    shuffle2_cfg(31, 24) = -1;
-    shuffle2_cfg(39, 32) = -1;
-    shuffle2_cfg(47, 40) = -1;
-    shuffle2_cfg(55, 48) = -1;
-    shuffle2_cfg(63, 56) = -1;
-
-    ap_uint<289> op_eval_0 = 0; // c_custkey#253L
-    xf::database::dynamicALUOPCompiler<uint32_t, uint32_t, uint32_t, uint32_t>("strm1", 0, 0, 0, 0, op_eval_0);
-    b[1] = op_eval_0;
-
-    //--------------eval1--------------
-    // NO aggregation operation - eval1
-    //stream shuffle 3
-    ap_int<64> shuffle3_cfg;
-    shuffle3_cfg(7, 0) = 8; // c_custkey
-    shuffle3_cfg(15, 8) = 8; // c_custkey
-    shuffle3_cfg(23, 16) = -1;
-    shuffle3_cfg(31, 24) = -1;
-    shuffle3_cfg(39, 32) = -1;
-    shuffle3_cfg(47, 40) = -1;
-    shuffle3_cfg(55, 48) = -1;
-    shuffle3_cfg(63, 56) = -1;
-
-    ap_uint<289> op_eval_1 = 0; // NOP
-    // eval1: NOP
-    b[2] = op_eval_1;
-
-    //--------------aggregate--------------
-    //stream shuffle 4
-    ap_int<64> shuffle4_cfg;
-    shuffle4_cfg(7, 0) = 1; // c_custkey
-    shuffle4_cfg(15, 8) = -1;
-    shuffle4_cfg(23, 16) = -1;
-    shuffle4_cfg(31, 24) = -1;
-    shuffle4_cfg(39, 32) = -1;
-    shuffle4_cfg(47, 40) = -1;
-    shuffle4_cfg(55, 48) = -1;
-    shuffle4_cfg(63, 56) = -1;
-
-    t.set_bit(1, 0); // aggr flag
-
-    //--------------writeout--------------
-    // output table col
-    t.range(191, 184) = {1*1 + 2*0 + 4*0 + 8*0 + 16*0 + 32*0 + 64*0 + 128*0};
-    b[0] = t;
-
-    //stream shuffle assignment
-    b[0].range(255, 192) = shuffle1a_cfg;
-    b[0].range(319, 256) = shuffle1b_cfg;
-    b[0].range(383, 320) = shuffle2_cfg;
-    b[0].range(447, 384) = shuffle3_cfg;
-    b[0].range(511, 448) = shuffle4_cfg;
-}
-
-void get_cfg_dat_JOIN_INNER_TD_0738_gqe_join(ap_uint<512>* hbuf) {
+void get_cfg_dat_JOIN_INNER_TD_0719_gqe_join(ap_uint<512>* hbuf) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: JOIN_INNER
     // Operation: ListBuffer((c_custkey#269 = o_custkey#352))
-        // Binded Operation: Project -> operations: ListBuffer(cast(o_orderkey#324L as int) AS o_orderkey#342, cast(o_custkey#325L as int) AS o_custkey#352)
     // Left Table: ListBuffer(c_custkey#269)
-    // Right Table: ListBuffer(o_orderkey#324L, o_custkey#325L)
+    // Right Table: ListBuffer(o_orderkey#342, o_custkey#352)
     // Output Table: ListBuffer(c_custkey#269, o_orderkey#342, o_custkey#352)
     // Node Depth: 0
     ap_uint<512>* b = hbuf;
@@ -326,12 +204,11 @@ void get_cfg_dat_JOIN_INNER_TD_0738_gqe_join(ap_uint<512>* hbuf) {
     b[0].range(511, 448) = shuffle4_cfg;
 }
 
-void get_cfg_dat_JOIN_LEFTANTI_TD_3988_gqe_join(ap_uint<512>* hbuf) {
+void get_cfg_dat_JOIN_LEFTANTI_TD_3981_gqe_join(ap_uint<512>* hbuf) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: JOIN_LEFTANTI
     // Operation: ListBuffer((c_custkey#269 = o_custkey#352))
-        // Binded Operation: Project -> operations: ListBuffer(cast(c_custkey#253L as int) AS c_custkey#269)
-    // Left Table: ListBuffer(c_custkey#253L)
+    // Left Table: ListBuffer(c_custkey#269)
     // Right Table: ListBuffer(c_custkey#269, o_orderkey#342, o_custkey#352)
     // Output Table: ListBuffer(c_custkey#269, o_orderkey#342)
     // Node Depth: 3
@@ -447,12 +324,12 @@ void get_cfg_dat_JOIN_LEFTANTI_TD_3988_gqe_join(ap_uint<512>* hbuf) {
     b[0].range(511, 448) = shuffle4_cfg;
 }
 
-void get_cfg_dat_Aggregate_TD_2569_gqe_aggr(ap_uint<32>* buf) {
+void get_cfg_dat_Aggregate_TD_2283_gqe_aggr(ap_uint<32>* buf) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: Aggregate
-    // Operation: ListBuffer(c_custkey#269, count(o_orderkey#342) AS c_count#1912L)
+    // Operation: ListBuffer(c_custkey#269, count(o_orderkey#342) AS c_count#1895L)
     // Input Table: ListBuffer(c_custkey#269, o_orderkey#342)
-    // Output Table: ListBuffer(c_count#1912L)
+    // Output Table: ListBuffer(c_count#1895L)
     // Node Depth: 2
     ap_uint<32>* config = buf;
     memset(config, 0, sizeof(ap_uint<32>) * 83);
@@ -529,7 +406,7 @@ void get_cfg_dat_Aggregate_TD_2569_gqe_aggr(ap_uint<32>* buf) {
     config[72] = shuffle3_cfg(63, 32);
 
     ap_int<64> shuffle4_cfg;
-    shuffle4_cfg(7, 0) = 1; // c_count#1912L
+    shuffle4_cfg(7, 0) = 1; // c_count#1895L
     shuffle4_cfg(15, 8) = -1;
     shuffle4_cfg(23, 16) = -1;
     shuffle4_cfg(31, 24) = -1;
@@ -571,12 +448,12 @@ void get_cfg_dat_Aggregate_TD_2569_gqe_aggr(ap_uint<32>* buf) {
     config[82] = 0xffff;
 }
 
-void get_cfg_dat_Aggregate_TD_1785_gqe_aggr(ap_uint<32>* buf) {
+void get_cfg_dat_Aggregate_TD_1307_gqe_aggr(ap_uint<32>* buf) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: Aggregate
-    // Operation: ListBuffer(c_count#1912L, count(1) AS custdist#1907L)
-    // Input Table: ListBuffer(c_count#1912L)
-    // Output Table: ListBuffer(c_count#1912L, custdist#1907L)
+    // Operation: ListBuffer(c_count#1895L, count(1) AS custdist#1890L)
+    // Input Table: ListBuffer(c_count#1895L)
+    // Output Table: ListBuffer(c_count#1895L, custdist#1890L)
     // Node Depth: 1
     ap_uint<32>* config = buf;
     memset(config, 0, sizeof(ap_uint<32>) * 83);
@@ -604,7 +481,7 @@ void get_cfg_dat_Aggregate_TD_1785_gqe_aggr(ap_uint<32>* buf) {
     // eval0 -> eval1
     // NO evaluation 1 in aggregation expression - eval1
     ap_int<64> shuffle1_cfg;
-    shuffle1_cfg(7, 0) = 0; // c_count#1912L
+    shuffle1_cfg(7, 0) = 0; // c_count#1895L
     shuffle1_cfg(15, 8) = -1;
     shuffle1_cfg(23, 16) = -1;
     shuffle1_cfg(31, 24) = -1;
@@ -641,7 +518,7 @@ void get_cfg_dat_Aggregate_TD_1785_gqe_aggr(ap_uint<32>* buf) {
 
     // filter -> groupBy
     ap_int<64> shuffle3_cfg;
-    shuffle3_cfg(7, 0) = 0; // c_count#1912L
+    shuffle3_cfg(7, 0) = 0; // c_count#1895L
     shuffle3_cfg(15, 8) = -1;
     shuffle3_cfg(23, 16) = -1;
     shuffle3_cfg(31, 24) = -1;
@@ -653,7 +530,7 @@ void get_cfg_dat_Aggregate_TD_1785_gqe_aggr(ap_uint<32>* buf) {
     config[72] = shuffle3_cfg(63, 32);
 
     ap_int<64> shuffle4_cfg;
-    shuffle4_cfg(7, 0) = -1; // custdist#1907L
+    shuffle4_cfg(7, 0) = -1; // custdist#1890L
     shuffle4_cfg(15, 8) = -1;
     shuffle4_cfg(23, 16) = -1;
     shuffle4_cfg(31, 24) = -1;

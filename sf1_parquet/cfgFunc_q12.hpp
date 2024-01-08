@@ -84,14 +84,12 @@ static void gen_pass_fcfg(uint32_t cfg[]) {
     cfg[n++] = (uint32_t)(1UL << 31); 
 } 
 
-void get_cfg_dat_JOIN_INNER_TD_2994_gqe_join(ap_uint<512>* hbuf) {
+void get_cfg_dat_JOIN_INNER_TD_2573_gqe_join(ap_uint<512>* hbuf) {
     // StringRowIDSubstitution: true StringRowIDBackSubstitution: false
     // Supported operation: JOIN_INNER
     // Operation: ListBuffer((o_orderkey#342 = l_orderkey#32))
-        // Binded Operation: Project -> operations: ListBuffer(cast(o_orderkey#324L as int) AS o_orderkey#342)
-        // Binded Operation: Project -> operations: ListBuffer(cast(l_orderkey#0L as int) AS l_orderkey#32)
-    // Left Table: ListBuffer(l_orderkey#0L, l_shipmode#13)
-    // Right Table: ListBuffer(o_orderkey#324L, o_orderpriority#328)
+    // Left Table: ListBuffer(l_orderkey#32, l_shipmode#13)
+    // Right Table: ListBuffer(o_orderkey#342, o_orderpriority#328)
     // Output Table: ListBuffer(o_orderpriority#328, l_shipmode#13)
     // Node Depth: 2
     ap_uint<512>* b = hbuf;
