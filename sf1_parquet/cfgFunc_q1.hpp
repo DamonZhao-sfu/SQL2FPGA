@@ -84,7 +84,7 @@ static void gen_pass_fcfg(uint32_t cfg[]) {
     cfg[n++] = (uint32_t)(1UL << 31); 
 } 
 
-void get_cfg_dat_Aggregate_TD_1864_gqe_aggr(ap_uint<32>* buf) {
+void get_cfg_dat_Aggregate_TD_1264_gqe_aggr(ap_uint<32>* buf) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: Aggregate
     // Operation: ListBuffer(l_returnflag#168, l_linestatus#185, sum(l_quantity#100) AS sum_qty#1066L, sum(l_extendedprice#117) AS sum_base_price#1067L, sum((l_extendedprice#117 * (100 - l_discount#134))) AS sum_disc_price#1068L, sum(((l_extendedprice#117 * (100 - l_discount#134)) * (100 + l_tax#151))) AS sum_charge#1069L, avg(l_quantity#100) AS avg_qty#1070, avg(l_extendedprice#117) AS avg_price#1071, avg(l_discount#134) AS avg_disc#1072, count(1) AS count_order#1073L)
