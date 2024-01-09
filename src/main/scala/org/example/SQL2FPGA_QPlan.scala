@@ -330,7 +330,7 @@ class SQL2FPGA_QPlan {
         result = getColumnDataType(dfmap(columnDictionary(raw_col_name)._1), columnDictionary(raw_col_name)._2)
       }
     }
-    if (result.contains("DecimalType")) {
+    if (result.contains("DecimalType") || result.contains("DateType")) {
       result = "IntegerType"
     }
     result
@@ -991,7 +991,7 @@ class SQL2FPGA_QPlan {
         var col_symbol = children(1).operation(0).split(" AS ").last
         var col_symbol_trimmed = stripColumnName(col_symbol)
         // TODO this is codemap?
-        return (prereq_str, columnCodeMap(col_symbol_trimmed)._1)
+        return (prereq_str, columnDictionary(col_symbol_trimmed)._1)
       }
       else {
         println(expr.getClass.getName)
@@ -6881,13 +6881,12 @@ class SQL2FPGA_QPlan {
             _fpgaSWFuncCode += "    for (int i = 0; i < nrow1; i++) {"
             //print out filtering referenced columns
             for (_ref_col <- filtering_expression.references) {
-              var refCol = _ref_col.toString
-              var filter_input_col_name = refCol
+              var filter_input_col_name = _ref_col.toString
               var filter_input_col_idx = _children.head.outputCols.indexOf(filter_input_col_name)
-              var filter_input_col_type = getColumnType(filter_input_col_name, dfmap)
+              var filter_input_col_type = getColumnType(filter_input_col_name.split("#").head, dfmap)
               filter_input_col_name = stripColumnName(filter_input_col_name)
               if (filter_input_col_type == "StringType") {
-                _fpgaSWFuncCode += "        std::array<char, " + getStringLengthMacro(columnDictionary(refCol)) + " + 1> " + filter_input_col_name + " = " + tbl_in_1 + ".getcharN<char, " + getStringLengthMacro(columnDictionary(refCol)) + " + 1>(i, " + filter_input_col_idx.toString + ");"
+                _fpgaSWFuncCode += "        std::array<char, " + getStringLengthMacro(columnDictionary(_ref_col.toString().split("#").head)) + " + 1> " + filter_input_col_name + " = " + tbl_in_1 + ".getcharN<char, " + getStringLengthMacro(columnDictionary(_ref_col.toString().split("#").head)) + " + 1>(i, " + filter_input_col_idx.toString + ");"
               } else if (filter_input_col_type == "IntegerType") {
                 _fpgaSWFuncCode += "        int32_t " + filter_input_col_name + " = " + tbl_in_1 + ".getInt32(i, " + filter_input_col_idx.toString + ");"
               } else if (filter_input_col_type == "LongType") {
@@ -6914,7 +6913,11 @@ class SQL2FPGA_QPlan {
             }
             var i = 0
             for (col <- _outputCols) {
-              var dataType = getColumnType(col, dfmap)
+              var refCol = col.split("#").head
+              var dataType = getColumnType(refCol, dfmap)
+              if (refCol == "l_returnflag" || refCol == "l_linestatus" || refCol == "o_orderstatus") {
+                dataType = "IntegerType"
+              }
               var col_symbol = stripColumnName(col)
               var col_idx = _children.head.outputCols.indexOf(col)
               if (col_idx == -1) { //not found - check output_alias
@@ -7201,7 +7204,7 @@ class SQL2FPGA_QPlan {
             var i = 0
             // print out all input columns
             for (ch <- _children.head.outputCols) {
-              var input_col_type = getColumnType(ch, dfmap)
+              var input_col_type = getColumnType(ch.split("#").head, dfmap)
               var input_col = stripColumnName(ch)
               if (input_col_type == "IntegerType") {
                 _fpgaSWFuncCode += "        int32_t " + input_col + " = " + tbl_in_1 + tbl_partition_suffix + ".getInt32(i, " + i + ");"
@@ -7216,7 +7219,7 @@ class SQL2FPGA_QPlan {
                   var orig_tbl_col_idx = -1
                   for (orig_tbl <- orig_table_columns) {
                     for (col <- orig_tbl) {
-                      if (columnDictionary(ch) == columnDictionary(col)) {
+                      if (columnTableMap(ch) == columnTableMap(col)) {
                         orig_tbl_idx = orig_table_columns.indexOf(orig_tbl)
                         orig_tbl_col_idx = orig_tbl.indexOf(col)
                       }
@@ -7748,11 +7751,11 @@ class SQL2FPGA_QPlan {
                 if (col_type == "IntegerType") {
                   _fpgaSWFuncCode += "    " + tbl_out_1 + ".setInt32(r++, " + outputCols_idx + ", " + col_symbol_trimmed + ");"
                   //Alec-added: adding aggregation result based on the "AS" name in the case of subquery
-                  columnCodeMap += (col_symbol_trimmed -> (tbl_out_1 + ".getInt32(" + op_idx + ", 0)", "NULL"))
+                  columnDictionary += (col_symbol_trimmed -> (tbl_out_1 + ".getInt32(" + op_idx + ", 0)", "NULL"))
                 } else if (col_type == "LongType") {
                   _fpgaSWFuncCode += "    " + tbl_out_1 + ".setInt64(r++, " + outputCols_idx + ", " + col_symbol_trimmed + ");"
                   //Alec-added: adding aggregation result based on the "AS" name in the case of subquery
-                  columnCodeMap += (col_symbol_trimmed -> (tbl_out_1 + ".getInt64(" + op_idx + ", 0)", "NULL"))
+                  columnDictionary += (col_symbol_trimmed -> (tbl_out_1 + ".getInt64(" + op_idx + ", 0)", "NULL"))
                 } else {
                   _fpgaSWFuncCode += "    // Unsupported payload type"
                 }
@@ -7794,7 +7797,7 @@ class SQL2FPGA_QPlan {
             _fpgaSWFuncCode += "    for (int i = 0; i < nrow1; i++) {"
             var i = 0
             for (ch <- _children.head.outputCols) {
-              var input_col_type = getColumnType(ch, dfmap)
+              var input_col_type = getColumnType(ch.split("#").head, dfmap)
               var input_col_symbol = stripColumnName(ch)
               if (input_col_type == "IntegerType") {
                 _fpgaSWFuncCode += "        int32_t " + input_col_symbol + " = " + tbl_in_1 + ".getInt32(i, " + i + ");"
@@ -7809,7 +7812,7 @@ class SQL2FPGA_QPlan {
                   var orig_tbl_col_idx = -1
                   for (orig_tbl <- orig_table_columns) {
                     for (orig_col <- orig_tbl) {
-                      if (columnDictionary(ch) == columnDictionary(orig_col)) {
+                      if (columnTableMap(ch) == columnTableMap(orig_col)) {
                         orig_tbl_idx = orig_table_columns.indexOf(orig_tbl)
                         orig_tbl_col_idx = orig_tbl.indexOf(orig_col)
                       }
@@ -7836,7 +7839,7 @@ class SQL2FPGA_QPlan {
             for (expr <- _aggregate_expression) {
               var col_symbol = expr.toString.split(" AS ").last
               var col_expr = getAggregateExpression(expr.children(0))
-              var col_type = expr.dataType.toString
+              var col_type = getColumnType(col_symbol.split("#").head, dfmap)
               println(col_symbol + " = " + col_expr + " : " + col_type)
               columnDictionary += (col_symbol.split("#").head -> (col_type, "NULL"))
               columnDictionary += (col_symbol -> (col_type, "NULL"))
@@ -7873,7 +7876,7 @@ class SQL2FPGA_QPlan {
             for (col <- outputCols) {
               var outputCols_idx = outputCols.indexOf(col)
               if (seen(outputCols_idx) == 0) {
-                var input_col_type = getColumnType(col, dfmap)
+                var input_col_type = getColumnType(col.split("#").head, dfmap)
                 var input_col_symbol = stripColumnName(col)
                 if (input_col_type == "IntegerType") {
                   _fpgaSWFuncCode += "        " + tbl_out_1 + ".setInt32(i, " + outputCols_idx + ", " + input_col_symbol + ");"
@@ -8109,10 +8112,10 @@ class SQL2FPGA_QPlan {
           col_type = getColumnType(col_symbol, dfmap)
           if (col_type == "IntegerType") {
             //Alec-added: adding aggregation result based on the "AS" name in the case of subquery
-            columnCodeMap += (col_symbol_trimmed -> (tbl_out + ".getInt32(" + op_idx + ", 0)", "NULL"))
+            columnDictionary += (col_symbol_trimmed -> (tbl_out + ".getInt32(" + op_idx + ", 0)", "NULL"))
           } else if (col_type == "LongType") {
             //Alec-added: adding aggregation result based on the "AS" name in the case of subquery
-            columnCodeMap += (col_symbol_trimmed -> (tbl_out + ".getInt64(" + op_idx + ", 0)", "NULL"))
+            columnDictionary += (col_symbol_trimmed -> (tbl_out + ".getInt64(" + op_idx + ", 0)", "NULL"))
           } else {
           }
           op_idx += col_aggregate_ops.length
@@ -9190,14 +9193,14 @@ class SQL2FPGA_QPlan {
       for (ss2 <- 0 to 8 - 1) { //max 8 cols for input table
         //TODO: fix the line below
         if (aggr_operator != null && ss2 < idx_col_dict_prev.size) { // input cols - yes aggr
-          var col_name = idx_col_dict_prev(ss2)
+          var col_name = idx_col_dict_next(ss2)
           var prev_col_idx = col_idx_dict_prev(col_name.split("#").head)
           cfgFuncCode += "    shuffle2_cfg(" + ((ss2 + 1) * 8 - 1).toString + ", " + (ss2 * 8).toString + ") = " + prev_col_idx.toString + ";" + " // " + col_name
         }
         else if (aggr_operator == null && ss2 < idx_col_dict_next.size) { // input cols - no aggr
           var col_name = idx_col_dict_next(ss2)
-          var next_col_idx = col_idx_dict_next(col_name.split("#").head)
-          cfgFuncCode += "    shuffle2_cfg(" + ((ss2 + 1) * 8 - 1).toString + ", " + (ss2 * 8).toString + ") = " + next_col_idx.toString + ";" + " // " + col_name
+          var prev_col_idx = col_idx_dict_prev(col_name.split("#").head)
+          cfgFuncCode += "    shuffle2_cfg(" + ((ss2 + 1) * 8 - 1).toString + ", " + (ss2 * 8).toString + ") = " + prev_col_idx.toString + ";" + " // " + col_name
         }
         else {
           cfgFuncCode += "    shuffle2_cfg(" + ((ss2 + 1) * 8 - 1).toString + ", " + (ss2 * 8).toString + ") = -1;"
