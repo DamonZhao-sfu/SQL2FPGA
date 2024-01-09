@@ -84,7 +84,7 @@ static void gen_pass_fcfg(uint32_t cfg[]) {
     cfg[n++] = (uint32_t)(1UL << 31); 
 } 
 
-void get_cfg_dat_JOIN_INNER_TD_4697_gqe_join(ap_uint<512>* hbuf) {
+void get_cfg_dat_JOIN_INNER_TD_4681_gqe_join(ap_uint<512>* hbuf) {
     // StringRowIDSubstitution: true StringRowIDBackSubstitution: false
     // Supported operation: JOIN_INNER
     // Operation: ListBuffer((c_custkey#269 = o_custkey#352))
@@ -148,11 +148,11 @@ void get_cfg_dat_JOIN_INNER_TD_4697_gqe_join(ap_uint<512>* hbuf) {
     //--------------eval0--------------
     //stream shuffle 2
     ap_int<64> shuffle2_cfg;
-    shuffle2_cfg(7, 0) = 0; // c_custkey
-    shuffle2_cfg(15, 8) = 1; // c_name
-    shuffle2_cfg(23, 16) = 2; // c_nationkey
-    shuffle2_cfg(31, 24) = 3; // c_acctbal
-    shuffle2_cfg(39, 32) = 4; // o_orderkey
+    shuffle2_cfg(7, 0) = 12; // c_custkey
+    shuffle2_cfg(15, 8) = 2; // c_name
+    shuffle2_cfg(23, 16) = 1; // c_nationkey
+    shuffle2_cfg(31, 24) = 0; // c_acctbal
+    shuffle2_cfg(39, 32) = 6; // o_orderkey
     shuffle2_cfg(47, 40) = -1;
     shuffle2_cfg(55, 48) = -1;
     shuffle2_cfg(63, 56) = -1;
@@ -204,7 +204,7 @@ void get_cfg_dat_JOIN_INNER_TD_4697_gqe_join(ap_uint<512>* hbuf) {
     b[0].range(511, 448) = shuffle4_cfg;
 }
 
-void get_cfg_dat_JOIN_INNER_TD_3543_gqe_join(ap_uint<512>* hbuf) {
+void get_cfg_dat_JOIN_INNER_TD_3460_gqe_join(ap_uint<512>* hbuf) {
     // StringRowIDSubstitution: true StringRowIDBackSubstitution: false
     // Supported operation: JOIN_INNER
     // Operation: ListBuffer((l_orderkey#32 = o_orderkey#342))
@@ -269,11 +269,11 @@ void get_cfg_dat_JOIN_INNER_TD_3543_gqe_join(ap_uint<512>* hbuf) {
     //stream shuffle 2
     ap_int<64> shuffle2_cfg;
     shuffle2_cfg(7, 0) = 0; // c_custkey
-    shuffle2_cfg(15, 8) = 1; // c_name
+    shuffle2_cfg(15, 8) = 3; // c_name
     shuffle2_cfg(23, 16) = 2; // c_nationkey
-    shuffle2_cfg(31, 24) = 3; // c_acctbal
-    shuffle2_cfg(39, 32) = 4; // l_extendedprice
-    shuffle2_cfg(47, 40) = 5; // l_discount
+    shuffle2_cfg(31, 24) = 1; // c_acctbal
+    shuffle2_cfg(39, 32) = 6; // l_extendedprice
+    shuffle2_cfg(47, 40) = 7; // l_discount
     shuffle2_cfg(55, 48) = -1;
     shuffle2_cfg(63, 56) = -1;
 
@@ -324,7 +324,7 @@ void get_cfg_dat_JOIN_INNER_TD_3543_gqe_join(ap_uint<512>* hbuf) {
     b[0].range(511, 448) = shuffle4_cfg;
 }
 
-void get_cfg_dat_JOIN_INNER_TD_262_gqe_join(ap_uint<512>* hbuf) {
+void get_cfg_dat_JOIN_INNER_TD_2204_gqe_join(ap_uint<512>* hbuf) {
     // StringRowIDSubstitution: true StringRowIDBackSubstitution: false
     // Supported operation: JOIN_INNER
     // Operation: ListBuffer((c_nationkey#278 = n_nationkey#304))
@@ -389,11 +389,11 @@ void get_cfg_dat_JOIN_INNER_TD_262_gqe_join(ap_uint<512>* hbuf) {
     //stream shuffle 2
     ap_int<64> shuffle2_cfg;
     shuffle2_cfg(7, 0) = 0; // c_custkey
-    shuffle2_cfg(15, 8) = 1; // c_name
-    shuffle2_cfg(23, 16) = 2; // c_acctbal
+    shuffle2_cfg(15, 8) = 2; // c_name
+    shuffle2_cfg(23, 16) = 1; // c_acctbal
     shuffle2_cfg(31, 24) = 3; // l_extendedprice
     shuffle2_cfg(39, 32) = 4; // l_discount
-    shuffle2_cfg(47, 40) = 5; // n_name
+    shuffle2_cfg(47, 40) = 6; // n_name
     shuffle2_cfg(55, 48) = -1;
     shuffle2_cfg(63, 56) = -1;
 
