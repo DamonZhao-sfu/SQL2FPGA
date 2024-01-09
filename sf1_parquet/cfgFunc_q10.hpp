@@ -84,13 +84,13 @@ static void gen_pass_fcfg(uint32_t cfg[]) {
     cfg[n++] = (uint32_t)(1UL << 31); 
 } 
 
-void get_cfg_dat_JOIN_INNER_TD_4255_gqe_join(ap_uint<512>* hbuf) {
+void get_cfg_dat_JOIN_INNER_TD_4347_gqe_join(ap_uint<512>* hbuf) {
     // StringRowIDSubstitution: true StringRowIDBackSubstitution: false
     // Supported operation: JOIN_INNER
     // Operation: ListBuffer((c_custkey#269 = o_custkey#352))
     // Left Table: ListBuffer(o_orderkey#342, o_custkey#352)
     // Right Table: ListBuffer(c_custkey#269, c_name#254, c_nationkey#278, c_acctbal#287)
-    // Output Table: ListBuffer(c_custkey#269, c_name#254, c_nationkey#278, c_acctbal#287, o_orderkey#342)
+    // Output Table: ListBuffer(c_name#254, c_nationkey#278, c_acctbal#287, o_orderkey#342)
     // Node Depth: 4
     ap_uint<512>* b = hbuf;
     memset(b, 0, sizeof(ap_uint<512>) * 9);
@@ -148,11 +148,11 @@ void get_cfg_dat_JOIN_INNER_TD_4255_gqe_join(ap_uint<512>* hbuf) {
     //--------------eval0--------------
     //stream shuffle 2
     ap_int<64> shuffle2_cfg;
-    shuffle2_cfg(7, 0) = 12; // c_custkey
-    shuffle2_cfg(15, 8) = 2; // c_name
-    shuffle2_cfg(23, 16) = 1; // c_nationkey
-    shuffle2_cfg(31, 24) = 0; // c_acctbal
-    shuffle2_cfg(39, 32) = 6; // o_orderkey
+    shuffle2_cfg(7, 0) = 2; // c_name
+    shuffle2_cfg(15, 8) = 1; // c_nationkey
+    shuffle2_cfg(23, 16) = 0; // c_acctbal
+    shuffle2_cfg(31, 24) = 6; // o_orderkey
+    shuffle2_cfg(39, 32) = -1;
     shuffle2_cfg(47, 40) = -1;
     shuffle2_cfg(55, 48) = -1;
     shuffle2_cfg(63, 56) = -1;
@@ -164,11 +164,11 @@ void get_cfg_dat_JOIN_INNER_TD_4255_gqe_join(ap_uint<512>* hbuf) {
     //--------------eval1--------------
     //stream shuffle 3
     ap_int<64> shuffle3_cfg;
-    shuffle3_cfg(7, 0) = 0; // c_custkey
-    shuffle3_cfg(15, 8) = 1; // c_name
-    shuffle3_cfg(23, 16) = 2; // c_nationkey
-    shuffle3_cfg(31, 24) = 3; // c_acctbal
-    shuffle3_cfg(39, 32) = 4; // o_orderkey
+    shuffle3_cfg(7, 0) = 0; // c_name
+    shuffle3_cfg(15, 8) = 1; // c_nationkey
+    shuffle3_cfg(23, 16) = 2; // c_acctbal
+    shuffle3_cfg(31, 24) = 3; // o_orderkey
+    shuffle3_cfg(39, 32) = -1;
     shuffle3_cfg(47, 40) = -1;
     shuffle3_cfg(55, 48) = -1;
     shuffle3_cfg(63, 56) = -1;
@@ -180,11 +180,11 @@ void get_cfg_dat_JOIN_INNER_TD_4255_gqe_join(ap_uint<512>* hbuf) {
     //--------------aggregate--------------
     //stream shuffle 4
     ap_int<64> shuffle4_cfg;
-    shuffle4_cfg(7, 0) = 0; // c_custkey
-    shuffle4_cfg(15, 8) = 1; // c_name
-    shuffle4_cfg(23, 16) = 2; // c_nationkey
-    shuffle4_cfg(31, 24) = 3; // c_acctbal
-    shuffle4_cfg(39, 32) = 4; // o_orderkey
+    shuffle4_cfg(7, 0) = 0; // c_name
+    shuffle4_cfg(15, 8) = 1; // c_nationkey
+    shuffle4_cfg(23, 16) = 2; // c_acctbal
+    shuffle4_cfg(31, 24) = 3; // o_orderkey
+    shuffle4_cfg(39, 32) = -1;
     shuffle4_cfg(47, 40) = -1;
     shuffle4_cfg(55, 48) = -1;
     shuffle4_cfg(63, 56) = -1;
@@ -193,7 +193,7 @@ void get_cfg_dat_JOIN_INNER_TD_4255_gqe_join(ap_uint<512>* hbuf) {
 
     //--------------writeout--------------
     // output table col
-    t.range(191, 184) = {1*1 + 2*1 + 4*1 + 8*1 + 16*1 + 32*0 + 64*0 + 128*0};
+    t.range(191, 184) = {1*1 + 2*1 + 4*1 + 8*1 + 16*0 + 32*0 + 64*0 + 128*0};
     b[0] = t;
 
     //stream shuffle assignment
@@ -204,13 +204,13 @@ void get_cfg_dat_JOIN_INNER_TD_4255_gqe_join(ap_uint<512>* hbuf) {
     b[0].range(511, 448) = shuffle4_cfg;
 }
 
-void get_cfg_dat_JOIN_INNER_TD_3129_gqe_join(ap_uint<512>* hbuf) {
+void get_cfg_dat_JOIN_INNER_TD_3791_gqe_join(ap_uint<512>* hbuf) {
     // StringRowIDSubstitution: true StringRowIDBackSubstitution: false
     // Supported operation: JOIN_INNER
     // Operation: ListBuffer((l_orderkey#32 = o_orderkey#342))
-    // Left Table: ListBuffer(l_orderkey#32, l_extendedprice#117, l_discount#134)
-    // Right Table: ListBuffer(c_custkey#269, c_name#254, c_nationkey#278, c_acctbal#287, o_orderkey#342)
-    // Output Table: ListBuffer(c_custkey#269, c_name#254, c_nationkey#278, c_acctbal#287, l_extendedprice#117, l_discount#134)
+    // Left Table: ListBuffer(l_orderkey#32, l_extendedprice#117, l_discount#134, l_returnflag#168)
+    // Right Table: ListBuffer(c_name#254, c_nationkey#278, c_acctbal#287, o_orderkey#342)
+    // Output Table: ListBuffer(c_name#254, c_nationkey#278, c_acctbal#287, l_extendedprice#117, l_discount#134, l_returnflag#168)
     // Node Depth: 3
     ap_uint<512>* b = hbuf;
     memset(b, 0, sizeof(ap_uint<512>) * 9);
@@ -218,7 +218,7 @@ void get_cfg_dat_JOIN_INNER_TD_3129_gqe_join(ap_uint<512>* hbuf) {
 
     //--------------filter--------------
     // input table a
-    signed char id_a[] = {0,1,2,-1,-1,-1,-1,-1};
+    signed char id_a[] = {0,1,2,3,-1,-1,-1,-1};
     for (int c = 0; c < 8; ++c) {
         t.range(56 + 8 * c + 7, 56 + 8 * c) = id_a[c];
     }
@@ -228,7 +228,7 @@ void get_cfg_dat_JOIN_INNER_TD_3129_gqe_join(ap_uint<512>* hbuf) {
     memcpy(&b[3], cfga, sizeof(uint32_t) * 45);
 
     // input table b
-    signed char id_b[] = {0,1,2,3,4,-1,-1,-1};
+    signed char id_b[] = {0,1,2,3,-1,-1,-1,-1};
     for (int c = 0; c < 8; ++c) {
         t.range(120 + 8 * c + 7, 120 + 8 * c) = id_b[c];
     }
@@ -241,9 +241,9 @@ void get_cfg_dat_JOIN_INNER_TD_3129_gqe_join(ap_uint<512>* hbuf) {
     //stream shuffle 1a
     ap_int<64> shuffle1a_cfg;
     shuffle1a_cfg(7, 0) = 0;
-    shuffle1a_cfg(15, 8) = 1;
-    shuffle1a_cfg(23, 16) = 2;
-    shuffle1a_cfg(31, 24) = -1;
+    shuffle1a_cfg(15, 8) = 3;
+    shuffle1a_cfg(23, 16) = 1;
+    shuffle1a_cfg(31, 24) = 2;
     shuffle1a_cfg(39, 32) = -1;
     shuffle1a_cfg(47, 40) = -1;
     shuffle1a_cfg(55, 48) = -1;
@@ -251,11 +251,11 @@ void get_cfg_dat_JOIN_INNER_TD_3129_gqe_join(ap_uint<512>* hbuf) {
 
     //stream shuffle 1b
     ap_int<64> shuffle1b_cfg;
-    shuffle1b_cfg(7, 0) = 4;
-    shuffle1b_cfg(15, 8) = 0;
-    shuffle1b_cfg(23, 16) = 3;
-    shuffle1b_cfg(31, 24) = 2;
-    shuffle1b_cfg(39, 32) = 1;
+    shuffle1b_cfg(7, 0) = 3;
+    shuffle1b_cfg(15, 8) = 2;
+    shuffle1b_cfg(23, 16) = 1;
+    shuffle1b_cfg(31, 24) = 0;
+    shuffle1b_cfg(39, 32) = -1;
     shuffle1b_cfg(47, 40) = -1;
     shuffle1b_cfg(55, 48) = -1;
     shuffle1b_cfg(63, 56) = -1;
@@ -268,12 +268,12 @@ void get_cfg_dat_JOIN_INNER_TD_3129_gqe_join(ap_uint<512>* hbuf) {
     //--------------eval0--------------
     //stream shuffle 2
     ap_int<64> shuffle2_cfg;
-    shuffle2_cfg(7, 0) = 0; // c_custkey
-    shuffle2_cfg(15, 8) = 3; // c_name
-    shuffle2_cfg(23, 16) = 2; // c_nationkey
-    shuffle2_cfg(31, 24) = 1; // c_acctbal
-    shuffle2_cfg(39, 32) = 6; // l_extendedprice
-    shuffle2_cfg(47, 40) = 7; // l_discount
+    shuffle2_cfg(7, 0) = 2; // c_name
+    shuffle2_cfg(15, 8) = 1; // c_nationkey
+    shuffle2_cfg(23, 16) = 0; // c_acctbal
+    shuffle2_cfg(31, 24) = 7; // l_extendedprice
+    shuffle2_cfg(39, 32) = 8; // l_discount
+    shuffle2_cfg(47, 40) = 6; // l_returnflag
     shuffle2_cfg(55, 48) = -1;
     shuffle2_cfg(63, 56) = -1;
 
@@ -284,12 +284,12 @@ void get_cfg_dat_JOIN_INNER_TD_3129_gqe_join(ap_uint<512>* hbuf) {
     //--------------eval1--------------
     //stream shuffle 3
     ap_int<64> shuffle3_cfg;
-    shuffle3_cfg(7, 0) = 0; // c_custkey
-    shuffle3_cfg(15, 8) = 1; // c_name
-    shuffle3_cfg(23, 16) = 2; // c_nationkey
-    shuffle3_cfg(31, 24) = 3; // c_acctbal
-    shuffle3_cfg(39, 32) = 4; // l_extendedprice
-    shuffle3_cfg(47, 40) = 5; // l_discount
+    shuffle3_cfg(7, 0) = 0; // c_name
+    shuffle3_cfg(15, 8) = 1; // c_nationkey
+    shuffle3_cfg(23, 16) = 2; // c_acctbal
+    shuffle3_cfg(31, 24) = 3; // l_extendedprice
+    shuffle3_cfg(39, 32) = 4; // l_discount
+    shuffle3_cfg(47, 40) = 5; // l_returnflag
     shuffle3_cfg(55, 48) = -1;
     shuffle3_cfg(63, 56) = -1;
 
@@ -300,12 +300,12 @@ void get_cfg_dat_JOIN_INNER_TD_3129_gqe_join(ap_uint<512>* hbuf) {
     //--------------aggregate--------------
     //stream shuffle 4
     ap_int<64> shuffle4_cfg;
-    shuffle4_cfg(7, 0) = 0; // c_custkey
-    shuffle4_cfg(15, 8) = 1; // c_name
-    shuffle4_cfg(23, 16) = 2; // c_nationkey
-    shuffle4_cfg(31, 24) = 3; // c_acctbal
-    shuffle4_cfg(39, 32) = 4; // l_extendedprice
-    shuffle4_cfg(47, 40) = 5; // l_discount
+    shuffle4_cfg(7, 0) = 0; // c_name
+    shuffle4_cfg(15, 8) = 1; // c_nationkey
+    shuffle4_cfg(23, 16) = 2; // c_acctbal
+    shuffle4_cfg(31, 24) = 3; // l_extendedprice
+    shuffle4_cfg(39, 32) = 4; // l_discount
+    shuffle4_cfg(47, 40) = 5; // l_returnflag
     shuffle4_cfg(55, 48) = -1;
     shuffle4_cfg(63, 56) = -1;
 
@@ -324,13 +324,13 @@ void get_cfg_dat_JOIN_INNER_TD_3129_gqe_join(ap_uint<512>* hbuf) {
     b[0].range(511, 448) = shuffle4_cfg;
 }
 
-void get_cfg_dat_JOIN_INNER_TD_251_gqe_join(ap_uint<512>* hbuf) {
+void get_cfg_dat_JOIN_INNER_TD_2301_gqe_join(ap_uint<512>* hbuf) {
     // StringRowIDSubstitution: true StringRowIDBackSubstitution: false
     // Supported operation: JOIN_INNER
     // Operation: ListBuffer((c_nationkey#278 = n_nationkey#304))
     // Left Table: ListBuffer(n_nationkey#304, n_name#297)
-    // Right Table: ListBuffer(c_custkey#269, c_name#254, c_nationkey#278, c_acctbal#287, l_extendedprice#117, l_discount#134)
-    // Output Table: ListBuffer(c_custkey#269, c_name#254, c_acctbal#287, l_extendedprice#117, l_discount#134, n_name#297)
+    // Right Table: ListBuffer(c_name#254, c_nationkey#278, c_acctbal#287, l_extendedprice#117, l_discount#134, l_returnflag#168)
+    // Output Table: ListBuffer(c_name#254, c_acctbal#287, l_extendedprice#117, l_discount#134, l_returnflag#168, n_name#297)
     // Node Depth: 2
     ap_uint<512>* b = hbuf;
     memset(b, 0, sizeof(ap_uint<512>) * 9);
@@ -371,12 +371,12 @@ void get_cfg_dat_JOIN_INNER_TD_251_gqe_join(ap_uint<512>* hbuf) {
 
     //stream shuffle 1b
     ap_int<64> shuffle1b_cfg;
-    shuffle1b_cfg(7, 0) = 2;
-    shuffle1b_cfg(15, 8) = 0;
-    shuffle1b_cfg(23, 16) = 3;
-    shuffle1b_cfg(31, 24) = 1;
-    shuffle1b_cfg(39, 32) = 4;
-    shuffle1b_cfg(47, 40) = 5;
+    shuffle1b_cfg(7, 0) = 1;
+    shuffle1b_cfg(15, 8) = 2;
+    shuffle1b_cfg(23, 16) = 5;
+    shuffle1b_cfg(31, 24) = 0;
+    shuffle1b_cfg(39, 32) = 3;
+    shuffle1b_cfg(47, 40) = 4;
     shuffle1b_cfg(55, 48) = -1;
     shuffle1b_cfg(63, 56) = -1;
 
@@ -388,11 +388,11 @@ void get_cfg_dat_JOIN_INNER_TD_251_gqe_join(ap_uint<512>* hbuf) {
     //--------------eval0--------------
     //stream shuffle 2
     ap_int<64> shuffle2_cfg;
-    shuffle2_cfg(7, 0) = 0; // c_custkey
-    shuffle2_cfg(15, 8) = 2; // c_name
-    shuffle2_cfg(23, 16) = 1; // c_acctbal
-    shuffle2_cfg(31, 24) = 3; // l_extendedprice
-    shuffle2_cfg(39, 32) = 4; // l_discount
+    shuffle2_cfg(7, 0) = 2; // c_name
+    shuffle2_cfg(15, 8) = 0; // c_acctbal
+    shuffle2_cfg(23, 16) = 3; // l_extendedprice
+    shuffle2_cfg(31, 24) = 4; // l_discount
+    shuffle2_cfg(39, 32) = 1; // l_returnflag
     shuffle2_cfg(47, 40) = 6; // n_name
     shuffle2_cfg(55, 48) = -1;
     shuffle2_cfg(63, 56) = -1;
@@ -404,11 +404,11 @@ void get_cfg_dat_JOIN_INNER_TD_251_gqe_join(ap_uint<512>* hbuf) {
     //--------------eval1--------------
     //stream shuffle 3
     ap_int<64> shuffle3_cfg;
-    shuffle3_cfg(7, 0) = 0; // c_custkey
-    shuffle3_cfg(15, 8) = 1; // c_name
-    shuffle3_cfg(23, 16) = 2; // c_acctbal
-    shuffle3_cfg(31, 24) = 3; // l_extendedprice
-    shuffle3_cfg(39, 32) = 4; // l_discount
+    shuffle3_cfg(7, 0) = 0; // c_name
+    shuffle3_cfg(15, 8) = 1; // c_acctbal
+    shuffle3_cfg(23, 16) = 2; // l_extendedprice
+    shuffle3_cfg(31, 24) = 3; // l_discount
+    shuffle3_cfg(39, 32) = 4; // l_returnflag
     shuffle3_cfg(47, 40) = 5; // n_name
     shuffle3_cfg(55, 48) = -1;
     shuffle3_cfg(63, 56) = -1;
@@ -420,11 +420,11 @@ void get_cfg_dat_JOIN_INNER_TD_251_gqe_join(ap_uint<512>* hbuf) {
     //--------------aggregate--------------
     //stream shuffle 4
     ap_int<64> shuffle4_cfg;
-    shuffle4_cfg(7, 0) = 0; // c_custkey
-    shuffle4_cfg(15, 8) = 1; // c_name
-    shuffle4_cfg(23, 16) = 2; // c_acctbal
-    shuffle4_cfg(31, 24) = 3; // l_extendedprice
-    shuffle4_cfg(39, 32) = 4; // l_discount
+    shuffle4_cfg(7, 0) = 0; // c_name
+    shuffle4_cfg(15, 8) = 1; // c_acctbal
+    shuffle4_cfg(23, 16) = 2; // l_extendedprice
+    shuffle4_cfg(31, 24) = 3; // l_discount
+    shuffle4_cfg(39, 32) = 4; // l_returnflag
     shuffle4_cfg(47, 40) = 5; // n_name
     shuffle4_cfg(55, 48) = -1;
     shuffle4_cfg(63, 56) = -1;
