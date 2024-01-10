@@ -84,7 +84,7 @@ static void gen_pass_fcfg(uint32_t cfg[]) {
     cfg[n++] = (uint32_t)(1UL << 31); 
 } 
 
-void get_cfg_dat_JOIN_INNER_TD_2573_gqe_join(ap_uint<512>* hbuf) {
+void get_cfg_dat_JOIN_INNER_TD_2599_gqe_join(ap_uint<512>* hbuf) {
     // StringRowIDSubstitution: true StringRowIDBackSubstitution: false
     // Supported operation: JOIN_INNER
     // Operation: ListBuffer((o_orderkey#342 = l_orderkey#32))
@@ -149,7 +149,7 @@ void get_cfg_dat_JOIN_INNER_TD_2573_gqe_join(ap_uint<512>* hbuf) {
     //stream shuffle 2
     ap_int<64> shuffle2_cfg;
     shuffle2_cfg(7, 0) = 0; // o_orderpriority
-    shuffle2_cfg(15, 8) = 1; // l_shipmode
+    shuffle2_cfg(15, 8) = 6; // l_shipmode
     shuffle2_cfg(23, 16) = -1;
     shuffle2_cfg(31, 24) = -1;
     shuffle2_cfg(39, 32) = -1;

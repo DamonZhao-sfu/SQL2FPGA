@@ -84,7 +84,7 @@ static void gen_pass_fcfg(uint32_t cfg[]) {
     cfg[n++] = (uint32_t)(1UL << 31); 
 } 
 
-void get_cfg_dat_JOIN_INNER_TD_9982_gqe_join(ap_uint<512>* hbuf) {
+void get_cfg_dat_JOIN_INNER_TD_9685_gqe_join(ap_uint<512>* hbuf) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: JOIN_INNER
     // Operation: ListBuffer((s_suppkey#498 = ps_suppkey#466))
@@ -148,9 +148,9 @@ void get_cfg_dat_JOIN_INNER_TD_9982_gqe_join(ap_uint<512>* hbuf) {
     //--------------eval0--------------
     //stream shuffle 2
     ap_int<64> shuffle2_cfg;
-    shuffle2_cfg(7, 0) = 0; // ps_partkey
-    shuffle2_cfg(15, 8) = 1; // ps_supplycost
-    shuffle2_cfg(23, 16) = 2; // s_nationkey
+    shuffle2_cfg(7, 0) = 6; // ps_partkey
+    shuffle2_cfg(15, 8) = 7; // ps_supplycost
+    shuffle2_cfg(23, 16) = 0; // s_nationkey
     shuffle2_cfg(31, 24) = -1;
     shuffle2_cfg(39, 32) = -1;
     shuffle2_cfg(47, 40) = -1;
@@ -204,7 +204,7 @@ void get_cfg_dat_JOIN_INNER_TD_9982_gqe_join(ap_uint<512>* hbuf) {
     b[0].range(511, 448) = shuffle4_cfg;
 }
 
-void get_cfg_dat_JOIN_INNER_TD_8766_gqe_join(ap_uint<512>* hbuf) {
+void get_cfg_dat_JOIN_INNER_TD_8366_gqe_join(ap_uint<512>* hbuf) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: JOIN_INNER
     // Operation: ListBuffer((s_nationkey#506 = n_nationkey#304))
@@ -268,9 +268,9 @@ void get_cfg_dat_JOIN_INNER_TD_8766_gqe_join(ap_uint<512>* hbuf) {
     //--------------eval0--------------
     //stream shuffle 2
     ap_int<64> shuffle2_cfg;
-    shuffle2_cfg(7, 0) = 0; // ps_partkey
-    shuffle2_cfg(15, 8) = 1; // ps_supplycost
-    shuffle2_cfg(23, 16) = 2; // n_regionkey
+    shuffle2_cfg(7, 0) = 6; // ps_partkey
+    shuffle2_cfg(15, 8) = 7; // ps_supplycost
+    shuffle2_cfg(23, 16) = 0; // n_regionkey
     shuffle2_cfg(31, 24) = -1;
     shuffle2_cfg(39, 32) = -1;
     shuffle2_cfg(47, 40) = -1;
@@ -324,7 +324,7 @@ void get_cfg_dat_JOIN_INNER_TD_8766_gqe_join(ap_uint<512>* hbuf) {
     b[0].range(511, 448) = shuffle4_cfg;
 }
 
-void get_cfg_dat_JOIN_INNER_TD_7591_gqe_join(ap_uint<512>* hbuf) {
+void get_cfg_dat_JOIN_INNER_TD_7488_gqe_join(ap_uint<512>* hbuf) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: JOIN_INNER
     // Operation: ListBuffer((n_regionkey#309 = r_regionkey#320))
@@ -388,8 +388,8 @@ void get_cfg_dat_JOIN_INNER_TD_7591_gqe_join(ap_uint<512>* hbuf) {
     //--------------eval0--------------
     //stream shuffle 2
     ap_int<64> shuffle2_cfg;
-    shuffle2_cfg(7, 0) = 0; // ps_partkey
-    shuffle2_cfg(15, 8) = 1; // ps_supplycost
+    shuffle2_cfg(7, 0) = 6; // ps_partkey
+    shuffle2_cfg(15, 8) = 7; // ps_supplycost
     shuffle2_cfg(23, 16) = -1;
     shuffle2_cfg(31, 24) = -1;
     shuffle2_cfg(39, 32) = -1;
@@ -444,7 +444,7 @@ void get_cfg_dat_JOIN_INNER_TD_7591_gqe_join(ap_uint<512>* hbuf) {
     b[0].range(511, 448) = shuffle4_cfg;
 }
 
-void get_cfg_dat_JOIN_INNER_TD_5794_gqe_join(ap_uint<512>* hbuf) {
+void get_cfg_dat_JOIN_INNER_TD_522_gqe_join(ap_uint<512>* hbuf) {
     // StringRowIDSubstitution: true StringRowIDBackSubstitution: false
     // Supported operation: JOIN_INNER
     // Operation: ListBuffer((p_partkey#420 = ps_partkey#460))
@@ -508,10 +508,10 @@ void get_cfg_dat_JOIN_INNER_TD_5794_gqe_join(ap_uint<512>* hbuf) {
     //--------------eval0--------------
     //stream shuffle 2
     ap_int<64> shuffle2_cfg;
-    shuffle2_cfg(7, 0) = 0; // p_partkey
-    shuffle2_cfg(15, 8) = 1; // p_mfgr
-    shuffle2_cfg(23, 16) = 2; // ps_suppkey
-    shuffle2_cfg(31, 24) = 3; // ps_supplycost
+    shuffle2_cfg(7, 0) = 12; // p_partkey
+    shuffle2_cfg(15, 8) = 0; // p_mfgr
+    shuffle2_cfg(23, 16) = 6; // ps_suppkey
+    shuffle2_cfg(31, 24) = 7; // ps_supplycost
     shuffle2_cfg(39, 32) = -1;
     shuffle2_cfg(47, 40) = -1;
     shuffle2_cfg(55, 48) = -1;
