@@ -84,13 +84,13 @@ static void gen_pass_fcfg(uint32_t cfg[]) {
     cfg[n++] = (uint32_t)(1UL << 31); 
 } 
 
-void get_cfg_dat_JOIN_INNER_TD_2599_gqe_join(ap_uint<512>* hbuf) {
+void get_cfg_dat_JOIN_INNER_TD_2542_gqe_join(ap_uint<512>* hbuf) {
     // StringRowIDSubstitution: true StringRowIDBackSubstitution: false
     // Supported operation: JOIN_INNER
-    // Operation: ListBuffer((o_orderkey#342 = l_orderkey#32))
-    // Left Table: ListBuffer(l_orderkey#32, l_shipmode#13)
-    // Right Table: ListBuffer(o_orderkey#342, o_orderpriority#328)
-    // Output Table: ListBuffer(o_orderpriority#328, l_shipmode#13)
+    // Operation: ListBuffer((o_orderkey#227 = l_orderkey#50))
+    // Left Table: ListBuffer(l_orderkey#50, l_shipmode#64)
+    // Right Table: ListBuffer(o_orderkey#227, o_orderpriority#232)
+    // Output Table: ListBuffer(o_orderpriority#232, l_shipmode#64)
     // Node Depth: 2
     ap_uint<512>* b = hbuf;
     memset(b, 0, sizeof(ap_uint<512>) * 9);

@@ -1356,10 +1356,8 @@ class SQL2FPGA_QPlan {
           terms ++= right_sub
       }
       else if (expr.getClass.getName == "org.apache.spark.sql.catalyst.expressions.EqualTo") {
-        if ((expr.children(0).getClass.getName == "org.apache.spark.sql.catalyst.expressions.AttributeReference"
-          || expr.children(1).getClass.getName == "org.apache.spark.sql.catalyst.expressions.AttributeReference")
-          && (expr.children(0).getClass.getName != "org.apache.spark.sql.catalyst.expressions.AttributeReference"
-          || expr.children(1).getClass.getName != "org.apache.spark.sql.catalyst.expressions.AttributeReference")
+        if ((expr.children(0).getClass.getName == "org.apache.spark.sql.catalyst.expressions.AttributeReference" || expr.children(0).getClass.getName == "org.apache.spark.sql.catalyst.expressions.Cast" || expr.children(1).getClass.getName == "org.apache.spark.sql.catalyst.expressions.AttributeReference" || expr.children(1).getClass.getName == "org.apache.spark.sql.catalyst.expressions.Cast")
+          && ((expr.children(0).getClass.getName != "org.apache.spark.sql.catalyst.expressions.AttributeReference" && expr.children(0).getClass.getName != "org.apache.spark.sql.catalyst.expressions.Cast") || (expr.children(1).getClass.getName != "org.apache.spark.sql.catalyst.expressions.AttributeReference" && expr.children(1).getClass.getName != "org.apache.spark.sql.catalyst.expressions.Cast"))
         ) {
           if (negate)
             terms += (expr.toString).replace(" = ", " != ")

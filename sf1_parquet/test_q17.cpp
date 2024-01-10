@@ -99,155 +99,125 @@ int main(int argc, const char* argv[]) {
     devices_h.push_back(device_h); 
     cl::Program program_h(context_h, devices_h, xclBins_h); 
     // ****************************** Tables **************************** // 
-    Table tbl_Aggregate_TD_0973_output("tbl_Aggregate_TD_0973_output", 6100000, 1, "");
-    tbl_Aggregate_TD_0973_output.allocateHost();
-    Table tbl_JOIN_INNER_TD_1952_output("tbl_JOIN_INNER_TD_1952_output", 6100000, 1, "");
-    tbl_JOIN_INNER_TD_1952_output.allocateHost();
-    Table tbl_JOIN_INNER_TD_2649_output("tbl_JOIN_INNER_TD_2649_output", 1507, 3, "");
-    tbl_JOIN_INNER_TD_2649_output.allocateHost();
-    Table tbl_Aggregate_TD_3395_output("tbl_Aggregate_TD_3395_output", 6100000, 2, "");
-    tbl_Aggregate_TD_3395_output.allocateHost();
-    Table tbl_Project_TD_364_output("tbl_Project_TD_364_output", 6100000, 3, "");
-    tbl_Project_TD_364_output.allocateHost();
-    Table tbl_Project_TD_345_output("tbl_Project_TD_345_output", 6100000, 1, "");
-    tbl_Project_TD_345_output.allocateHost();
-    Table tbl_Project_TD_4903_output("tbl_Project_TD_4903_output", 6100000, 2, "");
-    tbl_Project_TD_4903_output.allocateHost();
-    Table tbl_SerializeFromObject_TD_5709_input;
-    tbl_SerializeFromObject_TD_5709_input = Table("lineitem", lineitem_n, 3, in_dir);
-    tbl_SerializeFromObject_TD_5709_input.addCol("l_partkey", 4);
-    tbl_SerializeFromObject_TD_5709_input.addCol("l_quantity", 4);
-    tbl_SerializeFromObject_TD_5709_input.addCol("l_extendedprice", 4);
-    tbl_SerializeFromObject_TD_5709_input.allocateHost();
-    tbl_SerializeFromObject_TD_5709_input.loadHost();
-    Table tbl_Filter_TD_4323_output("tbl_Filter_TD_4323_output", 6100000, 1, "");
-    tbl_Filter_TD_4323_output.allocateHost();
-    Table tbl_SerializeFromObject_TD_6483_input;
-    tbl_SerializeFromObject_TD_6483_input = Table("lineitem", lineitem_n, 2, in_dir);
-    tbl_SerializeFromObject_TD_6483_input.addCol("l_partkey", 4);
-    tbl_SerializeFromObject_TD_6483_input.addCol("l_quantity", 4);
-    tbl_SerializeFromObject_TD_6483_input.allocateHost();
-    tbl_SerializeFromObject_TD_6483_input.loadHost();
-    Table tbl_SerializeFromObject_TD_5815_input;
-    tbl_SerializeFromObject_TD_5815_input = Table("part", part_n, 3, in_dir);
-    tbl_SerializeFromObject_TD_5815_input.addCol("p_partkey", 4);
-    tbl_SerializeFromObject_TD_5815_input.addCol("p_brand", TPCH_READ_P_BRND_LEN+1);
-    tbl_SerializeFromObject_TD_5815_input.addCol("p_container", TPCH_READ_P_CNTR_LEN+1);
-    tbl_SerializeFromObject_TD_5815_input.allocateHost();
-    tbl_SerializeFromObject_TD_5815_input.loadHost();
+    Table tbl_Aggregate_TD_02_output("tbl_Aggregate_TD_02_output", 6100000, 1, "");
+    tbl_Aggregate_TD_02_output.allocateHost();
+    Table tbl_JOIN_INNER_TD_165_output("tbl_JOIN_INNER_TD_165_output", 6100000, 1, "");
+    tbl_JOIN_INNER_TD_165_output.allocateHost();
+    Table tbl_JOIN_INNER_TD_248_output("tbl_JOIN_INNER_TD_248_output", 1507, 3, "");
+    tbl_JOIN_INNER_TD_248_output.allocateHost();
+    Table tbl_Aggregate_TD_3595_output("tbl_Aggregate_TD_3595_output", 6100000, 2, "");
+    tbl_Aggregate_TD_3595_output.allocateHost();
+    Table tbl_SerializeFromObject_TD_3949_input;
+    tbl_SerializeFromObject_TD_3949_input = Table("lineitem", lineitem_n, 3, in_dir);
+    tbl_SerializeFromObject_TD_3949_input.addCol("l_partkey", 4);
+    tbl_SerializeFromObject_TD_3949_input.addCol("l_quantity", 4);
+    tbl_SerializeFromObject_TD_3949_input.addCol("l_extendedprice", 4);
+    tbl_SerializeFromObject_TD_3949_input.allocateHost();
+    tbl_SerializeFromObject_TD_3949_input.loadHost();
+    Table tbl_Filter_TD_3458_output("tbl_Filter_TD_3458_output", 6100000, 1, "");
+    tbl_Filter_TD_3458_output.allocateHost();
+    Table tbl_SerializeFromObject_TD_4718_input;
+    tbl_SerializeFromObject_TD_4718_input = Table("lineitem", lineitem_n, 2, in_dir);
+    tbl_SerializeFromObject_TD_4718_input.addCol("l_partkey", 4);
+    tbl_SerializeFromObject_TD_4718_input.addCol("l_quantity", 4);
+    tbl_SerializeFromObject_TD_4718_input.allocateHost();
+    tbl_SerializeFromObject_TD_4718_input.loadHost();
+    Table tbl_SerializeFromObject_TD_4449_input;
+    tbl_SerializeFromObject_TD_4449_input = Table("part", part_n, 3, in_dir);
+    tbl_SerializeFromObject_TD_4449_input.addCol("p_partkey", 4);
+    tbl_SerializeFromObject_TD_4449_input.addCol("p_brand", TPCH_READ_P_BRND_LEN+1);
+    tbl_SerializeFromObject_TD_4449_input.addCol("p_container", TPCH_READ_P_CNTR_LEN+1);
+    tbl_SerializeFromObject_TD_4449_input.allocateHost();
+    tbl_SerializeFromObject_TD_4449_input.loadHost();
     // ********************** Allocate Device Buffer ******************** // 
-    tbl_JOIN_INNER_TD_2649_output.allocateDevBuffer(context_h, 32);
-    tbl_Project_TD_364_output.allocateDevBuffer(context_h, 32);
-    tbl_Project_TD_345_output.allocateDevBuffer(context_h, 32);
+    tbl_JOIN_INNER_TD_248_output.allocateDevBuffer(context_h, 32);
+    tbl_SerializeFromObject_TD_3949_input.allocateDevBuffer(context_h, 32);
+    tbl_Filter_TD_3458_output.allocateDevBuffer(context_h, 32);
     // ****************************** Config **************************** // 
-    cfgCmd cfg_JOIN_INNER_TD_2649_cmds;
-    cfg_JOIN_INNER_TD_2649_cmds.allocateHost();
-    get_cfg_dat_JOIN_INNER_TD_2649_gqe_join (cfg_JOIN_INNER_TD_2649_cmds.cmd);
-    cfg_JOIN_INNER_TD_2649_cmds.allocateDevBuffer(context_h, 32);
+    cfgCmd cfg_JOIN_INNER_TD_248_cmds;
+    cfg_JOIN_INNER_TD_248_cmds.allocateHost();
+    get_cfg_dat_JOIN_INNER_TD_248_gqe_join (cfg_JOIN_INNER_TD_248_cmds.cmd);
+    cfg_JOIN_INNER_TD_248_cmds.allocateDevBuffer(context_h, 32);
     // *************************** Kernel Setup ************************* // 
     bufferTmp buftmp_h(context_h); 
     buftmp_h.initBuffer(q_h); 
     std::cout << std::endl; 
-    krnlEngine krnl_JOIN_INNER_TD_2649;
-    krnl_JOIN_INNER_TD_2649 = krnlEngine(program_h, q_h, "gqeJoin");
-    krnl_JOIN_INNER_TD_2649.setup(tbl_Project_TD_345_output, tbl_Project_TD_364_output, tbl_JOIN_INNER_TD_2649_output, cfg_JOIN_INNER_TD_2649_cmds, buftmp_h);
+    krnlEngine krnl_JOIN_INNER_TD_248;
+    krnl_JOIN_INNER_TD_248 = krnlEngine(program_h, q_h, "gqeJoin");
+    krnl_JOIN_INNER_TD_248.setup(tbl_Filter_TD_3458_output, tbl_SerializeFromObject_TD_3949_input, tbl_JOIN_INNER_TD_248_output, cfg_JOIN_INNER_TD_248_cmds, buftmp_h);
     // ************************** Transfer Engine *********************** // 
-    transEngine trans_JOIN_INNER_TD_2649;
-    trans_JOIN_INNER_TD_2649.setq(q_h);
-    trans_JOIN_INNER_TD_2649.add(&(cfg_JOIN_INNER_TD_2649_cmds));
-    transEngine trans_JOIN_INNER_TD_2649_out;
-    trans_JOIN_INNER_TD_2649_out.setq(q_h);
+    transEngine trans_JOIN_INNER_TD_248;
+    trans_JOIN_INNER_TD_248.setq(q_h);
+    trans_JOIN_INNER_TD_248.add(&(cfg_JOIN_INNER_TD_248_cmds));
+    trans_JOIN_INNER_TD_248.add(&(tbl_SerializeFromObject_TD_3949_input));
+    transEngine trans_JOIN_INNER_TD_248_out;
+    trans_JOIN_INNER_TD_248_out.setq(q_h);
     q_h.finish();
     // ****************************** Events **************************** // 
-    std::vector<cl::Event> events_h2d_wr_JOIN_INNER_TD_2649;
-    std::vector<cl::Event> events_d2h_rd_JOIN_INNER_TD_2649;
-    std::vector<cl::Event> events_JOIN_INNER_TD_2649;
-    events_h2d_wr_JOIN_INNER_TD_2649.resize(1);
-    events_d2h_rd_JOIN_INNER_TD_2649.resize(1);
-    events_JOIN_INNER_TD_2649.resize(1);
-    std::vector<cl::Event> events_grp_JOIN_INNER_TD_2649;
-    std::vector<cl::Event> prev_events_grp_JOIN_INNER_TD_2649;
+    std::vector<cl::Event> events_h2d_wr_JOIN_INNER_TD_248;
+    std::vector<cl::Event> events_d2h_rd_JOIN_INNER_TD_248;
+    std::vector<cl::Event> events_JOIN_INNER_TD_248;
+    events_h2d_wr_JOIN_INNER_TD_248.resize(1);
+    events_d2h_rd_JOIN_INNER_TD_248.resize(1);
+    events_JOIN_INNER_TD_248.resize(1);
+    std::vector<cl::Event> events_grp_JOIN_INNER_TD_248;
+    std::vector<cl::Event> prev_events_grp_JOIN_INNER_TD_248;
     // **************************** Operations ************************** // 
     struct timeval tv_r_s, tv_r_e; 
     gettimeofday(&tv_r_s, 0); 
 
-    struct timeval tv_r_Filter_4_278_s, tv_r_Filter_4_278_e;
-    gettimeofday(&tv_r_Filter_4_278_s, 0);
-    SW_Filter_TD_4323(tbl_SerializeFromObject_TD_5815_input, tbl_Filter_TD_4323_output);
-    gettimeofday(&tv_r_Filter_4_278_e, 0);
+    struct timeval tv_r_Filter_3_223_s, tv_r_Filter_3_223_e;
+    gettimeofday(&tv_r_Filter_3_223_s, 0);
+    SW_Filter_TD_3458(tbl_SerializeFromObject_TD_4449_input, tbl_Filter_TD_3458_output);
+    gettimeofday(&tv_r_Filter_3_223_e, 0);
 
-    struct timeval tv_r_Project_4_62_s, tv_r_Project_4_62_e;
-    gettimeofday(&tv_r_Project_4_62_s, 0);
-    SW_Project_TD_4903(tbl_SerializeFromObject_TD_6483_input, tbl_Project_TD_4903_output);
-    gettimeofday(&tv_r_Project_4_62_e, 0);
+    struct timeval tv_r_Aggregate_3_87_s, tv_r_Aggregate_3_87_e;
+    gettimeofday(&tv_r_Aggregate_3_87_s, 0);
+    SW_Aggregate_TD_3595(tbl_SerializeFromObject_TD_4718_input, tbl_Aggregate_TD_3595_output);
+    gettimeofday(&tv_r_Aggregate_3_87_e, 0);
 
-    struct timeval tv_r_Project_3_435_s, tv_r_Project_3_435_e;
-    gettimeofday(&tv_r_Project_3_435_s, 0);
-    SW_Project_TD_345(tbl_Filter_TD_4323_output, tbl_Project_TD_345_output);
-    gettimeofday(&tv_r_Project_3_435_e, 0);
-
-    struct timeval tv_r_Project_3_107_s, tv_r_Project_3_107_e;
-    gettimeofday(&tv_r_Project_3_107_s, 0);
-    SW_Project_TD_364(tbl_SerializeFromObject_TD_5709_input, tbl_Project_TD_364_output);
-    gettimeofday(&tv_r_Project_3_107_e, 0);
-
-    struct timeval tv_r_Aggregate_3_744_s, tv_r_Aggregate_3_744_e;
-    gettimeofday(&tv_r_Aggregate_3_744_s, 0);
-    SW_Aggregate_TD_3395(tbl_Project_TD_4903_output, tbl_Aggregate_TD_3395_output);
-    gettimeofday(&tv_r_Aggregate_3_744_e, 0);
-
-    struct timeval tv_r_JOIN_INNER_2_982_s, tv_r_JOIN_INNER_2_982_e;
-    gettimeofday(&tv_r_JOIN_INNER_2_982_s, 0);
-    trans_JOIN_INNER_TD_2649.add(&(tbl_Project_TD_364_output));
-    trans_JOIN_INNER_TD_2649.add(&(tbl_Project_TD_345_output));
-    trans_JOIN_INNER_TD_2649.host2dev(0, &(prev_events_grp_JOIN_INNER_TD_2649), &(events_h2d_wr_JOIN_INNER_TD_2649[0]));
-    events_grp_JOIN_INNER_TD_2649.push_back(events_h2d_wr_JOIN_INNER_TD_2649[0]);
-    krnl_JOIN_INNER_TD_2649.run(0, &(events_grp_JOIN_INNER_TD_2649), &(events_JOIN_INNER_TD_2649[0]));
+    struct timeval tv_r_JOIN_INNER_2_275_s, tv_r_JOIN_INNER_2_275_e;
+    gettimeofday(&tv_r_JOIN_INNER_2_275_s, 0);
+    trans_JOIN_INNER_TD_248.add(&(tbl_Filter_TD_3458_output));
+    trans_JOIN_INNER_TD_248.host2dev(0, &(prev_events_grp_JOIN_INNER_TD_248), &(events_h2d_wr_JOIN_INNER_TD_248[0]));
+    events_grp_JOIN_INNER_TD_248.push_back(events_h2d_wr_JOIN_INNER_TD_248[0]);
+    krnl_JOIN_INNER_TD_248.run(0, &(events_grp_JOIN_INNER_TD_248), &(events_JOIN_INNER_TD_248[0]));
     
-    trans_JOIN_INNER_TD_2649_out.add(&(tbl_JOIN_INNER_TD_2649_output));
-    trans_JOIN_INNER_TD_2649_out.dev2host(0, &(events_JOIN_INNER_TD_2649), &(events_d2h_rd_JOIN_INNER_TD_2649[0]));
+    trans_JOIN_INNER_TD_248_out.add(&(tbl_JOIN_INNER_TD_248_output));
+    trans_JOIN_INNER_TD_248_out.dev2host(0, &(events_JOIN_INNER_TD_248), &(events_d2h_rd_JOIN_INNER_TD_248[0]));
     q_h.flush();
     q_h.finish();
-    gettimeofday(&tv_r_JOIN_INNER_2_982_e, 0);
+    gettimeofday(&tv_r_JOIN_INNER_2_275_e, 0);
 
-    struct timeval tv_r_JOIN_INNER_1_723_s, tv_r_JOIN_INNER_1_723_e;
-    gettimeofday(&tv_r_JOIN_INNER_1_723_s, 0);
-    SW_JOIN_INNER_TD_1952(tbl_JOIN_INNER_TD_2649_output, tbl_Aggregate_TD_3395_output, tbl_JOIN_INNER_TD_1952_output);
-    gettimeofday(&tv_r_JOIN_INNER_1_723_e, 0);
+    struct timeval tv_r_JOIN_INNER_1_406_s, tv_r_JOIN_INNER_1_406_e;
+    gettimeofday(&tv_r_JOIN_INNER_1_406_s, 0);
+    SW_JOIN_INNER_TD_165(tbl_JOIN_INNER_TD_248_output, tbl_Aggregate_TD_3595_output, tbl_JOIN_INNER_TD_165_output);
+    gettimeofday(&tv_r_JOIN_INNER_1_406_e, 0);
 
-    struct timeval tv_r_Aggregate_0_646_s, tv_r_Aggregate_0_646_e;
-    gettimeofday(&tv_r_Aggregate_0_646_s, 0);
-    SW_Aggregate_TD_0973(tbl_JOIN_INNER_TD_1952_output, tbl_Aggregate_TD_0973_output);
-    gettimeofday(&tv_r_Aggregate_0_646_e, 0);
+    struct timeval tv_r_Aggregate_0_530_s, tv_r_Aggregate_0_530_e;
+    gettimeofday(&tv_r_Aggregate_0_530_s, 0);
+    SW_Aggregate_TD_02(tbl_JOIN_INNER_TD_165_output, tbl_Aggregate_TD_02_output);
+    gettimeofday(&tv_r_Aggregate_0_530_e, 0);
 
     gettimeofday(&tv_r_e, 0); 
     // **************************** Print Execution Time ************************** // 
-    std::cout << "Filter_4: " << tvdiff(&tv_r_Filter_4_278_s, &tv_r_Filter_4_278_e) / 1000.0 << " ms " 
-     << "tbl_SerializeFromObject_TD_5815_input: " << tbl_SerializeFromObject_TD_5815_input.getNumRow() << " " << std::endl; 
+    std::cout << "Filter_3: " << tvdiff(&tv_r_Filter_3_223_s, &tv_r_Filter_3_223_e) / 1000.0 << " ms " 
+     << "tbl_SerializeFromObject_TD_4449_input: " << tbl_SerializeFromObject_TD_4449_input.getNumRow() << " " << std::endl; 
 
-    std::cout << "Project_4: " << tvdiff(&tv_r_Project_4_62_s, &tv_r_Project_4_62_e) / 1000.0 << " ms " 
-     << "tbl_SerializeFromObject_TD_6483_input: " << tbl_SerializeFromObject_TD_6483_input.getNumRow() << " " << std::endl; 
+    std::cout << "Aggregate_3: " << tvdiff(&tv_r_Aggregate_3_87_s, &tv_r_Aggregate_3_87_e) / 1000.0 << " ms " 
+     << "tbl_SerializeFromObject_TD_4718_input: " << tbl_SerializeFromObject_TD_4718_input.getNumRow() << " " << std::endl; 
 
-    std::cout << "Project_3: " << tvdiff(&tv_r_Project_3_435_s, &tv_r_Project_3_435_e) / 1000.0 << " ms " 
-     << "tbl_Filter_TD_4323_output: " << tbl_Filter_TD_4323_output.getNumRow() << " " << std::endl; 
+    std::cout << "JOIN_INNER_2: " << tvdiff(&tv_r_JOIN_INNER_2_275_s, &tv_r_JOIN_INNER_2_275_e) / 1000.0 << " ms " 
+     << "tbl_SerializeFromObject_TD_3949_input: " << tbl_SerializeFromObject_TD_3949_input.getNumRow() << " " << "tbl_Filter_TD_3458_output: " << tbl_Filter_TD_3458_output.getNumRow() << " " << std::endl; 
 
-    std::cout << "Project_3: " << tvdiff(&tv_r_Project_3_107_s, &tv_r_Project_3_107_e) / 1000.0 << " ms " 
-     << "tbl_SerializeFromObject_TD_5709_input: " << tbl_SerializeFromObject_TD_5709_input.getNumRow() << " " << std::endl; 
+    std::cout << "JOIN_INNER_1: " << tvdiff(&tv_r_JOIN_INNER_1_406_s, &tv_r_JOIN_INNER_1_406_e) / 1000.0 << " ms " 
+     << "tbl_JOIN_INNER_TD_248_output: " << tbl_JOIN_INNER_TD_248_output.getNumRow() << " " << "tbl_Aggregate_TD_3595_output: " << tbl_Aggregate_TD_3595_output.getNumRow() << " " << std::endl; 
 
-    std::cout << "Aggregate_3: " << tvdiff(&tv_r_Aggregate_3_744_s, &tv_r_Aggregate_3_744_e) / 1000.0 << " ms " 
-     << "tbl_Project_TD_4903_output: " << tbl_Project_TD_4903_output.getNumRow() << " " << std::endl; 
-
-    std::cout << "JOIN_INNER_2: " << tvdiff(&tv_r_JOIN_INNER_2_982_s, &tv_r_JOIN_INNER_2_982_e) / 1000.0 << " ms " 
-     << "tbl_Project_TD_364_output: " << tbl_Project_TD_364_output.getNumRow() << " " << "tbl_Project_TD_345_output: " << tbl_Project_TD_345_output.getNumRow() << " " << std::endl; 
-
-    std::cout << "JOIN_INNER_1: " << tvdiff(&tv_r_JOIN_INNER_1_723_s, &tv_r_JOIN_INNER_1_723_e) / 1000.0 << " ms " 
-     << "tbl_JOIN_INNER_TD_2649_output: " << tbl_JOIN_INNER_TD_2649_output.getNumRow() << " " << "tbl_Aggregate_TD_3395_output: " << tbl_Aggregate_TD_3395_output.getNumRow() << " " << std::endl; 
-
-    std::cout << "Aggregate_0: " << tvdiff(&tv_r_Aggregate_0_646_s, &tv_r_Aggregate_0_646_e) / 1000.0 << " ms " 
-     << "tbl_JOIN_INNER_TD_1952_output: " << tbl_JOIN_INNER_TD_1952_output.getNumRow() << " " << std::endl; 
+    std::cout << "Aggregate_0: " << tvdiff(&tv_r_Aggregate_0_530_s, &tv_r_Aggregate_0_530_e) / 1000.0 << " ms " 
+     << "tbl_JOIN_INNER_TD_165_output: " << tbl_JOIN_INNER_TD_165_output.getNumRow() << " " << std::endl; 
 
     std::cout << std::endl << " Total execution time: " << tvdiff(&tv_r_s, &tv_r_e) / 1000 << " ms"; 
 
-    std::cout << std::endl << " Spark elapsed time: " << 16.660023 * 1000 << "ms" << std::endl; 
+    std::cout << std::endl << " Spark elapsed time: " << 56.020668 * 1000 << "ms" << std::endl; 
     return 0; 
 }

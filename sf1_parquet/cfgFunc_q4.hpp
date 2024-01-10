@@ -84,13 +84,13 @@ static void gen_pass_fcfg(uint32_t cfg[]) {
     cfg[n++] = (uint32_t)(1UL << 31); 
 } 
 
-void get_cfg_dat_JOIN_LEFTSEMI_TD_2888_gqe_join(ap_uint<512>* hbuf) {
+void get_cfg_dat_JOIN_LEFTSEMI_TD_2456_gqe_join(ap_uint<512>* hbuf) {
     // StringRowIDSubstitution: true StringRowIDBackSubstitution: false
     // Supported operation: JOIN_LEFTSEMI
-    // Operation: ListBuffer((l_orderkey#32 = cast(o_orderkey#324L as int)))
-    // Left Table: ListBuffer(l_orderkey#32)
-    // Right Table: ListBuffer(o_orderkey#324L, o_orderpriority#328)
-    // Output Table: ListBuffer(o_orderpriority#328)
+    // Operation: ListBuffer((l_orderkey#50 = o_orderkey#227))
+    // Left Table: ListBuffer(l_orderkey#50)
+    // Right Table: ListBuffer(o_orderkey#227, o_orderpriority#232)
+    // Output Table: ListBuffer(o_orderpriority#232)
     // Node Depth: 2
     ap_uint<512>* b = hbuf;
     memset(b, 0, sizeof(ap_uint<512>) * 9);

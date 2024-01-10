@@ -1,233 +1,119 @@
 #include <regex> 
 #include <stdint.h> 
 
-void SW_Filter_TD_9551(Table &tbl_SerializeFromObject_TD_10541_input, Table &tbl_Filter_TD_9551_output) {
+void SW_Filter_TD_8392(Table &tbl_SerializeFromObject_TD_918_input, Table &tbl_Filter_TD_8392_output) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: Filter
-    // Operation: ListBuffer(((isnotnull(l_receiptdate#2430) AND isnotnull(l_commitdate#2429)) AND (cast(regexp_replace(cast(l_receiptdate#2430 as string), -, , 1) as int) > cast(regexp_replace(cast(l_commitdate#2429 as string), -, , 1) as int))))
-    // Input: ListBuffer(l_orderkey#2419L, l_suppkey#2421L, l_receiptdate#2430, l_commitdate#2429)
-    // Output: ListBuffer(l_orderkey#2419L, l_suppkey#2421L)
+    // Operation: ListBuffer((l_receiptdate#62 > l_commitdate#61))
+    // Input: ListBuffer(l_orderkey#50, l_suppkey#52, l_receiptdate#62, l_commitdate#61)
+    // Output: ListBuffer(l_orderkey#50, l_suppkey#52)
     int r = 0;
-    int nrow1 = tbl_SerializeFromObject_TD_10541_input.getNumRow();
+    int nrow1 = tbl_SerializeFromObject_TD_918_input.getNumRow();
     for (int i = 0; i < nrow1; i++) {
-        int32_t _l_receiptdate2430 = tbl_SerializeFromObject_TD_10541_input.getInt32(i, 2);
-        int32_t _l_commitdate2429 = tbl_SerializeFromObject_TD_10541_input.getInt32(i, 3);
-        if (((1) && (1)) && (_l_receiptdate2430 > _l_commitdate2429)) {
-            int32_t _l_orderkey2419L_t = tbl_SerializeFromObject_TD_10541_input.getInt32(i, 0);
-            tbl_Filter_TD_9551_output.setInt32(r, 0, _l_orderkey2419L_t);
-            int32_t _l_suppkey2421L_t = tbl_SerializeFromObject_TD_10541_input.getInt32(i, 1);
-            tbl_Filter_TD_9551_output.setInt32(r, 1, _l_suppkey2421L_t);
+        int32_t _l_receiptdate62 = tbl_SerializeFromObject_TD_918_input.getInt32(i, 2);
+        int32_t _l_commitdate61 = tbl_SerializeFromObject_TD_918_input.getInt32(i, 3);
+        if (_l_receiptdate62 > _l_commitdate61) {
+            int32_t _l_orderkey50_t = tbl_SerializeFromObject_TD_918_input.getInt32(i, 0);
+            tbl_Filter_TD_8392_output.setInt32(r, 0, _l_orderkey50_t);
+            int32_t _l_suppkey52_t = tbl_SerializeFromObject_TD_918_input.getInt32(i, 1);
+            tbl_Filter_TD_8392_output.setInt32(r, 1, _l_suppkey52_t);
             r++;
         }
     }
-    tbl_Filter_TD_9551_output.setNumRow(r);
-    std::cout << "tbl_Filter_TD_9551_output #Row: " << tbl_Filter_TD_9551_output.getNumRow() << std::endl;
+    tbl_Filter_TD_8392_output.setNumRow(r);
+    std::cout << "tbl_Filter_TD_8392_output #Row: " << tbl_Filter_TD_8392_output.getNumRow() << std::endl;
 }
 
-void SW_Project_TD_9549(Table &tbl_SerializeFromObject_TD_10960_input, Table &tbl_Project_TD_9549_output) {
-    // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
-    // Supported operation: Project
-    // Operation: ListBuffer(cast(l_orderkey#2403L as int) AS l_orderkey#32#2502, cast(l_suppkey#2405L as int) AS l_suppkey#66#2504)
-    // Input: ListBuffer(l_orderkey#2403L, l_suppkey#2405L)
-    // Output: ListBuffer(l_orderkey#32#2502, l_suppkey#66#2504)
-    int nrow1 = tbl_SerializeFromObject_TD_10960_input.getNumRow();
-    for (int i = 0; i < nrow1; i++) {
-        int32_t _l_orderkey2403L = tbl_SerializeFromObject_TD_10960_input.getInt32(i, 0);
-        int32_t _l_suppkey2405L = tbl_SerializeFromObject_TD_10960_input.getInt32(i, 1);
-        int32_t _l_orderkey322502 = _l_orderkey2403L;
-        tbl_Project_TD_9549_output.setInt32(i, 0, _l_orderkey322502);
-        int32_t _l_suppkey662504 = _l_suppkey2405L;
-        tbl_Project_TD_9549_output.setInt32(i, 1, _l_suppkey662504);
-    }
-    tbl_Project_TD_9549_output.setNumRow(nrow1);
-    std::cout << "tbl_Project_TD_9549_output #Row: " << tbl_Project_TD_9549_output.getNumRow() << std::endl;
-}
-
-void SW_Filter_TD_9101(Table &tbl_SerializeFromObject_TD_10388_input, Table &tbl_Filter_TD_9101_output) {
+void SW_Filter_TD_7610(Table &tbl_SerializeFromObject_TD_918_input, Table &tbl_Filter_TD_7610_output) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: Filter
-    // Operation: ListBuffer(((((isnotnull(l_receiptdate#11) AND isnotnull(l_commitdate#10)) AND (cast(regexp_replace(cast(l_receiptdate#11 as string), -, , 1) as int) > cast(regexp_replace(cast(l_commitdate#10 as string), -, , 1) as int))) AND isnotnull(cast(l_suppkey#2L as int))) AND isnotnull(cast(l_orderkey#0L as int))))
-    // Input: ListBuffer(l_orderkey#0L, l_suppkey#2L, l_receiptdate#11, l_commitdate#10)
-    // Output: ListBuffer(l_orderkey#0L, l_suppkey#2L)
+    // Operation: ListBuffer((l_receiptdate#62 > l_commitdate#61))
+    // Input: ListBuffer(l_orderkey#50, l_suppkey#52, l_receiptdate#62, l_commitdate#61)
+    // Output: ListBuffer(l_orderkey#50#2259, l_suppkey#52#2261)
     int r = 0;
-    int nrow1 = tbl_SerializeFromObject_TD_10388_input.getNumRow();
+    int nrow1 = tbl_SerializeFromObject_TD_918_input.getNumRow();
     for (int i = 0; i < nrow1; i++) {
-        int32_t _l_receiptdate11 = tbl_SerializeFromObject_TD_10388_input.getInt32(i, 2);
-        int32_t _l_commitdate10 = tbl_SerializeFromObject_TD_10388_input.getInt32(i, 3);
-        int32_t _l_suppkey2L = tbl_SerializeFromObject_TD_10388_input.getInt32(i, 1);
-        int32_t _l_orderkey0L = tbl_SerializeFromObject_TD_10388_input.getInt32(i, 0);
-        if (((((1) && (1)) && (_l_receiptdate11 > _l_commitdate10)) && (1)) && (1)) {
-            int32_t _l_orderkey0L_t = tbl_SerializeFromObject_TD_10388_input.getInt32(i, 0);
-            tbl_Filter_TD_9101_output.setInt32(r, 0, _l_orderkey0L_t);
-            int32_t _l_suppkey2L_t = tbl_SerializeFromObject_TD_10388_input.getInt32(i, 1);
-            tbl_Filter_TD_9101_output.setInt32(r, 1, _l_suppkey2L_t);
+        int32_t _l_receiptdate62 = tbl_SerializeFromObject_TD_918_input.getInt32(i, 2);
+        int32_t _l_commitdate61 = tbl_SerializeFromObject_TD_918_input.getInt32(i, 3);
+        if (_l_receiptdate62 > _l_commitdate61) {
+            int32_t _l_orderkey502259_t = tbl_SerializeFromObject_TD_918_input.getInt32(i, 0);
+            tbl_Filter_TD_7610_output.setInt32(r, 0, _l_orderkey502259_t);
+            int32_t _l_suppkey522261_t = tbl_SerializeFromObject_TD_918_input.getInt32(i, 1);
+            tbl_Filter_TD_7610_output.setInt32(r, 1, _l_suppkey522261_t);
             r++;
         }
     }
-    tbl_Filter_TD_9101_output.setNumRow(r);
-    std::cout << "tbl_Filter_TD_9101_output #Row: " << tbl_Filter_TD_9101_output.getNumRow() << std::endl;
-}
-
-void SW_Project_TD_8772(Table &tbl_Filter_TD_9551_output, Table &tbl_Project_TD_8772_output) {
-    // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
-    // Supported operation: Project
-    // Operation: ListBuffer(cast(l_orderkey#2419L as int) AS l_orderkey#32#2515, cast(l_suppkey#2421L as int) AS l_suppkey#66#2517)
-    // Input: ListBuffer(l_orderkey#2419L, l_suppkey#2421L)
-    // Output: ListBuffer(l_orderkey#32#2515, l_suppkey#66#2517)
-    int nrow1 = tbl_Filter_TD_9551_output.getNumRow();
-    for (int i = 0; i < nrow1; i++) {
-        int32_t _l_orderkey2419L = tbl_Filter_TD_9551_output.getInt32(i, 0);
-        int32_t _l_suppkey2421L = tbl_Filter_TD_9551_output.getInt32(i, 1);
-        int32_t _l_orderkey322515 = _l_orderkey2419L;
-        tbl_Project_TD_8772_output.setInt32(i, 0, _l_orderkey322515);
-        int32_t _l_suppkey662517 = _l_suppkey2421L;
-        tbl_Project_TD_8772_output.setInt32(i, 1, _l_suppkey662517);
-    }
-    tbl_Project_TD_8772_output.setNumRow(nrow1);
-    std::cout << "tbl_Project_TD_8772_output #Row: " << tbl_Project_TD_8772_output.getNumRow() << std::endl;
+    tbl_Filter_TD_7610_output.setNumRow(r);
+    std::cout << "tbl_Filter_TD_7610_output #Row: " << tbl_Filter_TD_7610_output.getNumRow() << std::endl;
 }
 
 
 
 
-void SW_Filter_TD_5747(Table &tbl_SerializeFromObject_TD_626_input, Table &tbl_Filter_TD_5747_output) {
-    // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
-    // Supported operation: Filter
-    // Operation: ListBuffer(((isnotnull(o_orderstatus#326) AND (ascii(o_orderstatus#326) = 70)) AND isnotnull(cast(o_orderkey#324L as int))))
-    // Input: ListBuffer(o_orderkey#324L, o_orderstatus#326)
-    // Output: ListBuffer(o_orderkey#324L)
-    int r = 0;
-    int nrow1 = tbl_SerializeFromObject_TD_626_input.getNumRow();
-    for (int i = 0; i < nrow1; i++) {
-        std::array<char, TPCH_READ_REGION_LEN + 1> _o_orderstatus326 = tbl_SerializeFromObject_TD_626_input.getcharN<char, TPCH_READ_REGION_LEN + 1>(i, 1);
-        int32_t _o_orderkey324L = tbl_SerializeFromObject_TD_626_input.getInt32(i, 0);
-        if (((1) && (_o_orderstatus326 == 70)) && (1)) {
-            int32_t _o_orderkey324L_t = tbl_SerializeFromObject_TD_626_input.getInt32(i, 0);
-            tbl_Filter_TD_5747_output.setInt32(r, 0, _o_orderkey324L_t);
-            r++;
-        }
-    }
-    tbl_Filter_TD_5747_output.setNumRow(r);
-    std::cout << "tbl_Filter_TD_5747_output #Row: " << tbl_Filter_TD_5747_output.getNumRow() << std::endl;
-}
-
-void SW_Project_TD_5958(Table &tbl_JOIN_LEFTANTI_TD_6567_output, Table &tbl_Project_TD_5958_output) {
-    // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
-    // Supported operation: Project
-    // Operation: ListBuffer(cast(l_orderkey#0L as int) AS l_orderkey#32, cast(l_suppkey#2L as int) AS l_suppkey#66)
-    // Input: ListBuffer(l_orderkey#0L, l_suppkey#2L)
-    // Output: ListBuffer(l_orderkey#32, l_suppkey#66)
-    int nrow1 = tbl_JOIN_LEFTANTI_TD_6567_output.getNumRow();
-    for (int i = 0; i < nrow1; i++) {
-        int32_t _l_orderkey0L = tbl_JOIN_LEFTANTI_TD_6567_output.getInt32(i, 0);
-        int32_t _l_suppkey2L = tbl_JOIN_LEFTANTI_TD_6567_output.getInt32(i, 1);
-        int32_t _l_orderkey32 = _l_orderkey0L;
-        tbl_Project_TD_5958_output.setInt32(i, 0, _l_orderkey32);
-        int32_t _l_suppkey66 = _l_suppkey2L;
-        tbl_Project_TD_5958_output.setInt32(i, 1, _l_suppkey66);
-    }
-    tbl_Project_TD_5958_output.setNumRow(nrow1);
-    std::cout << "tbl_Project_TD_5958_output #Row: " << tbl_Project_TD_5958_output.getNumRow() << std::endl;
-}
-
-void SW_Project_TD_5621(Table &tbl_SerializeFromObject_TD_7378_input_stringRowIDSubstitute, Table &tbl_Project_TD_5621_output) {
+void SW_Filter_TD_3426(Table &tbl_SerializeFromObject_TD_4156_input, Table &tbl_Filter_TD_3426_output) {
     // StringRowIDSubstitution: true StringRowIDBackSubstitution: false
-    // Supported operation: Project
-    // Operation: ListBuffer(cast(s_suppkey#484L as int) AS s_suppkey#498, cast(s_nationkey#487L as int) AS s_nationkey#506)
-    // Input: ListBuffer(s_suppkey#484L, s_name#485, s_nationkey#487L)
-    // Output: ListBuffer(s_suppkey#498, s_name#485, s_nationkey#506)
-    int nrow1 = tbl_SerializeFromObject_TD_7378_input_stringRowIDSubstitute.getNumRow();
-    for (int i = 0; i < nrow1; i++) {
-        int32_t _s_suppkey484L = tbl_SerializeFromObject_TD_7378_input_stringRowIDSubstitute.getInt32(i, 0);
-        std::array<char, TPCH_READ_REGION_LEN + 1> _s_name485 = tbl_SerializeFromObject_TD_7378_input_stringRowIDSubstitute.getcharN<char, TPCH_READ_REGION_LEN + 1>(i, 1);
-        int32_t _s_nationkey487L = tbl_SerializeFromObject_TD_7378_input_stringRowIDSubstitute.getInt32(i, 2);
-        int32_t _s_suppkey498 = _s_suppkey484L;
-        tbl_Project_TD_5621_output.setInt32(i, 0, _s_suppkey498);
-        int32_t _s_nationkey506 = _s_nationkey487L;
-        tbl_Project_TD_5621_output.setInt32(i, 2, _s_nationkey506);
-        tbl_Project_TD_5621_output.setcharN<char, TPCH_READ_REGION_LEN + 1>(i, 1, _s_name485);
-    }
-    tbl_Project_TD_5621_output.setNumRow(nrow1);
-    std::cout << "tbl_Project_TD_5621_output #Row: " << tbl_Project_TD_5621_output.getNumRow() << std::endl;
-}
-
-void SW_Filter_TD_4611(Table &tbl_SerializeFromObject_TD_5957_input, Table &tbl_Filter_TD_4611_output) {
-    // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: Filter
-    // Operation: ListBuffer(((isnotnull(n_name#297) AND (n_name#297 = JAPAN)) AND isnotnull(cast(n_nationkey#296L as int))))
-    // Input: ListBuffer(n_nationkey#296L, n_name#297)
-    // Output: ListBuffer(n_nationkey#296L)
+    // Operation: ListBuffer((isnotnull(n_name#165) AND (n_name#165 = JAPAN)))
+    // Input: ListBuffer(n_nationkey#164, n_name#165)
+    // Output: ListBuffer(n_nationkey#164)
     int r = 0;
-    int nrow1 = tbl_SerializeFromObject_TD_5957_input.getNumRow();
+    int nrow1 = tbl_SerializeFromObject_TD_4156_input.getNumRow();
     for (int i = 0; i < nrow1; i++) {
-        std::array<char, TPCH_READ_REGION_LEN + 1> _n_name297 = tbl_SerializeFromObject_TD_5957_input.getcharN<char, TPCH_READ_REGION_LEN + 1>(i, 1);
-        int32_t _n_nationkey296L = tbl_SerializeFromObject_TD_5957_input.getInt32(i, 0);
-        if (((1) && (std::string(_n_name297.data()) == "JAPAN")) && (1)) {
-            int32_t _n_nationkey296L_t = tbl_SerializeFromObject_TD_5957_input.getInt32(i, 0);
-            tbl_Filter_TD_4611_output.setInt32(r, 0, _n_nationkey296L_t);
+        std::array<char, TPCH_READ_REGION_LEN + 1> _n_name165 = tbl_SerializeFromObject_TD_4156_input.getcharN<char, TPCH_READ_REGION_LEN + 1>(i, 1);
+        if ((1) && (std::string(_n_name165.data()) == "JAPAN")) {
+            int32_t _n_nationkey164_t = tbl_SerializeFromObject_TD_4156_input.getInt32(i, 0);
+            tbl_Filter_TD_3426_output.setInt32(r, 0, _n_nationkey164_t);
             r++;
         }
     }
-    tbl_Filter_TD_4611_output.setNumRow(r);
-    std::cout << "tbl_Filter_TD_4611_output #Row: " << tbl_Filter_TD_4611_output.getNumRow() << std::endl;
+    tbl_Filter_TD_3426_output.setNumRow(r);
+    std::cout << "tbl_Filter_TD_3426_output #Row: " << tbl_Filter_TD_3426_output.getNumRow() << std::endl;
 }
 
-void SW_Project_TD_4701(Table &tbl_Filter_TD_5747_output, Table &tbl_Project_TD_4701_output) {
-    // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
-    // Supported operation: Project
-    // Operation: ListBuffer(cast(o_orderkey#324L as int) AS o_orderkey#342)
-    // Input: ListBuffer(o_orderkey#324L)
-    // Output: ListBuffer(o_orderkey#342)
-    int nrow1 = tbl_Filter_TD_5747_output.getNumRow();
+
+void SW_Filter_TD_3910(Table &tbl_SerializeFromObject_TD_5838_input, Table &tbl_Filter_TD_3910_output) {
+    // StringRowIDSubstitution: true StringRowIDBackSubstitution: false
+    // Supported operation: Filter
+    // Operation: ListBuffer((o_orderstatus#229 = 70))
+    // Input: ListBuffer(o_orderkey#227, o_orderstatus#229)
+    // Output: ListBuffer(o_orderkey#227)
+    int r = 0;
+    int nrow1 = tbl_SerializeFromObject_TD_5838_input.getNumRow();
     for (int i = 0; i < nrow1; i++) {
-        int32_t _o_orderkey324L = tbl_Filter_TD_5747_output.getInt32(i, 0);
-        int32_t _o_orderkey342 = _o_orderkey324L;
-        tbl_Project_TD_4701_output.setInt32(i, 0, _o_orderkey342);
+        int32_t _o_orderstatus229 = tbl_SerializeFromObject_TD_5838_input.getInt32(i, 1);
+        if (_o_orderstatus229 == 70) {
+            int32_t _o_orderkey227_t = tbl_SerializeFromObject_TD_5838_input.getInt32(i, 0);
+            tbl_Filter_TD_3910_output.setInt32(r, 0, _o_orderkey227_t);
+            r++;
+        }
     }
-    tbl_Project_TD_4701_output.setNumRow(nrow1);
-    std::cout << "tbl_Project_TD_4701_output #Row: " << tbl_Project_TD_4701_output.getNumRow() << std::endl;
-}
-
-
-void SW_Project_TD_3530(Table &tbl_Filter_TD_4611_output, Table &tbl_Project_TD_3530_output) {
-    // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
-    // Supported operation: Project
-    // Operation: ListBuffer(cast(n_nationkey#296L as int) AS n_nationkey#304)
-    // Input: ListBuffer(n_nationkey#296L)
-    // Output: ListBuffer(n_nationkey#304)
-    int nrow1 = tbl_Filter_TD_4611_output.getNumRow();
-    for (int i = 0; i < nrow1; i++) {
-        int32_t _n_nationkey296L = tbl_Filter_TD_4611_output.getInt32(i, 0);
-        int32_t _n_nationkey304 = _n_nationkey296L;
-        tbl_Project_TD_3530_output.setInt32(i, 0, _n_nationkey304);
-    }
-    tbl_Project_TD_3530_output.setNumRow(nrow1);
-    std::cout << "tbl_Project_TD_3530_output #Row: " << tbl_Project_TD_3530_output.getNumRow() << std::endl;
+    tbl_Filter_TD_3910_output.setNumRow(r);
+    std::cout << "tbl_Filter_TD_3910_output #Row: " << tbl_Filter_TD_3910_output.getNumRow() << std::endl;
 }
 
 
 
-typedef std::string SW_Aggregate_TD_1212_key;
-struct SW_Aggregate_TD_1212_payload {
-    int64_t _numwait2399L_count_0;
+typedef std::string SW_Aggregate_TD_1459_key;
+struct SW_Aggregate_TD_1459_payload {
+    int64_t _numwait2128L_count_0;
 };
-void SW_Aggregate_TD_1212(Table &tbl_JOIN_INNER_TD_2336_output, Table &tbl_SerializeFromObject_TD_7378_input, Table &tbl_Aggregate_TD_1212_output) {
+void SW_Aggregate_TD_1459(Table &tbl_JOIN_INNER_TD_2744_output, Table &tbl_SerializeFromObject_TD_5343_input, Table &tbl_SerializeFromObject_TD_4156_input, Table &tbl_SerializeFromObject_TD_5838_input, Table &tbl_Aggregate_TD_1459_output) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: true
     // Supported operation: Aggregate
-    // Operation: ListBuffer(s_name#485, count(1) AS numwait#2399L)
-    // Input: ListBuffer(s_name#485)
-    // Output: ListBuffer(s_name#485, numwait#2399L)
-    std::unordered_map<SW_Aggregate_TD_1212_key, SW_Aggregate_TD_1212_payload> ht1;
-    int nrow1 = tbl_JOIN_INNER_TD_2336_output.getNumRow();
+    // Operation: ListBuffer(s_name#369, count(1) AS numwait#2128L)
+    // Input: ListBuffer(s_name#369)
+    // Output: ListBuffer(s_name#369, numwait#2128L)
+    std::unordered_map<SW_Aggregate_TD_1459_key, SW_Aggregate_TD_1459_payload> ht1;
+    int nrow1 = tbl_JOIN_INNER_TD_2744_output.getNumRow();
     for (int i = 0; i < nrow1; i++) {
-        std::array<char, TPCH_READ_REGION_LEN + 1> _s_name485 = tbl_SerializeFromObject_TD_7378_input.getcharN<char, TPCH_READ_REGION_LEN + 1>(tbl_JOIN_INNER_TD_2336_output.getInt32(i, 0), 1);
-        SW_Aggregate_TD_1212_key k = std::string(_s_name485.data());
-        int64_t _numwait2399L_count_0 = 1 != 0 ? 1 : 0;
-        SW_Aggregate_TD_1212_payload p{_numwait2399L_count_0};
+        std::array<char, TPCH_READ_REGION_LEN + 1> _s_name369 = tbl_SerializeFromObject_TD_5343_input.getcharN<char, TPCH_READ_REGION_LEN + 1>(tbl_JOIN_INNER_TD_2744_output.getInt32(i, 0), 1);
+        SW_Aggregate_TD_1459_key k = std::string(_s_name369.data());
+        int64_t _numwait2128L_count_0 = 1 != 0 ? 1 : 0;
+        SW_Aggregate_TD_1459_payload p{_numwait2128L_count_0};
         auto it = ht1.find(k);
         if (it != ht1.end()) {
-            int64_t count_0 = (it->second)._numwait2399L_count_0 + _numwait2399L_count_0;
-            p._numwait2399L_count_0 = count_0;
+            int64_t count_0 = (it->second)._numwait2128L_count_0 + _numwait2128L_count_0;
+            p._numwait2128L_count_0 = count_0;
             ht1[k] = p;
         } else { 
             ht1.insert(std::make_pair(k, p));
@@ -235,56 +121,56 @@ void SW_Aggregate_TD_1212(Table &tbl_JOIN_INNER_TD_2336_output, Table &tbl_Seria
     }
     int r = 0;
     for (auto& it : ht1) {
-        std::array<char, TPCH_READ_REGION_LEN + 1> _s_name485{};
-        memcpy(_s_name485.data(), (it.first).data(), (it.first).length());
-        tbl_Aggregate_TD_1212_output.setcharN<char, TPCH_READ_REGION_LEN + 1>(r, 0, _s_name485);
-        int64_t _numwait2399L = (it.second)._numwait2399L_count_0;
-        tbl_Aggregate_TD_1212_output.setInt64(r, 1, _numwait2399L);
+        std::array<char, TPCH_READ_REGION_LEN + 1> _s_name369{};
+        memcpy(_s_name369.data(), (it.first).data(), (it.first).length());
+        tbl_Aggregate_TD_1459_output.setcharN<char, TPCH_READ_REGION_LEN + 1>(r, 0, _s_name369);
+        int64_t _numwait2128L = (it.second)._numwait2128L_count_0;
+        tbl_Aggregate_TD_1459_output.setInt64(r, 1, _numwait2128L);
         ++r;
     }
-    tbl_Aggregate_TD_1212_output.setNumRow(r);
-    std::cout << "tbl_Aggregate_TD_1212_output #Row: " << tbl_Aggregate_TD_1212_output.getNumRow() << std::endl;
+    tbl_Aggregate_TD_1459_output.setNumRow(r);
+    std::cout << "tbl_Aggregate_TD_1459_output #Row: " << tbl_Aggregate_TD_1459_output.getNumRow() << std::endl;
 }
 
-void SW_Sort_TD_0593(Table &tbl_Aggregate_TD_1212_output, Table &tbl_Sort_TD_0593_output) {
+void SW_Sort_TD_0339(Table &tbl_Aggregate_TD_1459_output, Table &tbl_Sort_TD_0339_output) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: Sort
-    // Operation: ListBuffer(numwait#2399L DESC NULLS LAST, s_name#485 ASC NULLS FIRST)
-    // Input: ListBuffer(s_name#485, numwait#2399L)
-    // Output: ListBuffer(s_name#485, numwait#2399L)
-    struct SW_Sort_TD_0593Row {
-        std::string _s_name485;
-        int64_t _numwait2399L;
+    // Operation: ListBuffer(numwait#2128L DESC NULLS LAST, s_name#369 ASC NULLS FIRST)
+    // Input: ListBuffer(s_name#369, numwait#2128L)
+    // Output: ListBuffer(s_name#369, numwait#2128L)
+    struct SW_Sort_TD_0339Row {
+        std::string _s_name369;
+        int64_t _numwait2128L;
     }; 
 
     struct {
-        bool operator()(const SW_Sort_TD_0593Row& a, const SW_Sort_TD_0593Row& b) const { return 
- (a._numwait2399L > b._numwait2399L) || 
- ((a._numwait2399L == b._numwait2399L) && (a._s_name485 < b._s_name485)); 
+        bool operator()(const SW_Sort_TD_0339Row& a, const SW_Sort_TD_0339Row& b) const { return 
+ (a._numwait2128L > b._numwait2128L) || 
+ ((a._numwait2128L == b._numwait2128L) && (a._s_name369 < b._s_name369)); 
 }
-    }SW_Sort_TD_0593_order; 
+    }SW_Sort_TD_0339_order; 
 
-    int nrow1 = tbl_Aggregate_TD_1212_output.getNumRow();
-    std::vector<SW_Sort_TD_0593Row> rows;
+    int nrow1 = tbl_Aggregate_TD_1459_output.getNumRow();
+    std::vector<SW_Sort_TD_0339Row> rows;
     for (int i = 0; i < nrow1; i++) {
-        std::array<char, TPCH_READ_REGION_LEN + 1> _s_name485 = tbl_Aggregate_TD_1212_output.getcharN<char, TPCH_READ_REGION_LEN +1>(i, 0);
-        int64_t _numwait2399L = tbl_Aggregate_TD_1212_output.getInt64(i, 1);
-        SW_Sort_TD_0593Row t = {std::string(_s_name485.data()),_numwait2399L};
+        std::array<char, TPCH_READ_REGION_LEN + 1> _s_name369 = tbl_Aggregate_TD_1459_output.getcharN<char, TPCH_READ_REGION_LEN +1>(i, 0);
+        int64_t _numwait2128L = tbl_Aggregate_TD_1459_output.getInt64(i, 1);
+        SW_Sort_TD_0339Row t = {std::string(_s_name369.data()),_numwait2128L};
         rows.push_back(t);
     }
-    std::sort(rows.begin(), rows.end(), SW_Sort_TD_0593_order);
+    std::sort(rows.begin(), rows.end(), SW_Sort_TD_0339_order);
     int r = 0;
     for (auto& it : rows) {
-        std::array<char, TPCH_READ_REGION_LEN + 1> _s_name485{};
-        memcpy(_s_name485.data(), (it._s_name485).data(), (it._s_name485).length());
-        tbl_Sort_TD_0593_output.setcharN<char, TPCH_READ_REGION_LEN +1>(r, 0, _s_name485);
-        tbl_Sort_TD_0593_output.setInt64(r, 1, it._numwait2399L);
+        std::array<char, TPCH_READ_REGION_LEN + 1> _s_name369{};
+        memcpy(_s_name369.data(), (it._s_name369).data(), (it._s_name369).length());
+        tbl_Sort_TD_0339_output.setcharN<char, TPCH_READ_REGION_LEN +1>(r, 0, _s_name369);
+        tbl_Sort_TD_0339_output.setInt64(r, 1, it._numwait2128L);
         if (r < 10) {
-            std::cout << (it._s_name485).data() << " " << it._numwait2399L << " " << std::endl;
+            std::cout << (it._s_name369).data() << " " << it._numwait2128L << " " << std::endl;
         }
         ++r;
     }
-    tbl_Sort_TD_0593_output.setNumRow(r);
-    std::cout << "tbl_Sort_TD_0593_output #Row: " << tbl_Sort_TD_0593_output.getNumRow() << std::endl;
+    tbl_Sort_TD_0339_output.setNumRow(r);
+    std::cout << "tbl_Sort_TD_0339_output #Row: " << tbl_Sort_TD_0339_output.getNumRow() << std::endl;
 }
 

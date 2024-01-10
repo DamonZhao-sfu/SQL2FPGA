@@ -84,14 +84,14 @@ static void gen_pass_fcfg(uint32_t cfg[]) {
     cfg[n++] = (uint32_t)(1UL << 31); 
 } 
 
-void get_cfg_dat_JOIN_LEFTANTI_TD_4861_gqe_join(ap_uint<512>* hbuf) {
+void get_cfg_dat_JOIN_LEFTANTI_TD_3811_gqe_join(ap_uint<512>* hbuf) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: JOIN_LEFTANTI
-    // Operation: ListBuffer(((cast(ps_suppkey#451L as int) = s_suppkey#498) OR isnull((cast(ps_suppkey#451L as int) = s_suppkey#498))))
-    // Left Table: ListBuffer(s_suppkey#498)
-    // Right Table: ListBuffer(ps_partkey#450L, ps_suppkey#451L)
-    // Output Table: ListBuffer(ps_partkey#450L, ps_suppkey#451L)
-    // Node Depth: 4
+    // Operation: ListBuffer(((ps_suppkey#330 = s_suppkey#368) OR isnull((ps_suppkey#330 = s_suppkey#368))))
+    // Left Table: ListBuffer(s_suppkey#368)
+    // Right Table: ListBuffer(ps_partkey#329, ps_suppkey#330)
+    // Output Table: ListBuffer(ps_partkey#329, ps_suppkey#330)
+    // Node Depth: 3
     ap_uint<512>* b = hbuf;
     memset(b, 0, sizeof(ap_uint<512>) * 9);
     ap_uint<512> t = 0;
@@ -204,13 +204,13 @@ void get_cfg_dat_JOIN_LEFTANTI_TD_4861_gqe_join(ap_uint<512>* hbuf) {
     b[0].range(511, 448) = shuffle4_cfg;
 }
 
-void get_cfg_dat_JOIN_INNER_TD_2704_gqe_join(ap_uint<512>* hbuf) {
+void get_cfg_dat_JOIN_INNER_TD_2464_gqe_join(ap_uint<512>* hbuf) {
     // StringRowIDSubstitution: true StringRowIDBackSubstitution: false
     // Supported operation: JOIN_INNER
-    // Operation: ListBuffer((p_partkey#420 = ps_partkey#460))
-    // Left Table: ListBuffer(p_partkey#420, p_type#405, p_size#406, p_brand#410)
-    // Right Table: ListBuffer(ps_partkey#460, ps_suppkey#466)
-    // Output Table: ListBuffer(ps_suppkey#466, p_type#405, p_size#406, p_brand#410)
+    // Operation: ListBuffer((p_partkey#284 = ps_partkey#329))
+    // Left Table: ListBuffer(p_partkey#284, p_brand#287, p_type#288, p_size#289)
+    // Right Table: ListBuffer(ps_partkey#329, ps_suppkey#330)
+    // Output Table: ListBuffer(ps_suppkey#330, p_brand#287, p_type#288, p_size#289)
     // Node Depth: 2
     ap_uint<512>* b = hbuf;
     memset(b, 0, sizeof(ap_uint<512>) * 9);
@@ -241,9 +241,9 @@ void get_cfg_dat_JOIN_INNER_TD_2704_gqe_join(ap_uint<512>* hbuf) {
     //stream shuffle 1a
     ap_int<64> shuffle1a_cfg;
     shuffle1a_cfg(7, 0) = 0;
-    shuffle1a_cfg(15, 8) = 3;
-    shuffle1a_cfg(23, 16) = 1;
-    shuffle1a_cfg(31, 24) = 2;
+    shuffle1a_cfg(15, 8) = 1;
+    shuffle1a_cfg(23, 16) = 2;
+    shuffle1a_cfg(31, 24) = 3;
     shuffle1a_cfg(39, 32) = -1;
     shuffle1a_cfg(47, 40) = -1;
     shuffle1a_cfg(55, 48) = -1;
@@ -269,9 +269,9 @@ void get_cfg_dat_JOIN_INNER_TD_2704_gqe_join(ap_uint<512>* hbuf) {
     //stream shuffle 2
     ap_int<64> shuffle2_cfg;
     shuffle2_cfg(7, 0) = 0; // ps_suppkey
-    shuffle2_cfg(15, 8) = 7; // p_type
-    shuffle2_cfg(23, 16) = 8; // p_size
-    shuffle2_cfg(31, 24) = 6; // p_brand
+    shuffle2_cfg(15, 8) = 6; // p_brand
+    shuffle2_cfg(23, 16) = 7; // p_type
+    shuffle2_cfg(31, 24) = 8; // p_size
     shuffle2_cfg(39, 32) = -1;
     shuffle2_cfg(47, 40) = -1;
     shuffle2_cfg(55, 48) = -1;
@@ -285,9 +285,9 @@ void get_cfg_dat_JOIN_INNER_TD_2704_gqe_join(ap_uint<512>* hbuf) {
     //stream shuffle 3
     ap_int<64> shuffle3_cfg;
     shuffle3_cfg(7, 0) = 0; // ps_suppkey
-    shuffle3_cfg(15, 8) = 1; // p_type
-    shuffle3_cfg(23, 16) = 2; // p_size
-    shuffle3_cfg(31, 24) = 3; // p_brand
+    shuffle3_cfg(15, 8) = 1; // p_brand
+    shuffle3_cfg(23, 16) = 2; // p_type
+    shuffle3_cfg(31, 24) = 3; // p_size
     shuffle3_cfg(39, 32) = -1;
     shuffle3_cfg(47, 40) = -1;
     shuffle3_cfg(55, 48) = -1;
@@ -301,9 +301,9 @@ void get_cfg_dat_JOIN_INNER_TD_2704_gqe_join(ap_uint<512>* hbuf) {
     //stream shuffle 4
     ap_int<64> shuffle4_cfg;
     shuffle4_cfg(7, 0) = 0; // ps_suppkey
-    shuffle4_cfg(15, 8) = 1; // p_type
-    shuffle4_cfg(23, 16) = 2; // p_size
-    shuffle4_cfg(31, 24) = 3; // p_brand
+    shuffle4_cfg(15, 8) = 1; // p_brand
+    shuffle4_cfg(23, 16) = 2; // p_type
+    shuffle4_cfg(31, 24) = 3; // p_size
     shuffle4_cfg(39, 32) = -1;
     shuffle4_cfg(47, 40) = -1;
     shuffle4_cfg(55, 48) = -1;

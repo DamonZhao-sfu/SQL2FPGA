@@ -1,13 +1,13 @@
 #!/bin/bash
 
 # Base directory path
-base_path="/localhdd/hza215/Vitis_Libraries_2020.1/database/L2/demos/host"
+base_path="/localhdd/hza215/Vitis_Libraries/database/L2/demos/host"
 
 # Loop through numbers with leading zeros
 for num in $(seq 1 22); do
     # Create the target directory path
     dir_num=$(printf "%02d" $num)
-    target_dir="${base_path}/q${dir_num}/sf1_sql2fpga_fpga"
+    target_dir="${base_path}/q${dir_num}/sfsql2fpga_fpga"
     
     # Make the directory if it doesn't exist
     mkdir -p "$target_dir"

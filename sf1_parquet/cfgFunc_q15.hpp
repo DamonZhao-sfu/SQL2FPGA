@@ -84,12 +84,12 @@ static void gen_pass_fcfg(uint32_t cfg[]) {
     cfg[n++] = (uint32_t)(1UL << 31); 
 } 
 
-void get_cfg_dat_Aggregate_TD_5435_gqe_aggr(ap_uint<32>* buf) {
+void get_cfg_dat_Aggregate_TD_5179_gqe_aggr(ap_uint<32>* buf) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: Aggregate
-    // Operation: ListBuffer(l_suppkey#66, sum((l_extendedprice#117 * (100 - l_discount#134))) AS total_revenue#1990L)
-    // Input Table: ListBuffer(l_suppkey#66, l_extendedprice#117, l_discount#134)
-    // Output Table: ListBuffer(total_revenue#1990L)
+    // Operation: ListBuffer(l_suppkey#52, sum((l_extendedprice#55 * (100 - l_discount#56))) AS total_revenue#1713L)
+    // Input Table: ListBuffer(l_suppkey#52, l_extendedprice#55, l_discount#56)
+    // Output Table: ListBuffer(total_revenue#1713L)
     // Node Depth: 5
     ap_uint<32>* config = buf;
     memset(config, 0, sizeof(ap_uint<32>) * 83);
@@ -106,7 +106,7 @@ void get_cfg_dat_Aggregate_TD_5435_gqe_aggr(ap_uint<32>* buf) {
     }
     config[1] = t;
 
-    ap_uint<289> op_eval_0 = 0; // (l_extendedprice#117 * (100 - l_discount#134))
+    ap_uint<289> op_eval_0 = 0; // (l_extendedprice#55 * (100 - l_discount#56))
     xf::database::dynamicALUOPCompiler<uint32_t, uint32_t, uint32_t, uint32_t>("strm1*(-strm2+c2)", 0, 100, 0, 0, op_eval_0);
     for (int i = 0; i < 9; i++) {
         config[i + 2] = op_eval_0(32 * (i + 1) - 1, 32 * i);
@@ -153,7 +153,7 @@ void get_cfg_dat_Aggregate_TD_5435_gqe_aggr(ap_uint<32>* buf) {
 
     // filter -> groupBy
     ap_int<64> shuffle3_cfg;
-    shuffle3_cfg(7, 0) = 2; // l_suppkey#66
+    shuffle3_cfg(7, 0) = 2; // l_suppkey#52
     shuffle3_cfg(15, 8) = -1;
     shuffle3_cfg(23, 16) = -1;
     shuffle3_cfg(31, 24) = -1;
@@ -165,7 +165,7 @@ void get_cfg_dat_Aggregate_TD_5435_gqe_aggr(ap_uint<32>* buf) {
     config[72] = shuffle3_cfg(63, 32);
 
     ap_int<64> shuffle4_cfg;
-    shuffle4_cfg(7, 0) = 3; // total_revenue#1990L
+    shuffle4_cfg(7, 0) = 3; // total_revenue#1713L
     shuffle4_cfg(15, 8) = -1;
     shuffle4_cfg(23, 16) = -1;
     shuffle4_cfg(31, 24) = -1;
@@ -207,12 +207,12 @@ void get_cfg_dat_Aggregate_TD_5435_gqe_aggr(ap_uint<32>* buf) {
     config[82] = 0xffff;
 }
 
-void get_cfg_dat_Aggregate_TD_4886_gqe_aggr(ap_uint<32>* buf) {
+void get_cfg_dat_Aggregate_TD_4461_gqe_aggr(ap_uint<32>* buf) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: Aggregate
-    // Operation: ListBuffer(l_suppkey#66, sum((l_extendedprice#117 * (100 - l_discount#134))) AS sum((l_extendedprice * (100 - l_discount)))#1988L)
-    // Input Table: ListBuffer(l_suppkey#66, l_extendedprice#117, l_discount#134)
-    // Output Table: ListBuffer(l_suppkey#66, sum((l_extendedprice * (100 - l_discount)))#1988L)
+    // Operation: ListBuffer(l_suppkey#52, sum((l_extendedprice#55 * (100 - l_discount#56))) AS sum((l_extendedprice * (100 - l_discount)))#1711L)
+    // Input Table: ListBuffer(l_suppkey#52, l_extendedprice#55, l_discount#56)
+    // Output Table: ListBuffer(l_suppkey#52, sum((l_extendedprice * (100 - l_discount)))#1711L)
     // Node Depth: 4
     ap_uint<32>* config = buf;
     memset(config, 0, sizeof(ap_uint<32>) * 83);
@@ -229,7 +229,7 @@ void get_cfg_dat_Aggregate_TD_4886_gqe_aggr(ap_uint<32>* buf) {
     }
     config[1] = t;
 
-    ap_uint<289> op_eval_0 = 0; // (l_extendedprice#117 * (100 - l_discount#134))
+    ap_uint<289> op_eval_0 = 0; // (l_extendedprice#55 * (100 - l_discount#56))
     xf::database::dynamicALUOPCompiler<uint32_t, uint32_t, uint32_t, uint32_t>("strm1*(-strm2+c2)", 0, 100, 0, 0, op_eval_0);
     for (int i = 0; i < 9; i++) {
         config[i + 2] = op_eval_0(32 * (i + 1) - 1, 32 * i);
@@ -276,7 +276,7 @@ void get_cfg_dat_Aggregate_TD_4886_gqe_aggr(ap_uint<32>* buf) {
 
     // filter -> groupBy
     ap_int<64> shuffle3_cfg;
-    shuffle3_cfg(7, 0) = 2; // l_suppkey#66
+    shuffle3_cfg(7, 0) = 2; // l_suppkey#52
     shuffle3_cfg(15, 8) = -1;
     shuffle3_cfg(23, 16) = -1;
     shuffle3_cfg(31, 24) = -1;
@@ -288,7 +288,7 @@ void get_cfg_dat_Aggregate_TD_4886_gqe_aggr(ap_uint<32>* buf) {
     config[72] = shuffle3_cfg(63, 32);
 
     ap_int<64> shuffle4_cfg;
-    shuffle4_cfg(7, 0) = 3; // sum((l_extendedprice * (100 - l_discount)))#1988L
+    shuffle4_cfg(7, 0) = 3; // sum((l_extendedprice * (100 - l_discount)))#1711L
     shuffle4_cfg(15, 8) = -1;
     shuffle4_cfg(23, 16) = -1;
     shuffle4_cfg(31, 24) = -1;
@@ -330,13 +330,13 @@ void get_cfg_dat_Aggregate_TD_4886_gqe_aggr(ap_uint<32>* buf) {
     config[82] = 0xffff;
 }
 
-void get_cfg_dat_JOIN_INNER_TD_1164_gqe_join(ap_uint<512>* hbuf) {
+void get_cfg_dat_JOIN_INNER_TD_1197_gqe_join(ap_uint<512>* hbuf) {
     // StringRowIDSubstitution: true StringRowIDBackSubstitution: false
     // Supported operation: JOIN_INNER
-    // Operation: ListBuffer((s_suppkey#498 = supplier_no#1989))
-    // Left Table: ListBuffer(s_suppkey#498, s_name#485, s_address#486, s_phone#488)
-    // Right Table: ListBuffer(supplier_no#1989, total_revenue#1990L)
-    // Output Table: ListBuffer(s_suppkey#498, s_name#485, s_address#486, s_phone#488, total_revenue#1990L)
+    // Operation: ListBuffer((s_suppkey#368 = supplier_no#1712))
+    // Left Table: ListBuffer(s_suppkey#368, s_name#369, s_address#370, s_phone#372)
+    // Right Table: ListBuffer(supplier_no#1712, total_revenue#1713L)
+    // Output Table: ListBuffer(s_suppkey#368, s_name#369, s_address#370, s_phone#372, total_revenue#1713L)
     // Node Depth: 1
     ap_uint<512>* b = hbuf;
     memset(b, 0, sizeof(ap_uint<512>) * 9);

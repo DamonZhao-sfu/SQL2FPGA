@@ -84,12 +84,12 @@ static void gen_pass_fcfg(uint32_t cfg[]) {
     cfg[n++] = (uint32_t)(1UL << 31); 
 } 
 
-void get_cfg_dat_Aggregate_TD_1184_gqe_aggr(ap_uint<32>* buf) {
+void get_cfg_dat_Aggregate_TD_1416_gqe_aggr(ap_uint<32>* buf) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: Aggregate
-    // Operation: ListBuffer(l_returnflag#168, l_linestatus#185, sum(l_quantity#100) AS sum_qty#1066L, sum(l_extendedprice#117) AS sum_base_price#1067L, sum((l_extendedprice#117 * (100 - l_discount#134))) AS sum_disc_price#1068L, sum(((l_extendedprice#117 * (100 - l_discount#134)) * (100 + l_tax#151))) AS sum_charge#1069L, avg(l_quantity#100) AS avg_qty#1070, avg(l_extendedprice#117) AS avg_price#1071, avg(l_discount#134) AS avg_disc#1072, count(1) AS count_order#1073L)
-    // Input Table: ListBuffer(l_quantity#100, l_extendedprice#117, l_discount#134, l_tax#151, l_returnflag#168, l_linestatus#185)
-    // Output Table: ListBuffer(l_returnflag#168, l_linestatus#185, sum_qty#1066L, sum_base_price#1067L, sum_disc_price#1068L, sum_charge#1069L, avg_qty#1070, avg_price#1071, avg_disc#1072, count_order#1073L)
+    // Operation: ListBuffer(l_returnflag#58, l_linestatus#59, sum(l_quantity#54) AS sum_qty#743L, sum(l_extendedprice#55) AS sum_base_price#744L, sum((l_extendedprice#55 * (100 - l_discount#56))) AS sum_disc_price#745L, sum(((l_extendedprice#55 * (100 - l_discount#56)) * (100 + l_tax#57))) AS sum_charge#746L, avg(l_quantity#54) AS avg_qty#747, avg(l_extendedprice#55) AS avg_price#748, avg(l_discount#56) AS avg_disc#749, count(1) AS count_order#750L)
+    // Input Table: ListBuffer(l_quantity#54, l_extendedprice#55, l_discount#56, l_tax#57, l_returnflag#58, l_linestatus#59)
+    // Output Table: ListBuffer(l_returnflag#58, l_linestatus#59, sum_qty#743L, sum_base_price#744L, sum_disc_price#745L, sum_charge#746L, avg_qty#747, avg_price#748, avg_disc#749, count_order#750L)
     // Node Depth: 1
     ap_uint<32>* config = buf;
     memset(config, 0, sizeof(ap_uint<32>) * 83);
@@ -106,7 +106,7 @@ void get_cfg_dat_Aggregate_TD_1184_gqe_aggr(ap_uint<32>* buf) {
     }
     config[1] = t;
 
-    ap_uint<289> op_eval_0 = 0; // (l_extendedprice#117 * (100 - l_discount#134))
+    ap_uint<289> op_eval_0 = 0; // (l_extendedprice#55 * (100 - l_discount#56))
     xf::database::dynamicALUOPCompiler<uint32_t, uint32_t, uint32_t, uint32_t>("strm1*(-strm2+c2)", 0, 100, 0, 0, op_eval_0);
     for (int i = 0; i < 9; i++) {
         config[i + 2] = op_eval_0(32 * (i + 1) - 1, 32 * i);
@@ -119,14 +119,14 @@ void get_cfg_dat_Aggregate_TD_1184_gqe_aggr(ap_uint<32>* buf) {
     shuffle1_cfg(15, 8) = 1; // l_discount
     shuffle1_cfg(23, 16) = 3; // l_tax
     shuffle1_cfg(31, 24) = 2; // l_quantity
-    shuffle1_cfg(39, 32) = 4; // l_returnflag#168
-    shuffle1_cfg(47, 40) = 5; // l_linestatus#185
+    shuffle1_cfg(39, 32) = 4; // l_returnflag#58
+    shuffle1_cfg(47, 40) = 5; // l_linestatus#59
     shuffle1_cfg(55, 48) = 8; // sum_disc_price
     shuffle1_cfg(63, 56) = -1;
     config[67] = shuffle1_cfg(31, 0);
     config[68] = shuffle1_cfg(63, 32);
 
-    ap_uint<289> op_eval_1 = 0; // ((l_extendedprice#117 * (100 - l_discount#134)) * (100 + l_tax#151))
+    ap_uint<289> op_eval_1 = 0; // ((l_extendedprice#55 * (100 - l_discount#56)) * (100 + l_tax#57))
     xf::database::dynamicALUOPCompiler<uint32_t, uint32_t, uint32_t, uint32_t>("(strm1*(-strm2+c2))*(strm3+c3)", 0, 100, 100, 0, op_eval_1);
     for (int i = 0; i < 9; i++) {
         config[i + 12] = op_eval_1(32 * (i + 1) - 1, 32 * i);
@@ -152,8 +152,8 @@ void get_cfg_dat_Aggregate_TD_1184_gqe_aggr(ap_uint<32>* buf) {
 
     // filter -> groupBy
     ap_int<64> shuffle3_cfg;
-    shuffle3_cfg(7, 0) = 4; // l_returnflag#168
-    shuffle3_cfg(15, 8) = 5; // l_linestatus#185
+    shuffle3_cfg(7, 0) = 4; // l_returnflag#58
+    shuffle3_cfg(15, 8) = 5; // l_linestatus#59
     shuffle3_cfg(23, 16) = -1;
     shuffle3_cfg(31, 24) = -1;
     shuffle3_cfg(39, 32) = -1;
@@ -164,14 +164,14 @@ void get_cfg_dat_Aggregate_TD_1184_gqe_aggr(ap_uint<32>* buf) {
     config[72] = shuffle3_cfg(63, 32);
 
     ap_int<64> shuffle4_cfg;
-    shuffle4_cfg(7, 0) = 2; // sum_qty#1066L
-    shuffle4_cfg(15, 8) = 0; // sum_base_price#1067L
-    shuffle4_cfg(23, 16) = 6; // sum_disc_price#1068L
-    shuffle4_cfg(31, 24) = 8; // sum_charge#1069L
-    shuffle4_cfg(39, 32) = 2; // avg_qty#1070
-    shuffle4_cfg(47, 40) = 0; // avg_price#1071
-    shuffle4_cfg(55, 48) = 1; // avg_disc#1072
-    shuffle4_cfg(63, 56) = -1; // count_order#1073L
+    shuffle4_cfg(7, 0) = 2; // sum_qty#743L
+    shuffle4_cfg(15, 8) = 0; // sum_base_price#744L
+    shuffle4_cfg(23, 16) = 6; // sum_disc_price#745L
+    shuffle4_cfg(31, 24) = 8; // sum_charge#746L
+    shuffle4_cfg(39, 32) = 2; // avg_qty#747
+    shuffle4_cfg(47, 40) = 0; // avg_price#748
+    shuffle4_cfg(55, 48) = 1; // avg_disc#749
+    shuffle4_cfg(63, 56) = -1; // count_order#750L
     config[73] = shuffle4_cfg(31, 0);
     config[74] = shuffle4_cfg(63, 32);
 

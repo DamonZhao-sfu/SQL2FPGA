@@ -1,4 +1,6 @@
 package org.example
+import java.math.BigDecimal
+import org.apache.spark.sql.types.DateType
 import org.apache.spark.sql.functions.{col,regexp_replace, trim, expr}
 import org.apache.spark.sql.{DataFrame, SparkSession}
 
@@ -91,82 +93,140 @@ class TpchSchemaProvider(sc: SparkSession, inputDir: String) {
   
   var format = "orc"
 
- val lineitemPre = sc.read.format(format)
-    .load("file://" + inputDir + "/lineitem")
-    .withColumn("l_orderkey",      col("l_orderkey").cast("int"))
-    .withColumn("l_partkey",      col("l_partkey").cast("int"))
-    .withColumn("l_suppkey",      col("l_suppkey").cast("int"))
-    .withColumn("l_linenumber",      col("l_linenumber").cast("int"))
-    .withColumn("l_quantity",      (col("l_quantity")      * 100).cast("int"))
-    .withColumn("l_extendedprice", (col("l_extendedprice") * 100).cast("int"))
-    .withColumn("l_discount",      (col("l_discount")      * 100).cast("int"))
-    .withColumn("l_tax",           (col("l_tax")           * 100).cast("int"))
-    .withColumn("l_returnflag",    expr("ascii(l_returnflag)").cast("int"))
-    .withColumn("l_linestatus",    expr("ascii(l_linestatus)").cast("int"))
-    .withColumn("l_shipdate",      regexp_replace(col("l_shipdate"), "-", "").cast("int"))
-    .withColumn("l_commitdate",    regexp_replace(col("l_commitdate"), "-", "").cast("int"))
-    .withColumn("l_receiptdate",   regexp_replace(col("l_receiptdate"), "-", "").cast("int"))
-
-  val customerPre = sc.read.format(format)
-    .load("file://" + inputDir + "/customer")
-    .withColumn("c_custkey",      col("c_custkey").cast("int"))
-    .withColumn("c_nationkey",      col("c_nationkey").cast("int"))
-    .withColumn("c_acctbal",      (col("c_acctbal")      * 100).cast("int"))
-
-
-  val nationPre = sc.read.format(format)
-    .load("file://" + inputDir + "/nation")
-    .withColumn("n_nationkey",      col("n_nationkey").cast("int"))
-    .withColumn("n_regionkey",      col("n_regionkey").cast("int"))
-
-  val regionPre = sc.read.format(format)
-    .load("file://" + inputDir + "/region")
-    .withColumn("r_regionkey",      col("r_regionkey").cast("int"))
-
-  val orderPre = sc.read.format(format)
-    .load("file://" + inputDir + "/orders")
-    .withColumn("o_orderkey",      col("o_orderkey").cast("int"))
-    .withColumn("o_custkey",      col("o_custkey").cast("int"))
-    .withColumn("o_orderstatus",    expr("ascii(o_orderstatus)").cast("int"))
-    .withColumn("o_totalprice",       (col("o_totalprice")      * 100).cast("int"))
-    .withColumn("o_orderdate",      regexp_replace(col("o_orderdate"), "-", "").cast("int"))
-    .withColumn("o_shippriority",      col("o_shippriority").cast("int"))
-
-  val partPre = sc.read.format(format)
-    .load("file://" + inputDir + "/part")
-    .withColumn("p_partkey", col("p_partkey").cast("int"))
-    .withColumn("p_size", col("p_size").cast("int"))
-    .withColumn("p_retailprice",       (col("p_retailprice")      * 100).cast("int"))
-
-  val partsuppPre = sc.read.format(format)
-    .load("file://" + inputDir + "/partsupp")
-    .withColumn("ps_partkey", col("ps_partkey").cast("int"))
-    .withColumn("ps_suppkey", col("ps_suppkey").cast("int"))
-    .withColumn("ps_availqty",       col("ps_availqty").cast("int"))
-    .withColumn("ps_supplycost",       (col("ps_supplycost")*100).cast("int"))
-
-  val supplierPre = sc.read.format(format)
-    .load("file://" + inputDir + "/supplier")
-    .withColumn("s_suppkey", col("s_suppkey").cast("int"))
-    .withColumn("s_nationkey", col("s_nationkey").cast("int"))
-    .withColumn("s_acctbal",       (col("s_acctbal")*100).cast("int"))
-
 
   val dfMap = Map(
-    "lineitem" -> lineitemPre.as[Lineitem].toDF(),
-    "customer" -> customerPre.as[Customer].toDF(),
-    "nation" -> nationPre.as[Nation].toDF(),
-    "region" -> regionPre.as[Region].toDF(),
-    "orders" -> orderPre.as[Orders].toDF(),
-    "part" -> partPre.as[Part].toDF(),
-    "partsupp" -> partsuppPre.as[Partsupp].toDF(),
-    "supplier" -> supplierPre.as[Supplier].toDF(),
+    "lineitem" -> sc.read.format(format)
+  .load("file://" + inputDir + "/lineitem")
+  .map(row => {
+    Lineitem(
+      l_orderkey = row.getAs[Long](0).toInt,
+      l_partkey = row.getAs[Long](1).toInt,
+      l_suppkey = row.getAs[Long](2).toInt,
+      l_linenumber = row.getAs[Int](3),
+      l_quantity = row.getAs[java.math.BigDecimal](4).multiply(new BigDecimal("100")).intValueExact(),
+      l_extendedprice = row.getAs[java.math.BigDecimal](5).multiply(new BigDecimal("100")).intValueExact(),
+      l_discount = row.getAs[java.math.BigDecimal](6).multiply(new BigDecimal("100")).intValueExact(),
+      l_tax = row.getAs[java.math.BigDecimal](7).multiply(new BigDecimal("100")).intValueExact(),
+      l_returnflag = row.getAs[String](8)(0).toInt,
+      l_linestatus = row.getAs[String](9)(0).toInt,
+      l_commitdate = row.getAs[DateType](10).toString.replace("-", "").toInt,
+      l_receiptdate = row.getAs[DateType](11).toString.replace("-", "").toInt,
+      l_shipinstruct = row.getAs[String](12).trim,
+      l_shipmode = row.getAs[String](13).trim,
+      l_comment = row.getAs[String](14).trim,
+      l_shipdate = row.getAs[DateType](15).toString.replace("-", "").toInt,
+    )
+  }).toDF(),
 
+
+  "customer" -> sc.read.format(format)
+  .load("file://" + inputDir + "/customer")
+  .map(row => {
+    Customer(
+      c_custkey = row.getAs[Long](0).toInt,
+      c_name = row.getAs[String](1).trim,
+      c_address = row.getAs[String](2).trim,
+      c_nationkey = row.getAs[Long](3).toInt,
+      c_phone = row.getAs[String](4).trim,
+      c_acctbal = row.getAs[java.math.BigDecimal](5).multiply(new BigDecimal("100")).intValueExact(),
+      c_comment = row.getAs[String](6).trim,
+      c_mktsegment = row.getAs[String](7).trim
+    )
+  }).toDF(),
+
+
+ 
+    "nation" -> sc.read.format(format)
+  /*
+    n_nationkey: Int,
+                   n_name: String,
+                   n_regionkey: Int,
+                   n_comment: String
+  */
+    .load("file://" + inputDir + "/nation")
+    .map(row => {
+    Nation(
+      n_nationkey = row.getAs[Long](0).toInt,
+      n_name = row.getAs[String](1).trim,
+      n_regionkey = row.getAs[Long](2).toInt,
+      n_comment = row.getAs[String](3).trim
+    )
+  }).toDF(),
+
+
+    "region" -> sc.read.format(format)
+    .load("file://" + inputDir + "/region")
+    .map(row => {
+    Region(
+      r_regionkey = row.getAs[Long](0).toInt,
+      r_name = row.getAs[String](1).trim,
+      r_comment = row.getAs[String](2)
+    )
+  }).toDF(),
+
+    "orders" -> sc.read.format(format)
+    .load("file://" + inputDir + "/orders")
+    .map(row => {
+    Orders(
+      o_orderkey = row.getAs[Long](0).toInt,
+      o_custkey = row.getAs[Long](1).toInt,
+      o_orderstatus = row.getAs[String](2)(0).toInt,
+      o_totalprice = row.getAs[java.math.BigDecimal](3).multiply(new BigDecimal("100")).intValueExact(),
+      o_orderpriority = row.getAs[String](4).trim,
+      o_clerk = row.getAs[String](5).trim,
+      o_shippriority = row.getAs[Int](6),
+      o_comment = row.getAs[String](7).trim,
+      o_orderdate = row.getAs[DateType](8).toString.replace("-", "").toInt
+    )
+  }).toDF(),
+
+    "part" -> sc.read.format(format)
+    .load("file://" + inputDir + "/part")
+    .map(row => {
+    Part(
+      p_partkey = row.getAs[Long](0).toInt,
+      p_name = row.getAs[String](1).trim,
+      p_mfgr = row.getAs[String](2).trim,
+      p_type = row.getAs[String](3).trim,
+      p_size = row.getAs[Int](4),
+      p_container = row.getAs[String](5).trim,
+      p_retailprice = row.getAs[java.math.BigDecimal](6).multiply(new BigDecimal("100")).intValueExact(),
+      p_comment = row.getAs[String](7).trim,
+      p_brand = row.getAs[String](8).trim
+    )
+  }).toDF(),
+
+    "partsupp" -> sc.read.format(format)
+    .load("file://" + inputDir + "/partsupp")
+    .map(row => {
+    Partsupp(
+      ps_partkey = row.getAs[Long](0).toInt,
+      ps_suppkey = row.getAs[Long](1).toInt,
+      ps_availqty = row.getAs[Int](2),
+      ps_supplycost = row.getAs[java.math.BigDecimal](3).multiply(new BigDecimal("100")).intValueExact(),
+      ps_comment = row.getAs[String](4).trim
+    )
+  }).toDF(),
+
+    "supplier" -> sc.read.format(format)
+    .load("file://" + inputDir + "/supplier")
+    .map(row => {
+    Supplier(
+      s_suppkey = row.getAs[Long](0).toInt,
+      s_name = row.getAs[String](1).trim,
+      s_address = row.getAs[String](2).trim,
+      s_nationkey = row.getAs[Long](3).toInt,
+      s_phone = row.getAs[String](4).trim,
+      s_acctbal = row.getAs[java.math.BigDecimal](5).multiply(new BigDecimal("100")).intValueExact(),
+      s_comment = row.getAs[String](6).trim
+    )
+  }).toDF(),
 
     /*   "customer" -> sc.read.textFile(inputDir + "/customer.tbl*").map(_.split('|')).map(p =>
           Customer(p(0).trim.toInt, p(1).trim, p(2).trim, p(3).trim.toInt, p(4).trim, (p(5).trim.toDouble*100).toInt, p(6).trim, p(7).trim)).toDF(),
 
-        "lineitem" -> sc.read.textFile(inputDir + "/lineitem.tbl*").map(_.split('|')).map(p =>
+        "lineitem" -> sc.read.textFile(inputDir + "/lineitem.tbl*").map(_.split('|')).
+        map(p =>
           Lineitem(p(0).trim.toInt, p(1).trim.toInt, p(2).trim.toInt, p(3).trim.toInt, (p(4).trim.toDouble*100).toInt, (p(5).trim.toDouble*100).toInt, (p(6).trim.toDouble*100).toInt, (p(7).trim.toDouble*100).toInt, p(8).trim.indexOf(0).toInt, p(9).trim.indexOf(0).toInt, p(10).trim.replace("-", "").toInt, p(11).trim.replace("-", "").toInt, p(12).trim.replace("-", "").toInt, p(13).trim, p(14).trim, p(15).trim)).toDF(),
 
         "nation" -> sc.read.textFile(inputDir + "/nation.tbl*").map(_.split('|')).map(p =>
@@ -199,7 +259,7 @@ class TpchSchemaProvider(sc: SparkSession, inputDir: String) {
   )
 
   // for implicits
-  val customer: DataFrame = dfMap("customer")
+//  val customer: DataFrame = dfMap("customer")
   val lineitem: DataFrame = dfMap("lineitem")
   val nation: DataFrame = dfMap("nation")
   val region: DataFrame = dfMap("region")

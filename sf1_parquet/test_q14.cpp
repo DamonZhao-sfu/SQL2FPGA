@@ -89,30 +89,26 @@ int main(int argc, const char* argv[]) {
     // Get CL devices. 
     std::vector<cl::Device> devices = xcl::get_xil_devices(); 
     // ****************************** Tables **************************** // 
-    Table tbl_Aggregate_TD_0567_output("tbl_Aggregate_TD_0567_output", 6100000, 1, "");
-    tbl_Aggregate_TD_0567_output.allocateHost();
-    Table tbl_JOIN_INNER_TD_141_output("tbl_JOIN_INNER_TD_141_output", 6100000, 3, "");
-    tbl_JOIN_INNER_TD_141_output.allocateHost();
-    Table tbl_Project_TD_2565_output("tbl_Project_TD_2565_output", 6100000, 3, "");
-    tbl_Project_TD_2565_output.allocateHost();
-    Table tbl_Project_TD_2822_output("tbl_Project_TD_2822_output", 6100000, 2, "");
-    tbl_Project_TD_2822_output.allocateHost();
-    Table tbl_Filter_TD_3685_output("tbl_Filter_TD_3685_output", 6100000, 3, "");
-    tbl_Filter_TD_3685_output.allocateHost();
-    Table tbl_SerializeFromObject_TD_4305_input;
-    tbl_SerializeFromObject_TD_4305_input = Table("part", part_n, 2, in_dir);
-    tbl_SerializeFromObject_TD_4305_input.addCol("p_partkey", 4);
-    tbl_SerializeFromObject_TD_4305_input.addCol("p_type", TPCH_READ_P_TYPE_LEN+1);
-    tbl_SerializeFromObject_TD_4305_input.allocateHost();
-    tbl_SerializeFromObject_TD_4305_input.loadHost();
-    Table tbl_SerializeFromObject_TD_4369_input;
-    tbl_SerializeFromObject_TD_4369_input = Table("lineitem", lineitem_n, 4, in_dir);
-    tbl_SerializeFromObject_TD_4369_input.addCol("l_partkey", 4);
-    tbl_SerializeFromObject_TD_4369_input.addCol("l_extendedprice", 4);
-    tbl_SerializeFromObject_TD_4369_input.addCol("l_discount", 4);
-    tbl_SerializeFromObject_TD_4369_input.addCol("l_shipdate", 4);
-    tbl_SerializeFromObject_TD_4369_input.allocateHost();
-    tbl_SerializeFromObject_TD_4369_input.loadHost();
+    Table tbl_Aggregate_TD_0256_output("tbl_Aggregate_TD_0256_output", 6100000, 1, "");
+    tbl_Aggregate_TD_0256_output.allocateHost();
+    Table tbl_JOIN_INNER_TD_1915_output("tbl_JOIN_INNER_TD_1915_output", 6100000, 3, "");
+    tbl_JOIN_INNER_TD_1915_output.allocateHost();
+    Table tbl_Filter_TD_244_output("tbl_Filter_TD_244_output", 6100000, 3, "");
+    tbl_Filter_TD_244_output.allocateHost();
+    Table tbl_SerializeFromObject_TD_2591_input;
+    tbl_SerializeFromObject_TD_2591_input = Table("part", part_n, 2, in_dir);
+    tbl_SerializeFromObject_TD_2591_input.addCol("p_partkey", 4);
+    tbl_SerializeFromObject_TD_2591_input.addCol("p_type", TPCH_READ_P_TYPE_LEN+1);
+    tbl_SerializeFromObject_TD_2591_input.allocateHost();
+    tbl_SerializeFromObject_TD_2591_input.loadHost();
+    Table tbl_SerializeFromObject_TD_3370_input;
+    tbl_SerializeFromObject_TD_3370_input = Table("lineitem", lineitem_n, 4, in_dir);
+    tbl_SerializeFromObject_TD_3370_input.addCol("l_partkey", 4);
+    tbl_SerializeFromObject_TD_3370_input.addCol("l_extendedprice", 4);
+    tbl_SerializeFromObject_TD_3370_input.addCol("l_discount", 4);
+    tbl_SerializeFromObject_TD_3370_input.addCol("l_shipdate", 4);
+    tbl_SerializeFromObject_TD_3370_input.allocateHost();
+    tbl_SerializeFromObject_TD_3370_input.loadHost();
     // ********************** Allocate Device Buffer ******************** // 
     // ****************************** Config **************************** // 
     // *************************** Kernel Setup ************************* // 
@@ -123,50 +119,34 @@ int main(int argc, const char* argv[]) {
     struct timeval tv_r_s, tv_r_e; 
     gettimeofday(&tv_r_s, 0); 
 
-    struct timeval tv_r_Filter_3_99_s, tv_r_Filter_3_99_e;
-    gettimeofday(&tv_r_Filter_3_99_s, 0);
-    SW_Filter_TD_3685(tbl_SerializeFromObject_TD_4369_input, tbl_Filter_TD_3685_output);
-    gettimeofday(&tv_r_Filter_3_99_e, 0);
+    struct timeval tv_r_Filter_2_338_s, tv_r_Filter_2_338_e;
+    gettimeofday(&tv_r_Filter_2_338_s, 0);
+    SW_Filter_TD_244(tbl_SerializeFromObject_TD_3370_input, tbl_Filter_TD_244_output);
+    gettimeofday(&tv_r_Filter_2_338_e, 0);
 
-    struct timeval tv_r_Project_2_932_s, tv_r_Project_2_932_e;
-    gettimeofday(&tv_r_Project_2_932_s, 0);
-    SW_Project_TD_2822(tbl_SerializeFromObject_TD_4305_input, tbl_Project_TD_2822_output);
-    gettimeofday(&tv_r_Project_2_932_e, 0);
+    struct timeval tv_r_JOIN_INNER_1_144_s, tv_r_JOIN_INNER_1_144_e;
+    gettimeofday(&tv_r_JOIN_INNER_1_144_s, 0);
+    SW_JOIN_INNER_TD_1915(tbl_Filter_TD_244_output, tbl_SerializeFromObject_TD_2591_input, tbl_JOIN_INNER_TD_1915_output);
+    gettimeofday(&tv_r_JOIN_INNER_1_144_e, 0);
 
-    struct timeval tv_r_Project_2_974_s, tv_r_Project_2_974_e;
-    gettimeofday(&tv_r_Project_2_974_s, 0);
-    SW_Project_TD_2565(tbl_Filter_TD_3685_output, tbl_Project_TD_2565_output);
-    gettimeofday(&tv_r_Project_2_974_e, 0);
-
-    struct timeval tv_r_JOIN_INNER_1_571_s, tv_r_JOIN_INNER_1_571_e;
-    gettimeofday(&tv_r_JOIN_INNER_1_571_s, 0);
-    SW_JOIN_INNER_TD_141(tbl_Project_TD_2565_output, tbl_Project_TD_2822_output, tbl_JOIN_INNER_TD_141_output);
-    gettimeofday(&tv_r_JOIN_INNER_1_571_e, 0);
-
-    struct timeval tv_r_Aggregate_0_443_s, tv_r_Aggregate_0_443_e;
-    gettimeofday(&tv_r_Aggregate_0_443_s, 0);
-    SW_Aggregate_TD_0567(tbl_JOIN_INNER_TD_141_output, tbl_Aggregate_TD_0567_output);
-    gettimeofday(&tv_r_Aggregate_0_443_e, 0);
+    struct timeval tv_r_Aggregate_0_532_s, tv_r_Aggregate_0_532_e;
+    gettimeofday(&tv_r_Aggregate_0_532_s, 0);
+    SW_Aggregate_TD_0256(tbl_JOIN_INNER_TD_1915_output, tbl_Aggregate_TD_0256_output);
+    gettimeofday(&tv_r_Aggregate_0_532_e, 0);
 
     gettimeofday(&tv_r_e, 0); 
     // **************************** Print Execution Time ************************** // 
-    std::cout << "Filter_3: " << tvdiff(&tv_r_Filter_3_99_s, &tv_r_Filter_3_99_e) / 1000.0 << " ms " 
-     << "tbl_SerializeFromObject_TD_4369_input: " << tbl_SerializeFromObject_TD_4369_input.getNumRow() << " " << std::endl; 
+    std::cout << "Filter_2: " << tvdiff(&tv_r_Filter_2_338_s, &tv_r_Filter_2_338_e) / 1000.0 << " ms " 
+     << "tbl_SerializeFromObject_TD_3370_input: " << tbl_SerializeFromObject_TD_3370_input.getNumRow() << " " << std::endl; 
 
-    std::cout << "Project_2: " << tvdiff(&tv_r_Project_2_932_s, &tv_r_Project_2_932_e) / 1000.0 << " ms " 
-     << "tbl_SerializeFromObject_TD_4305_input: " << tbl_SerializeFromObject_TD_4305_input.getNumRow() << " " << std::endl; 
+    std::cout << "JOIN_INNER_1: " << tvdiff(&tv_r_JOIN_INNER_1_144_s, &tv_r_JOIN_INNER_1_144_e) / 1000.0 << " ms " 
+     << "tbl_Filter_TD_244_output: " << tbl_Filter_TD_244_output.getNumRow() << " " << "tbl_SerializeFromObject_TD_2591_input: " << tbl_SerializeFromObject_TD_2591_input.getNumRow() << " " << std::endl; 
 
-    std::cout << "Project_2: " << tvdiff(&tv_r_Project_2_974_s, &tv_r_Project_2_974_e) / 1000.0 << " ms " 
-     << "tbl_Filter_TD_3685_output: " << tbl_Filter_TD_3685_output.getNumRow() << " " << std::endl; 
-
-    std::cout << "JOIN_INNER_1: " << tvdiff(&tv_r_JOIN_INNER_1_571_s, &tv_r_JOIN_INNER_1_571_e) / 1000.0 << " ms " 
-     << "tbl_Project_TD_2565_output: " << tbl_Project_TD_2565_output.getNumRow() << " " << "tbl_Project_TD_2822_output: " << tbl_Project_TD_2822_output.getNumRow() << " " << std::endl; 
-
-    std::cout << "Aggregate_0: " << tvdiff(&tv_r_Aggregate_0_443_s, &tv_r_Aggregate_0_443_e) / 1000.0 << " ms " 
-     << "tbl_JOIN_INNER_TD_141_output: " << tbl_JOIN_INNER_TD_141_output.getNumRow() << " " << std::endl; 
+    std::cout << "Aggregate_0: " << tvdiff(&tv_r_Aggregate_0_532_s, &tv_r_Aggregate_0_532_e) / 1000.0 << " ms " 
+     << "tbl_JOIN_INNER_TD_1915_output: " << tbl_JOIN_INNER_TD_1915_output.getNumRow() << " " << std::endl; 
 
     std::cout << std::endl << " Total execution time: " << tvdiff(&tv_r_s, &tv_r_e) / 1000 << " ms"; 
 
-    std::cout << std::endl << " Spark elapsed time: " << 0.43498862 * 1000 << "ms" << std::endl; 
+    std::cout << std::endl << " Spark elapsed time: " << 25.72387 * 1000 << "ms" << std::endl; 
     return 0; 
 }
