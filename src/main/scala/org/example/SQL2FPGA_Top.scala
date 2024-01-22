@@ -13,6 +13,7 @@ object SQL2FPGA_Top {
   val OUTPUT_DIR_TPCH = "/localhdd/hza215/tpch-parquet"
   val INPUT_DIR_TPCDS = "/Users/aleclu/dev/tpcds-spark/dbgen/tpcds_data_1"
   val OUTPUT_DIR_TPCDS = "/Users/aleclu/dev/tpcds-spark/dbgen/tpcds_data_1"
+  qConfig.format = "orc"
   qConfig.tpch_queryNum_start = 1
   qConfig.tpch_queryNum_end = 22
   // 2,20

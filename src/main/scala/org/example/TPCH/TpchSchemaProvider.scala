@@ -93,7 +93,6 @@ class TpchSchemaProvider(sc: SparkSession, inputDir: String) {
   
   var format = "orc"
 
-
   val dfMap = Map(
     "lineitem" -> sc.read.format(format)
   .load("file://" + inputDir + "/lineitem")

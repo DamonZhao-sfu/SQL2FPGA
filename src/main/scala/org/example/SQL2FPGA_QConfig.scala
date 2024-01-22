@@ -6,6 +6,7 @@ import scala.collection.mutable.ListBuffer
 //----------------------------------------------------------------------------------------------------------------
 class SQL2FPGA_QConfig{
   // definitions
+  private var _format: String = "default"
   private var _tpch_queryNum_start: Int = 5
   private var _tpch_queryNum_end: Int = 5
   private var _tpch_queryNum_list: ListBuffer[Int] = new ListBuffer[Int]()
