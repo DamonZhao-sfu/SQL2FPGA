@@ -5835,7 +5835,7 @@ class SQL2FPGA_QPlan {
         } else if (_nodeType == "JOIN_INNER" && _treeDepth == 4 && _cpuORfpga == 1) {
           _numTableRow = 31440
         } else if (_nodeType == "Aggregate" && _treeDepth == 2 && _cpuORfpga == 1) {
-          _numTableRow = 600000
+          _numTableRow = 6100000
         }
       case 12 =>
         if (_nodeType == "JOIN_INNER" && _treeDepth == 2 && _cpuORfpga == 1) {
@@ -5918,7 +5918,7 @@ class SQL2FPGA_QPlan {
     _fpgaCode += "cpuORfpgaMode: " + _cpuORfpga.toString
 
     genCodeInputTableAndColumn(parentNode, dfmap, sf, nodeOpName)
-    genCodeOutputTableAndColumn(parentNode, dfmap, sf)
+    genCodeOutputTableAndColumn(parentNode, dfmap, sf, qConfig.format)
 
     //-----------------------------------PRE-PROCESSING-----------------------------------------------
     if (_nodeType == "Aggregate" || _nodeType == "Project") {
@@ -8152,7 +8152,7 @@ class SQL2FPGA_QPlan {
     }
   }
 
-  def genCodeOutputTableAndColumn(parentNode: SQL2FPGA_QPlan, dfmap: Map[String, DataFrame], sf: Int): Unit = {
+  def genCodeOutputTableAndColumn(parentNode: SQL2FPGA_QPlan, dfmap: Map[String, DataFrame], sf: Int, format: String): Unit = {
     //-----------------------------------OUTPUT TABLE & COLUMN----------------------------------------
     if (_outputCols.nonEmpty) {
       if (_operation.isEmpty) {
@@ -8336,7 +8336,7 @@ class SQL2FPGA_QPlan {
         // tbl_SerializeFromObject_TD_6605_input.addCol("ps_partkey", 4);
 
         inputTblCode += "Table " + tbl_name + ";"
-        inputTblCode += tbl_name + " = Table(\"" + tbl + "\", " + tbl + "_n, " + num_cols + ", in_dir);"
+        inputTblCode += tbl_name + " = Table(\"" + tbl + "\", " + tbl + "_n, " + num_cols + ", in_dir," + " \"" + format + "\");"
         for (col_name <- _inputCols) {
           var col = columnTableMap(col_name.split("#").head)._2
           var col_type = getColumnDataType(dfmap(tbl), col)

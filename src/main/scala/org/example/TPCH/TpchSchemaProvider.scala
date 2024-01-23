@@ -88,11 +88,9 @@ case class Supplier(
 
 
 
-class TpchSchemaProvider(sc: SparkSession, inputDir: String) {
+class TpchSchemaProvider(sc: SparkSession, inputDir: String, format: String) {
   import sc.implicits._
   
-  var format = "orc"
-
   val dfMap = Map(
     "lineitem" -> sc.read.format(format)
   .load("file://" + inputDir + "/lineitem")
@@ -136,12 +134,6 @@ class TpchSchemaProvider(sc: SparkSession, inputDir: String) {
 
  
     "nation" -> sc.read.format(format)
-  /*
-    n_nationkey: Int,
-                   n_name: String,
-                   n_regionkey: Int,
-                   n_comment: String
-  */
     .load("file://" + inputDir + "/nation")
     .map(row => {
     Nation(
@@ -269,11 +261,9 @@ class TpchSchemaProvider(sc: SparkSession, inputDir: String) {
 
   dfMap.foreach {
     case (key, value) => {
-      //val parquetOutput = s"/localhdd/hza215/tpch-parquet/${key}"
       value.printSchema()
       value.show()
       println("table: " + key + "row:" + value.count())
-     // value.write.parquet(parquetOutput)
       value.createOrReplaceTempView(key)
     }
   }
