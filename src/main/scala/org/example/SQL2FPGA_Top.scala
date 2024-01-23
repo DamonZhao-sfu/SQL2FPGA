@@ -114,7 +114,7 @@ object SQL2FPGA_Top {
       // cascaded-join transformations
       if (qConfig.query_plan_optimization_enable(0) == '1') {
         // TODO: HAIKAI 20240107 Query 2 has join reorder has bug
-        if (queryNo != 9 && queryNo != 10 && queryNo != 4)
+        if (queryNo != 9 && queryNo != 10 && queryNo != 4 && queryNo != 2)
           qParser.qPlan.applyCascadedJoinOptTransform(qParser, queryNo, qConfig, schemaProvider.dfMap)
       }
       // stringDataType transformations
@@ -274,10 +274,10 @@ object SQL2FPGA_Top {
     // Start SQL2FPGA Compilation
     val output = new ListBuffer[(String, Float)]
     if (TPCH_or_DS == 0) {
-      val tpchschemaProvider  = new TpchSchemaProvider(spark, INPUT_DIR_TPCH, format);
+      val tpchschemaProvider  = new TpchSchemaProvider(spark, INPUT_DIR_TPCH, qConfig.format);
       output ++= executeTPCHQueries(spark, tpchschemaProvider, qConfig, OUTPUT_DIR_TPCH);
     } else if (TPCH_or_DS == 1) {
-      val tpcdsschemaProvider = new TpcdsSchemaProvider(spark, INPUT_DIR_TPCDS, format);
+      val tpcdsschemaProvider = new TpcdsSchemaProvider(spark, INPUT_DIR_TPCDS);
       output ++= executeTPCDSQueries(spark, tpcdsschemaProvider, qConfig, OUTPUT_DIR_TPCDS);
     }
 

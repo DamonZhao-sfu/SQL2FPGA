@@ -315,19 +315,25 @@ class SQL2FPGA_QPlan {
 
   def getColumnType(raw_col_name: String, dfmap: Map[String, DataFrame]): String = {
     var result = ""
-    if (columnDictionary(raw_col_name)._2 == "NULL") {
-      result = columnDictionary(raw_col_name)._1
+    var col_name = ""
+    if (!columnDictionary.contains(raw_col_name)) {
+      col_name = raw_col_name.split("#").head
+    } else {
+      col_name = raw_col_name
+    }
+    if (columnDictionary(col_name)._2 == "NULL") {
+      result = columnDictionary(col_name)._1
 
     } else {
-      if (columnDictionary(raw_col_name)._1 == "IntegerType" ||
-        columnDictionary(raw_col_name)._1 == "LongType" ||
-        columnDictionary(raw_col_name)._1 == "StringType" ||
-        columnDictionary(raw_col_name)._1 == "DoubleType" ||
-        columnDictionary(raw_col_name)._1 == "DecimalType") {
-        result = columnDictionary(raw_col_name)._1
+      if (columnDictionary(col_name)._1 == "IntegerType" ||
+        columnDictionary(col_name)._1 == "LongType" ||
+        columnDictionary(col_name)._1 == "StringType" ||
+        columnDictionary(col_name)._1 == "DoubleType" ||
+        columnDictionary(col_name)._1 == "DecimalType") {
+        result = columnDictionary(col_name)._1
       } else {
-        println("print Type " + raw_col_name)
-        result = getColumnDataType(dfmap(columnDictionary(raw_col_name)._1), columnDictionary(raw_col_name)._2)
+        println("print Type " + col_name)
+        result = getColumnDataType(dfmap(columnDictionary(col_name)._1), columnDictionary(col_name)._2)
       }
     }
     if (result.contains("DecimalType") || result.contains("DateType")) {
@@ -5917,8 +5923,8 @@ class SQL2FPGA_QPlan {
     //-----------------------------------Execution Mode: CPU or FPGA----------------------------------
     _fpgaCode += "cpuORfpgaMode: " + _cpuORfpga.toString
 
-    genCodeInputTableAndColumn(parentNode, dfmap, sf, nodeOpName)
-    genCodeOutputTableAndColumn(parentNode, dfmap, sf, qConfig.format)
+    genCodeInputTableAndColumn(parentNode, dfmap, sf, nodeOpName, qConfig.format)
+    genCodeOutputTableAndColumn(parentNode, dfmap, sf)
 
     //-----------------------------------PRE-PROCESSING-----------------------------------------------
     if (_nodeType == "Aggregate" || _nodeType == "Project") {
@@ -8152,7 +8158,7 @@ class SQL2FPGA_QPlan {
     }
   }
 
-  def genCodeOutputTableAndColumn(parentNode: SQL2FPGA_QPlan, dfmap: Map[String, DataFrame], sf: Int, format: String): Unit = {
+  def genCodeOutputTableAndColumn(parentNode: SQL2FPGA_QPlan, dfmap: Map[String, DataFrame], sf: Int): Unit = {
     //-----------------------------------OUTPUT TABLE & COLUMN----------------------------------------
     if (_outputCols.nonEmpty) {
       if (_operation.isEmpty) {
@@ -8313,7 +8319,7 @@ class SQL2FPGA_QPlan {
     }
   }
 
-  def genCodeInputTableAndColumn(parentNode: SQL2FPGA_QPlan, dfmap: Map[String, DataFrame], sf: Int, nodeOpName: String): Unit = {
+  def genCodeInputTableAndColumn(parentNode: SQL2FPGA_QPlan, dfmap: Map[String, DataFrame], sf: Int, nodeOpName: String, format: String): Unit = {
     
     if (_children.isEmpty) {
       
@@ -8394,7 +8400,7 @@ class SQL2FPGA_QPlan {
         tbl = columnTableMap(_inputCols.head.split("#").head)._1
         num_cols = _inputCols.length
         inputTblCode += "Table " + tbl_name + ";"
-        inputTblCode += tbl_name + " = Table(\"" + tbl + "\", " + tbl + "_n, " + num_cols + ", in_dir);"
+        inputTblCode += tbl_name + " = Table(\"" + tbl + "\", " + tbl + "_n, " + num_cols + ", in_dir," + " \"" + format + "\");"
         for (col_name <- _inputCols) {
           var col = columnTableMap(col_name.split("#").head)._2
           var col_type = getColumnDataType(dfmap(tbl), col)
@@ -8414,7 +8420,7 @@ class SQL2FPGA_QPlan {
         var tbl = columnTableMap(_inputCols.head.split("#").head)._1
         var num_cols = _inputCols.length
         inputTblCode += "Table " + tbl_name + ";"
-        inputTblCode += tbl_name + " = Table(\"" + tbl + "\", " + tbl + "_n, " + num_cols + ", in_dir);"
+        inputTblCode += tbl_name + " = Table(\"" + tbl + "\", " + tbl + "_n, " + num_cols + ", in_dir," + " \"" + format + "\");"
         for (col_name <- _inputCols) {
           var col = columnTableMap(col_name.split("#").head)._2
           var col_type = getColumnDataType(dfmap(tbl), col)
@@ -9197,7 +9203,7 @@ class SQL2FPGA_QPlan {
         }
         else if (aggr_operator == null && ss2 < idx_col_dict_next.size) { // input cols - no aggr
           var col_name = idx_col_dict_next(ss2)
-          var prev_col_idx = col_idx_dict_prev(col_name.split("#").head)
+          var prev_col_idx = col_idx_dict_prev(col_name.split("#").head) // TODO Q2 join reorder bug
           cfgFuncCode += "    shuffle2_cfg(" + ((ss2 + 1) * 8 - 1).toString + ", " + (ss2 * 8).toString + ") = " + prev_col_idx.toString + ";" + " // " + col_name
         }
         else {

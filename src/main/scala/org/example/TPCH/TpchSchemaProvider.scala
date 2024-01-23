@@ -106,12 +106,12 @@ class TpchSchemaProvider(sc: SparkSession, inputDir: String, format: String) {
       l_tax = row.getAs[java.math.BigDecimal](7).multiply(new BigDecimal("100")).intValueExact(),
       l_returnflag = row.getAs[String](8)(0).toInt,
       l_linestatus = row.getAs[String](9)(0).toInt,
-      l_commitdate = row.getAs[DateType](10).toString.replace("-", "").toInt,
-      l_receiptdate = row.getAs[DateType](11).toString.replace("-", "").toInt,
-      l_shipinstruct = row.getAs[String](12).trim,
-      l_shipmode = row.getAs[String](13).trim,
-      l_comment = row.getAs[String](14).trim,
-      l_shipdate = row.getAs[DateType](15).toString.replace("-", "").toInt,
+      l_shipdate = row.getAs[DateType](10).toString.replace("-", "").toInt,
+      l_commitdate = row.getAs[DateType](11).toString.replace("-", "").toInt,
+      l_receiptdate = row.getAs[DateType](12).toString.replace("-", "").toInt,
+      l_shipinstruct = row.getAs[String](13).trim,
+      l_shipmode = row.getAs[String](14).trim,
+      l_comment = row.getAs[String](15).trim,
     )
   }).toDF(),
 
@@ -163,11 +163,11 @@ class TpchSchemaProvider(sc: SparkSession, inputDir: String, format: String) {
       o_custkey = row.getAs[Long](1).toInt,
       o_orderstatus = row.getAs[String](2)(0).toInt,
       o_totalprice = row.getAs[java.math.BigDecimal](3).multiply(new BigDecimal("100")).intValueExact(),
-      o_orderpriority = row.getAs[String](4).trim,
-      o_clerk = row.getAs[String](5).trim,
-      o_shippriority = row.getAs[Int](6),
-      o_comment = row.getAs[String](7).trim,
-      o_orderdate = row.getAs[DateType](8).toString.replace("-", "").toInt
+      o_orderdate = row.getAs[DateType](4).toString.replace("-", "").toInt,
+      o_orderpriority = row.getAs[String](5).trim,
+      o_clerk = row.getAs[String](6).trim,
+      o_shippriority = row.getAs[Int](7),
+      o_comment = row.getAs[String](8).trim
     )
   }).toDF(),
 
@@ -178,12 +178,12 @@ class TpchSchemaProvider(sc: SparkSession, inputDir: String, format: String) {
       p_partkey = row.getAs[Long](0).toInt,
       p_name = row.getAs[String](1).trim,
       p_mfgr = row.getAs[String](2).trim,
-      p_type = row.getAs[String](3).trim,
-      p_size = row.getAs[Int](4),
-      p_container = row.getAs[String](5).trim,
-      p_retailprice = row.getAs[java.math.BigDecimal](6).multiply(new BigDecimal("100")).intValueExact(),
-      p_comment = row.getAs[String](7).trim,
-      p_brand = row.getAs[String](8).trim
+      p_brand = row.getAs[String](3).trim,
+      p_type = row.getAs[String](4).trim,
+      p_size = row.getAs[Int](5),
+      p_container = row.getAs[String](6).trim,
+      p_retailprice = row.getAs[java.math.BigDecimal](7).multiply(new BigDecimal("100")).intValueExact(),
+      p_comment = row.getAs[String](8).trim
     )
   }).toDF(),
 
