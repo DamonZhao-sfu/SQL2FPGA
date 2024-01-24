@@ -104,7 +104,7 @@ class SQL2FPGA_QParser {
       var col: String = _column
       val col_first = col.split("#").head
       print(col_first + ", ")
-      columnTableMap += (col -> (tpch_table, col_first))
+      columnTableMap += (col -> (tpch_table, col))
       columnTableMap += (col_first -> (tpch_table, col_first))
     }
     fpga_plan.numTableRow = getTableRow(tpch_table, sf)

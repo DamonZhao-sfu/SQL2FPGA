@@ -740,70 +740,71 @@ class SQL2FPGA_QPlan {
 
   def getStringLengthMacro(tbl_col: (String, String)): String = {
     // TPCH_READ_DATE_LEN - is not used anywhere, yet
+    var col_stripped = tbl_col._2.split("#").head
     if (tbl_col._1 == "lineitem") {
-      if        (tbl_col._2 == "l_returnflag")   { return "RANDOM_LEN"
-      } else if (tbl_col._2 == "l_linestatus")   { return "RANDOM_LEN"
-      } else if (tbl_col._2 == "l_shipinstruct") { return "TPCH_READ_MAXAGG_LEN"
-      } else if (tbl_col._2 == "l_shipmode")     { return "TPCH_READ_MAXAGG_LEN"
-      } else if (tbl_col._2 == "l_comment")      { return "TPCH_READ_L_CMNT_MAX"
+      if        (col_stripped == "l_returnflag")   { return "RANDOM_LEN"
+      } else if (col_stripped == "l_linestatus")   { return "RANDOM_LEN"
+      } else if (col_stripped == "l_shipinstruct") { return "TPCH_READ_MAXAGG_LEN"
+      } else if (col_stripped == "l_shipmode")     { return "TPCH_READ_MAXAGG_LEN"
+      } else if (col_stripped == "l_comment")      { return "TPCH_READ_L_CMNT_MAX"
       } else { return "TPCH_READ_REGION_LEN"
       }
     } else if (tbl_col._1 == "supplier") {
-      if        (tbl_col._2 == "s_name")    { return "TPCH_READ_S_NAME_LEN"
-      } else if (tbl_col._2 == "s_address") { return "TPCH_READ_S_ADDR_MAX"
-      } else if (tbl_col._2 == "s_phone")   { return "TPCH_READ_PHONE_LEN"
-      } else if (tbl_col._2 == "s_comment") { return "TPCH_READ_S_CMNT_MAX"
+      if        (col_stripped == "s_name")    { return "TPCH_READ_S_NAME_LEN"
+      } else if (col_stripped == "s_address") { return "TPCH_READ_S_ADDR_MAX"
+      } else if (col_stripped == "s_phone")   { return "TPCH_READ_PHONE_LEN"
+      } else if (col_stripped == "s_comment") { return "TPCH_READ_S_CMNT_MAX"
       } else { return "TPCH_READ_REGION_LEN"
       }
     } else if (tbl_col._1 == "nation") {
-      if        (tbl_col._2 == "n_name")    { return "TPCH_READ_NATION_LEN"
-      } else if (tbl_col._2 == "n_comment") { return "TPCH_READ_N_CMNT_MAX"
+      if        (col_stripped == "n_name")    { return "TPCH_READ_NATION_LEN"
+      } else if (col_stripped == "n_comment") { return "TPCH_READ_N_CMNT_MAX"
       } else { return "TPCH_READ_REGION_LEN"
       }
     } else if (tbl_col._1 == "orders") {
-      if        (tbl_col._2 == "o_orderstatus")   { return "1" // single character
-      } else if (tbl_col._2 == "o_orderpriority") { return "TPCH_READ_MAXAGG_LEN"
-      } else if (tbl_col._2 == "o_clerk")         { return "TPCH_READ_O_CLRK_LEN"
-      } else if (tbl_col._2 == "o_comment")       { return "TPCH_READ_O_CMNT_MAX"
+      if        (col_stripped == "o_orderstatus")   { return "1" // single character
+      } else if (col_stripped == "o_orderpriority") { return "TPCH_READ_MAXAGG_LEN"
+      } else if (col_stripped == "o_clerk")         { return "TPCH_READ_O_CLRK_LEN"
+      } else if (col_stripped == "o_comment")       { return "TPCH_READ_O_CMNT_MAX"
       } else { return "TPCH_READ_REGION_LEN"
       }
     } else if (tbl_col._1 == "customer") {
-      if        (tbl_col._2 == "c_name")       { return "TPCH_READ_C_NAME_LEN"
-      } else if (tbl_col._2 == "c_address")    { return "TPCH_READ_C_ADDR_MAX"
-      } else if (tbl_col._2 == "c_phone")      { return "TPCH_READ_PHONE_LEN"
-      } else if (tbl_col._2 == "c_mktsegment") { return "TPCH_READ_MAXAGG_LEN"
-      } else if (tbl_col._2 == "c_comment")    { return "TPCH_READ_C_CMNT_MAX"
+      if        (col_stripped == "c_name")       { return "TPCH_READ_C_NAME_LEN"
+      } else if (col_stripped == "c_address")    { return "TPCH_READ_C_ADDR_MAX"
+      } else if (col_stripped == "c_phone")      { return "TPCH_READ_PHONE_LEN"
+      } else if (col_stripped == "c_mktsegment") { return "TPCH_READ_MAXAGG_LEN"
+      } else if (col_stripped == "c_comment")    { return "TPCH_READ_C_CMNT_MAX"
       } else { return "TPCH_READ_REGION_LEN"
       }
     } else if (tbl_col._1 == "region") {
-      if        (tbl_col._2 == "r_name")    { return "TPCH_READ_REGION_LEN"
-      } else if (tbl_col._2 == "r_comment") { return "TPCH_READ_R_CMNT_MAX"
+      if        (col_stripped == "r_name")    { return "TPCH_READ_REGION_LEN"
+      } else if (col_stripped == "r_comment") { return "TPCH_READ_R_CMNT_MAX"
       } else { return "TPCH_READ_REGION_LEN"
       }
     } else if (tbl_col._1 == "part") {
-      if        (tbl_col._2 == "p_name")      { return "TPCH_READ_P_NAME_LEN"
-      } else if (tbl_col._2 == "p_mfgr")      { return "TPCH_READ_P_MFG_LEN"
-      } else if (tbl_col._2 == "p_brand")     { return "TPCH_READ_P_BRND_LEN"
-      } else if (tbl_col._2 == "p_type")      { return "TPCH_READ_P_TYPE_LEN"
-      } else if (tbl_col._2 == "p_container") { return "TPCH_READ_P_CNTR_LEN"
-      } else if (tbl_col._2 == "p_comment")   { return "TPCH_READ_P_CMNT_MAX"
+      if        (col_stripped == "p_name")      { return "TPCH_READ_P_NAME_LEN"
+      } else if (col_stripped == "p_mfgr")      { return "TPCH_READ_P_MFG_LEN"
+      } else if (col_stripped == "p_brand")     { return "TPCH_READ_P_BRND_LEN"
+      } else if (col_stripped == "p_type")      { return "TPCH_READ_P_TYPE_LEN"
+      } else if (col_stripped == "p_container") { return "TPCH_READ_P_CNTR_LEN"
+      } else if (col_stripped == "p_comment")   { return "TPCH_READ_P_CMNT_MAX"
       } else { return "TPCH_READ_REGION_LEN"
       }
     } else if (tbl_col._1 == "partsupp") {
-      if (tbl_col._2 == "ps_comment") { return "TPCH_READ_PS_CMNT_MAX"
+      if (col_stripped == "ps_comment") { return "TPCH_READ_PS_CMNT_MAX"
       } else { return "TPCH_READ_REGION_LEN"
       }
     }
     // Start of TPCDS dataset
     //      else if (tbl_col._1 == "item") {
-    //        if (tbl_col._2 == "i_brand") { return "TPCDS_READ_MAX" //"TPCDS_READ_I_BRAND_MAX"
-    //        } else { return tbl_col._2
+    //        if (col_stripped == "i_brand") { return "TPCDS_READ_MAX" //"TPCDS_READ_I_BRAND_MAX"
+    //        } else { return col_stripped
     //        }
     //      }
     else {
       return "TPCH_READ_REGION_LEN"
       //return "TPCDS_READ_MAX"
-      // return tbl_col._2
+      // return col_stripped
     }
   }
 
@@ -2524,16 +2525,16 @@ class SQL2FPGA_QPlan {
             }
             //find the col index of the string data in the original stringRowID table
             if (orig_tbl_idx == -1 && orig_tbl_col_idx == -1) {
-              coreCode += "        std::array<char, " + getStringLengthMacro(columnDictionary(key_col)) + " + 1> " + join_left_key_col_name + "_n = " + tbl_in_1 + ".getcharN<char, " + getStringLengthMacro(columnDictionary(key_col)) + " + 1>(i, " + join_left_key_col_idx + ");"
+              coreCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(key_col)) + " + 1> " + join_left_key_col_name + "_n = " + tbl_in_1 + ".getcharN<char, " + getStringLengthMacro(columnTableMap(key_col)) + " + 1>(i, " + join_left_key_col_idx + ");"
               coreCode += "        std::string " + join_left_key_col_name + " = std::string(" + join_left_key_col_name + "_n.data());"
             }
             else {
               var rowIDNum = tbl_in_1 + ".getInt32(i, " + join_left_key_col_idx + ")"
-              coreCode += "        std::array<char, " + getStringLengthMacro(columnDictionary(key_col)) + " + 1> " + join_left_key_col_name + "_n = " + orig_table_names(orig_tbl_idx) + ".getcharN<char, " + getStringLengthMacro(columnDictionary(key_col)) + " + 1>(" + rowIDNum + ", " + orig_tbl_col_idx + ");"
+              coreCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(key_col)) + " + 1> " + join_left_key_col_name + "_n = " + orig_table_names(orig_tbl_idx) + ".getcharN<char, " + getStringLengthMacro(columnTableMap(key_col)) + " + 1>(" + rowIDNum + ", " + orig_tbl_col_idx + ");"
               coreCode += "        std::string " + join_left_key_col_name + " = std::string(" + join_left_key_col_name + "_n.data());"
             }
           } else {
-            coreCode += "        std::array<char, " + getStringLengthMacro(columnDictionary(key_col)) + " + 1> " + join_left_key_col_name + "_n = " + tbl_in_1 + ".getcharN<char, " + getStringLengthMacro(columnDictionary(key_col)) + " + 1>(i, " + join_left_key_col_idx + ");"
+            coreCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(key_col)) + " + 1> " + join_left_key_col_name + "_n = " + tbl_in_1 + ".getcharN<char, " + getStringLengthMacro(columnTableMap(key_col)) + " + 1>(i, " + join_left_key_col_idx + ");"
             coreCode += "        std::string " + join_left_key_col_name + " = std::string(" + join_left_key_col_name + "_n.data());"
           }
         case _ =>
@@ -2572,16 +2573,16 @@ class SQL2FPGA_QPlan {
             }
             //find the col index of the string data in the original stringRowID table
             if (orig_tbl_idx == -1 && orig_tbl_col_idx == -1) {
-              coreCode += "        std::array<char, " + getStringLengthMacro(columnDictionary(payload_col)) + " + 1> " + join_left_payload_col_name + "_n = " + tbl_in_1 + ".getcharN<char, " + getStringLengthMacro(columnDictionary(payload_col)) + " + 1>(i, " + join_left_payload_col_idx + ");"
+              coreCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(payload_col)) + " + 1> " + join_left_payload_col_name + "_n = " + tbl_in_1 + ".getcharN<char, " + getStringLengthMacro(columnTableMap(payload_col)) + " + 1>(i, " + join_left_payload_col_idx + ");"
               coreCode += "        std::string " + join_left_payload_col_name + " = std::string(" + join_left_payload_col_name + "_n.data());"
             }
             else {
               var rowIDNum = tbl_in_1 + ".getInt32(i, " + join_left_payload_col_idx + ")"
-              coreCode += "        std::array<char, " + getStringLengthMacro(columnDictionary(payload_col)) + " + 1> " + join_left_payload_col_name + "_n = " + orig_table_names(orig_tbl_idx) + ".getcharN<char, " + getStringLengthMacro(columnDictionary(payload_col)) + " + 1>(" + rowIDNum + ", " + orig_tbl_col_idx + ");"
+              coreCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(payload_col)) + " + 1> " + join_left_payload_col_name + "_n = " + orig_table_names(orig_tbl_idx) + ".getcharN<char, " + getStringLengthMacro(columnTableMap(payload_col)) + " + 1>(" + rowIDNum + ", " + orig_tbl_col_idx + ");"
               coreCode += "        std::string " + join_left_payload_col_name + " = std::string(" + join_left_payload_col_name + "_n.data());"
             }
           } else {
-            coreCode += "        std::array<char, " + getStringLengthMacro(columnDictionary(payload_col)) + " + 1> " + join_left_payload_col_name + "_n = " + tbl_in_1 + ".getcharN<char, " + getStringLengthMacro(columnDictionary(payload_col)) + " + 1>(i, " + join_left_payload_col_idx + ");"
+            coreCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(payload_col)) + " + 1> " + join_left_payload_col_name + "_n = " + tbl_in_1 + ".getcharN<char, " + getStringLengthMacro(columnTableMap(payload_col)) + " + 1>(i, " + join_left_payload_col_idx + ");"
             coreCode += "        std::string " + join_left_payload_col_name + " = std::string(" + join_left_payload_col_name + "_n.data());"
           }
         case _ =>
@@ -2625,16 +2626,16 @@ class SQL2FPGA_QPlan {
             }
             //find the col index of the string data in the original stringRowID table
             if (orig_tbl_idx == -1 && orig_tbl_col_idx == -1) {
-              coreCode += "        std::array<char, " + getStringLengthMacro(columnDictionary(key_col)) + " + 1> " + join_right_key_col_name + "_n = " + tbl_in_1 + ".getcharN<char, " + getStringLengthMacro(columnDictionary(key_col)) + " + 1>(i, " + join_right_key_col_idx + ");"
+              coreCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(key_col)) + " + 1> " + join_right_key_col_name + "_n = " + tbl_in_1 + ".getcharN<char, " + getStringLengthMacro(columnTableMap(key_col)) + " + 1>(i, " + join_right_key_col_idx + ");"
               coreCode += "        std::string " + join_right_key_col_name + " = std::string(" + join_right_key_col_name + "_n.data());"
             }
             else {
               var rowIDNum = tbl_in_2 + ".getInt32(i, " + join_right_key_col_idx + ")"
-              coreCode += "        std::array<char, " + getStringLengthMacro(columnDictionary(key_col)) + " + 1> " + join_right_key_col_name + "_n = " + orig_table_names(orig_tbl_idx) + ".getcharN<char, " + getStringLengthMacro(columnDictionary(key_col)) + " + 1>(" + rowIDNum + ", " + orig_tbl_col_idx + ");"
+              coreCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(key_col)) + " + 1> " + join_right_key_col_name + "_n = " + orig_table_names(orig_tbl_idx) + ".getcharN<char, " + getStringLengthMacro(columnTableMap(key_col)) + " + 1>(" + rowIDNum + ", " + orig_tbl_col_idx + ");"
               coreCode += "        std::string " + join_right_key_col_name + " = std::string(" + join_right_key_col_name + "_n.data());"
             }
           } else {
-            coreCode += "        std::array<char, " + getStringLengthMacro(columnDictionary(key_col)) + " + 1> " + join_right_key_col_name + "_n = " + tbl_in_2 + ".getcharN<char, " + getStringLengthMacro(columnDictionary(key_col)) + " + 1>(i, " + join_right_key_col_idx + ");"
+            coreCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(key_col)) + " + 1> " + join_right_key_col_name + "_n = " + tbl_in_2 + ".getcharN<char, " + getStringLengthMacro(columnTableMap(key_col)) + " + 1>(i, " + join_right_key_col_idx + ");"
             coreCode += "        std::string " + join_right_key_col_name + " = std::string(" + join_right_key_col_name + "_n.data());"
           }
         case _ =>
@@ -2665,7 +2666,7 @@ class SQL2FPGA_QPlan {
             coreCode += "                int32_t " + left_payload_name + " = (it->second)." + left_payload_name + ";"
           } else {
             coreCode += "                std::string " + left_payload_name + " = (it->second)." + left_payload_name + ";"
-            coreCode += "                std::array<char, " + getStringLengthMacro(columnDictionary(left_payload)) + " + 1> " + left_payload_name + "_n" + "{};"
+            coreCode += "                std::array<char, " + getStringLengthMacro(columnTableMap(left_payload)) + " + 1> " + left_payload_name + "_n" + "{};"
             coreCode += "                memcpy(" + left_payload_name + "_n" + ".data(), (" + left_payload_name + ").data(), (" + left_payload_name + ").length());"
           }
         case _ =>
@@ -2690,7 +2691,7 @@ class SQL2FPGA_QPlan {
               if (left_child._stringRowIDSubstitution == true && thisNode._stringRowIDBackSubstitution == false) {
                 coreCode += "                    " + tbl_out_1 + ".setInt32(r, " + left_payload_index + ", " + left_payload_name + ");"
               } else {
-                coreCode += "                    " + tbl_out_1 + ".setcharN<char, " + getStringLengthMacro(columnDictionary(left_payload)) + " + 1>(r, " + left_payload_index + ", " + left_payload_name + "_n" + ");"
+                coreCode += "                    " + tbl_out_1 + ".setcharN<char, " + getStringLengthMacro(columnTableMap(left_payload)) + " + 1>(r, " + left_payload_index + ", " + left_payload_name + "_n" + ");"
               }
             case _ =>
               coreCode += "                    // Unsupported join key type"
@@ -2715,7 +2716,7 @@ class SQL2FPGA_QPlan {
               if (left_child._stringRowIDSubstitution == true && thisNode._stringRowIDBackSubstitution == false) {
                 coreCode += "                " + tbl_out_1 + ".setInt32(r, " + left_payload_index + ", " + left_payload_name + ");"
               } else {
-                coreCode += "                " + tbl_out_1 + ".setcharN<char, " + getStringLengthMacro(columnDictionary(left_payload)) + " + 1>(r, " + left_payload_index + ", " + left_payload_name + "_n" + ");"
+                coreCode += "                " + tbl_out_1 + ".setcharN<char, " + getStringLengthMacro(columnTableMap(left_payload)) + " + 1>(r, " + left_payload_index + ", " + left_payload_name + "_n" + ");"
               }
             case _ =>
               coreCode += "                // Unsupported join key type"
@@ -2778,16 +2779,16 @@ class SQL2FPGA_QPlan {
             }
             //find the col index of the string data in the original stringRowID table
             if (orig_tbl_idx == -1 && orig_tbl_col_idx == -1) {
-              coreCode += "        std::array<char, " + getStringLengthMacro(columnDictionary(key_col)) + " + 1> " + join_left_key_col_name + "_n = " + tbl_in_1 + ".getcharN<char, " + getStringLengthMacro(columnDictionary(key_col)) + " + 1>(i, " + join_left_key_col_idx + ");"
+              coreCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(key_col)) + " + 1> " + join_left_key_col_name + "_n = " + tbl_in_1 + ".getcharN<char, " + getStringLengthMacro(columnTableMap(key_col)) + " + 1>(i, " + join_left_key_col_idx + ");"
               coreCode += "        std::string " + join_left_key_col_name + " = std::string(" + join_left_key_col_name + "_n.data());"
             }
             else {
               var rowIDNum = tbl_in_1 + ".getInt32(i, " + join_left_key_col_idx + ")"
-              coreCode += "        std::array<char, " + getStringLengthMacro(columnDictionary(key_col)) + " + 1> " + join_left_key_col_name + "_n = " + orig_table_names(orig_tbl_idx) + ".getcharN<char, " + getStringLengthMacro(columnDictionary(key_col)) + " + 1>(" + rowIDNum + ", " + orig_tbl_col_idx + ");"
+              coreCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(key_col)) + " + 1> " + join_left_key_col_name + "_n = " + orig_table_names(orig_tbl_idx) + ".getcharN<char, " + getStringLengthMacro(columnTableMap(key_col)) + " + 1>(" + rowIDNum + ", " + orig_tbl_col_idx + ");"
               coreCode += "        std::string " + join_left_key_col_name + " = std::string(" + join_left_key_col_name + "_n.data());"
             }
           } else {
-            coreCode += "        std::array<char, " + getStringLengthMacro(columnDictionary(key_col)) + " + 1> " + join_left_key_col_name + "_n = " + tbl_in_1 + ".getcharN<char, " + getStringLengthMacro(columnDictionary(key_col)) + " + 1>(i, " + join_left_key_col_idx + ");"
+            coreCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(key_col)) + " + 1> " + join_left_key_col_name + "_n = " + tbl_in_1 + ".getcharN<char, " + getStringLengthMacro(columnTableMap(key_col)) + " + 1>(i, " + join_left_key_col_idx + ");"
             coreCode += "        std::string " + join_left_key_col_name + " = std::string(" + join_left_key_col_name + "_n.data());"
           }
         case _ =>
@@ -2826,16 +2827,16 @@ class SQL2FPGA_QPlan {
             }
             //find the col index of the string data in the original stringRowID table
             if (orig_tbl_idx == -1 && orig_tbl_col_idx == -1) {
-              coreCode += "        std::array<char, " + getStringLengthMacro(columnDictionary(payload_col)) + " + 1> " + join_left_payload_col_name + "_n = " + tbl_in_1 + ".getcharN<char, " + getStringLengthMacro(columnDictionary(payload_col)) + " + 1>(i, " + join_left_payload_col_idx + ");"
+              coreCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(payload_col)) + " + 1> " + join_left_payload_col_name + "_n = " + tbl_in_1 + ".getcharN<char, " + getStringLengthMacro(columnTableMap(payload_col)) + " + 1>(i, " + join_left_payload_col_idx + ");"
               coreCode += "        std::string " + join_left_payload_col_name + " = std::string(" + join_left_payload_col_name + "_n.data());"
             }
             else {
               var rowIDNum = tbl_in_1 + ".getInt32(i, " + join_left_payload_col_idx + ")"
-              coreCode += "        std::array<char, " + getStringLengthMacro(columnDictionary(payload_col)) + " + 1> " + join_left_payload_col_name + "_n = " + orig_table_names(orig_tbl_idx) + ".getcharN<char, " + getStringLengthMacro(columnDictionary(payload_col)) + " + 1>(" + rowIDNum + ", " + orig_tbl_col_idx + ");"
+              coreCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(payload_col)) + " + 1> " + join_left_payload_col_name + "_n = " + orig_table_names(orig_tbl_idx) + ".getcharN<char, " + getStringLengthMacro(columnTableMap(payload_col)) + " + 1>(" + rowIDNum + ", " + orig_tbl_col_idx + ");"
               coreCode += "        std::string " + join_left_payload_col_name + " = std::string(" + join_left_payload_col_name + "_n.data());"
             }
           } else {
-            coreCode += "        std::array<char, " + getStringLengthMacro(columnDictionary(payload_col)) + " + 1> " + join_left_payload_col_name + "_n = " + tbl_in_1 + ".getcharN<char, " + getStringLengthMacro(columnDictionary(payload_col)) + " + 1>(i, " + join_left_payload_col_idx + ");"
+            coreCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(payload_col)) + " + 1> " + join_left_payload_col_name + "_n = " + tbl_in_1 + ".getcharN<char, " + getStringLengthMacro(columnTableMap(payload_col)) + " + 1>(i, " + join_left_payload_col_idx + ");"
             coreCode += "        std::string " + join_left_payload_col_name + " = std::string(" + join_left_payload_col_name + "_n.data());"
           }
         case _ =>
@@ -2879,16 +2880,16 @@ class SQL2FPGA_QPlan {
             }
             //find the col index of the string data in the original stringRowID table
             if (orig_tbl_idx == -1 && orig_tbl_col_idx == -1) {
-              coreCode += "        std::array<char, " + getStringLengthMacro(columnDictionary(key_col)) + " + 1> " + join_right_key_col_name + "_n = " + tbl_in_1 + ".getcharN<char, " + getStringLengthMacro(columnDictionary(key_col)) + " + 1>(i, " + join_right_key_col_idx + ");"
+              coreCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(key_col)) + " + 1> " + join_right_key_col_name + "_n = " + tbl_in_1 + ".getcharN<char, " + getStringLengthMacro(columnTableMap(key_col)) + " + 1>(i, " + join_right_key_col_idx + ");"
               coreCode += "        std::string " + join_right_key_col_name + " = std::string(" + join_right_key_col_name + "_n.data());"
             }
             else {
               var rowIDNum = tbl_in_2 + ".getInt32(i, " + join_right_key_col_idx + ")"
-              coreCode += "        std::array<char, " + getStringLengthMacro(columnDictionary(key_col)) + " + 1> " + join_right_key_col_name + "_n = " + orig_table_names(orig_tbl_idx) + ".getcharN<char, " + getStringLengthMacro(columnDictionary(key_col)) + " + 1>(" + rowIDNum + ", " + orig_tbl_col_idx + ");"
+              coreCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(key_col)) + " + 1> " + join_right_key_col_name + "_n = " + orig_table_names(orig_tbl_idx) + ".getcharN<char, " + getStringLengthMacro(columnTableMap(key_col)) + " + 1>(" + rowIDNum + ", " + orig_tbl_col_idx + ");"
               coreCode += "        std::string " + join_right_key_col_name + " = std::string(" + join_right_key_col_name + "_n.data());"
             }
           } else {
-            coreCode += "        std::array<char, " + getStringLengthMacro(columnDictionary(key_col)) + " + 1> " + join_right_key_col_name + "_n = " + tbl_in_2 + ".getcharN<char, " + getStringLengthMacro(columnDictionary(key_col)) + " + 1>(i, " + join_right_key_col_idx + ");"
+            coreCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(key_col)) + " + 1> " + join_right_key_col_name + "_n = " + tbl_in_2 + ".getcharN<char, " + getStringLengthMacro(columnTableMap(key_col)) + " + 1>(i, " + join_right_key_col_idx + ");"
             coreCode += "        std::string " + join_right_key_col_name + " = std::string(" + join_right_key_col_name + "_n.data());"
           }
         case _ =>
@@ -2928,16 +2929,16 @@ class SQL2FPGA_QPlan {
             }
             //find the col index of the string data in the original stringRowID table
             if (orig_tbl_idx == -1 && orig_tbl_col_idx == -1) {
-              coreCode += "            std::array<char, " + getStringLengthMacro(columnDictionary(right_payload)) + " + 1> " + right_payload_name + "_n" + " = " + tbl_in_2 + ".getcharN<char, " + getStringLengthMacro(columnDictionary(right_payload)) + " + 1>(i, " + right_payload_input_index + ");"
+              coreCode += "            std::array<char, " + getStringLengthMacro(columnTableMap(right_payload)) + " + 1> " + right_payload_name + "_n" + " = " + tbl_in_2 + ".getcharN<char, " + getStringLengthMacro(columnTableMap(right_payload)) + " + 1>(i, " + right_payload_input_index + ");"
               coreCode += "            std::string " + right_payload_name + " = std::string(" + right_payload_name + "_n.data());"
             }
             else {
               var rowIDNum = tbl_in_2 + ".getInt32(i, " + right_payload_input_index + ")"
-              coreCode += "        std::array<char, " + getStringLengthMacro(columnDictionary(right_payload)) + " + 1> " + right_payload_name + "_n = " + orig_table_names(orig_tbl_idx) + ".getcharN<char, " + getStringLengthMacro(columnDictionary(right_payload)) + " + 1>(" + rowIDNum + ", " + orig_tbl_col_idx + ");"
+              coreCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(right_payload)) + " + 1> " + right_payload_name + "_n = " + orig_table_names(orig_tbl_idx) + ".getcharN<char, " + getStringLengthMacro(columnTableMap(right_payload)) + " + 1>(" + rowIDNum + ", " + orig_tbl_col_idx + ");"
               coreCode += "        std::string " + right_payload_name + " = std::string(" + right_payload_name + "_n.data());"
             }
           } else {
-            coreCode += "            std::array<char, " + getStringLengthMacro(columnDictionary(right_payload)) + " + 1> " + right_payload_name + " = " + tbl_in_2 + ".getcharN<char, " + getStringLengthMacro(columnDictionary(right_payload)) + " + 1>(i, " + right_payload_input_index + ");"
+            coreCode += "            std::array<char, " + getStringLengthMacro(columnTableMap(right_payload)) + " + 1> " + right_payload_name + " = " + tbl_in_2 + ".getcharN<char, " + getStringLengthMacro(columnTableMap(right_payload)) + " + 1>(i, " + right_payload_input_index + ");"
           }
         case _ =>
           coreCode += "            // Unsupported join key type"
@@ -2963,7 +2964,7 @@ class SQL2FPGA_QPlan {
               if (right_child._stringRowIDSubstitution && thisNode._stringRowIDBackSubstitution == false) {
                 coreCode += "                " + tbl_out_1 + ".setInt32(r, " + right_payload_index + ", " + right_payload_name + ");"
               } else {
-                coreCode += "                " + tbl_out_1 + ".setcharN<char, " + getStringLengthMacro(columnDictionary(right_payload)) + " + 1>(r, " + right_payload_index + ", " + right_payload_name + ");"
+                coreCode += "                " + tbl_out_1 + ".setcharN<char, " + getStringLengthMacro(columnTableMap(right_payload)) + " + 1>(r, " + right_payload_index + ", " + right_payload_name + ");"
               }
             case _ =>
               coreCode += "                // Unsupported join key type"
@@ -2979,7 +2980,7 @@ class SQL2FPGA_QPlan {
               if (right_child._stringRowIDSubstitution && thisNode._stringRowIDBackSubstitution == false) {
                 coreCode += "            " + tbl_out_1 + ".setInt32(r, " + idx + ", " + right_payload_name + ");"
               } else {
-                coreCode += "            " + tbl_out_1 + ".setcharN<char, " + getStringLengthMacro(columnDictionary(right_payload)) + " + 1>(r, " + idx + ", " + right_payload_name + ");"
+                coreCode += "            " + tbl_out_1 + ".setcharN<char, " + getStringLengthMacro(columnTableMap(right_payload)) + " + 1>(r, " + idx + ", " + right_payload_name + ");"
               }
             case _ =>
               coreCode += "            // Unsupported join key type"
@@ -3007,7 +3008,7 @@ class SQL2FPGA_QPlan {
               if (right_child._stringRowIDSubstitution == true && thisNode._stringRowIDBackSubstitution == false) {
                 coreCode += "            " + tbl_out_1 + ".setInt32(r, " + right_payload_index + ", " + right_payload_name + ");"
               } else {
-                coreCode += "            " + tbl_out_1 + ".setcharN<char, " + getStringLengthMacro(columnDictionary(right_payload)) + " + 1>(r, " + right_payload_index + ", " + right_payload_name + ");"
+                coreCode += "            " + tbl_out_1 + ".setcharN<char, " + getStringLengthMacro(columnTableMap(right_payload)) + " + 1>(r, " + right_payload_index + ", " + right_payload_name + ");"
               }
             case _ =>
               coreCode += "            // Unsupported join key type"
@@ -3023,7 +3024,7 @@ class SQL2FPGA_QPlan {
               if (right_child._stringRowIDSubstitution == true && thisNode._stringRowIDBackSubstitution == false) {
                 coreCode += "            " + tbl_out_1 + ".setInt32(r, " + idx + ", " + right_payload_name + ");"
               } else {
-                coreCode += "            " + tbl_out_1 + ".setcharN<char, " + getStringLengthMacro(columnDictionary(right_payload)) + " + 1>(r, " + idx + ", " + right_payload_name + ");"
+                coreCode += "            " + tbl_out_1 + ".setcharN<char, " + getStringLengthMacro(columnTableMap(right_payload)) + " + 1>(r, " + idx + ", " + right_payload_name + ");"
               }
             case _ =>
               coreCode += "            // Unsupported join key type"
@@ -3087,15 +3088,15 @@ class SQL2FPGA_QPlan {
             }
             //find the col index of the string data in the original stringRowID table
             if (orig_tbl_idx == -1 && orig_tbl_col_idx == -1) {
-              coreCode += "        std::array<char, " + getStringLengthMacro(columnDictionary(key_col)) + " + 1> " + join_left_key_col_name + "_n = " + tbl_in_1 + ".getcharN<char, " + getStringLengthMacro(columnDictionary(key_col)) + " + 1>(i, " + join_left_key_col_idx + ");"
+              coreCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(key_col)) + " + 1> " + join_left_key_col_name + "_n = " + tbl_in_1 + ".getcharN<char, " + getStringLengthMacro(columnTableMap(key_col)) + " + 1>(i, " + join_left_key_col_idx + ");"
               coreCode += "        std::string " + join_left_key_col_name + " = std::string(" + join_left_key_col_name + "_n.data());"
             } else {
               var rowIDNum = tbl_in_1 + ".getInt32(i, " + join_left_key_col_idx + ")"
-              coreCode += "        std::array<char, " + getStringLengthMacro(columnDictionary(key_col)) + " + 1> " + join_left_key_col_name + "_n = " + orig_table_names(orig_tbl_idx) + ".getcharN<char, " + getStringLengthMacro(columnDictionary(key_col)) + " + 1>(" + rowIDNum + ", " + orig_tbl_col_idx + ");"
+              coreCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(key_col)) + " + 1> " + join_left_key_col_name + "_n = " + orig_table_names(orig_tbl_idx) + ".getcharN<char, " + getStringLengthMacro(columnTableMap(key_col)) + " + 1>(" + rowIDNum + ", " + orig_tbl_col_idx + ");"
               coreCode += "        std::string " + join_left_key_col_name + " = std::string(" + join_left_key_col_name + "_n.data());"
             }
           } else {
-            coreCode += "        std::array<char, " + getStringLengthMacro(columnDictionary(key_col)) + " + 1> " + join_left_key_col_name + "_n = " + tbl_in_1 + ".getcharN<char, " + getStringLengthMacro(columnDictionary(key_col)) + " + 1>(i, " + join_left_key_col_idx + ");"
+            coreCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(key_col)) + " + 1> " + join_left_key_col_name + "_n = " + tbl_in_1 + ".getcharN<char, " + getStringLengthMacro(columnTableMap(key_col)) + " + 1>(i, " + join_left_key_col_idx + ");"
             coreCode += "        std::string " + join_left_key_col_name + " = std::string(" + join_left_key_col_name + "_n.data());"
           }
         case _ =>
@@ -3134,16 +3135,16 @@ class SQL2FPGA_QPlan {
             }
             //find the col index of the string data in the original stringRowID table
             if (orig_tbl_idx == -1 && orig_tbl_col_idx == -1) {
-              coreCode += "        std::array<char, " + getStringLengthMacro(columnDictionary(payload_col)) + " + 1> " + join_left_payload_col_name + "_n = " + tbl_in_1 + ".getcharN<char, " + getStringLengthMacro(columnDictionary(payload_col)) + " + 1>(i, " + join_left_payload_col_idx + ");"
+              coreCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(payload_col)) + " + 1> " + join_left_payload_col_name + "_n = " + tbl_in_1 + ".getcharN<char, " + getStringLengthMacro(columnTableMap(payload_col)) + " + 1>(i, " + join_left_payload_col_idx + ");"
               coreCode += "        std::string " + join_left_payload_col_name + " = std::string(" + join_left_payload_col_name + "_n.data());"
             }
             else {
               var rowIDNum = tbl_in_1 + ".getInt32(i, " + join_left_payload_col_idx + ")"
-              coreCode += "        std::array<char, " + getStringLengthMacro(columnDictionary(payload_col)) + " + 1> " + join_left_payload_col_name + "_n = " + orig_table_names(orig_tbl_idx) + ".getcharN<char, " + getStringLengthMacro(columnDictionary(payload_col)) + " + 1>(" + rowIDNum + ", " + orig_tbl_col_idx + ");"
+              coreCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(payload_col)) + " + 1> " + join_left_payload_col_name + "_n = " + orig_table_names(orig_tbl_idx) + ".getcharN<char, " + getStringLengthMacro(columnTableMap(payload_col)) + " + 1>(" + rowIDNum + ", " + orig_tbl_col_idx + ");"
               coreCode += "        std::string " + join_left_payload_col_name + " = std::string(" + join_left_payload_col_name + "_n.data());"
             }
           } else {
-            coreCode += "        std::array<char, " + getStringLengthMacro(columnDictionary(payload_col)) + " + 1> " + join_left_payload_col_name + "_n = " + tbl_in_1 + ".getcharN<char, " + getStringLengthMacro(columnDictionary(payload_col)) + " + 1>(i, " + join_left_payload_col_idx + ");"
+            coreCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(payload_col)) + " + 1> " + join_left_payload_col_name + "_n = " + tbl_in_1 + ".getcharN<char, " + getStringLengthMacro(columnTableMap(payload_col)) + " + 1>(i, " + join_left_payload_col_idx + ");"
             coreCode += "        std::string " + join_left_payload_col_name + " = std::string(" + join_left_payload_col_name + "_n.data());"
           }
         case _ =>
@@ -3172,7 +3173,7 @@ class SQL2FPGA_QPlan {
           if (right_child._stringRowIDSubstitution && thisNode._stringRowIDBackSubstitution == false) {
             coreCode += "        int32_t " + join_right_key_col_name + " = " + tbl_in_2 + ".getInt32(i, " + join_right_key_col_idx + ");"
           } else {
-            coreCode += "        std::array<char, " + getStringLengthMacro(columnDictionary(key_col)) + " + 1> " + join_right_key_col_name + "_n = " + tbl_in_2 + ".getcharN<char, " + getStringLengthMacro(columnDictionary(key_col)) + " + 1>(i, " + join_right_key_col_idx + ");"
+            coreCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(key_col)) + " + 1> " + join_right_key_col_name + "_n = " + tbl_in_2 + ".getcharN<char, " + getStringLengthMacro(columnTableMap(key_col)) + " + 1>(i, " + join_right_key_col_idx + ");"
             coreCode += "        std::string " + join_right_key_col_name + " = std::string(" + join_right_key_col_name + "_n.data());"
           }
         case _ =>
@@ -3201,7 +3202,7 @@ class SQL2FPGA_QPlan {
             coreCode += "            int32_t " + left_payload_name + " = (it->second)." + left_payload_name + ";"
           } else {
             coreCode += "            std::string " + left_payload_name + " = (it->second)." + left_payload_name + ";"
-            coreCode += "            std::array<char, " + getStringLengthMacro(columnDictionary(left_payload)) + " + 1> " + left_payload_name + "_n" + "{};"
+            coreCode += "            std::array<char, " + getStringLengthMacro(columnTableMap(left_payload)) + " + 1> " + left_payload_name + "_n" + "{};"
             coreCode += "            memcpy(" + left_payload_name + "_n" + ".data(), (" + left_payload_name + ").data(), (" + left_payload_name + ").length());"
           }
         case _ =>
@@ -3226,7 +3227,7 @@ class SQL2FPGA_QPlan {
               if (left_child._stringRowIDSubstitution == true && thisNode._stringRowIDBackSubstitution == false) {
                 coreCode += "                " + tbl_out_1 + ".setInt32(r, " + left_payload_index + ", " + left_payload_name + ");"
               } else {
-                coreCode += "                " + tbl_out_1 + ".setcharN<char, " + getStringLengthMacro(columnDictionary(left_payload)) + " + 1>(r, " + left_payload_index + ", " + left_payload_name + "_n" + ");"
+                coreCode += "                " + tbl_out_1 + ".setcharN<char, " + getStringLengthMacro(columnTableMap(left_payload)) + " + 1>(r, " + left_payload_index + ", " + left_payload_name + "_n" + ");"
               }
             case _ =>
               coreCode += "                // Unsupported join key type"
@@ -3252,7 +3253,7 @@ class SQL2FPGA_QPlan {
               if (left_child._stringRowIDSubstitution == true && thisNode._stringRowIDBackSubstitution == false) {
                 coreCode += "            " + tbl_out_1 + ".setInt32(r, " + left_payload_index + ", " + left_payload_name + ");"
               } else {
-                coreCode += "            " + tbl_out_1 + ".setcharN<char, " + getStringLengthMacro(columnDictionary(left_payload)) + " + 1>(r, " + left_payload_index + ", " + left_payload_name + "_n" + ");"
+                coreCode += "            " + tbl_out_1 + ".setcharN<char, " + getStringLengthMacro(columnTableMap(left_payload)) + " + 1>(r, " + left_payload_index + ", " + left_payload_name + "_n" + ");"
               }
             case _ =>
               coreCode += "            // Unsupported join key type"
@@ -3320,16 +3321,16 @@ class SQL2FPGA_QPlan {
             }
             //find the col index of the string data in the original stringRowID table
             if (orig_tbl_idx == -1 && orig_tbl_col_idx == -1) {
-              coreCode += "        std::array<char, " + getStringLengthMacro(columnDictionary(key_col)) + " + 1> " + join_left_key_col_name + "_n = " + tbl_in_1 + ".getcharN<char, " + getStringLengthMacro(columnDictionary(key_col)) + " + 1>(i, " + join_left_key_col_idx + ");"
+              coreCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(key_col)) + " + 1> " + join_left_key_col_name + "_n = " + tbl_in_1 + ".getcharN<char, " + getStringLengthMacro(columnTableMap(key_col)) + " + 1>(i, " + join_left_key_col_idx + ");"
               coreCode += "        std::string " + join_left_key_col_name + " = std::string(" + join_left_key_col_name + "_n.data());"
             }
             else {
               var rowIDNum = tbl_in_1 + ".getInt32(i, " + join_left_key_col_idx + ")"
-              coreCode += "        std::array<char, " + getStringLengthMacro(columnDictionary(key_col)) + " + 1> " + join_left_key_col_name + "_n = " + orig_table_names(orig_tbl_idx) + ".getcharN<char, " + getStringLengthMacro(columnDictionary(key_col)) + " + 1>(" + rowIDNum + ", " + orig_tbl_col_idx + ");"
+              coreCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(key_col)) + " + 1> " + join_left_key_col_name + "_n = " + orig_table_names(orig_tbl_idx) + ".getcharN<char, " + getStringLengthMacro(columnTableMap(key_col)) + " + 1>(" + rowIDNum + ", " + orig_tbl_col_idx + ");"
               coreCode += "        std::string " + join_left_key_col_name + " = std::string(" + join_left_key_col_name + "_n.data());"
             }
           } else {
-            coreCode += "        std::array<char, " + getStringLengthMacro(columnDictionary(key_col)) + " + 1> " + join_left_key_col_name + "_n = " + tbl_in_1 + ".getcharN<char, " + getStringLengthMacro(columnDictionary(key_col)) + " + 1>(i, " + join_left_key_col_idx + ");"
+            coreCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(key_col)) + " + 1> " + join_left_key_col_name + "_n = " + tbl_in_1 + ".getcharN<char, " + getStringLengthMacro(columnTableMap(key_col)) + " + 1>(i, " + join_left_key_col_idx + ");"
             coreCode += "        std::string " + join_left_key_col_name + " = std::string(" + join_left_key_col_name + "_n.data());"
           }
         case _ =>
@@ -3368,16 +3369,16 @@ class SQL2FPGA_QPlan {
             }
             //find the col index of the string data in the original stringRowID table
             if (orig_tbl_idx == -1 && orig_tbl_col_idx == -1) {
-              coreCode += "        std::array<char, " + getStringLengthMacro(columnDictionary(payload_col)) + " + 1> " + join_left_payload_col_name + "_n = " + tbl_in_1 + ".getcharN<char, " + getStringLengthMacro(columnDictionary(payload_col)) + " + 1>(i, " + join_left_payload_col_idx + ");"
+              coreCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(payload_col)) + " + 1> " + join_left_payload_col_name + "_n = " + tbl_in_1 + ".getcharN<char, " + getStringLengthMacro(columnTableMap(payload_col)) + " + 1>(i, " + join_left_payload_col_idx + ");"
               coreCode += "        std::string " + join_left_payload_col_name + " = std::string(" + join_left_payload_col_name + "_n.data());"
             }
             else {
               var rowIDNum = tbl_in_1 + ".getInt32(i, " + join_left_payload_col_idx + ")"
-              coreCode += "        std::array<char, " + getStringLengthMacro(columnDictionary(payload_col)) + " + 1> " + join_left_payload_col_name + "_n = " + orig_table_names(orig_tbl_idx) + ".getcharN<char, " + getStringLengthMacro(columnDictionary(payload_col)) + " + 1>(" + rowIDNum + ", " + orig_tbl_col_idx + ");"
+              coreCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(payload_col)) + " + 1> " + join_left_payload_col_name + "_n = " + orig_table_names(orig_tbl_idx) + ".getcharN<char, " + getStringLengthMacro(columnTableMap(payload_col)) + " + 1>(" + rowIDNum + ", " + orig_tbl_col_idx + ");"
               coreCode += "        std::string " + join_left_payload_col_name + " = std::string(" + join_left_payload_col_name + "_n.data());"
             }
           } else {
-            coreCode += "        std::array<char, " + getStringLengthMacro(columnDictionary(payload_col)) + " + 1> " + join_left_payload_col_name + "_n = " + tbl_in_1 + ".getcharN<char, " + getStringLengthMacro(columnDictionary(payload_col)) + " + 1>(i, " + join_left_payload_col_idx + ");"
+            coreCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(payload_col)) + " + 1> " + join_left_payload_col_name + "_n = " + tbl_in_1 + ".getcharN<char, " + getStringLengthMacro(columnTableMap(payload_col)) + " + 1>(i, " + join_left_payload_col_idx + ");"
             coreCode += "        std::string " + join_left_payload_col_name + " = std::string(" + join_left_payload_col_name + "_n.data());"
           }
         case _ =>
@@ -3421,16 +3422,16 @@ class SQL2FPGA_QPlan {
             }
             //find the col index of the string data in the original stringRowID table
             if (orig_tbl_idx == -1 && orig_tbl_col_idx == -1) {
-              coreCode += "        std::array<char, " + getStringLengthMacro(columnDictionary(key_col)) + " + 1> " + join_right_key_col_name + "_n = " + tbl_in_1 + ".getcharN<char, " + getStringLengthMacro(columnDictionary(key_col)) + " + 1>(i, " + join_right_key_col_idx + ");"
+              coreCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(key_col)) + " + 1> " + join_right_key_col_name + "_n = " + tbl_in_1 + ".getcharN<char, " + getStringLengthMacro(columnTableMap(key_col)) + " + 1>(i, " + join_right_key_col_idx + ");"
               coreCode += "        std::string " + join_right_key_col_name + " = std::string(" + join_right_key_col_name + "_n.data());"
             }
             else {
               var rowIDNum = tbl_in_2 + ".getInt32(i, " + join_right_key_col_idx + ")"
-              coreCode += "        std::array<char, " + getStringLengthMacro(columnDictionary(key_col)) + " + 1> " + join_right_key_col_name + "_n = " + orig_table_names(orig_tbl_idx) + ".getcharN<char, " + getStringLengthMacro(columnDictionary(key_col)) + " + 1>(" + rowIDNum + ", " + orig_tbl_col_idx + ");"
+              coreCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(key_col)) + " + 1> " + join_right_key_col_name + "_n = " + orig_table_names(orig_tbl_idx) + ".getcharN<char, " + getStringLengthMacro(columnTableMap(key_col)) + " + 1>(" + rowIDNum + ", " + orig_tbl_col_idx + ");"
               coreCode += "        std::string " + join_right_key_col_name + " = std::string(" + join_right_key_col_name + "_n.data());"
             }
           } else {
-            coreCode += "        std::array<char, " + getStringLengthMacro(columnDictionary(key_col)) + " + 1> " + join_right_key_col_name + "_n = " + tbl_in_2 + ".getcharN<char, " + getStringLengthMacro(columnDictionary(key_col)) + " + 1>(i, " + join_right_key_col_idx + ");"
+            coreCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(key_col)) + " + 1> " + join_right_key_col_name + "_n = " + tbl_in_2 + ".getcharN<char, " + getStringLengthMacro(columnTableMap(key_col)) + " + 1>(i, " + join_right_key_col_idx + ");"
             coreCode += "        std::string " + join_right_key_col_name + " = std::string(" + join_right_key_col_name + "_n.data());"
           }
         case _ =>
@@ -3470,14 +3471,14 @@ class SQL2FPGA_QPlan {
             }
             //find the col index of the string data in the original stringRowID table
             if (orig_tbl_idx == -1 && orig_tbl_col_idx == -1) {
-              coreCode += "            std::array<char, " + getStringLengthMacro(columnDictionary(right_payload)) + " + 1> " + right_payload_name + " = " + tbl_in_2 + ".getcharN<char, " + getStringLengthMacro(columnDictionary(right_payload)) + " + 1>(i, " + right_payload_input_index + ");"
+              coreCode += "            std::array<char, " + getStringLengthMacro(columnTableMap(right_payload)) + " + 1> " + right_payload_name + " = " + tbl_in_2 + ".getcharN<char, " + getStringLengthMacro(columnTableMap(right_payload)) + " + 1>(i, " + right_payload_input_index + ");"
             }
             else {
               var rowIDNum = tbl_in_2 + ".getInt32(i, " + right_payload_input_index + ")"
-              coreCode += "            std::array<char, " + getStringLengthMacro(columnDictionary(right_payload)) + " + 1> " + right_payload_name + " = " + orig_table_names(orig_tbl_idx) + ".getcharN<char, " + getStringLengthMacro(columnDictionary(right_payload)) + " + 1>(" + rowIDNum + ", " + orig_tbl_col_idx + ");"
+              coreCode += "            std::array<char, " + getStringLengthMacro(columnTableMap(right_payload)) + " + 1> " + right_payload_name + " = " + orig_table_names(orig_tbl_idx) + ".getcharN<char, " + getStringLengthMacro(columnTableMap(right_payload)) + " + 1>(" + rowIDNum + ", " + orig_tbl_col_idx + ");"
             }
           } else {
-            coreCode += "            std::array<char, " + getStringLengthMacro(columnDictionary(right_payload)) + " + 1> " + right_payload_name + " = " + tbl_in_2 + ".getcharN<char, " + getStringLengthMacro(columnDictionary(right_payload)) + " + 1>(i, " + right_payload_input_index + ");"
+            coreCode += "            std::array<char, " + getStringLengthMacro(columnTableMap(right_payload)) + " + 1> " + right_payload_name + " = " + tbl_in_2 + ".getcharN<char, " + getStringLengthMacro(columnTableMap(right_payload)) + " + 1>(i, " + right_payload_input_index + ");"
           }
         case _ =>
           coreCode += "            // Unsupported join key type"
@@ -3501,7 +3502,7 @@ class SQL2FPGA_QPlan {
               if (left_child._stringRowIDSubstitution == true && thisNode._stringRowIDBackSubstitution == false) {
                 coreCode += "                " + tbl_out_1 + ".setInt32(r, " + left_payload_index + ", " + left_payload_name + ");"
               } else {
-                coreCode += "                " + tbl_out_1 + ".setcharN<char, " + getStringLengthMacro(columnDictionary(left_payload)) + " + 1>(r, " + left_payload_index + ", " + left_payload_name + ");"
+                coreCode += "                " + tbl_out_1 + ".setcharN<char, " + getStringLengthMacro(columnTableMap(left_payload)) + " + 1>(r, " + left_payload_index + ", " + left_payload_name + ");"
               }
             case _ =>
               coreCode += "                // Unsupported join key type"
@@ -3523,7 +3524,7 @@ class SQL2FPGA_QPlan {
               if (right_child._stringRowIDSubstitution == true && thisNode._stringRowIDBackSubstitution == false) {
                 coreCode += "                " + tbl_out_1 + ".setInt32(r, " + right_payload_index + ", " + right_payload_name + ");"
               } else {
-                coreCode += "                " + tbl_out_1 + ".setcharN<char, " + getStringLengthMacro(columnDictionary(right_payload)) + " + 1>(r, " + right_payload_index + ", " + right_payload_name + ");"
+                coreCode += "                " + tbl_out_1 + ".setcharN<char, " + getStringLengthMacro(columnTableMap(right_payload)) + " + 1>(r, " + right_payload_index + ", " + right_payload_name + ");"
               }
             case _ =>
               coreCode += "                // Unsupported join key type"
@@ -3548,7 +3549,7 @@ class SQL2FPGA_QPlan {
               if (left_child._stringRowIDSubstitution == true && thisNode._stringRowIDBackSubstitution == false) {
                 coreCode += "            " + tbl_out_1 + ".setInt32(r, " + left_payload_index + ", " + left_payload_name + ");"
               } else {
-                coreCode += "            " + tbl_out_1 + ".setcharN<char, " + getStringLengthMacro(columnDictionary(left_payload)) + " + 1>(r, " + left_payload_index + ", " + left_payload_name + ");"
+                coreCode += "            " + tbl_out_1 + ".setcharN<char, " + getStringLengthMacro(columnTableMap(left_payload)) + " + 1>(r, " + left_payload_index + ", " + left_payload_name + ");"
               }
             case _ =>
               coreCode += "            // Unsupported join key type"
@@ -3570,7 +3571,7 @@ class SQL2FPGA_QPlan {
               if (right_child._stringRowIDSubstitution == true && thisNode._stringRowIDBackSubstitution == false) {
                 coreCode += "            " + tbl_out_1 + ".setInt32(r, " + right_payload_index + ", " + right_payload_name + ");"
               } else {
-                coreCode += "            " + tbl_out_1 + ".setcharN<char, " + getStringLengthMacro(columnDictionary(right_payload)) + " + 1>(r, " + right_payload_index + ", " + right_payload_name + ");"
+                coreCode += "            " + tbl_out_1 + ".setcharN<char, " + getStringLengthMacro(columnTableMap(right_payload)) + " + 1>(r, " + right_payload_index + ", " + right_payload_name + ");"
               }
             case _ =>
               coreCode += "            // Unsupported join key type"
@@ -3657,17 +3658,17 @@ class SQL2FPGA_QPlan {
             }
             //find the col index of the string data in the original stringRowID table
             if (orig_tbl_idx == -1 && orig_tbl_col_idx == -1) {
-              coreCode += "        std::array<char, " + getStringLengthMacro(columnDictionary(key_col)) + " + 1> " + join_left_key_col_name + "_n = " + tbl_in_1 + left_tbl_partition_suffix + ".getcharN<char, " + getStringLengthMacro(columnDictionary(key_col)) + " + 1>(i, " + join_left_key_col_idx + ");"
+              coreCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(key_col)) + " + 1> " + join_left_key_col_name + "_n = " + tbl_in_1 + left_tbl_partition_suffix + ".getcharN<char, " + getStringLengthMacro(columnTableMap(key_col)) + " + 1>(i, " + join_left_key_col_idx + ");"
               coreCode += "        std::string " + join_left_key_col_name + " = std::string(" + join_left_key_col_name + "_n.data());"
             }
             else {
               var rowIDNum = tbl_in_1 + left_tbl_partition_suffix + ".getInt32(i, " + join_left_key_col_idx + ")"
-              coreCode += "        std::array<char, " + getStringLengthMacro(columnDictionary(key_col)) + " + 1> " + join_left_key_col_name + "_n = " + orig_table_names(orig_tbl_idx) + ".getcharN<char, " + getStringLengthMacro(columnDictionary(key_col)) + " + 1>(" + rowIDNum + ", " + orig_tbl_col_idx + ");"
+              coreCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(key_col)) + " + 1> " + join_left_key_col_name + "_n = " + orig_table_names(orig_tbl_idx) + ".getcharN<char, " + getStringLengthMacro(columnTableMap(key_col)) + " + 1>(" + rowIDNum + ", " + orig_tbl_col_idx + ");"
               coreCode += "        std::string " + join_left_key_col_name + " = std::string(" + join_left_key_col_name + "_n.data());"
             }
           }
           else {
-            coreCode += "        std::array<char, " + getStringLengthMacro(columnDictionary(key_col)) + " + 1> " + join_left_key_col_name + "_n = " + tbl_in_1 + left_tbl_partition_suffix + ".getcharN<char, " + getStringLengthMacro(columnDictionary(key_col)) + " + 1>(i, " + join_left_key_col_idx + ");"
+            coreCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(key_col)) + " + 1> " + join_left_key_col_name + "_n = " + tbl_in_1 + left_tbl_partition_suffix + ".getcharN<char, " + getStringLengthMacro(columnTableMap(key_col)) + " + 1>(i, " + join_left_key_col_idx + ");"
             coreCode += "        std::string " + join_left_key_col_name + " = std::string(" + join_left_key_col_name + "_n.data());"
           }
         case _ =>
@@ -3707,17 +3708,17 @@ class SQL2FPGA_QPlan {
             }
             //find the col index of the string data in the original stringRowID table
             if (orig_tbl_idx == -1 && orig_tbl_col_idx == -1) {
-              coreCode += "        std::array<char, " + getStringLengthMacro(columnDictionary(payload_col)) + " + 1> " + join_left_payload_col_name + "_n = " + tbl_in_1 + left_tbl_partition_suffix + ".getcharN<char, " + getStringLengthMacro(columnDictionary(payload_col)) + " + 1>(i, " + join_left_payload_col_idx + ");"
+              coreCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(payload_col)) + " + 1> " + join_left_payload_col_name + "_n = " + tbl_in_1 + left_tbl_partition_suffix + ".getcharN<char, " + getStringLengthMacro(columnTableMap(payload_col)) + " + 1>(i, " + join_left_payload_col_idx + ");"
               coreCode += "        std::string " + join_left_payload_col_name + " = std::string(" + join_left_payload_col_name + "_n.data());"
             }
             else {
               var rowIDNum = tbl_in_1 + left_tbl_partition_suffix + ".getInt32(i, " + join_left_payload_col_idx + ")"
-              coreCode += "        std::array<char, " + getStringLengthMacro(columnDictionary(payload_col)) + " + 1> " + join_left_payload_col_name + "_n = " + orig_table_names(orig_tbl_idx) + ".getcharN<char, " + getStringLengthMacro(columnDictionary(payload_col)) + " + 1>(" + rowIDNum + ", " + orig_tbl_col_idx + ");"
+              coreCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(payload_col)) + " + 1> " + join_left_payload_col_name + "_n = " + orig_table_names(orig_tbl_idx) + ".getcharN<char, " + getStringLengthMacro(columnTableMap(payload_col)) + " + 1>(" + rowIDNum + ", " + orig_tbl_col_idx + ");"
               coreCode += "        std::string " + join_left_payload_col_name + " = std::string(" + join_left_payload_col_name + "_n.data());"
             }
           }
           else {
-            coreCode += "        std::array<char, " + getStringLengthMacro(columnDictionary(payload_col)) + " + 1> " + join_left_payload_col_name + "_n = " + tbl_in_1 + left_tbl_partition_suffix + ".getcharN<char, " + getStringLengthMacro(columnDictionary(payload_col)) + " + 1>(i, " + join_left_payload_col_idx + ");"
+            coreCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(payload_col)) + " + 1> " + join_left_payload_col_name + "_n = " + tbl_in_1 + left_tbl_partition_suffix + ".getcharN<char, " + getStringLengthMacro(columnTableMap(payload_col)) + " + 1>(i, " + join_left_payload_col_idx + ");"
             coreCode += "        std::string " + join_left_payload_col_name + " = std::string(" + join_left_payload_col_name + "_n.data());"
           }
         case _ =>
@@ -3773,17 +3774,17 @@ class SQL2FPGA_QPlan {
             }
             //find the col index of the string data in the original stringRowID table
             if (orig_tbl_idx == -1 && orig_tbl_col_idx == -1) {
-              coreCode += "        std::array<char, " + getStringLengthMacro(columnDictionary(key_col)) + " + 1> " + join_right_key_col_name + "_n = " + tbl_in_1 + ".getcharN<char, " + getStringLengthMacro(columnDictionary(key_col)) + " + 1>(i, " + join_right_key_col_idx + ");"
+              coreCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(key_col)) + " + 1> " + join_right_key_col_name + "_n = " + tbl_in_1 + ".getcharN<char, " + getStringLengthMacro(columnTableMap(key_col)) + " + 1>(i, " + join_right_key_col_idx + ");"
               coreCode += "        std::string " + join_right_key_col_name + " = std::string(" + join_right_key_col_name + "_n.data());"
             }
             else {
               var rowIDNum = tbl_in_2 + right_tbl_partition_suffix + ".getInt32(i, " + join_right_key_col_idx + ")"
-              coreCode += "        std::array<char, " + getStringLengthMacro(columnDictionary(key_col)) + " + 1> " + join_right_key_col_name + "_n = " + orig_table_names(orig_tbl_idx) + ".getcharN<char, " + getStringLengthMacro(columnDictionary(key_col)) + " + 1>(" + rowIDNum + ", " + orig_tbl_col_idx + ");"
+              coreCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(key_col)) + " + 1> " + join_right_key_col_name + "_n = " + orig_table_names(orig_tbl_idx) + ".getcharN<char, " + getStringLengthMacro(columnTableMap(key_col)) + " + 1>(" + rowIDNum + ", " + orig_tbl_col_idx + ");"
               coreCode += "        std::string " + join_right_key_col_name + " = std::string(" + join_right_key_col_name + "_n.data());"
             }
           }
           else {
-            coreCode += "        std::array<char, " + getStringLengthMacro(columnDictionary(key_col)) + " + 1> " + join_right_key_col_name + "_n = " + tbl_in_2 + right_tbl_partition_suffix + ".getcharN<char, " + getStringLengthMacro(columnDictionary(key_col)) + " + 1>(i, " + join_right_key_col_idx + ");"
+            coreCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(key_col)) + " + 1> " + join_right_key_col_name + "_n = " + tbl_in_2 + right_tbl_partition_suffix + ".getcharN<char, " + getStringLengthMacro(columnTableMap(key_col)) + " + 1>(i, " + join_right_key_col_idx + ");"
             coreCode += "        std::string " + join_right_key_col_name + " = std::string(" + join_right_key_col_name + "_n.data());"
           }
         case _ =>
@@ -3809,7 +3810,7 @@ class SQL2FPGA_QPlan {
           }
           else {
             coreCode += "            std::string " + left_payload_name + " = (it->second)." + left_payload_name + ";"
-            coreCode += "            std::array<char, " + getStringLengthMacro(columnDictionary(left_payload)) + " + 1> " + left_payload_name + "_n" + "{};"
+            coreCode += "            std::array<char, " + getStringLengthMacro(columnTableMap(left_payload)) + " + 1> " + left_payload_name + "_n" + "{};"
             coreCode += "            memcpy(" + left_payload_name + "_n" + ".data(), (" + left_payload_name + ").data(), (" + left_payload_name + ").length());"
           }
         case _ =>
@@ -3845,17 +3846,17 @@ class SQL2FPGA_QPlan {
             }
             //find the col index of the string data in the original stringRowID table
             if (orig_tbl_idx == -1 && orig_tbl_col_idx == -1) {
-              coreCode += "            std::array<char, " + getStringLengthMacro(columnDictionary(right_payload)) + " + 1> " + right_payload_name + "_n" + " = " + tbl_in_2 + right_tbl_partition_suffix + ".getcharN<char, " + getStringLengthMacro(columnDictionary(right_payload)) + " + 1>(i, " + right_payload_input_index + ");"
+              coreCode += "            std::array<char, " + getStringLengthMacro(columnTableMap(right_payload)) + " + 1> " + right_payload_name + "_n" + " = " + tbl_in_2 + right_tbl_partition_suffix + ".getcharN<char, " + getStringLengthMacro(columnTableMap(right_payload)) + " + 1>(i, " + right_payload_input_index + ");"
               coreCode += "            std::string " + right_payload_name + " = std::string(" + right_payload_name + "_n.data());"
             }
             else {
               var rowIDNum = tbl_in_2 + right_tbl_partition_suffix + ".getInt32(i, " + right_payload_input_index + ")"
-              coreCode += "        std::array<char, " + getStringLengthMacro(columnDictionary(right_payload)) + " + 1> " + right_payload_name + "_n = " + orig_table_names(orig_tbl_idx) + ".getcharN<char, " + getStringLengthMacro(columnDictionary(right_payload)) + " + 1>(" + rowIDNum + ", " + orig_tbl_col_idx + ");"
+              coreCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(right_payload)) + " + 1> " + right_payload_name + "_n = " + orig_table_names(orig_tbl_idx) + ".getcharN<char, " + getStringLengthMacro(columnTableMap(right_payload)) + " + 1>(" + rowIDNum + ", " + orig_tbl_col_idx + ");"
               coreCode += "        std::string " + right_payload_name + " = std::string(" + right_payload_name + "_n.data());"
             }
           }
           else {
-            coreCode += "            std::array<char, " + getStringLengthMacro(columnDictionary(right_payload)) + " + 1> " + right_payload_name + "_n" + " = " + tbl_in_2 + right_tbl_partition_suffix + ".getcharN<char, " + getStringLengthMacro(columnDictionary(right_payload)) + " + 1>(i, " + right_payload_input_index + ");"
+            coreCode += "            std::array<char, " + getStringLengthMacro(columnTableMap(right_payload)) + " + 1> " + right_payload_name + "_n" + " = " + tbl_in_2 + right_tbl_partition_suffix + ".getcharN<char, " + getStringLengthMacro(columnTableMap(right_payload)) + " + 1>(i, " + right_payload_input_index + ");"
             coreCode += "            std::string " + right_payload_name + " = std::string(" + right_payload_name + "_n.data());"
           }
         case _ =>
@@ -3880,7 +3881,7 @@ class SQL2FPGA_QPlan {
               if (left_child._stringRowIDSubstitution == true && thisNode._stringRowIDBackSubstitution == false) {
                 coreCode += "                " + tbl_out_1 + ".setInt32(r, " + left_payload_index + ", " + left_payload_name + ");"
               } else {
-                coreCode += "                " + tbl_out_1 + ".setcharN<char, " + getStringLengthMacro(columnDictionary(left_payload)) + " + 1>(r, " + left_payload_index + ", " + left_payload_name + "_n" + ");"
+                coreCode += "                " + tbl_out_1 + ".setcharN<char, " + getStringLengthMacro(columnTableMap(left_payload)) + " + 1>(r, " + left_payload_index + ", " + left_payload_name + "_n" + ");"
               }
             case _ =>
               coreCode += "                // Unsupported join key type"
@@ -3902,7 +3903,7 @@ class SQL2FPGA_QPlan {
               if (right_child._stringRowIDSubstitution && thisNode._stringRowIDBackSubstitution == false) {
                 coreCode += "                " + tbl_out_1 + ".setInt32(r, " + right_payload_index + ", " + right_payload_name + ");"
               } else {
-                coreCode += "                " + tbl_out_1 + ".setcharN<char, " + getStringLengthMacro(columnDictionary(right_payload)) + " + 1>(r, " + right_payload_index + ", " + right_payload_name + "_n" + ");"
+                coreCode += "                " + tbl_out_1 + ".setcharN<char, " + getStringLengthMacro(columnTableMap(right_payload)) + " + 1>(r, " + right_payload_index + ", " + right_payload_name + "_n" + ");"
               }
             case _ =>
               coreCode += "                // Unsupported join key type"
@@ -3928,7 +3929,7 @@ class SQL2FPGA_QPlan {
               if (left_child._stringRowIDSubstitution == true && thisNode._stringRowIDBackSubstitution == false) {
                 coreCode += "            " + tbl_out_1 + ".setInt32(r, " + left_payload_index + ", " + left_payload_name + ");"
               } else {
-                coreCode += "            " + tbl_out_1 + ".setcharN<char, " + getStringLengthMacro(columnDictionary(left_payload)) + " + 1>(r, " + left_payload_index + ", " + left_payload_name + "_n" + ");"
+                coreCode += "            " + tbl_out_1 + ".setcharN<char, " + getStringLengthMacro(columnTableMap(left_payload)) + " + 1>(r, " + left_payload_index + ", " + left_payload_name + "_n" + ");"
               }
             case _ =>
               coreCode += "            // Unsupported join key type"
@@ -3950,7 +3951,7 @@ class SQL2FPGA_QPlan {
               if (right_child._stringRowIDSubstitution == true && thisNode._stringRowIDBackSubstitution == false) {
                 coreCode += "            " + tbl_out_1 + ".setInt32(r, " + right_payload_index + ", " + right_payload_name + ");"
               } else {
-                coreCode += "            " + tbl_out_1 + ".setcharN<char, " + getStringLengthMacro(columnDictionary(right_payload)) + " + 1>(r, " + right_payload_index + ", " + right_payload_name + "_n" + ");"
+                coreCode += "            " + tbl_out_1 + ".setcharN<char, " + getStringLengthMacro(columnTableMap(right_payload)) + " + 1>(r, " + right_payload_index + ", " + right_payload_name + "_n" + ");"
               }
             case _ =>
               coreCode += "            // Unsupported join key type"
@@ -5751,7 +5752,7 @@ class SQL2FPGA_QPlan {
     }
     var sf = qConfig.scale_factor
     // Temp Hack Alec - tag:output_table_nrow
-    queryNum match {
+  /*  queryNum match {
       case 1 =>
         if (_nodeType == "Aggregate" && _treeDepth == 1 && _cpuORfpga == 1) {
           _numTableRow = 10
@@ -5829,11 +5830,11 @@ class SQL2FPGA_QPlan {
         }
       case 10 =>
         if (_nodeType == "JOIN_INNER" && _treeDepth == 2 && _cpuORfpga == 1) {
-          _numTableRow = 114347
+          _numTableRow = 6100000
         } else if (_nodeType == "JOIN_INNER" && _treeDepth == 3 && _cpuORfpga == 1) {
-          _numTableRow = 114347
+          _numTableRow = 6100000
         } else if (_nodeType == "JOIN_INNER" && _treeDepth == 4 && _cpuORfpga == 1) {
-          _numTableRow = 57111
+          _numTableRow = 6100000
         }
       case 11 =>
         if (_nodeType == "JOIN_INNER" && _treeDepth == 3 && _cpuORfpga == 1) {
@@ -5848,10 +5849,11 @@ class SQL2FPGA_QPlan {
           _numTableRow = 31211
         }
       case 13 =>
+      // TODO figure out the numTableRow
         if (_nodeType == "JOIN_INNER" && _treeDepth == 0 && _cpuORfpga == 1) {
-          _numTableRow = 1480133
+          _numTableRow = 6100000
         } else if (_nodeType == "JOIN_LEFTANTI" && _treeDepth == 3 && _cpuORfpga == 1) {
-          _numTableRow = 1531000
+          _numTableRow = 6100000
         }
       case 14 =>
         if (_nodeType == "JOIN_INNER" && _treeDepth == 1 && _cpuORfpga == 1) {
@@ -5916,7 +5918,7 @@ class SQL2FPGA_QPlan {
           _numTableRow = 6283
         }
     }
-
+*/
     var nodeOpName = _nodeType + "_TD_" + _treeDepth + scala.util.Random.nextInt(1000)
     _fpgaNodeName = nodeOpName
     _fpgaCode += nodeOpName
@@ -6597,7 +6599,7 @@ class SQL2FPGA_QPlan {
                 case "LongType" =>
                   _fpgaSWFuncCode += "        int64_t " + join_left_key_col_name + " = " + tbl_in_1 + ".getInt64(i, " + join_left_key_col_idx + ");"
                 case "StringType" =>
-                  _fpgaSWFuncCode += "        std::array<char, " + getStringLengthMacro(columnDictionary(key_col)) + " + 1> " + join_left_key_col_name + "_n = " + tbl_in_1 + ".getcharN<char, " + getStringLengthMacro(columnDictionary(key_col)) + " + 1>(i, " + join_left_key_col_idx + ");"
+                  _fpgaSWFuncCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(key_col)) + " + 1> " + join_left_key_col_name + "_n = " + tbl_in_1 + ".getcharN<char, " + getStringLengthMacro(columnTableMap(key_col)) + " + 1>(i, " + join_left_key_col_idx + ");"
                   _fpgaSWFuncCode += "        std::string " + join_left_key_col_name + " = std::string(" + join_left_key_col_name + "_n.data());"
                 case _ =>
                   _fpgaSWFuncCode += "        // Unsupported join key type"
@@ -6617,7 +6619,7 @@ class SQL2FPGA_QPlan {
                 case "LongType" =>
                   _fpgaSWFuncCode += "        int64_t " + join_left_payload_col_name + " = " + tbl_in_1 + ".getInt64(i, " + join_left_payload_col_idx + ");"
                 case "StringType" =>
-                  _fpgaSWFuncCode += "        std::array<char, " + getStringLengthMacro(columnDictionary(payload_col)) + " + 1> " + join_left_payload_col_name + "_n = " + tbl_in_1 + ".getcharN<char, " + getStringLengthMacro(columnDictionary(payload_col)) + " + 1>(i, " + join_left_payload_col_idx + ");"
+                  _fpgaSWFuncCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(payload_col)) + " + 1> " + join_left_payload_col_name + "_n = " + tbl_in_1 + ".getcharN<char, " + getStringLengthMacro(columnTableMap(payload_col)) + " + 1>(i, " + join_left_payload_col_idx + ");"
                   _fpgaSWFuncCode += "        std::string " + join_left_payload_col_name + " = std::string(" + join_left_payload_col_name + "_n.data());"
                 case _ =>
                   _fpgaSWFuncCode += "        // Unsupported join key type"
@@ -6642,7 +6644,7 @@ class SQL2FPGA_QPlan {
                 case "LongType" =>
                   _fpgaSWFuncCode += "        int64_t " + join_right_key_col_name + " = " + tbl_in_2 + ".getInt64(i, " + join_right_key_col_idx + ");"
                 case "StringType" =>
-                  _fpgaSWFuncCode += "        std::array<char, " + getStringLengthMacro(columnDictionary(key_col)) + " + 1> " + join_right_key_col_name + "_n = " + tbl_in_2 + ".getcharN<char, " + getStringLengthMacro(columnDictionary(key_col)) + " + 1>(i, " + join_right_key_col_idx + ");"
+                  _fpgaSWFuncCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(key_col)) + " + 1> " + join_right_key_col_name + "_n = " + tbl_in_2 + ".getcharN<char, " + getStringLengthMacro(columnTableMap(key_col)) + " + 1>(i, " + join_right_key_col_idx + ");"
                   _fpgaSWFuncCode += "        std::string " + join_right_key_col_name + " = std::string(" + join_right_key_col_name + "_n.data());"
                 case _ =>
                   _fpgaSWFuncCode += "        // Unsupported join key type"
@@ -6662,7 +6664,7 @@ class SQL2FPGA_QPlan {
                 case "LongType" =>
                   _fpgaSWFuncCode += "        int64_t " + right_payload_name + " = " + tbl_in_2 + ".getInt64(i, " + right_payload_input_index + ");"
                 case "StringType" =>
-                  _fpgaSWFuncCode += "        std::array<char, " + getStringLengthMacro(columnDictionary(right_payload)) + " + 1> " + right_payload_name + " = " + tbl_in_2 + ".getcharN<char, " + getStringLengthMacro(columnDictionary(right_payload)) + " + 1>(i, " + right_payload_input_index + ");"
+                  _fpgaSWFuncCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(right_payload)) + " + 1> " + right_payload_name + " = " + tbl_in_2 + ".getcharN<char, " + getStringLengthMacro(columnTableMap(right_payload)) + " + 1>(i, " + right_payload_input_index + ");"
                 case _ =>
                   _fpgaSWFuncCode += "        // Unsupported join key type"
               }
@@ -6682,7 +6684,7 @@ class SQL2FPGA_QPlan {
                   _fpgaSWFuncCode += "                int64_t " + left_payload_name + " = (it_it->second)." + left_payload_name + ";"
                 case "StringType" =>
                   _fpgaSWFuncCode += "                std::string " + left_payload_name + "_n = (it_it->second)." + left_payload_name + ";"
-                  _fpgaSWFuncCode += "                std::array<char, " + getStringLengthMacro(columnDictionary(left_payload)) + " + 1> " + left_payload_name + "{};"
+                  _fpgaSWFuncCode += "                std::array<char, " + getStringLengthMacro(columnTableMap(left_payload)) + " + 1> " + left_payload_name + "{};"
                   _fpgaSWFuncCode += "                memcpy(" + left_payload_name + ".data(), (" + left_payload_name + "_n).data(), (" + left_payload_name + "_n).length());"
                 case _ =>
                   _fpgaSWFuncCode += "                // Unsupported join key type"
@@ -6702,7 +6704,7 @@ class SQL2FPGA_QPlan {
                     case "LongType" =>
                       _fpgaSWFuncCode += "                    " + tbl_out_1 + ".setInt64(r, " + left_payload_index + ", " + left_payload_name + ");"
                     case "StringType" =>
-                      _fpgaSWFuncCode += "                    " + tbl_out_1 + ".setcharN<char, " + getStringLengthMacro(columnDictionary(left_payload)) + " + 1>(r, " + left_payload_index + ", " + left_payload_name + ");"
+                      _fpgaSWFuncCode += "                    " + tbl_out_1 + ".setcharN<char, " + getStringLengthMacro(columnTableMap(left_payload)) + " + 1>(r, " + left_payload_index + ", " + left_payload_name + ");"
                     case _ =>
                       _fpgaSWFuncCode += "                    // Unsupported join key type"
                   }
@@ -6720,7 +6722,7 @@ class SQL2FPGA_QPlan {
                     case "LongType" =>
                       _fpgaSWFuncCode += "                    " + tbl_out_1 + ".setInt64(r, " + right_payload_index + ", " + right_payload_name + ");"
                     case "StringType" =>
-                      _fpgaSWFuncCode += "                    " + tbl_out_1 + ".setcharN<char, " + getStringLengthMacro(columnDictionary(right_payload)) + " + 1>(r, " + right_payload_index + ", " + right_payload_name + ");"
+                      _fpgaSWFuncCode += "                    " + tbl_out_1 + ".setcharN<char, " + getStringLengthMacro(columnTableMap(right_payload)) + " + 1>(r, " + right_payload_index + ", " + right_payload_name + ");"
                     case _ =>
                       _fpgaSWFuncCode += "                    // Unsupported join key type"
                   }
@@ -6740,7 +6742,7 @@ class SQL2FPGA_QPlan {
                     case "LongType" =>
                       _fpgaSWFuncCode += "                " + tbl_out_1 + ".setInt64(r, " + left_payload_index + ", " + left_payload_name + ");"
                     case "StringType" =>
-                      _fpgaSWFuncCode += "                " + tbl_out_1 + ".setcharN<char, " + getStringLengthMacro(columnDictionary(left_payload)) + " + 1>(r, " + left_payload_index + ", " + left_payload_name + ");"
+                      _fpgaSWFuncCode += "                " + tbl_out_1 + ".setcharN<char, " + getStringLengthMacro(columnTableMap(left_payload)) + " + 1>(r, " + left_payload_index + ", " + left_payload_name + ");"
                     case _ =>
                       _fpgaSWFuncCode += "                // Unsupported join key type"
                   }
@@ -6758,7 +6760,7 @@ class SQL2FPGA_QPlan {
                     case "LongType" =>
                       _fpgaSWFuncCode += "                " + tbl_out_1 + ".setInt64(r, " + right_payload_index + ", " + right_payload_name + ");"
                     case "StringType" =>
-                      _fpgaSWFuncCode += "                " + tbl_out_1 + ".setcharN<char, " + getStringLengthMacro(columnDictionary(right_payload)) + " + 1>(r, " + right_payload_index + ", " + right_payload_name + ");"
+                      _fpgaSWFuncCode += "                " + tbl_out_1 + ".setcharN<char, " + getStringLengthMacro(columnTableMap(right_payload)) + " + 1>(r, " + right_payload_index + ", " + right_payload_name + ");"
                     case _ =>
                       _fpgaSWFuncCode += "                // Unsupported join key type"
                   }
@@ -6784,7 +6786,7 @@ class SQL2FPGA_QPlan {
                       case "LongType" =>
                         _fpgaSWFuncCode += "                " + tbl_out_1 + ".setInt64(r, " + left_payload_index + ", " + "0" + ");"
                       case "StringType" =>
-                        _fpgaSWFuncCode += "                " + tbl_out_1 + ".setcharN<char, " + getStringLengthMacro(columnDictionary(left_payload)) + " + 1>(r, " + left_payload_index + ", " + "\"\"" + ");"
+                        _fpgaSWFuncCode += "                " + tbl_out_1 + ".setcharN<char, " + getStringLengthMacro(columnTableMap(left_payload)) + " + 1>(r, " + left_payload_index + ", " + "\"\"" + ");"
                       case _ =>
                         _fpgaSWFuncCode += "                // Unsupported join key type"
                     }
@@ -6802,7 +6804,7 @@ class SQL2FPGA_QPlan {
                     case "LongType" =>
                       _fpgaSWFuncCode += "                " + tbl_out_1 + ".setInt64(r, " + right_payload_index + ", " + right_payload_name + ");"
                     case "StringType" =>
-                      _fpgaSWFuncCode += "                " + tbl_out_1 + ".setcharN<char, " + getStringLengthMacro(columnDictionary(right_payload)) + " + 1>(r, " + right_payload_index + ", " + right_payload_name + ");"
+                      _fpgaSWFuncCode += "                " + tbl_out_1 + ".setcharN<char, " + getStringLengthMacro(columnTableMap(right_payload)) + " + 1>(r, " + right_payload_index + ", " + right_payload_name + ");"
                     case _ =>
                       _fpgaSWFuncCode += "                // Unsupported join key type"
                   }
@@ -6823,7 +6825,7 @@ class SQL2FPGA_QPlan {
                       case "LongType" =>
                         _fpgaSWFuncCode += "            " + tbl_out_1 + ".setInt64(r, " + left_payload_index + ", " + "0" + ");"
                       case "StringType" =>
-                        _fpgaSWFuncCode += "            " + tbl_out_1 + ".setcharN<char, " + getStringLengthMacro(columnDictionary(left_payload)) + " + 1>(r, " + left_payload_index + ", " + "\"\"" + ");"
+                        _fpgaSWFuncCode += "            " + tbl_out_1 + ".setcharN<char, " + getStringLengthMacro(columnTableMap(left_payload)) + " + 1>(r, " + left_payload_index + ", " + "\"\"" + ");"
                       case _ =>
                         _fpgaSWFuncCode += "            // Unsupported join key type"
                     }
@@ -6841,7 +6843,7 @@ class SQL2FPGA_QPlan {
                     case "LongType" =>
                       _fpgaSWFuncCode += "            " + tbl_out_1 + ".setInt64(r, " + right_payload_index + ", " + right_payload_name + ");"
                     case "StringType" =>
-                      _fpgaSWFuncCode += "            " + tbl_out_1 + ".setcharN<char, " + getStringLengthMacro(columnDictionary(right_payload)) + " + 1>(r, " + right_payload_index + ", " + "\"\"" + ");"
+                      _fpgaSWFuncCode += "            " + tbl_out_1 + ".setcharN<char, " + getStringLengthMacro(columnTableMap(right_payload)) + " + 1>(r, " + right_payload_index + ", " + "\"\"" + ");"
                     case _ =>
                       _fpgaSWFuncCode += "            // Unsupported join key type"
                   }
@@ -6890,7 +6892,7 @@ class SQL2FPGA_QPlan {
               var filter_input_col_type = getColumnType(filter_input_col_name.split("#").head, dfmap)
               filter_input_col_name = stripColumnName(filter_input_col_name)
               if (filter_input_col_type == "StringType") {
-                _fpgaSWFuncCode += "        std::array<char, " + getStringLengthMacro(columnDictionary(_ref_col.toString().split("#").head)) + " + 1> " + filter_input_col_name + " = " + tbl_in_1 + ".getcharN<char, " + getStringLengthMacro(columnDictionary(_ref_col.toString().split("#").head)) + " + 1>(i, " + filter_input_col_idx.toString + ");"
+                _fpgaSWFuncCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(_ref_col.toString().split("#").head)) + " + 1> " + filter_input_col_name + " = " + tbl_in_1 + ".getcharN<char, " + getStringLengthMacro(columnTableMap(_ref_col.toString().split("#").head)) + " + 1>(i, " + filter_input_col_idx.toString + ");"
               } else if (filter_input_col_type == "IntegerType") {
                 _fpgaSWFuncCode += "        int32_t " + filter_input_col_name + " = " + tbl_in_1 + ".getInt32(i, " + filter_input_col_idx.toString + ");"
               } else if (filter_input_col_type == "LongType") {
@@ -6936,8 +6938,8 @@ class SQL2FPGA_QPlan {
                     _fpgaInputTableName_stringRowIDSubstitute = tbl_in_1
                     _fpgaOutputTableName_stringRowIDSubstitute = _fpgaInputTableName_stringRowIDSubstitute
                   } else {
-                    _fpgaSWFuncCode += "            std::array<char, " + getStringLengthMacro(columnDictionary(col)) + " + 1> " + col_symbol + "_t = " + tbl_in_1 + ".getcharN<char, " + getStringLengthMacro(columnDictionary(col)) + " + 1>(i, " + col_idx + ");"
-                    _fpgaSWFuncCode += "            " + tbl_out_1 + ".setcharN<char, " + getStringLengthMacro(columnDictionary(col)) + " + 1>(r, " + i + ", " + col_symbol + "_t);"
+                    _fpgaSWFuncCode += "            std::array<char, " + getStringLengthMacro(columnTableMap(col)) + " + 1> " + col_symbol + "_t = " + tbl_in_1 + ".getcharN<char, " + getStringLengthMacro(columnTableMap(col)) + " + 1>(i, " + col_idx + ");"
+                    _fpgaSWFuncCode += "            " + tbl_out_1 + ".setcharN<char, " + getStringLengthMacro(columnTableMap(col)) + " + 1>(r, " + i + ", " + col_symbol + "_t);"
                   }
                 case "IntegerType" =>
                   _fpgaSWFuncCode += "            int32_t " + col_symbol + "_t = " + tbl_in_1 + ".getInt32(i, " + col_idx + ");"
@@ -7231,11 +7233,11 @@ class SQL2FPGA_QPlan {
                   }
                   //find the col index of the string data in the original stringRowID table
                   if (orig_tbl_idx == -1 && orig_tbl_col_idx == -1) {
-                    _fpgaSWFuncCode += "        std::array<char, " + getStringLengthMacro(columnDictionary(ch)) + " + 1> " + input_col + " = " + tbl_in_1 + tbl_partition_suffix + ".getcharN<char, " + getStringLengthMacro(columnDictionary(ch)) + " + 1>(i, " + i + ");"
+                    _fpgaSWFuncCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(ch)) + " + 1> " + input_col + " = " + tbl_in_1 + tbl_partition_suffix + ".getcharN<char, " + getStringLengthMacro(columnTableMap(ch)) + " + 1>(i, " + i + ");"
                   }
                   else {
                     var rowIDNum = tbl_in_1 + tbl_partition_suffix + ".getInt32(i, " + i + ")"
-                    _fpgaSWFuncCode += "        std::array<char, " + getStringLengthMacro(columnDictionary(ch)) + " + 1> " + input_col + " = " + orig_table_names(orig_tbl_idx) + ".getcharN<char, " + getStringLengthMacro(columnDictionary(ch)) + " + 1>(" + rowIDNum + ", " + orig_tbl_col_idx + ");"
+                    _fpgaSWFuncCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(ch)) + " + 1> " + input_col + " = " + orig_table_names(orig_tbl_idx) + ".getcharN<char, " + getStringLengthMacro(columnTableMap(ch)) + " + 1>(" + rowIDNum + ", " + orig_tbl_col_idx + ");"
                   }
                 }
                 else if (_stringRowIDSubstitution) {
@@ -7243,7 +7245,7 @@ class SQL2FPGA_QPlan {
                   _fpgaSWFuncCode += "        int32_t " + input_col + " = " + tbl_in_1 + tbl_partition_suffix + ".getInt32(i, " + i + ");"
                 }
                 else {
-                  _fpgaSWFuncCode += "        std::array<char, " + getStringLengthMacro(columnDictionary(ch)) + " + 1> " + input_col + " = " + tbl_in_1 + tbl_partition_suffix + ".getcharN<char, " + getStringLengthMacro(columnDictionary(ch)) + " + 1>(i, " + i + ");"
+                  _fpgaSWFuncCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(ch)) + " + 1> " + input_col + " = " + tbl_in_1 + tbl_partition_suffix + ".getcharN<char, " + getStringLengthMacro(columnTableMap(ch)) + " + 1>(i, " + i + ");"
                 }
               } else {
                 _fpgaSWFuncCode += "        // Unsupported input Type"
@@ -7316,7 +7318,7 @@ class SQL2FPGA_QPlan {
                       _fpgaSWFuncCode += "        int32_t " + col_symbol_trimmed + " = " + col_expr + ";"
                     }
                     else {
-                      _fpgaSWFuncCode += "        std::array<char, " + getStringLengthMacro(columnDictionary(col_symbol_trimmed)) + " + 1> " + col_symbol_trimmed + " = " + col_expr + ";"
+                      _fpgaSWFuncCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(col_symbol_trimmed)) + " + 1> " + col_symbol_trimmed + " = " + col_expr + ";"
                     }
                   } else if (col_type == "DoubleType") {
                     columnDictionary(col_symbol) = ("LongType", "NULL")
@@ -7341,7 +7343,7 @@ class SQL2FPGA_QPlan {
                     if (_stringRowIDSubstitution) {
                       _fpgaSWFuncCode += "        int32_t " + col_symbol_trimmed + "_" + col_aggregate_op + "_" + op_idx + " = " + col_expr + ";"
                     } else {
-                      _fpgaSWFuncCode += "        std::array<char, " + getStringLengthMacro(columnDictionary(col_symbol_trimmed)) + " + 1> " + col_symbol_trimmed + "_" + col_aggregate_op + "_" + op_idx + " = " + col_expr + ";"
+                      _fpgaSWFuncCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(col_symbol_trimmed)) + " + 1> " + col_symbol_trimmed + "_" + col_aggregate_op + "_" + op_idx + " = " + col_expr + ";"
                     }
                   } else if (col_type == "DoubleType") {
                     columnDictionary(col_symbol) = ("LongType", "NULL")
@@ -7527,7 +7529,7 @@ class SQL2FPGA_QPlan {
                     if (_stringRowIDSubstitution) {
                       _fpgaSWFuncCode += "        int32_t " + col_symbol_trimmed + "_" + col_aggregate_op + "_" + op_idx + " = " + col_expr + ";"
                     } else {
-                      _fpgaSWFuncCode += "        std::array<char, " + getStringLengthMacro(columnDictionary(col_symbol_trimmed)) + " + 1> " + col_symbol_trimmed + "_" + col_aggregate_op + "_" + op_idx + " = " + col_expr + ";"
+                      _fpgaSWFuncCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(col_symbol_trimmed)) + " + 1> " + col_symbol_trimmed + "_" + col_aggregate_op + "_" + op_idx + " = " + col_expr + ";"
                     }
                   } else if (col_type == "DoubleType") {
                     columnDictionary(col_symbol) = ("LongType", "NULL")
@@ -7622,9 +7624,9 @@ class SQL2FPGA_QPlan {
                       if (_stringRowIDSubstitution) {
                         _fpgaSWFuncCode += "        " + tbl_out_1 + ".setInt32(r, " + outputCols_idx + ", (it.first)." + key_col + ");"
                       } else {
-                        _fpgaSWFuncCode += "        std::array<char, " + getStringLengthMacro(columnDictionary(groupBy_key)) + " + 1> " + key_col + "{};"
+                        _fpgaSWFuncCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(groupBy_key)) + " + 1> " + key_col + "{};"
                         _fpgaSWFuncCode += "        memcpy(" + key_col + ".data(), ((it.first)." + key_col + ").data(), ((it.first)." + key_col + ").length());"
-                        _fpgaSWFuncCode += "        " + tbl_out_1 + ".setcharN<char, " + getStringLengthMacro(columnDictionary(groupBy_key)) + " + 1>(r, " + outputCols_idx + ", " + key_col + ");"
+                        _fpgaSWFuncCode += "        " + tbl_out_1 + ".setcharN<char, " + getStringLengthMacro(columnTableMap(groupBy_key)) + " + 1>(r, " + outputCols_idx + ", " + key_col + ");"
                       }
                     } else {
                       _fpgaSWFuncCode += "        // Unsupported payload type"
@@ -7646,9 +7648,9 @@ class SQL2FPGA_QPlan {
                     if (_stringRowIDSubstitution) {
                       _fpgaSWFuncCode += "        " + tbl_out_1 + ".setInt32(r, " + outputCols_idx + ", (it.first));"
                     } else {
-                      _fpgaSWFuncCode += "        std::array<char, " + getStringLengthMacro(columnDictionary(_groupBy_operation(0))) + " + 1> " + key_col + "{};"
+                      _fpgaSWFuncCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(_groupBy_operation(0))) + " + 1> " + key_col + "{};"
                       _fpgaSWFuncCode += "        memcpy(" + key_col + ".data(), (it.first).data(), (it.first).length());"
-                      _fpgaSWFuncCode += "        " + tbl_out_1 + ".setcharN<char, " + getStringLengthMacro(columnDictionary(_groupBy_operation(0))) + " + 1>(r, " + outputCols_idx + ", " + key_col + ");"
+                      _fpgaSWFuncCode += "        " + tbl_out_1 + ".setcharN<char, " + getStringLengthMacro(columnTableMap(_groupBy_operation(0))) + " + 1>(r, " + outputCols_idx + ", " + key_col + ");"
                     }
                   } else {
                     _fpgaSWFuncCode += "        // Unsupported payload type"
@@ -7672,7 +7674,7 @@ class SQL2FPGA_QPlan {
                     if (_stringRowIDSubstitution) {
                       _fpgaSWFuncCode += "        int32_t " + col_symbol + " = " + col_expr + ";"
                     } else {
-                      _fpgaSWFuncCode += "        std::array<char, " + getStringLengthMacro(columnDictionary(col_symbol)) + " + 1> " + col_symbol + " = " + col_expr + ";"
+                      _fpgaSWFuncCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(col_symbol)) + " + 1> " + col_symbol + " = " + col_expr + ";"
                     }
                   } else if (col_type == "DoubleType") {
                     _fpgaSWFuncCode += "        int64_t " + col_symbol + " = " + col_expr + ";"
@@ -7734,7 +7736,7 @@ class SQL2FPGA_QPlan {
                   if (_stringRowIDSubstitution) {
                     _fpgaSWFuncCode += "    int32_t " + col_symbol_trimmed + " = " + col_expr + ";"
                   } else {
-                    _fpgaSWFuncCode += "    std::array<char, " + getStringLengthMacro(columnDictionary(col_symbol_trimmed)) + " + 1> " + col_symbol_trimmed + " = " + col_expr + ";"
+                    _fpgaSWFuncCode += "    std::array<char, " + getStringLengthMacro(columnTableMap(col_symbol_trimmed)) + " + 1> " + col_symbol_trimmed + " = " + col_expr + ";"
                   }
                 } else if (col_type == "DoubleType") {
                   columnDictionary(col_symbol) = ("LongType", "NULL")
@@ -7824,15 +7826,15 @@ class SQL2FPGA_QPlan {
                   }
                   //find the col index of the string data in the original stringRowID table
                   if (orig_tbl_idx == -1 && orig_tbl_col_idx == -1) {
-                    _fpgaSWFuncCode += "        std::array<char, " + getStringLengthMacro(columnDictionary(ch)) + " + 1> " + input_col_symbol + " = " + tbl_in_1 + ".getcharN<char, " + getStringLengthMacro(columnDictionary(ch)) + " + 1>(i, " + i + ");"
+                    _fpgaSWFuncCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(ch)) + " + 1> " + input_col_symbol + " = " + tbl_in_1 + ".getcharN<char, " + getStringLengthMacro(columnTableMap(ch)) + " + 1>(i, " + i + ");"
                   }
                   else {
                     var rowIDNum = tbl_in_1 + ".getInt32(i, " + i + ")"
-                    _fpgaSWFuncCode += "        std::array<char, " + getStringLengthMacro(columnDictionary(ch)) + " + 1> " + input_col_symbol + " = " + orig_table_names(orig_tbl_idx) + ".getcharN<char, " + getStringLengthMacro(columnDictionary(ch)) + " + 1>(" + rowIDNum + ", " + orig_tbl_col_idx + ");"
+                    _fpgaSWFuncCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(ch)) + " + 1> " + input_col_symbol + " = " + orig_table_names(orig_tbl_idx) + ".getcharN<char, " + getStringLengthMacro(columnTableMap(ch)) + " + 1>(" + rowIDNum + ", " + orig_tbl_col_idx + ");"
                   }
                 }
                 else {
-                  _fpgaSWFuncCode += "        std::array<char, " + getStringLengthMacro(columnDictionary(ch)) + " + 1> " + input_col_symbol + " = " + tbl_in_1 + ".getcharN<char, " + getStringLengthMacro(columnDictionary(ch)) + " + 1>(i, " + i + ");"
+                  _fpgaSWFuncCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(ch)) + " + 1> " + input_col_symbol + " = " + tbl_in_1 + ".getcharN<char, " + getStringLengthMacro(columnTableMap(ch)) + " + 1>(i, " + i + ");"
                 }
               } else {
                 _fpgaSWFuncCode += "        // Unsupported input Type"
@@ -7861,13 +7863,13 @@ class SQL2FPGA_QPlan {
                 if (expr.children(0).getClass.getName == "org.apache.spark.sql.catalyst.expressions.Substring") {
                   columnDictionary(col_symbol) = (col_type, expr.children(0).children(2).toString);
                   _fpgaSWFuncCode += "        std::string " + col_symbol_trimmed + "_str" + " = " + col_expr + ";"
-                  _fpgaSWFuncCode += "        std::array<char, " + getStringLengthMacro(columnDictionary(col_symbol)) + " + 1> " + col_symbol_trimmed + "{};"
+                  _fpgaSWFuncCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(col_symbol)) + " + 1> " + col_symbol_trimmed + "{};"
                   _fpgaSWFuncCode += "        memcpy(" + col_symbol_trimmed + ".data(), " + col_symbol_trimmed + "_str.data(), " + "(" + col_symbol_trimmed + "_str).length());"
-                  _fpgaSWFuncCode += "        " + tbl_out_1 + ".setcharN<char, " + getStringLengthMacro(columnDictionary(col_symbol)) + " + 1>(i, " + outputCols_idx + ", " + col_symbol_trimmed + ");"
+                  _fpgaSWFuncCode += "        " + tbl_out_1 + ".setcharN<char, " + getStringLengthMacro(columnTableMap(col_symbol)) + " + 1>(i, " + outputCols_idx + ", " + col_symbol_trimmed + ");"
                 } else {
                   columnDictionary(col_symbol) = columnDictionary(expr.references.head.toString)
-                  _fpgaSWFuncCode += "        std::array<char, " + getStringLengthMacro(columnDictionary(col_symbol)) + " + 1> " + col_symbol_trimmed + " = " + col_expr + ";"
-                  _fpgaSWFuncCode += "        " + tbl_out_1 + ".setcharN<char, " + getStringLengthMacro(columnDictionary(col_symbol)) + " + 1>(i, " + outputCols_idx + ", " + col_symbol_trimmed + ");"
+                  _fpgaSWFuncCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(col_symbol)) + " + 1> " + col_symbol_trimmed + " = " + col_expr + ";"
+                  _fpgaSWFuncCode += "        " + tbl_out_1 + ".setcharN<char, " + getStringLengthMacro(columnTableMap(col_symbol)) + " + 1>(i, " + outputCols_idx + ", " + col_symbol_trimmed + ");"
                 }
               } else if (col_type == "DoubleType") {
                 columnDictionary(col_symbol) = ("LongType", "NULL")
@@ -7887,7 +7889,7 @@ class SQL2FPGA_QPlan {
                 } else if (input_col_type == "LongType") {
                   _fpgaSWFuncCode += "        " + tbl_out_1 + ".setInt64(i, " + outputCols_idx + ", " + input_col_symbol + ");"
                 } else if (input_col_type == "StringType") {
-                  _fpgaSWFuncCode += "        " + tbl_out_1 + ".setcharN<char, " + getStringLengthMacro(columnDictionary(col.split("#").head)) + " + 1>(i, " + outputCols_idx + ", " + input_col_symbol + ");"
+                  _fpgaSWFuncCode += "        " + tbl_out_1 + ".setcharN<char, " + getStringLengthMacro(columnTableMap(col.split("#").head)) + " + 1>(i, " + outputCols_idx + ", " + input_col_symbol + ");"
                 } else if (input_col_type == "DoubleType") {
                   _fpgaSWFuncCode += "        " + tbl_out_1 + ".setInt64(i, " + outputCols_idx + ", " + input_col_symbol + ");"
                 } else {
@@ -8013,15 +8015,15 @@ class SQL2FPGA_QPlan {
                   }
                   //find the col index of the string data in the original stringRowID table
                   if (orig_tbl_idx == -1 && orig_tbl_col_idx == -1) {
-                    _fpgaSWFuncCode += "        std::array<char, " + getStringLengthMacro(columnDictionary(col)) + " + 1> " + input_col_symbol + " = " + tbl_in_1 + ".getcharN<char, " + getStringLengthMacro(columnDictionary(col)) + " + 1>(i, " + i + ");"
+                    _fpgaSWFuncCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(col)) + " + 1> " + input_col_symbol + " = " + tbl_in_1 + ".getcharN<char, " + getStringLengthMacro(columnTableMap(col)) + " + 1>(i, " + i + ");"
                   }
                   else {
                     var rowIDNum = tbl_in_1 + ".getInt32(i, " + i + ")"
-                    _fpgaSWFuncCode += "        std::array<char, " + getStringLengthMacro(columnDictionary(col)) + " + 1> " + input_col_symbol + " = " + orig_table_names(orig_tbl_idx) + ".getcharN<char, " + getStringLengthMacro(columnDictionary(col)) + " + 1>(" + rowIDNum + ", " + orig_tbl_col_idx + ");"
+                    _fpgaSWFuncCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(col)) + " + 1> " + input_col_symbol + " = " + orig_table_names(orig_tbl_idx) + ".getcharN<char, " + getStringLengthMacro(columnTableMap(col)) + " + 1>(" + rowIDNum + ", " + orig_tbl_col_idx + ");"
                   }
                 }
                 else {
-                  _fpgaSWFuncCode += "        std::array<char, " + getStringLengthMacro(columnDictionary(col)) + " + 1> " + input_col_symbol + " = " + tbl_in_1 + ".getcharN<char, " + getStringLengthMacro(columnDictionary(col)) + " +1>(i, " + i + ");"
+                  _fpgaSWFuncCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(col)) + " + 1> " + input_col_symbol + " = " + tbl_in_1 + ".getcharN<char, " + getStringLengthMacro(columnTableMap(col)) + " +1>(i, " + i + ");"
                 }
                 rowString += "std::string(" + input_col_symbol + ".data()),"
               } else {
@@ -8055,9 +8057,9 @@ class SQL2FPGA_QPlan {
                 printOutString += " << " + "it." + formatted_col + " << " + "\" \""
               }
               else if (output_col_type == "StringType") {
-                _fpgaSWFuncCode += "        std::array<char, " + getStringLengthMacro(columnDictionary(col)) + " + 1> " + formatted_col + "{};"
+                _fpgaSWFuncCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(col)) + " + 1> " + formatted_col + "{};"
                 _fpgaSWFuncCode += "        memcpy(" + formatted_col + ".data(), (it." + formatted_col + ").data(), (it." + formatted_col + ").length());"
-                _fpgaSWFuncCode += "        " + tbl_out_1 + ".setcharN<char, " + getStringLengthMacro(columnDictionary(col)) + " +1>(r, " + i + ", " + formatted_col + ");"
+                _fpgaSWFuncCode += "        " + tbl_out_1 + ".setcharN<char, " + getStringLengthMacro(columnTableMap(col)) + " +1>(r, " + i + ", " + formatted_col + ");"
                 printOutString += " << " + "(it." + formatted_col + ").data()" + " << " + "\" \""
               } else {
                 _fpgaSWFuncCode += "        // Unsupported input column type"
@@ -8181,9 +8183,9 @@ class SQL2FPGA_QPlan {
         var tbl_name_fpga_table = "tbl_" + _fpgaNodeName + "_output" + "_preprocess"
         var tbl_name = "tbl_" + _fpgaNodeName + "_output"
 
-        if (_cpuORfpga == 1) {
-          max_num_rows = _numTableRow
-        }
+       // if (_cpuORfpga == 1) {
+       //   max_num_rows = _numTableRow
+       // }
 
         var intermediate_num_cols = 0
         var part_tbl_name = ""
