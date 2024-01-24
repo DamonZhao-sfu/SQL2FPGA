@@ -17,7 +17,7 @@ object SQL2FPGA_Top {
   qConfig.tpch_queryNum_start = 1
   qConfig.tpch_queryNum_end = 22
   // 2,20
-  qConfig.tpch_queryNum_list = ListBuffer(18) // 3, 13, 15, 18, 20
+  qConfig.tpch_queryNum_list = ListBuffer(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22) // 3, 13, 15, 18, 20
   qConfig.tpcds_queryNum_start = 1
   qConfig.tpcds_queryNum_end = 22
   qConfig.tpcds_queryNum_list = ListBuffer(1) // 1, 2, 3, 5, 6, 7, 8, 9
@@ -114,7 +114,7 @@ object SQL2FPGA_Top {
       // cascaded-join transformations
       if (qConfig.query_plan_optimization_enable(0) == '1') {
         // TODO: HAIKAI 20240107 Query 2 has join reorder has bug
-        if (queryNo != 9 && queryNo != 10 && queryNo != 4 && queryNo != 2)
+        if (queryNo != 9 && queryNo != 10 && queryNo != 4 && queryNo !=2)
           qParser.qPlan.applyCascadedJoinOptTransform(qParser, queryNo, qConfig, schemaProvider.dfMap)
       }
       // stringDataType transformations

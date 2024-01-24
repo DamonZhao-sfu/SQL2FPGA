@@ -5196,6 +5196,7 @@ class SQL2FPGA_QPlan {
       allCascadeJoinChains_trimmed(0).last._children(1) = joinNode
       AggrNode._children(0) = allCascadeJoinChains_trimmed(0).last
       allCascadeJoinChains_trimmed(0).last._outputCols += "ps_partkey#305"
+      //allCascadeJoinChains_trimmed(1).head._outputCols += "ps_partkey#305"
     }
 
     return true
@@ -7636,7 +7637,19 @@ class SQL2FPGA_QPlan {
               } else {
                 var key_type = getColumnType(_groupBy_operation(0), dfmap)
                 var key_col = stripColumnName(_groupBy_operation(0))
+                // hack for Q2: ps_partkey#329
+                /*var outputCols_idx = -1
+                if (queryNum == 2 && key_col.contains("ps_partkey")) {
+                  for (outputCol <- outputCols) {
+                    if (outputCol.contains("ps_partkey")) {
+                      outputCols_idx = outputCols.indexOf(outputCol)
+                    }
+                  }
+                } else {
+                  outputCols_idx = outputCols.indexOf(_groupBy_operation(0))
+                }*/
                 var outputCols_idx = outputCols.indexOf(_groupBy_operation(0))
+
                 if (outputCols_idx < 0) { //not found in the output table
                   _fpgaSWFuncCode += "        // " + key_col + " not required in the output table"
                 } else {
@@ -8338,10 +8351,6 @@ class SQL2FPGA_QPlan {
         _fpgaInputTableName = tbl_name
         var tbl = columnTableMap(_inputCols.head.split("#").head)._1
         var num_cols = _inputCols.length
-
-        // Table tbl_SerializeFromObject_TD_6605_input;
-        // tbl_SerializeFromObject_TD_6605_input = Table("partsupp", partsupp_n, 3, in_dir);
-        // tbl_SerializeFromObject_TD_6605_input.addCol("ps_partkey", 4);
 
         inputTblCode += "Table " + tbl_name + ";"
         inputTblCode += tbl_name + " = Table(\"" + tbl + "\", " + tbl + "_n, " + num_cols + ", in_dir," + " \"" + format + "\");"
@@ -9205,7 +9214,7 @@ class SQL2FPGA_QPlan {
         }
         else if (aggr_operator == null && ss2 < idx_col_dict_next.size) { // input cols - no aggr
           var col_name = idx_col_dict_next(ss2)
-          var prev_col_idx = col_idx_dict_prev(col_name.split("#").head) // TODO Q2 join reorder bug
+          var prev_col_idx = col_idx_dict_prev(col_name.split("#").head)
           cfgFuncCode += "    shuffle2_cfg(" + ((ss2 + 1) * 8 - 1).toString + ", " + (ss2 * 8).toString + ") = " + prev_col_idx.toString + ";" + " // " + col_name
         }
         else {
