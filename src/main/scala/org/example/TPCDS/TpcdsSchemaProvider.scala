@@ -55,7 +55,7 @@ case class Customer_demographics(
 case class Date_dim(
                            d_date_sk           : Int, //bigint
                            d_date_id           : String,
-                           d_date              : Int,
+                           d_date              : Int, //date
                            d_month_seq         : Int,
                            d_week_seq          : Int,
                            d_quarter_seq       : Int,
@@ -100,8 +100,8 @@ case class tpcds_income_band(
 case class Item(
                        i_item_sk       : Int, //bigint,
                        i_item_id       : String,
-                       i_rec_start_date: String,
-                       i_rec_end_date  : String,
+                       i_rec_start_date: Int, //date
+                       i_rec_end_date  : Int,  //date
                        i_item_desc     : String,
                        i_current_price : Int, //decimal(7,2)
                        i_wholesale_cost: Int, //decimal(7,2)
@@ -162,8 +162,8 @@ case class tpcds_ship_mode(
 case class Store(
                         s_store_sk          : Int, //bigint
                         s_store_id          : String,
-                        s_rec_start_date    : String,
-                        s_rec_end_date      : String,
+                        s_rec_start_date    : Int, //date
+                        s_rec_end_date      : Int, //date
                         s_closed_date_sk    : Int, //bigint,
                         s_store_name        : String,
                         s_number_employees  : Int ,
@@ -224,8 +224,8 @@ case class tpcds_warehouse(
   case class tpcds_web_site(
                              web_site_sk         : Int , //bigint
                              web_site_id         : String ,
-                             web_rec_start_date  : String ,
-                             web_rec_end_date    : String ,
+                             web_rec_start_date  : Int , //date
+                             web_rec_end_date    : Int , //date
                              web_name            : String ,
                              web_open_date_sk    : Int , //bigint
                              web_close_date_sk   : Int , //bigint
@@ -253,8 +253,8 @@ case class tpcds_warehouse(
   case class tpcds_web_page(
                              wp_web_page_sk      : Int, //bigint
                              wp_web_page_id      : String ,
-                             wp_rec_start_date   : String ,
-                             wp_rec_end_date     : String ,
+                             wp_rec_start_date   : Int , //date
+                             wp_rec_end_date     : Int , //date
                              wp_creation_date_sk : Int, //bigint
                              wp_access_date_sk   : Int, //bigint
                              wp_autogen_flag     : String ,
@@ -364,8 +364,8 @@ case class tpcds_warehouse(
   case class tpcds_call_center(
                                 cc_call_center_sk   : Int , //bigint
                                 cc_call_center_id   : String,
-                                cc_rec_start_date   : String,
-                                cc_rec_end_date     : String,
+                                cc_rec_start_date   : Int, // int
+                                cc_rec_end_date     : Int, // int
                                 cc_closed_date_sk   : Int ,
                                 cc_open_date_sk     : Int ,
                                 cc_name             : String,
@@ -500,10 +500,394 @@ case class tpcds_warehouse(
                                 ss_net_profit             : Int  //decimal(7,2)
                               )
 
-class TpcdsSchemaProvider(sc: SparkSession, inputDir: String) {
+class TpcdsSchemaProvider(sc: SparkSession, inputDir: String, format: String) {
   import sc.implicits._
 
+
   val dfMap = Map(
+  "customer" -> sc.read.format(format)
+  .load("file://" + inputDir + "/customer")
+  .map(row => {
+    Customer_tpcds(
+  c_customer_sk = row.getAs[Long]("c_customer_sk").toInt,
+  c_customer_id = row.getAs[String]("c_customer_id"),
+  c_current_cdemo_sk = row.getAs[Long]("c_current_cdemo_sk").toInt,
+  c_current_hdemo_sk = row.getAs[Long]("c_current_hdemo_sk").toInt,
+  c_current_addr_sk = row.getAs[Long]("c_current_addr_sk").toInt,
+  c_first_shipto_date_sk = row.getAs[Long]("c_first_shipto_date_sk").toInt,
+  c_first_sales_date_sk = row.getAs[Long]("c_first_sales_date_sk").toInt,
+  c_salutation = row.getAs[String]("c_salutation"),
+  c_first_name = row.getAs[String]("c_first_name"),
+  c_last_name = row.getAs[String]("c_last_name"),
+  c_preferred_cust_flag = row.getAs[String]("c_preferred_cust_flag"),
+  c_birth_day = row.getAs[Int]("c_birth_day"),
+  c_birth_month = row.getAs[Int]("c_birth_month"),
+  c_birth_year = row.getAs[Int]("c_birth_year"),
+  c_birth_country = row.getAs[String]("c_birth_country"),
+  c_login = row.getAs[String]("c_login"),
+  c_email_address = row.getAs[String]("c_email_address"),
+  c_last_review_date = row.getAs[String]("c_last_review_date")
+  )
+  }).toDF(),
+
+   "customer_address" -> sc.read.format(format)
+  .load("file://" + inputDir + "/customer_address")
+  .map(row => {
+    Customer_address(
+  ca_address_sk = row.getAs[Long]("ca_address_sk").toInt,
+  ca_address_id = row.getAs[String]("ca_address_id"),
+  ca_street_number = row.getAs[String]("ca_street_number"),
+  ca_street_name = row.getAs[String]("ca_street_name"),
+  ca_street_type = row.getAs[String]("ca_street_type"),
+  ca_suite_number = row.getAs[String]("ca_suite_number"),
+  ca_city = row.getAs[String]("ca_city"),
+  ca_county = row.getAs[String]("ca_county"),
+  ca_state = row.getAs[String]("ca_state"),
+  ca_zip = row.getAs[String]("ca_zip"),
+  ca_country = row.getAs[String]("ca_country"),
+  // Multiply by 100 to convert decimal(5,2) to an integer representation
+  ca_gmt_offset = row.getAs[java.math.BigDecimal]("ca_gmt_offset").multiply(new java.math.BigDecimal("100")).intValueExact(),
+  ca_location_type = row.getAs[String]("ca_location_type")
+  )}).toDF(),
+
+   "customer_demographics" -> sc.read.format(format)
+  .load("file://" + inputDir + "/customer_demographics")
+  .map(row => {
+    Customer_demographics(
+      cd_demo_sk = row.getAs[Long]("cd_demo_sk").toInt, 
+  cd_gender = row.getAs[String]("cd_gender"),
+  cd_marital_status = row.getAs[String]("cd_marital_status"),
+  cd_education_status = row.getAs[String]("cd_education_status"),
+  cd_purchase_estimate = row.getAs[Int]("cd_purchase_estimate"),
+  cd_credit_rating = row.getAs[String]("cd_credit_rating"),
+  cd_dep_count = row.getAs[Int]("cd_dep_count"),
+  cd_dep_employed_count = row.getAs[Int]("cd_dep_employed_count"),
+  cd_dep_college_count = row.getAs[Int]("cd_dep_college_count")
+    )
+  }).toDF(),
+
+
+  "date_dim" -> sc.read.format(format)
+  .load("file://" + inputDir + "/date_dim")
+  .map(row => {
+    Date_dim(
+  d_date_sk = row.getAs[Long]("d_date_sk").toInt,
+  d_date_id = row.getAs[String]("d_date_id"),
+  d_date = row.getAs[java.sql.Date]("d_date").toString.replace("-", "").toInt,
+  d_month_seq = row.getAs[Int]("d_month_seq"),
+  d_week_seq = row.getAs[Int]("d_week_seq"),
+  d_quarter_seq = row.getAs[Int]("d_quarter_seq"),
+  d_year = row.getAs[Int]("d_year"),
+  d_dow = row.getAs[Int]("d_dow"),
+  d_moy = row.getAs[Int]("d_moy"),
+  d_dom = row.getAs[Int]("d_dom"),
+  d_qoy = row.getAs[Int]("d_qoy"),
+  d_fy_year = row.getAs[Int]("d_fy_year"),
+  d_fy_quarter_seq = row.getAs[Int]("d_fy_quarter_seq"),
+  d_fy_week_seq = row.getAs[Int]("d_fy_week_seq"),
+  d_day_name = row.getAs[String]("d_day_name"),
+  d_quarter_name = row.getAs[String]("d_quarter_name"),
+  d_holiday = row.getAs[String]("d_holiday"),
+  d_weekend = row.getAs[String]("d_weekend"),
+  d_following_holiday = row.getAs[String]("d_following_holiday"),
+  d_first_dom = row.getAs[Int]("d_first_dom"),
+  d_last_dom = row.getAs[Int]("d_last_dom"),
+  d_same_day_ly = row.getAs[Int]("d_same_day_ly"),
+  d_same_day_lq = row.getAs[Int]("d_same_day_lq"),
+  d_current_day = row.getAs[String]("d_current_day"),
+  d_current_week = row.getAs[String]("d_current_week"),
+  d_current_month = row.getAs[String]("d_current_month"),
+  d_current_quarter = row.getAs[String]("d_current_quarter"),
+  d_current_year = row.getAs[String]("d_current_year")
+    )
+  }).toDF(),
+
+
+  "household_demographics" -> sc.read.format(format)
+  .load("file://" + inputDir + "/household_demographics")
+  .map(row => {
+    Household_demographics(
+  hd_demo_sk = row.getAs[Long]("hd_demo_sk").toInt,        
+  hd_income_band_sk = row.getAs[Long]("hd_income_band_sk").toInt, 
+  hd_buy_potential = row.getAs[String]("hd_buy_potential"),
+  hd_dep_count = row.getAs[Int]("hd_dep_count"),
+  hd_vehicle_count = row.getAs[Int]("hd_vehicle_count")
+    )
+  }).toDF(),
+
+ "incomes_band" -> sc.read.format(format)
+  .load("file://" + inputDir + "/income_band")
+  .map(row => {
+    tpcds_income_band(
+ib_income_band_sk = row.getAs[Long]("ib_income_band_sk").toInt, // Convert from Long to Int
+  ib_lower_bound = row.getAs[Int]("ib_lower_bound"),
+  ib_upper_bound = row.getAs[Int]("ib_upper_bound")
+    )
+  }).toDF(),
+
+  "item" ->  sc.read.format(format)
+  .load("file://" + inputDir + "/item")
+  .map(row => Item(
+    i_item_sk = row.getAs[Long]("i_item_sk").toInt,
+    i_item_id = row.getAs[String]("i_item_id"),
+    i_rec_start_date = row.getAs[java.sql.Date]("i_rec_start_date").toString.replace("-", "").toInt,
+    i_rec_end_date = row.getAs[java.sql.Date]("i_rec_end_date").toString.replace("-", "").toInt,
+    i_item_desc = row.getAs[String]("i_item_desc"),
+    i_current_price = row.getAs[java.math.BigDecimal]("i_current_price").multiply(new java.math.BigDecimal("100")).intValueExact(),
+    i_wholesale_cost = row.getAs[java.math.BigDecimal]("i_wholesale_cost").multiply(new java.math.BigDecimal("100")).intValueExact(),
+    i_brand_id = row.getAs[Int]("i_brand_id"),
+    i_brand = row.getAs[String]("i_brand"),
+    i_class_id = row.getAs[Int]("i_class_id"),
+    i_class = row.getAs[String]("i_class"),
+    i_category_id = row.getAs[Int]("i_category_id"),
+    i_category = row.getAs[String]("i_category"),
+    i_manufact_id = row.getAs[Int]("i_manufact_id"),
+    i_manufact = row.getAs[String]("i_manufact"),
+    i_size = row.getAs[String]("i_size"),
+    i_formulation = row.getAs[String]("i_formulation"),
+    i_color = row.getAs[String]("i_color"),
+    i_units = row.getAs[String]("i_units"),
+    i_container = row.getAs[String]("i_container"),
+    i_manager_id = row.getAs[Int]("i_manager_id"),
+    i_product_name = row.getAs[String]("i_product_name")
+  )).toDF(),
+
+  "promotion" -> sc.read.format(format)
+  .load("file://" + inputDir + "/promotion")
+  .map(row => Promotion(
+    p_promo_sk = row.getAs[Long]("p_promo_sk").toInt,
+    p_promo_id = row.getAs[String]("p_promo_id"),
+    p_start_date_sk = row.getAs[Long]("p_start_date_sk").toInt,
+    p_end_date_sk = row.getAs[Long]("p_end_date_sk").toInt,
+    p_item_sk = row.getAs[Long]("p_item_sk").toInt,
+    p_cost = row.getAs[java.math.BigDecimal]("p_cost").multiply(new java.math.BigDecimal("100")).intValueExact(),
+    p_response_target = row.getAs[Int]("p_response_target"),
+    p_promo_name = row.getAs[String]("p_promo_name"),
+    p_channel_dmail = row.getAs[String]("p_channel_dmail"),
+    p_channel_email = row.getAs[String]("p_channel_email"),
+    p_channel_catalog = row.getAs[String]("p_channel_catalog"),
+    p_channel_tv = row.getAs[String]("p_channel_tv"),
+    p_channel_radio = row.getAs[String]("p_channel_radio"),
+    p_channel_press = row.getAs[String]("p_channel_press"),
+    p_channel_event = row.getAs[String]("p_channel_event"),
+    p_channel_demo = row.getAs[String]("p_channel_demo"),
+    p_channel_details = row.getAs[String]("p_channel_details"),
+    p_purpose = row.getAs[String]("p_purpose"),
+    p_discount_active = row.getAs[String]("p_discount_active")
+  )).toDF(),
+
+    "reason" -> sc.read.format(format)
+  .load("file://" + inputDir + "/reason")
+  .map(row => tpcds_reason(
+    r_reason_sk = row.getAs[Long]("r_reason_sk").toInt,  // Convert from Long to Int
+    r_reason_id = row.getAs[String]("r_reason_id"),
+    r_reason_desc = row.getAs[String]("r_reason_desc")
+  )).toDF(),
+
+   "ship_mode" -> sc.read.format(format)
+  .load("file://" + inputDir +  "/ship_mode")
+  .map(row => tpcds_ship_mode(
+    sm_ship_mode_sk = row.getAs[Long]("sm_ship_mode_sk").toInt,  // Convert from Long to Int
+    sm_ship_mode_id = row.getAs[String]("sm_ship_mode_id"),
+    sm_type = row.getAs[String]("sm_type"),
+    sm_code = row.getAs[String]("sm_code"),
+    sm_carrier = row.getAs[String]("sm_carrier"),
+    sm_contract = row.getAs[String]("sm_contract")
+  )).toDF(),
+
+    "store" -> sc.read.format(format)
+  .load("file://" + inputDir + "/store")
+  .map(row => Store(
+    s_store_sk = row.getAs[Long]("s_store_sk").toInt,  // Convert from Long to Int
+    s_store_id = row.getAs[String]("s_store_id"),
+    s_rec_start_date = row.getAs[java.sql.Date]("s_rec_start_date").toString.replace("-", "").toInt,  // Convert date to Int
+    s_rec_end_date = row.getAs[java.sql.Date]("s_rec_end_date").toString.replace("-", "").toInt,  // Convert date to Int
+    s_closed_date_sk = row.getAs[Long]("s_closed_date_sk").toInt,  // Convert from Long to Int, if nullable handle nulls
+    s_store_name = row.getAs[String]("s_store_name"),
+    s_number_employees = row.getAs[Int]("s_number_employees"),
+    s_floor_space = row.getAs[Int]("s_floor_space"),
+    s_hours = row.getAs[String]("s_hours"),
+    s_manager = row.getAs[String]("s_manager"),
+    s_market_id = row.getAs[Int]("s_market_id"),
+    s_geography_class = row.getAs[String]("s_geography_class"),
+    s_market_desc = row.getAs[String]("s_market_desc"),
+    s_market_manager = row.getAs[String]("s_market_manager"),
+    s_division_id = row.getAs[Int]("s_division_id"),
+    s_division_name = row.getAs[String]("s_division_name"),
+    s_company_id = row.getAs[Int]("s_company_id"),
+    s_company_name = row.getAs[String]("s_company_name"),
+    s_street_number = row.getAs[String]("s_street_number"),
+    s_street_name = row.getAs[String]("s_street_name"),
+    s_street_type = row.getAs[String]("s_street_type"),
+    s_suite_number = row.getAs[String]("s_suite_number"),
+    s_city = row.getAs[String]("s_city"),
+    s_county = row.getAs[String]("s_county"),
+    s_state = row.getAs[String]("s_state"),
+    s_zip = row.getAs[String]("s_zip"),
+    s_country = row.getAs[String]("s_country"),
+    s_gmt_offset = row.getAs[java.math.BigDecimal]("s_gmt_offset").multiply(new java.math.BigDecimal("100")).intValueExact(),  // Convert from decimal to Int
+    s_tax_precentage = row.getAs[java.math.BigDecimal]("s_tax_precentage").multiply(new java.math.BigDecimal("100")).intValueExact()  // Convert from decimal to Int
+  )).toDF(),
+
+   "time_dim" -> sc.read.format(format)
+  .load("file://" + inputDir + "/time_dim")
+  .map(row => Time_dim(
+    t_time_sk = row.getAs[Long]("t_time_sk").toInt, // 将Long类型转换为Int类型
+    t_time_id = row.getAs[String]("t_time_id"),
+    t_time = row.getAs[Int]("t_time"),
+    t_hour = row.getAs[Int]("t_hour"),
+    t_minute = row.getAs[Int]("t_minute"),
+    t_second = row.getAs[Int]("t_second"),
+    t_am_pm = row.getAs[String]("t_am_pm"),
+    t_shift = row.getAs[String]("t_shift"),
+    t_sub_shift = row.getAs[String]("t_sub_shift"),
+    t_meal_time = row.getAs[String]("t_meal_time")
+  )).toDF(),
+
+
+  "warehouse" -> sc.read.format(format)
+  .load("file://" + inputDir + "/warehouse")
+  .map(row => tpcds_warehouse(
+    w_warehouse_sk = row.getAs[Long]("w_warehouse_sk").toInt, // 将bigint转换为Int
+    w_warehouse_id = row.getAs[String]("w_warehouse_id"),
+    w_warehouse_name = row.getAs[String]("w_warehouse_name"),
+    w_warehouse_sq_ft = row.getAs[Int]("w_warehouse_sq_ft"),
+    w_street_number = row.getAs[String]("w_street_number"),
+    w_street_name = row.getAs[String]("w_street_name"),
+    w_street_type = row.getAs[String]("w_street_type"),
+    w_suite_number = row.getAs[String]("w_suite_number"),
+    w_city = row.getAs[String]("w_city"),
+    w_county = row.getAs[String]("w_county"),
+    w_state = row.getAs[String]("w_state"),
+    w_zip = row.getAs[String]("w_zip"),
+    w_country = row.getAs[String]("w_country"),
+    w_gmt_offset = row.getAs[java.math.BigDecimal]("w_gmt_offset").multiply(new java.math.BigDecimal("100")).intValueExact() // 将decimal(5,2)转换为Int
+  )).toDF(),
+
+  "web_site" -> sc.read.format(format)
+  .load("file://" + inputDir + "/web_site")
+  .map(row => tpcds_web_site(
+    web_site_sk = row.getAs[Long]("web_site_sk").toInt, // Convert bigint to Int
+    web_site_id = row.getAs[String]("web_site_id"),
+    web_rec_start_date = row.getAs[java.sql.Date]("web_rec_start_date").toString.replace("-", "").toInt, // Convert date to Int
+    web_rec_end_date = row.getAs[java.sql.Date]("web_rec_end_date").toString.replace("-", "").toInt, // Convert date to Int
+    web_name = row.getAs[String]("web_name"),
+    web_open_date_sk = row.getAs[Long]("web_open_date_sk").toInt, // Convert bigint to Int
+    web_close_date_sk = row.getAs[Long]("web_close_date_sk").toInt, // Convert bigint to Int
+    web_class = row.getAs[String]("web_class"),
+    web_manager = row.getAs[String]("web_manager"),
+    web_mkt_id = row.getAs[Int]("web_mkt_id"),
+    web_mkt_class = row.getAs[String]("web_mkt_class"),
+    web_mkt_desc = row.getAs[String]("web_mkt_desc"),
+    web_market_manager = row.getAs[String]("web_market_manager"),
+    web_company_id = row.getAs[Int]("web_company_id"),
+    web_company_name = row.getAs[String]("web_company_name"),
+    web_street_number = row.getAs[String]("web_street_number"),
+    web_street_name = row.getAs[String]("web_street_name"),
+    web_street_type = row.getAs[String]("web_street_type"),
+    web_suite_number = row.getAs[String]("web_suite_number"),
+    web_city = row.getAs[String]("web_city"),
+    web_county = row.getAs[String]("web_county"),
+    web_state = row.getAs[String]("web_state"),
+    web_zip = row.getAs[String]("web_zip"),
+    web_country = row.getAs[String]("web_country"),
+    web_gmt_offset = row.getAs[java.math.BigDecimal]("web_gmt_offset").multiply(new java.math.BigDecimal("100")).intValueExact(), // Convert decimal to Int
+    web_tax_percentage = row.getAs[java.math.BigDecimal]("web_tax_percentage").multiply(new java.math.BigDecimal("100")).intValueExact() // Convert decimal to Int
+  )).toDF(),
+
+  "web_page" -> sc.read.format(format)
+  .load("file://" + inputDir + "/web_page")
+  .map(row => web_page(
+    wp_web_page_sk = row.getAs[Long]("wp_web_page_sk").toInt, // Convert bigint to Int
+    wp_web_page_id = row.getAs[String]("wp_web_page_id"),
+    wp_rec_start_date = row.getAs[java.sql.Date]("wp_rec_start_date").toString.replace("-", "").toInt, // Convert date to Int
+    wp_rec_end_date = row.getAs[java.sql.Date]("wp_rec_end_date").toString.replace("-", "").toInt, // Convert date to Int
+    wp_creation_date_sk = row.getAs[Long]("wp_creation_date_sk").toInt, // Convert bigint to Int
+    wp_access_date_sk = row.getAs[Long]("wp_access_date_sk").toInt, // Convert bigint to Int
+    wp_autogen_flag = row.getAs[String]("wp_autogen_flag"),
+    wp_customer_sk = row.getAs[Long]("wp_customer_sk").toInt, // Convert bigint to Int
+    wp_url = row.getAs[String]("wp_url"),
+    wp_type = row.getAs[String]("wp_type"),
+    wp_char_count = row.getAs[Int]("wp_char_count"),
+    wp_link_count = row.getAs[Int]("wp_link_count"),
+    wp_image_count = row.getAs[Int]("wp_image_count"),
+    wp_max_ad_count = row.getAs[Int]("wp_max_ad_count")
+  )).toDF(),
+
+  "inventory" -> sc.read.format(format)
+  .load("file://" + inputDir + "/inventory")
+  .map(row => inventory(
+    inv_date_sk = row.getAs[Long]("inv_date_sk").toInt, // Cast bigint to Int
+    inv_item_sk = row.getAs[Long]("inv_item_sk").toInt, // Cast bigint to Int
+    inv_warehouse_sk = row.getAs[Long]("inv_warehouse_sk").toInt, // Cast bigint to Int
+    inv_quantity_on_hand = row.getAs[Int]("inv_quantity_on_hand")
+  )).toDF(),
+
+  "store_returns" -> sc.read.format(format)
+  .load("file://" + inputDir + "/store_returns")
+  .map(
+    sr_returned_date_sk     = row.getAs[Long]("sr_returned_date_sk").toInt,
+    sr_return_time_sk       = row.getAs[Long]("sr_return_time_sk").toInt,
+    sr_item_sk              = row.getAs[Long]("sr_item_sk").toInt,
+    sr_customer_sk          = row.getAs[Long]("sr_customer_sk").toInt,
+    sr_cdemo_sk             = row.getAs[Long]("sr_cdemo_sk").toInt,
+    sr_hdemo_sk             = row.getAs[Long]("sr_hdemo_sk").toInt,
+    sr_addr_sk              = row.getAs[Long]("sr_addr_sk").toInt,
+    sr_store_sk             = row.getAs[Long]("sr_store_sk").toInt,
+    sr_reason_sk            = row.getAs[Long]("sr_reason_sk").toInt,
+    sr_ticket_number        = row.getAs[Long]("sr_ticket_number").toInt,
+    sr_return_quantity      = row.getAs[Int]("sr_return_quantity"),
+    sr_return_amt           = row.getAs[BigDecimal]("sr_return_amt").toInt, // Potential loss of precision
+    sr_return_tax           = row.getAs[BigDecimal]("sr_return_tax").toInt, // Potential loss of precision
+    sr_return_amt_inc_tax   = row.getAs[BigDecimal]("sr_return_amt_inc_tax").toInt, // Potential loss of precision
+    sr_fee                  = row.getAs[BigDecimal]("sr_fee").toInt, // Potential loss of precision
+    sr_return_ship_cost     = row.getAs[BigDecimal]("sr_return_ship_cost").toInt, // Potential loss of precision
+    sr_refunded_cash        = row.getAs[BigDecimal]("sr_refunded_cash").toInt, // Potential loss of precision
+    sr_reversed_charge      = row.getAs[BigDecimal]("sr_reversed_charge").toInt, // Potential loss of precision
+    sr_store_credit         = row.getAs[BigDecimal]("sr_store_credit").toInt, // Potential loss of precision
+    sr_net_loss             = row.getAs[BigDecimal]("sr_net_loss").toInt // Potential loss of precision
+  ).toDF(),
+
+  "web_sales" -> sc.read.format(format)
+  .load("file://" + inputDir + "/web_sales")
+  .map(row => tpcds_web_sales(
+    ws_sold_date_sk             = row.getAs[Long]("ws_sold_date_sk").toInt,
+    ws_sold_time_sk             = row.getAs[Long]("ws_sold_time_sk").toInt,
+    ws_ship_date_sk             = row.getAs[Long]("ws_ship_date_sk").toInt,
+    ws_item_sk                  = row.getAs[Long]("ws_item_sk").toInt,
+    ws_bill_customer_sk         = row.getAs[Long]("ws_bill_customer_sk").toInt,
+    ws_bill_cdemo_sk            = row.getAs[Long]("ws_bill_cdemo_sk").toInt,
+    ws_bill_hdemo_sk            = row.getAs[Long]("ws_bill_hdemo_sk").toInt,
+    ws_bill_addr_sk             = row.getAs[Long]("ws_bill_addr_sk").toInt,
+    ws_ship_customer_sk         = row.getAs[Long]("ws_ship_customer_sk").toInt,
+    ws_ship_cdemo_sk            = row.getAs[Long]("ws_ship_cdemo_sk").toInt,
+    ws_ship_hdemo_sk            = row.getAs[Long]("ws_ship_hdemo_sk").toInt,
+    ws_ship_addr_sk             = row.getAs[Long]("ws_ship_addr_sk").toInt,
+    ws_web_page_sk              = row.getAs[Long]("ws_web_page_sk").toInt,
+    ws_web_site_sk              = row.getAs[Long]("ws_web_site_sk").toInt,
+    ws_ship_mode_sk             = row.getAs[Long]("ws_ship_mode_sk").toInt,
+    ws_warehouse_sk             = row.getAs[Long]("ws_warehouse_sk").toInt,
+    ws_promo_sk                 = row.getAs[Long]("ws_promo_sk").toInt,
+    ws_order_number             = row.getAs[Long]("ws_order_number").toInt,
+    ws_quantity                 = row.getAs[Int]("ws_quantity"),
+    ws_wholesale_cost           = row.getAs[java.math.BigDecimal]("ws_wholesale_cost").movePointRight(2).intValueExact(),
+    ws_list_price               = row.getAs[java.math.BigDecimal]("ws_list_price").movePointRight(2).intValueExact(),
+    ws_sales_price              = row.getAs[java.math.BigDecimal]("ws_sales_price").movePointRight(2).intValueExact(),
+    ws_ext_discount_amt         = row.getAs[java.math.BigDecimal]("ws_ext_discount_amt").movePointRight(2).intValueExact(),
+    ws_ext_sales_price          = row.getAs[java.math.BigDecimal]("ws_ext_sales_price").movePointRight(2).intValueExact(),
+    ws_ext_wholesale_cost       = row.getAs[java.math.BigDecimal]("ws_ext_wholesale_cost").movePointRight(2).intValueExact(),
+    ws_ext_list_price           = row.getAs[java.math.BigDecimal]("ws_ext_list_price").movePointRight(2).intValueExact(),
+    ws_ext_tax                  = row.getAs[java.math.BigDecimal]("ws_ext_tax").movePointRight(2).intValueExact(),
+    ws_coupon_amt               = row.getAs[java.math.BigDecimal]("ws_coupon_amt").movePointRight(2).intValueExact(),
+    ws_ext_ship_cost            = row.getAs[java.math.BigDecimal]("ws_ext_ship_cost").movePointRight(2).intValueExact(),
+    ws_net_paid                 = row.getAs[java.math.BigDecimal]("ws_net_paid").movePointRight(2).intValueExact(),
+    ws_net_paid_inc_tax         = row.getAs[java.math.BigDecimal]("ws_net_paid_inc_tax").movePointRight(2).intValueExact(),
+    ws_net_paid_inc_ship        = row.getAs[java.math.BigDecimal]("ws_net_paid_inc_ship").movePointRight(2).intValueExact(),
+    ws_net_paid_inc_ship_tax    = row.getAs[java.math.BigDecimal]("ws_net_paid_inc_ship_tax").movePointRight(2).intValueExact(),
+    ws_net_profit               = row.getAs[java.math.BigDecimal]("ws_net_profit").movePointRight(2).intValueExact()
+  )).toDF()
+
+    /*
     "customer" -> sc.read.textFile(inputDir + "/customer.dat*").map(_.split('|')).map(p =>
       Customer_tpcds(p(0).trim.toInt, p(1).trim, p(2).trim.toInt, p(3).trim.toInt, p(4).trim.toInt, p(5).trim.toInt, p(6).trim.toInt, p(7).trim, p(8).trim, p(9).trim, p(10).trim, p(11).trim.toInt, p(12).trim.toInt, p(13).trim.toInt, p(14).trim, p(15).trim, p(16).trim, p(17).trim)).toDF(),
 
@@ -575,6 +959,8 @@ class TpcdsSchemaProvider(sc: SparkSession, inputDir: String) {
 
     "store_sales" -> sc.read.textFile(inputDir + "/store_sales.dat*").map(_.split('|')).map(p =>
       Store_sales(p(0).trim.toInt, p(1).trim.toInt, p(2).trim.toInt, p(3).trim.toInt, p(4).trim.toInt, p(5).trim.toInt, p(6).trim.toInt, p(7).trim.toInt, p(8).trim.toInt, p(9).trim.toInt, p(10).trim.toInt, (p(11).trim.toDouble*100).toInt, (p(12).trim.toDouble*100).toInt, (p(13).trim.toDouble*100).toInt, (p(14).trim.toDouble*100).toInt, (p(15).trim.toDouble*100).toInt, (p(16).trim.toDouble*100).toInt, (p(17).trim.toDouble*100).toInt, (p(18).trim.toDouble*100).toInt, (p(19).trim.toDouble*100).toInt, (p(20).trim.toDouble*100).toInt, (p(21).trim.toDouble*100).toInt, (p(22).trim.toDouble*100).toInt)).toDF()
+  
+    */
   )
 
   // for implicits
@@ -604,6 +990,10 @@ class TpcdsSchemaProvider(sc: SparkSession, inputDir: String) {
   val store_sales: DataFrame = dfMap("store_sales")
 
   dfMap.foreach {
-    case (key, value) => value.createOrReplaceTempView(key)
+    case (key, value) => {
+      value.printSchema()
+      value.show()
+      value.createOrReplaceTempView(key)
+    }
   }
 }
