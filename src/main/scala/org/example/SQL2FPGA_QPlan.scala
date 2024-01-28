@@ -1,7 +1,7 @@
 package org.example
 import org.apache.spark.sql.DataFrame
 import org.apache.spark.sql.catalyst.expressions.Expression
-import org.example.SQL2FPGA_Top.{DEBUG_CASCADE_JOIN_OPT, DEBUG_REDUNDANT_OP_OPT, DEBUG_SPECIAL_JOIN_OPT, DEBUG_STRINGDATATYPE_OPT, columnDictionary, columnTableMap, columnCodeMap}
+import org.example.SQL2FPGA_Top.{DEBUG_CASCADE_JOIN_OPT, DEBUG_REDUNDANT_OP_OPT, DEBUG_SPECIAL_JOIN_OPT, DEBUG_STRINGDATATYPE_OPT, columnCodeMap, columnDictionary, columnTableMap, qConfig}
 
 import scala.collection.mutable.{ListBuffer, Queue}
 import scala.math.{min, pow}
@@ -5584,7 +5584,7 @@ class SQL2FPGA_QPlan {
             if (join_clauses.length > 2 || invalid_join_connect || join_filter_clauses.length != 0) {
               cpuORfpgaExecution = 0
             }
-            if (qNum == 2) {
+            if (qConfig.tpch_or_tpcds == 0 && qNum == 2) {
               //temp hack - Alec hack for Q2
               if (this_node._treeDepth < 5) {
                 cpuORfpgaExecution = 0
@@ -5774,8 +5774,8 @@ class SQL2FPGA_QPlan {
       return
     }
     var sf = qConfig.scale_factor
-   /* // Temp Hack Alec - tag:output_table_nrow
-      queryNum match {
+    // Temp Hack Alec - tag:output_table_nrow
+    queryNum match {
         case 1 =>
           if (_nodeType == "Aggregate" && _treeDepth == 1 && _cpuORfpga == 1) {
             _numTableRow = 10
@@ -5872,7 +5872,7 @@ class SQL2FPGA_QPlan {
             _numTableRow = 31211
           }
         case 13 =>
-        // TODO figure out the numTableRow
+          // TODO figure out the numTableRow
           if (_nodeType == "JOIN_INNER" && _treeDepth == 0 && _cpuORfpga == 1) {
             _numTableRow = 6100000
           } else if (_nodeType == "JOIN_LEFTANTI" && _treeDepth == 3 && _cpuORfpga == 1) {
@@ -5940,7 +5940,9 @@ class SQL2FPGA_QPlan {
           if (_nodeType == "JOIN_LEFTANTI" && _treeDepth == 3 && _cpuORfpga == 1) {
             _numTableRow = 6283
           }
-      }*/
+      }
+
+
 
     var nodeOpName = _nodeType + "_TD_" + _treeDepth + scala.util.Random.nextInt(1000)
     _fpgaNodeName = nodeOpName
@@ -8594,7 +8596,7 @@ class SQL2FPGA_QPlan {
 
       // Alec hack - tag:inner_join_order
       // if ( // 632
-      if ((queryNum == 1 && (join_operator._treeDepth == 4 || join_operator._treeDepth == 3 || join_operator._treeDepth == 2) && join_operator._nodeType == "JOIN_INNER") ||
+      if (qConfig.tpch_or_tpcds == 0 && ((queryNum == 1 && (join_operator._treeDepth == 4 || join_operator._treeDepth == 3 || join_operator._treeDepth == 2) && join_operator._nodeType == "JOIN_INNER") ||
         (queryNum == 2 && (join_operator._treeDepth == 5 || join_operator._treeDepth == 4) && join_operator._nodeType == "JOIN_INNER") ||
         // (queryNum == 2 && join_operator._treeDepth == 7 && join_operator._nodeType == "JOIN_INNER") || // 297
         // if ((queryNum == 2 && join_operator._treeDepth == 8 && join_operator._nodeType == "JOIN_INNER") || // 415
@@ -8618,7 +8620,7 @@ class SQL2FPGA_QPlan {
         (queryNum == 17 && join_operator._treeDepth == 2 && join_operator._nodeType == "JOIN_INNER") ||
         //(queryNum == 20 && join_operator._treeDepth == 3 && join_operator._nodeType == "JOIN_INNER") ||
         (queryNum == 21 && join_operator._treeDepth == 2 && join_operator._nodeType == "JOIN_INNER") ||
-        (queryNum == 23 && join_operator._treeDepth == 0 && join_operator._nodeType == "JOIN_INNER")) {
+        (queryNum == 23 && join_operator._treeDepth == 0 && join_operator._nodeType == "JOIN_INNER"))) {
         joinTblOrderSwapped = true
         var temp_operator = rightmost_operator
         rightmost_operator = leftmost_operator

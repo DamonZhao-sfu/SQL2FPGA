@@ -1,6 +1,6 @@
 package org.example
 import org.apache.spark.sql.{DataFrame, SparkSession}
-
+import java.math.BigDecimal
 // TPC-DS table schemas
 
 case class Customer_tpcds(
@@ -797,7 +797,7 @@ ib_income_band_sk = row.getAs[Long]("ib_income_band_sk").toInt, // Convert from 
 
   "web_page" -> sc.read.format(format)
   .load("file://" + inputDir + "/web_page")
-  .map(row => web_page(
+  .map(row => tpcds_web_page(
     wp_web_page_sk = row.getAs[Long]("wp_web_page_sk").toInt, // Convert bigint to Int
     wp_web_page_id = row.getAs[String]("wp_web_page_id"),
     wp_rec_start_date = row.getAs[java.sql.Date]("wp_rec_start_date").toString.replace("-", "").toInt, // Convert date to Int
@@ -816,7 +816,7 @@ ib_income_band_sk = row.getAs[Long]("ib_income_band_sk").toInt, // Convert from 
 
   "inventory" -> sc.read.format(format)
   .load("file://" + inputDir + "/inventory")
-  .map(row => inventory(
+  .map(row => tpcds_inventory(
     inv_date_sk = row.getAs[Long]("inv_date_sk").toInt, // Cast bigint to Int
     inv_item_sk = row.getAs[Long]("inv_item_sk").toInt, // Cast bigint to Int
     inv_warehouse_sk = row.getAs[Long]("inv_warehouse_sk").toInt, // Cast bigint to Int
@@ -825,7 +825,7 @@ ib_income_band_sk = row.getAs[Long]("ib_income_band_sk").toInt, // Convert from 
 
   "store_returns" -> sc.read.format(format)
   .load("file://" + inputDir + "/store_returns")
-  .map(
+  .map( row => Store_returns(
     sr_returned_date_sk     = row.getAs[Long]("sr_returned_date_sk").toInt,
     sr_return_time_sk       = row.getAs[Long]("sr_return_time_sk").toInt,
     sr_item_sk              = row.getAs[Long]("sr_item_sk").toInt,
@@ -837,16 +837,16 @@ ib_income_band_sk = row.getAs[Long]("ib_income_band_sk").toInt, // Convert from 
     sr_reason_sk            = row.getAs[Long]("sr_reason_sk").toInt,
     sr_ticket_number        = row.getAs[Long]("sr_ticket_number").toInt,
     sr_return_quantity      = row.getAs[Int]("sr_return_quantity"),
-    sr_return_amt           = row.getAs[BigDecimal]("sr_return_amt").toInt, // Potential loss of precision
-    sr_return_tax           = row.getAs[BigDecimal]("sr_return_tax").toInt, // Potential loss of precision
-    sr_return_amt_inc_tax   = row.getAs[BigDecimal]("sr_return_amt_inc_tax").toInt, // Potential loss of precision
-    sr_fee                  = row.getAs[BigDecimal]("sr_fee").toInt, // Potential loss of precision
-    sr_return_ship_cost     = row.getAs[BigDecimal]("sr_return_ship_cost").toInt, // Potential loss of precision
-    sr_refunded_cash        = row.getAs[BigDecimal]("sr_refunded_cash").toInt, // Potential loss of precision
-    sr_reversed_charge      = row.getAs[BigDecimal]("sr_reversed_charge").toInt, // Potential loss of precision
-    sr_store_credit         = row.getAs[BigDecimal]("sr_store_credit").toInt, // Potential loss of precision
-    sr_net_loss             = row.getAs[BigDecimal]("sr_net_loss").toInt // Potential loss of precision
-  ).toDF(),
+    sr_return_amt           = row.getAs[BigDecimal]("sr_return_amt").multiply(new BigDecimal("100")).intValueExact(), // Potential loss of precision
+    sr_return_tax           = row.getAs[BigDecimal]("sr_return_tax").multiply(new BigDecimal("100")).intValueExact(), // Potential loss of precision
+    sr_return_amt_inc_tax   = row.getAs[BigDecimal]("sr_return_amt_inc_tax").multiply(new BigDecimal("100")).intValueExact(), // Potential loss of precision
+    sr_fee                  = row.getAs[BigDecimal]("sr_fee").multiply(new BigDecimal("100")).intValueExact(), // Potential loss of precision
+    sr_return_ship_cost     = row.getAs[BigDecimal]("sr_return_ship_cost").multiply(new BigDecimal("100")).intValueExact(), // Potential loss of precision
+    sr_refunded_cash        = row.getAs[BigDecimal]("sr_refunded_cash").multiply(new BigDecimal("100")).intValueExact(), // Potential loss of precision
+    sr_reversed_charge      = row.getAs[BigDecimal]("sr_reversed_charge").multiply(new BigDecimal("100")).intValueExact(), // Potential loss of precision
+    sr_store_credit         = row.getAs[BigDecimal]("sr_store_credit").multiply(new BigDecimal("100")).intValueExact(), // Potential loss of precision
+    sr_net_loss             = row.getAs[BigDecimal]("sr_net_loss").multiply(new BigDecimal("100")).intValueExact() // Potential loss of precision
+  )).toDF(),
 
   "web_sales" -> sc.read.format(format)
   .load("file://" + inputDir + "/web_sales")
@@ -885,82 +885,272 @@ ib_income_band_sk = row.getAs[Long]("ib_income_band_sk").toInt, // Convert from 
     ws_net_paid_inc_ship        = row.getAs[java.math.BigDecimal]("ws_net_paid_inc_ship").movePointRight(2).intValueExact(),
     ws_net_paid_inc_ship_tax    = row.getAs[java.math.BigDecimal]("ws_net_paid_inc_ship_tax").movePointRight(2).intValueExact(),
     ws_net_profit               = row.getAs[java.math.BigDecimal]("ws_net_profit").movePointRight(2).intValueExact()
-  )).toDF()
+  )).toDF(),
 
-    /*
-    "customer" -> sc.read.textFile(inputDir + "/customer.dat*").map(_.split('|')).map(p =>
-      Customer_tpcds(p(0).trim.toInt, p(1).trim, p(2).trim.toInt, p(3).trim.toInt, p(4).trim.toInt, p(5).trim.toInt, p(6).trim.toInt, p(7).trim, p(8).trim, p(9).trim, p(10).trim, p(11).trim.toInt, p(12).trim.toInt, p(13).trim.toInt, p(14).trim, p(15).trim, p(16).trim, p(17).trim)).toDF(),
 
-    "customer_address" -> sc.read.textFile(inputDir + "/customer_address.dat*").map(_.split('|')).map(p =>
-      Customer_address(p(0).trim.toInt, p(1).trim, p(2).trim, p(3).trim, p(4).trim, p(5).trim, p(6).trim, p(7).trim, p(8).trim, p(9).trim, p(10).trim, (p(11).trim.toDouble*100).toInt, p(12).trim)).toDF(),
+  "web_returns" -> sc.read.format(format)
+    .load("file://" + inputDir + "/web_returns")
+    .map(row => tpcds_web_returns(
+      wr_returned_date_sk = row.getAs[Long]("wr_returned_date_sk").toInt,
+      wr_returned_time_sk = row.getAs[Long]("wr_returned_time_sk").toInt,
+      wr_item_sk = row.getAs[Long]("wr_item_sk").toInt,
+      wr_refunded_customer_sk = row.getAs[Long]("wr_refunded_customer_sk").toInt,
+      wr_refunded_cdemo_sk = row.getAs[Long]("wr_refunded_cdemo_sk").toInt,
+      wr_refunded_hdemo_sk = row.getAs[Long]("wr_refunded_hdemo_sk").toInt,
+      wr_refunded_addr_sk = row.getAs[Long]("wr_refunded_addr_sk").toInt,
+      wr_returning_customer_sk = row.getAs[Long]("wr_returning_customer_sk").toInt,
+      wr_returning_cdemo_sk = row.getAs[Long]("wr_returning_cdemo_sk").toInt,
+      wr_returning_hdemo_sk = row.getAs[Long]("wr_returning_hdemo_sk").toInt,
+      wr_returning_addr_sk = row.getAs[Long]("wr_returning_addr_sk").toInt,
+      wr_web_page_sk = row.getAs[Long]("wr_web_page_sk").toInt,
+      wr_reason_sk = row.getAs[Long]("wr_reason_sk").toInt,
+      wr_order_number = row.getAs[Long]("wr_order_number").toInt,
+      wr_return_quantity = row.getAs[Int]("wr_return_quantity"),
+      wr_return_amt = row.getAs[java.math.BigDecimal]("wr_return_amt").multiply(new java.math.BigDecimal("100")).intValueExact(),
+      wr_return_tax = row.getAs[java.math.BigDecimal]("wr_return_tax").multiply(new java.math.BigDecimal("100")).intValueExact(),
+      wr_return_amt_inc_tax = row.getAs[java.math.BigDecimal]("wr_return_amt_inc_tax").multiply(new java.math.BigDecimal("100")).intValueExact(),
+      wr_fee = row.getAs[java.math.BigDecimal]("wr_fee").multiply(new java.math.BigDecimal("100")).intValueExact(),
+      wr_return_ship_cost = row.getAs[java.math.BigDecimal]("wr_return_ship_cost").multiply(new java.math.BigDecimal("100")).intValueExact(),
+      wr_refunded_cash = row.getAs[java.math.BigDecimal]("wr_refunded_cash").multiply(new java.math.BigDecimal("100")).intValueExact(),
+      wr_reversed_charge = row.getAs[java.math.BigDecimal]("wr_reversed_charge").multiply(new java.math.BigDecimal("100")).intValueExact(),
+      wr_account_credit = row.getAs[java.math.BigDecimal]("wr_account_credit").multiply(new java.math.BigDecimal("100")).intValueExact(),
+      wr_net_loss = row.getAs[java.math.BigDecimal]("wr_net_loss").multiply(new java.math.BigDecimal("100")).intValueExact()
+    )).toDF(),
 
-    "customer_demographics" -> sc.read.textFile(inputDir + "/customer_demographics.dat*").map(_.split('|')).map(p =>
-      Customer_demographics(p(0).trim.toInt, p(1).trim, p(2).trim, p(3).trim, p(4).trim.toInt, p(5).trim, p(6).trim.toInt, p(7).trim.toInt, p(8).trim.toInt)).toDF(),
 
-    "date_dim" -> sc.read.textFile(inputDir + "/date_dim.dat*").map(_.split('|')).map(p =>
-      Date_dim(p(0).trim.toInt, p(1).trim, p(2).trim.replace("-", "").toInt, p(3).trim.toInt, p(4).trim.toInt, p(5).trim.toInt, p(6).trim.toInt, p(7).trim.toInt, p(8).trim.toInt, p(9).trim.toInt, p(10).trim.toInt, p(11).trim.toInt, p(12).trim.toInt, p(13).trim.toInt, p(14).trim, p(15).trim, p(16).trim, p(17).trim, p(18).trim, p(19).trim.toInt, p(20).trim.toInt, p(21).trim.toInt, p(22).trim.toInt, p(23).trim, p(24).trim, p(25).trim, p(26).trim, p(27).trim)).toDF(),
+  "call_center" -> sc.read.format(format)
+    .load("file://" + inputDir + "/call_center")
+    .map(row => tpcds_call_center(
+      cc_call_center_sk = row.getAs[Long]("cc_call_center_sk").toInt,
+      cc_call_center_id = row.getAs[String]("cc_call_center_id"),
+      cc_rec_start_date = row.getAs[Int]("cc_rec_start_date"),
+      cc_rec_end_date = row.getAs[Int]("cc_rec_end_date"),
+      cc_closed_date_sk = row.getAs[Int]("cc_closed_date_sk"),
+      cc_open_date_sk = row.getAs[Int]("cc_open_date_sk"),
+      cc_name = row.getAs[String]("cc_name"),
+      cc_class = row.getAs[String]("cc_class"),
+      cc_employees = row.getAs[Int]("cc_employees"),
+      cc_sq_ft = row.getAs[Int]("cc_sq_ft"),
+      cc_hours = row.getAs[String]("cc_hours"),
+      cc_manager = row.getAs[String]("cc_manager"),
+      cc_mkt_id = row.getAs[Int]("cc_mkt_id"),
+      cc_mkt_class = row.getAs[String]("cc_mkt_class"),
+      cc_mkt_desc = row.getAs[String]("cc_mkt_desc"),
+      cc_market_manager = row.getAs[String]("cc_market_manager"),
+      cc_division = row.getAs[Int]("cc_division"),
+      cc_division_name = row.getAs[String]("cc_division_name"),
+      cc_company = row.getAs[Int]("cc_company"),
+      cc_company_name = row.getAs[String]("cc_company_name"),
+      cc_street_number = row.getAs[String]("cc_street_number"),
+      cc_street_name = row.getAs[String]("cc_street_name"),
+      cc_street_type = row.getAs[String]("cc_street_type"),
+      cc_suite_number = row.getAs[String]("cc_suite_number"),
+      cc_city = row.getAs[String]("cc_city"),
+      cc_county = row.getAs[String]("cc_county"),
+      cc_state = row.getAs[String]("cc_state"),
+      cc_zip = row.getAs[String]("cc_zip"),
+      cc_country = row.getAs[String]("cc_country"),
+      cc_gmt_offset = row.getAs[java.math.BigDecimal]("cc_gmt_offset").multiply(new java.math.BigDecimal("100")).intValueExact(),
+      cc_tax_percentage = row.getAs[java.math.BigDecimal]("cc_tax_percentage").multiply(new java.math.BigDecimal("100")).intValueExact()
+    )).toDF(),
 
-    "household_demographics" -> sc.read.textFile(inputDir + "/household_demographics.dat*").map(_.split('|')).map(p =>
-      Household_demographics(p(0).trim.toInt, p(1).trim.toInt, p(2).trim, p(3).trim.toInt, p(4).trim.toInt)).toDF(),
 
-    "income_band" -> sc.read.textFile(inputDir + "/income_band.dat*").map(_.split('|')).map(p =>
-      tpcds_income_band(p(0).trim.toInt, p(1).trim.toInt, p(2).trim.toInt)).toDF(),
+  "catalog_page" -> sc.read.format(format)
+    .load("file://" + inputDir + "/catalog_page")
+    .mapPartitions(rows => {
+    rows.map(row => tpcds_catalog_page(
+      cp_catalog_page_sk = row.getAs[Long]("cp_catalog_page_sk").toInt,
+      cp_catalog_page_id = row.getAs[String]("cp_catalog_page_id"),
+      cp_start_date_sk = row.getAs[Int]("cp_start_date_sk"),
+      cp_end_date_sk = row.getAs[Int]("cp_end_date_sk"),
+      cp_department = row.getAs[String]("cp_department"),
+      cp_catalog_number = row.getAs[Int]("cp_catalog_number"),
+      cp_catalog_page_number = row.getAs[Int]("cp_catalog_page_number"),
+      cp_description = row.getAs[String]("cp_description"),
+      cp_type = row.getAs[String]("cp_type")
+    ))
+  }).toDF(),
 
-    "item" -> sc.read.textFile(inputDir + "/item.dat*").map(_.split('|')).map(p =>
-      Item(p(0).trim.toInt, p(1).trim, p(2).trim, p(3).trim, p(4).trim, (p(5).trim.toDouble*100).toInt, (p(6).trim.toDouble*100).toInt, p(7).trim.toInt, p(8).trim, p(9).trim.toInt, p(10).trim, p(11).trim.toInt, p(12).trim, p(13).trim.toInt, p(14).trim, p(15).trim, p(16).trim, p(17).trim, p(18).trim, p(19).trim, p(20).trim.toInt, p(21).trim)).toDF(),
+  "catalog_returns" -> sc.read.format(format)
+    .load("file://" + inputDir + "/catalog_returns")
+    .mapPartitions(rows => {
+      rows.map(row => tpcds_catalog_returns(
+        cr_returned_date_sk = row.getAs[Long]("cr_returned_date_sk").toInt,
+        cr_returned_time_sk = row.getAs[Long]("cr_returned_time_sk").toInt,
+        cr_item_sk = row.getAs[Long]("cr_item_sk").toInt,
+        cr_refunded_customer_sk = row.getAs[Long]("cr_refunded_customer_sk").toInt,
+        cr_refunded_cdemo_sk = row.getAs[Long]("cr_refunded_cdemo_sk").toInt,
+        cr_refunded_hdemo_sk = row.getAs[Long]("cr_refunded_hdemo_sk").toInt,
+        cr_refunded_addr_sk = row.getAs[Long]("cr_refunded_addr_sk").toInt,
+        cr_returning_customer_sk = row.getAs[Long]("cr_returning_customer_sk").toInt,
+        cr_returning_cdemo_sk = row.getAs[Long]("cr_returning_cdemo_sk").toInt,
+        cr_returning_hdemo_sk = row.getAs[Long]("cr_returning_hdemo_sk").toInt,
+        cr_returning_addr_sk = row.getAs[Long]("cr_returning_addr_sk").toInt,
+        cr_call_center_sk = row.getAs[Long]("cr_call_center_sk").toInt,
+        cr_catalog_page_sk = row.getAs[Long]("cr_catalog_page_sk").toInt,
+        cr_ship_mode_sk = row.getAs[Long]("cr_ship_mode_sk").toInt,
+        cr_warehouse_sk = row.getAs[Long]("cr_warehouse_sk").toInt,
+        cr_reason_sk = row.getAs[Long]("cr_reason_sk").toInt,
+        cr_order_number = row.getAs[Long]("cr_order_number").toInt,
+        cr_return_quantity = row.getAs[Int]("cr_return_quantity"),
+        cr_return_amount = row.getAs[java.math.BigDecimal]("cr_return_amount").multiply(new java.math.BigDecimal("100")).intValueExact(),
+        cr_return_tax = row.getAs[java.math.BigDecimal]("cr_return_tax").multiply(new java.math.BigDecimal("100")).intValueExact(),
+        cr_return_amt_inc_tax = row.getAs[java.math.BigDecimal]("cr_return_amt_inc_tax").multiply(new java.math.BigDecimal("100")).intValueExact(),
+        cr_fee = row.getAs[java.math.BigDecimal]("cr_fee").multiply(new java.math.BigDecimal("100")).intValueExact(),
+        cr_return_ship_cost = row.getAs[java.math.BigDecimal]("cr_return_ship_cost").multiply(new java.math.BigDecimal("100")).intValueExact(),
+        cr_refunded_cash = row.getAs[java.math.BigDecimal]("cr_refunded_cash").multiply(new java.math.BigDecimal("100")).intValueExact(),
+        cr_reversed_charge = row.getAs[java.math.BigDecimal]("cr_reversed_charge").multiply(new java.math.BigDecimal("100")).intValueExact(),
+        cr_store_credit = row.getAs[java.math.BigDecimal]("cr_store_credit").multiply(new java.math.BigDecimal("100")).intValueExact(),
+        cr_net_loss = row.getAs[java.math.BigDecimal]("cr_net_loss").multiply(new java.math.BigDecimal("100")).intValueExact()
+      ))
+    }).toDF(),
 
-    "promotion" -> sc.read.textFile(inputDir + "/promotion.dat*").map(_.split('|')).map(p =>
-      Promotion(p(0).trim.toInt, p(1).trim, p(2).trim.toInt, p(3).trim.toInt, p(4).trim.toInt, (p(5).trim.toDouble*100).toInt, p(6).trim.toInt, p(7).trim, p(8).trim, p(9).trim, p(10).trim, p(11).trim, p(12).trim, p(13).trim, p(14).trim, p(15).trim, p(16).trim, p(17).trim, p(18).trim)).toDF(),
+  "catalog_sales" -> sc.read.format(format)
+    .load(s"file://$inputDir/catalog_sales")
+    .mapPartitions(rows => {
+      rows.map(row => Catalog_sales(
+        cs_sold_date_sk = row.getAs[Long]("cs_sold_date_sk").toInt,
+        cs_sold_time_sk = row.getAs[Long]("cs_sold_time_sk").toInt,
+        cs_ship_date_sk = row.getAs[Long]("cs_ship_date_sk").toInt,
+        cs_bill_customer_sk = row.getAs[Long]("cs_bill_customer_sk").toInt,
+        cs_bill_cdemo_sk = row.getAs[Long]("cs_bill_cdemo_sk").toInt,
+        cs_bill_hdemo_sk = row.getAs[Long]("cs_bill_hdemo_sk").toInt,
+        cs_bill_addr_sk = row.getAs[Long]("cs_bill_addr_sk").toInt,
+        cs_ship_customer_sk = row.getAs[Long]("cs_ship_customer_sk").toInt,
+        cs_ship_cdemo_sk = row.getAs[Long]("cs_ship_cdemo_sk").toInt,
+        cs_ship_hdemo_sk = row.getAs[Long]("cs_ship_hdemo_sk").toInt,
+        cs_ship_addr_sk = row.getAs[Long]("cs_ship_addr_sk").toInt,
+        cs_call_center_sk = row.getAs[Long]("cs_call_center_sk").toInt,
+        cs_catalog_page_sk = row.getAs[Long]("cs_catalog_page_sk").toInt,
+        cs_ship_mode_sk = row.getAs[Long]("cs_ship_mode_sk").toInt,
+        cs_warehouse_sk = row.getAs[Long]("cs_warehouse_sk").toInt,
+        cs_item_sk = row.getAs[Long]("cs_item_sk").toInt,
+        cs_promo_sk = row.getAs[Long]("cs_promo_sk").toInt,
+        cs_order_number = row.getAs[Long]("cs_order_number").toInt,
+        cs_quantity = row.getAs[Int]("cs_quantity"),
+        cs_wholesale_cost = row.getAs[BigDecimal]("cs_wholesale_cost").multiply(new BigDecimal("100")).intValueExact(),
+        cs_list_price = row.getAs[BigDecimal]("cs_list_price").multiply(new BigDecimal("100")).intValueExact(),
+        cs_sales_price = row.getAs[BigDecimal]("cs_sales_price").multiply(new BigDecimal("100")).intValueExact(),
+        cs_ext_discount_amt = row.getAs[BigDecimal]("cs_ext_discount_amt").multiply(new BigDecimal("100")).intValueExact(),
+        cs_ext_sales_price = row.getAs[BigDecimal]("cs_ext_sales_price").multiply(new BigDecimal("100")).intValueExact(),
+        cs_ext_wholesale_cost = row.getAs[BigDecimal]("cs_ext_wholesale_cost").multiply(new BigDecimal("100")).intValueExact(),
+        cs_ext_list_price = row.getAs[BigDecimal]("cs_ext_list_price").multiply(new BigDecimal("100")).intValueExact(),
+        cs_ext_tax = row.getAs[BigDecimal]("cs_ext_tax").multiply(new BigDecimal("100")).intValueExact(),
+        cs_coupon_amt = row.getAs[BigDecimal]("cs_coupon_amt").multiply(new BigDecimal("100")).intValueExact(),
+        cs_ext_ship_cost = row.getAs[BigDecimal]("cs_ext_ship_cost").multiply(new BigDecimal("100")).intValueExact(),
+        cs_net_paid = row.getAs[BigDecimal]("cs_net_paid").multiply(new BigDecimal("100")).intValueExact(),
+        cs_net_paid_inc_tax = row.getAs[BigDecimal]("cs_net_paid_inc_tax").multiply(new BigDecimal("100")).intValueExact(),
+        cs_net_paid_inc_ship = row.getAs[BigDecimal]("cs_net_paid_inc_ship").multiply(new BigDecimal("100")).intValueExact(),
+        cs_net_paid_inc_ship_tax = row.getAs[BigDecimal]("cs_net_paid_inc_ship_tax").multiply(new BigDecimal("100")).intValueExact(),
+        cs_net_profit = row.getAs[BigDecimal]("cs_net_profit").multiply(new BigDecimal("100")).intValueExact()
+      ))
+    }).toDF(),
 
-    "reason" -> sc.read.textFile(inputDir + "/reason.dat*").map(_.split('|')).map(p =>
-      tpcds_reason(p(0).trim.toInt, p(1).trim, p(2).trim)).toDF(),
+  "store_sales" -> sc.read.format(format)
+    .load(s"file://$inputDir/store_sales")
+    .mapPartitions(rows => {
+      rows.map(row => Store_sales(
+        ss_sold_date_sk = row.getAs[Long]("ss_sold_date_sk").toInt,
+        ss_sold_time_sk = row.getAs[Long]("ss_sold_time_sk").toInt,
+        ss_item_sk = row.getAs[Long]("ss_item_sk").toInt,
+        ss_customer_sk = row.getAs[Long]("ss_customer_sk").toInt,
+        ss_cdemo_sk = row.getAs[Long]("ss_cdemo_sk").toInt,
+        ss_hdemo_sk = row.getAs[Long]("ss_hdemo_sk").toInt,
+        ss_addr_sk = row.getAs[Long]("ss_addr_sk").toInt,
+        ss_store_sk = row.getAs[Long]("ss_store_sk").toInt,
+        ss_promo_sk = row.getAs[Long]("ss_promo_sk").toInt,
+        ss_ticket_number = row.getAs[Long]("ss_ticket_number").toInt,
+        ss_quantity = row.getAs[Int]("ss_quantity"),
+        ss_wholesale_cost = row.getAs[BigDecimal]("ss_wholesale_cost").multiply(new BigDecimal("100")).intValueExact(),
+        ss_list_price = row.getAs[BigDecimal]("ss_list_price").multiply(new BigDecimal("100")).intValueExact(),
+        ss_sales_price = row.getAs[BigDecimal]("ss_sales_price").multiply(new BigDecimal("100")).intValueExact(),
+        ss_ext_discount_amt = row.getAs[BigDecimal]("ss_ext_discount_amt").multiply(new BigDecimal("100")).intValueExact(),
+        ss_ext_sales_price = row.getAs[BigDecimal]("ss_ext_sales_price").multiply(new BigDecimal("100")).intValueExact(),
+        ss_ext_wholesale_cost = row.getAs[BigDecimal]("ss_ext_wholesale_cost").multiply(new BigDecimal("100")).intValueExact(),
+        ss_ext_list_price = row.getAs[BigDecimal]("ss_ext_list_price").multiply(new BigDecimal("100")).intValueExact(),
+        ss_ext_tax = row.getAs[BigDecimal]("ss_ext_tax").multiply(new BigDecimal("100")).intValueExact(),
+        ss_coupon_amt = row.getAs[BigDecimal]("ss_coupon_amt").multiply(new BigDecimal("100")).intValueExact(),
+        ss_net_paid = row.getAs[BigDecimal]("ss_net_paid").multiply(new BigDecimal("100")).intValueExact(),
+        ss_net_paid_inc_tax = row.getAs[BigDecimal]("ss_net_paid_inc_tax").multiply(new BigDecimal("100")).intValueExact(),
+        ss_net_profit = row.getAs[BigDecimal]("ss_net_profit").multiply(new BigDecimal("100")).intValueExact()
+      ))
+    }).toDF()
 
-    "ship_mode" -> sc.read.textFile(inputDir + "/ship_mode.dat*").map(_.split('|')).map(p =>
-      tpcds_ship_mode(p(0).trim.toInt, p(1).trim, p(2).trim, p(3).trim, p(4).trim, p(5).trim)).toDF(),
 
-    "store" -> sc.read.textFile(inputDir + "/store.dat*").map(_.split('|')).map(p =>
-      Store(p(0).trim.toInt, p(1).trim, p(2).trim, p(3).trim, p(4).trim.toInt, p(5).trim, p(6).trim.toInt, p(7).trim.toInt, p(8).trim, p(9).trim, p(10).trim.toInt, p(11).trim, p(12).trim, p(13).trim, p(14).trim.toInt, p(15).trim, p(16).trim.toInt, p(17).trim, p(18).trim, p(19).trim, p(20).trim, p(21).trim, p(22).trim, p(23).trim, p(24).trim, p(25).trim, p(26).trim, (p(27).trim.toDouble*100).toInt, (p(28).trim.toDouble*100).toInt)).toDF(),
+  /*
+  "customer" -> sc.read.textFile(inputDir + "/customer.dat*").map(_.split('|')).map(p =>
+    Customer_tpcds(p(0).trim.toInt, p(1).trim, p(2).trim.toInt, p(3).trim.toInt, p(4).trim.toInt, p(5).trim.toInt, p(6).trim.toInt, p(7).trim, p(8).trim, p(9).trim, p(10).trim, p(11).trim.toInt, p(12).trim.toInt, p(13).trim.toInt, p(14).trim, p(15).trim, p(16).trim, p(17).trim)).toDF(),
 
-    "time_dim" -> sc.read.textFile(inputDir + "/time_dim.dat*").map(_.split('|')).map(p =>
-      Time_dim(p(0).trim.toInt, p(1).trim, p(2).trim.toInt, p(3).trim.toInt, p(4).trim.toInt, p(5).trim.toInt, p(6).trim, p(7).trim, p(8).trim, p(9).trim)).toDF(),
+  "customer_address" -> sc.read.textFile(inputDir + "/customer_address.dat*").map(_.split('|')).map(p =>
+    Customer_address(p(0).trim.toInt, p(1).trim, p(2).trim, p(3).trim, p(4).trim, p(5).trim, p(6).trim, p(7).trim, p(8).trim, p(9).trim, p(10).trim, (p(11).trim.toDouble*100).toInt, p(12).trim)).toDF(),
 
-    "warehouse" -> sc.read.textFile(inputDir + "/warehouse.dat*").map(_.split('|')).map(p =>
-      tpcds_warehouse(p(0).trim.toInt, p(1).trim, p(2).trim, p(3).trim.toInt, p(4).trim, p(5).trim, p(6).trim, p(7).trim, p(8).trim, p(9).trim, p(10).trim, p(11).trim, p(12).trim, (p(13).trim.toDouble*100).toInt)).toDF(),
+  "customer_demographics" -> sc.read.textFile(inputDir + "/customer_demographics.dat*").map(_.split('|')).map(p =>
+    Customer_demographics(p(0).trim.toInt, p(1).trim, p(2).trim, p(3).trim, p(4).trim.toInt, p(5).trim, p(6).trim.toInt, p(7).trim.toInt, p(8).trim.toInt)).toDF(),
 
-    "web_site" -> sc.read.textFile(inputDir + "/web_site.dat*").map(_.split('|')).map(p =>
-      tpcds_web_site(p(0).trim.toInt, p(1).trim, p(2).trim, p(3).trim, p(4).trim, p(5).trim.toInt, p(6).trim.toInt, p(7).trim, p(8).trim, p(9).trim.toInt, p(10).trim, p(11).trim, p(12).trim, p(13).trim.toInt, p(14).trim, p(15).trim, p(16).trim, p(17).trim, p(18).trim, p(19).trim, p(20).trim, p(21).trim, p(22).trim, p(23).trim, (p(24).trim.toDouble*100).toInt, (p(25).trim.toDouble*100).toInt)).toDF(),
+  "date_dim" -> sc.read.textFile(inputDir + "/date_dim.dat*").map(_.split('|')).map(p =>
+    Date_dim(p(0).trim.toInt, p(1).trim, p(2).trim.replace("-", "").toInt, p(3).trim.toInt, p(4).trim.toInt, p(5).trim.toInt, p(6).trim.toInt, p(7).trim.toInt, p(8).trim.toInt, p(9).trim.toInt, p(10).trim.toInt, p(11).trim.toInt, p(12).trim.toInt, p(13).trim.toInt, p(14).trim, p(15).trim, p(16).trim, p(17).trim, p(18).trim, p(19).trim.toInt, p(20).trim.toInt, p(21).trim.toInt, p(22).trim.toInt, p(23).trim, p(24).trim, p(25).trim, p(26).trim, p(27).trim)).toDF(),
 
-    "web_page" -> sc.read.textFile(inputDir + "/web_page.dat*").map(_.split('|')).map(p =>
-      tpcds_web_page(p(0).trim.toInt, p(1).trim, p(2).trim, p(3).trim, p(4).trim.toInt, p(5).trim.toInt, p(6).trim, p(7).trim.toInt, p(8).trim, p(9).trim, p(10).trim.toInt, p(11).trim.toInt, p(12).trim.toInt, p(13).trim.toInt)).toDF(),
+  "household_demographics" -> sc.read.textFile(inputDir + "/household_demographics.dat*").map(_.split('|')).map(p =>
+    Household_demographics(p(0).trim.toInt, p(1).trim.toInt, p(2).trim, p(3).trim.toInt, p(4).trim.toInt)).toDF(),
 
-    "inventory" -> sc.read.textFile(inputDir + "/inventory.dat*").map(_.split('|')).map(p =>
-      tpcds_inventory(p(0).trim.toInt, p(1).trim.toInt, p(2).trim.toInt, p(3).trim.toInt)).toDF(),
+  "income_band" -> sc.read.textFile(inputDir + "/income_band.dat*").map(_.split('|')).map(p =>
+    tpcds_income_band(p(0).trim.toInt, p(1).trim.toInt, p(2).trim.toInt)).toDF(),
 
-    "store_returns" -> sc.read.textFile(inputDir + "/store_returns.dat*").map(_.split('|')).map(p =>
-      Store_returns(p(0).trim.toInt, p(1).trim.toInt, p(2).trim.toInt, p(3).trim.toInt, p(4).trim.toInt, p(5).trim.toInt, p(6).trim.toInt, p(7).trim.toInt, p(8).trim.toInt, p(9).trim.toInt, p(10).trim.toInt, (p(11).trim.toDouble*100).toInt, (p(12).trim.toDouble*100).toInt, (p(13).trim.toDouble*100).toInt, (p(14).trim.toDouble*100).toInt, (p(15).trim.toDouble*100).toInt, (p(16).trim.toDouble*100).toInt, (p(17).trim.toDouble*100).toInt, (p(18).trim.toDouble*100).toInt, (p(19).trim.toDouble*100).toInt)).toDF(),
+  "item" -> sc.read.textFile(inputDir + "/item.dat*").map(_.split('|')).map(p =>
+    Item(p(0).trim.toInt, p(1).trim, p(2).trim, p(3).trim, p(4).trim, (p(5).trim.toDouble*100).toInt, (p(6).trim.toDouble*100).toInt, p(7).trim.toInt, p(8).trim, p(9).trim.toInt, p(10).trim, p(11).trim.toInt, p(12).trim, p(13).trim.toInt, p(14).trim, p(15).trim, p(16).trim, p(17).trim, p(18).trim, p(19).trim, p(20).trim.toInt, p(21).trim)).toDF(),
 
-    "web_sales" -> sc.read.textFile(inputDir + "/web_sales.dat*").map(_.split('|')).map(p =>
-      tpcds_web_sales(p(0).trim.toInt, p(1).trim.toInt, p(2).trim.toInt, p(3).trim.toInt, p(4).trim.toInt, p(5).trim.toInt, p(6).trim.toInt, p(7).trim.toInt, p(8).trim.toInt, p(9).trim.toInt, p(10).trim.toInt, p(11).trim.toInt, p(12).trim.toInt, p(13).trim.toInt, p(14).trim.toInt, p(15).trim.toInt, p(16).trim.toInt, p(17).trim.toInt, p(18).trim.toInt, (p(19).trim.toDouble*100).toInt, (p(20).trim.toDouble*100).toInt, (p(21).trim.toDouble*100).toInt, (p(22).trim.toDouble*100).toInt, (p(23).trim.toDouble*100).toInt, (p(24).trim.toDouble*100).toInt, (p(25).trim.toDouble*100).toInt, (p(26).trim.toDouble*100).toInt, (p(27).trim.toDouble*100).toInt, (p(28).trim.toDouble*100).toInt, (p(29).trim.toDouble*100).toInt, (p(30).trim.toDouble*100).toInt, (p(31).trim.toDouble*100).toInt, (p(32).trim.toDouble*100).toInt, (p(33).trim.toDouble*100).toInt)).toDF(),
+  "promotion" -> sc.read.textFile(inputDir + "/promotion.dat*").map(_.split('|')).map(p =>
+    Promotion(p(0).trim.toInt, p(1).trim, p(2).trim.toInt, p(3).trim.toInt, p(4).trim.toInt, (p(5).trim.toDouble*100).toInt, p(6).trim.toInt, p(7).trim, p(8).trim, p(9).trim, p(10).trim, p(11).trim, p(12).trim, p(13).trim, p(14).trim, p(15).trim, p(16).trim, p(17).trim, p(18).trim)).toDF(),
 
-    "web_returns" -> sc.read.textFile(inputDir + "/web_returns.dat*").map(_.split('|')).map(p =>
-      tpcds_web_returns(p(0).trim.toInt, p(1).trim.toInt, p(2).trim.toInt, p(3).trim.toInt, p(4).trim.toInt, p(5).trim.toInt, p(6).trim.toInt, p(7).trim.toInt, p(8).trim.toInt, p(9).trim.toInt, p(10).trim.toInt, p(11).trim.toInt, p(12).trim.toInt, p(13).trim.toInt, p(14).trim.toInt, (p(15).trim.toDouble*100).toInt, (p(16).trim.toDouble*100).toInt, (p(17).trim.toDouble*100).toInt, (p(18).trim.toDouble*100).toInt, (p(19).trim.toDouble*100).toInt, (p(20).trim.toDouble*100).toInt, (p(21).trim.toDouble*100).toInt, (p(22).trim.toDouble*100).toInt, (p(23).trim.toDouble*100).toInt)).toDF(),
+  "reason" -> sc.read.textFile(inputDir + "/reason.dat*").map(_.split('|')).map(p =>
+    tpcds_reason(p(0).trim.toInt, p(1).trim, p(2).trim)).toDF(),
 
-    "call_center" -> sc.read.textFile(inputDir + "/call_center.dat*").map(_.split('|')).map(p =>
-      tpcds_call_center(p(0).trim.toInt, p(1).trim, p(2).trim, p(3).trim, p(4).trim.toInt, p(5).trim.toInt, p(6).trim, p(7).trim, p(8).trim.toInt, p(9).trim.toInt, p(10).trim, p(11).trim, p(12).trim.toInt, p(13).trim, p(14).trim, p(15).trim, p(16).trim.toInt, p(17).trim, p(18).trim.toInt, p(19).trim, p(20).trim, p(21).trim, p(22).trim, p(23).trim, p(24).trim, p(25).trim, p(26).trim, p(27).trim, p(28).trim, (p(29).trim.toDouble*100).toInt, (p(30).trim.toDouble*100).toInt)).toDF(),
+  "ship_mode" -> sc.read.textFile(inputDir + "/ship_mode.dat*").map(_.split('|')).map(p =>
+    tpcds_ship_mode(p(0).trim.toInt, p(1).trim, p(2).trim, p(3).trim, p(4).trim, p(5).trim)).toDF(),
 
-    "catalog_page" -> sc.read.textFile(inputDir + "/catalog_page.dat*").map(_.split('|')).map(p =>
-      tpcds_catalog_page(p(0).trim.toInt, p(1).trim, p(2).trim.toInt, p(3).trim.toInt, p(4).trim, p(5).trim.toInt, p(6).trim.toInt, p(7).trim, p(8).trim)).toDF(),
+  "store" -> sc.read.textFile(inputDir + "/store.dat*").map(_.split('|')).map(p =>
+    Store(p(0).trim.toInt, p(1).trim, p(2).trim, p(3).trim, p(4).trim.toInt, p(5).trim, p(6).trim.toInt, p(7).trim.toInt, p(8).trim, p(9).trim, p(10).trim.toInt, p(11).trim, p(12).trim, p(13).trim, p(14).trim.toInt, p(15).trim, p(16).trim.toInt, p(17).trim, p(18).trim, p(19).trim, p(20).trim, p(21).trim, p(22).trim, p(23).trim, p(24).trim, p(25).trim, p(26).trim, (p(27).trim.toDouble*100).toInt, (p(28).trim.toDouble*100).toInt)).toDF(),
 
-    "catalog_returns" -> sc.read.textFile(inputDir + "/catalog_returns.dat*").map(_.split('|')).map(p =>
-      tpcds_catalog_returns(p(0).trim.toInt, p(1).trim.toInt, p(2).trim.toInt, p(3).trim.toInt, p(4).trim.toInt, p(5).trim.toInt, p(6).trim.toInt, p(7).trim.toInt, p(8).trim.toInt, p(9).trim.toInt, p(10).trim.toInt, p(11).trim.toInt, p(12).trim.toInt, p(13).trim.toInt, p(14).trim.toInt, p(15).trim.toInt, p(16).trim.toInt, p(17).trim.toInt, (p(18).trim.toDouble*100).toInt, (p(19).trim.toDouble*100).toInt, (p(20).trim.toDouble*100).toInt, (p(21).trim.toDouble*100).toInt, (p(22).trim.toDouble*100).toInt, (p(23).trim.toDouble*100).toInt, (p(24).trim.toDouble*100).toInt, (p(25).trim.toDouble*100).toInt, (p(26).trim.toDouble*100).toInt)).toDF(),
+  "time_dim" -> sc.read.textFile(inputDir + "/time_dim.dat*").map(_.split('|')).map(p =>
+    Time_dim(p(0).trim.toInt, p(1).trim, p(2).trim.toInt, p(3).trim.toInt, p(4).trim.toInt, p(5).trim.toInt, p(6).trim, p(7).trim, p(8).trim, p(9).trim)).toDF(),
 
-    "catalog_sales" -> sc.read.textFile(inputDir + "/catalog_sales.dat*").map(_.split('|')).map(p =>
-      Catalog_sales(p(0).trim.toInt, p(1).trim.toInt, p(2).trim.toInt, p(3).trim.toInt, p(4).trim.toInt, p(5).trim.toInt, p(6).trim.toInt, p(7).trim.toInt, p(8).trim.toInt, p(9).trim.toInt, p(10).trim.toInt, p(11).trim.toInt, p(12).trim.toInt, p(13).trim.toInt, p(14).trim.toInt, p(15).trim.toInt, p(16).trim.toInt, p(17).trim.toInt, p(18).trim.toInt, (p(19).trim.toDouble*100).toInt, (p(20).trim.toDouble*100).toInt, (p(21).trim.toDouble*100).toInt, (p(22).trim.toDouble*100).toInt, (p(23).trim.toDouble*100).toInt, (p(24).trim.toDouble*100).toInt, (p(25).trim.toDouble*100).toInt, (p(26).trim.toDouble*100).toInt, (p(27).trim.toDouble*100).toInt, (p(28).trim.toDouble*100).toInt, (p(29).trim.toDouble*100).toInt, (p(30).trim.toDouble*100).toInt, (p(31).trim.toDouble*100).toInt, (p(32).trim.toDouble*100).toInt, (p(33).trim.toDouble*100).toInt)).toDF(),
+  "warehouse" -> sc.read.textFile(inputDir + "/warehouse.dat*").map(_.split('|')).map(p =>
+    tpcds_warehouse(p(0).trim.toInt, p(1).trim, p(2).trim, p(3).trim.toInt, p(4).trim, p(5).trim, p(6).trim, p(7).trim, p(8).trim, p(9).trim, p(10).trim, p(11).trim, p(12).trim, (p(13).trim.toDouble*100).toInt)).toDF(),
 
-    "store_sales" -> sc.read.textFile(inputDir + "/store_sales.dat*").map(_.split('|')).map(p =>
-      Store_sales(p(0).trim.toInt, p(1).trim.toInt, p(2).trim.toInt, p(3).trim.toInt, p(4).trim.toInt, p(5).trim.toInt, p(6).trim.toInt, p(7).trim.toInt, p(8).trim.toInt, p(9).trim.toInt, p(10).trim.toInt, (p(11).trim.toDouble*100).toInt, (p(12).trim.toDouble*100).toInt, (p(13).trim.toDouble*100).toInt, (p(14).trim.toDouble*100).toInt, (p(15).trim.toDouble*100).toInt, (p(16).trim.toDouble*100).toInt, (p(17).trim.toDouble*100).toInt, (p(18).trim.toDouble*100).toInt, (p(19).trim.toDouble*100).toInt, (p(20).trim.toDouble*100).toInt, (p(21).trim.toDouble*100).toInt, (p(22).trim.toDouble*100).toInt)).toDF()
-  
-    */
+  "web_site" -> sc.read.textFile(inputDir + "/web_site.dat*").map(_.split('|')).map(p =>
+    tpcds_web_site(p(0).trim.toInt, p(1).trim, p(2).trim, p(3).trim, p(4).trim, p(5).trim.toInt, p(6).trim.toInt, p(7).trim, p(8).trim, p(9).trim.toInt, p(10).trim, p(11).trim, p(12).trim, p(13).trim.toInt, p(14).trim, p(15).trim, p(16).trim, p(17).trim, p(18).trim, p(19).trim, p(20).trim, p(21).trim, p(22).trim, p(23).trim, (p(24).trim.toDouble*100).toInt, (p(25).trim.toDouble*100).toInt)).toDF(),
+
+  "web_page" -> sc.read.textFile(inputDir + "/web_page.dat*").map(_.split('|')).map(p =>
+    tpcds_web_page(p(0).trim.toInt, p(1).trim, p(2).trim, p(3).trim, p(4).trim.toInt, p(5).trim.toInt, p(6).trim, p(7).trim.toInt, p(8).trim, p(9).trim, p(10).trim.toInt, p(11).trim.toInt, p(12).trim.toInt, p(13).trim.toInt)).toDF(),
+
+  "inventory" -> sc.read.textFile(inputDir + "/inventory.dat*").map(_.split('|')).map(p =>
+    tpcds_inventory(p(0).trim.toInt, p(1).trim.toInt, p(2).trim.toInt, p(3).trim.toInt)).toDF(),
+
+  "store_returns" -> sc.read.textFile(inputDir + "/store_returns.dat*").map(_.split('|')).map(p =>
+    Store_returns(p(0).trim.toInt, p(1).trim.toInt, p(2).trim.toInt, p(3).trim.toInt, p(4).trim.toInt, p(5).trim.toInt, p(6).trim.toInt, p(7).trim.toInt, p(8).trim.toInt, p(9).trim.toInt, p(10).trim.toInt, (p(11).trim.toDouble*100).toInt, (p(12).trim.toDouble*100).toInt, (p(13).trim.toDouble*100).toInt, (p(14).trim.toDouble*100).toInt, (p(15).trim.toDouble*100).toInt, (p(16).trim.toDouble*100).toInt, (p(17).trim.toDouble*100).toInt, (p(18).trim.toDouble*100).toInt, (p(19).trim.toDouble*100).toInt)).toDF(),
+
+  "web_sales" -> sc.read.textFile(inputDir + "/web_sales.dat*").map(_.split('|')).map(p =>
+    tpcds_web_sales(p(0).trim.toInt, p(1).trim.toInt, p(2).trim.toInt, p(3).trim.toInt, p(4).trim.toInt, p(5).trim.toInt, p(6).trim.toInt, p(7).trim.toInt, p(8).trim.toInt, p(9).trim.toInt, p(10).trim.toInt, p(11).trim.toInt, p(12).trim.toInt, p(13).trim.toInt, p(14).trim.toInt, p(15).trim.toInt, p(16).trim.toInt, p(17).trim.toInt, p(18).trim.toInt, (p(19).trim.toDouble*100).toInt, (p(20).trim.toDouble*100).toInt, (p(21).trim.toDouble*100).toInt, (p(22).trim.toDouble*100).toInt, (p(23).trim.toDouble*100).toInt, (p(24).trim.toDouble*100).toInt, (p(25).trim.toDouble*100).toInt, (p(26).trim.toDouble*100).toInt, (p(27).trim.toDouble*100).toInt, (p(28).trim.toDouble*100).toInt, (p(29).trim.toDouble*100).toInt, (p(30).trim.toDouble*100).toInt, (p(31).trim.toDouble*100).toInt, (p(32).trim.toDouble*100).toInt, (p(33).trim.toDouble*100).toInt)).toDF(),
+
+  "web_returns" -> sc.read.textFile(inputDir + "/web_returns.dat*").map(_.split('|')).map(p =>
+    tpcds_web_returns(p(0).trim.toInt, p(1).trim.toInt, p(2).trim.toInt, p(3).trim.toInt, p(4).trim.toInt, p(5).trim.toInt, p(6).trim.toInt, p(7).trim.toInt, p(8).trim.toInt, p(9).trim.toInt, p(10).trim.toInt, p(11).trim.toInt, p(12).trim.toInt, p(13).trim.toInt, p(14).trim.toInt, (p(15).trim.toDouble*100).toInt, (p(16).trim.toDouble*100).toInt, (p(17).trim.toDouble*100).toInt, (p(18).trim.toDouble*100).toInt, (p(19).trim.toDouble*100).toInt, (p(20).trim.toDouble*100).toInt, (p(21).trim.toDouble*100).toInt, (p(22).trim.toDouble*100).toInt, (p(23).trim.toDouble*100).toInt)).toDF(),
+
+  "call_center" -> sc.read.textFile(inputDir + "/call_center.dat*").map(_.split('|')).map(p =>
+    tpcds_call_center(p(0).trim.toInt, p(1).trim, p(2).trim, p(3).trim, p(4).trim.toInt, p(5).trim.toInt, p(6).trim, p(7).trim, p(8).trim.toInt, p(9).trim.toInt, p(10).trim, p(11).trim, p(12).trim.toInt, p(13).trim, p(14).trim, p(15).trim, p(16).trim.toInt, p(17).trim, p(18).trim.toInt, p(19).trim, p(20).trim, p(21).trim, p(22).trim, p(23).trim, p(24).trim, p(25).trim, p(26).trim, p(27).trim, p(28).trim, (p(29).trim.toDouble*100).toInt, (p(30).trim.toDouble*100).toInt)).toDF(),
+
+  "catalog_page" -> sc.read.textFile(inputDir + "/catalog_page.dat*").map(_.split('|')).map(p =>
+    tpcds_catalog_page(p(0).trim.toInt, p(1).trim, p(2).trim.toInt, p(3).trim.toInt, p(4).trim, p(5).trim.toInt, p(6).trim.toInt, p(7).trim, p(8).trim)).toDF(),
+
+  "catalog_returns" -> sc.read.textFile(inputDir + "/catalog_returns.dat*").map(_.split('|')).map(p =>
+    tpcds_catalog_returns(p(0).trim.toInt, p(1).trim.toInt, p(2).trim.toInt, p(3).trim.toInt, p(4).trim.toInt, p(5).trim.toInt, p(6).trim.toInt, p(7).trim.toInt, p(8).trim.toInt, p(9).trim.toInt, p(10).trim.toInt, p(11).trim.toInt, p(12).trim.toInt, p(13).trim.toInt, p(14).trim.toInt, p(15).trim.toInt, p(16).trim.toInt, p(17).trim.toInt, (p(18).trim.toDouble*100).toInt, (p(19).trim.toDouble*100).toInt, (p(20).trim.toDouble*100).toInt, (p(21).trim.toDouble*100).toInt, (p(22).trim.toDouble*100).toInt, (p(23).trim.toDouble*100).toInt, (p(24).trim.toDouble*100).toInt, (p(25).trim.toDouble*100).toInt, (p(26).trim.toDouble*100).toInt)).toDF(),
+
+  "catalog_sales" -> sc.read.textFile(inputDir + "/catalog_sales.dat*").map(_.split('|')).map(p =>
+    Catalog_sales(p(0).trim.toInt, p(1).trim.toInt, p(2).trim.toInt, p(3).trim.toInt, p(4).trim.toInt, p(5).trim.toInt, p(6).trim.toInt, p(7).trim.toInt, p(8).trim.toInt, p(9).trim.toInt, p(10).trim.toInt, p(11).trim.toInt, p(12).trim.toInt, p(13).trim.toInt, p(14).trim.toInt, p(15).trim.toInt, p(16).trim.toInt, p(17).trim.toInt, p(18).trim.toInt, (p(19).trim.toDouble*100).toInt, (p(20).trim.toDouble*100).toInt, (p(21).trim.toDouble*100).toInt, (p(22).trim.toDouble*100).toInt, (p(23).trim.toDouble*100).toInt, (p(24).trim.toDouble*100).toInt, (p(25).trim.toDouble*100).toInt, (p(26).trim.toDouble*100).toInt, (p(27).trim.toDouble*100).toInt, (p(28).trim.toDouble*100).toInt, (p(29).trim.toDouble*100).toInt, (p(30).trim.toDouble*100).toInt, (p(31).trim.toDouble*100).toInt, (p(32).trim.toDouble*100).toInt, (p(33).trim.toDouble*100).toInt)).toDF(),
+
+  "store_sales" -> sc.read.textFile(inputDir + "/store_sales.dat*").map(_.split('|')).map(p =>
+    Store_sales(p(0).trim.toInt, p(1).trim.toInt, p(2).trim.toInt, p(3).trim.toInt, p(4).trim.toInt, p(5).trim.toInt, p(6).trim.toInt, p(7).trim.toInt, p(8).trim.toInt, p(9).trim.toInt, p(10).trim.toInt, (p(11).trim.toDouble*100).toInt, (p(12).trim.toDouble*100).toInt, (p(13).trim.toDouble*100).toInt, (p(14).trim.toDouble*100).toInt, (p(15).trim.toDouble*100).toInt, (p(16).trim.toDouble*100).toInt, (p(17).trim.toDouble*100).toInt, (p(18).trim.toDouble*100).toInt, (p(19).trim.toDouble*100).toInt, (p(20).trim.toDouble*100).toInt, (p(21).trim.toDouble*100).toInt, (p(22).trim.toDouble*100).toInt)).toDF()
+
+  */
   )
 
   // for implicits

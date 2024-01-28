@@ -10,22 +10,23 @@ object SQL2FPGA_Top {
   var qConfig = new SQL2FPGA_QConfig
   val INPUT_DIR_TPCH  = "/localhdd/hza215/spark_benchmark/tpch/orc"
   val OUTPUT_DIR_TPCH = "/localhdd/hza215/tpch-parquet"
-  val INPUT_DIR_TPCDS = "/Users/aleclu/dev/tpcds-spark/dbgen/tpcds_data_1"
-  val OUTPUT_DIR_TPCDS = "/Users/aleclu/dev/tpcds-spark/dbgen/tpcds_data_1"
+  val INPUT_DIR_TPCDS = "/localhdd/hza215/spark_benchmark/tpcds/orc"
+  val OUTPUT_DIR_TPCDS = "/localhdd/hza215/tpch-parquet"
   qConfig.format = "orc"
   qConfig.tpch_queryNum_start = 1
   qConfig.tpch_queryNum_end = 22
   // 2,20
 
   qConfig.tpch_queryNum_list = ListBuffer(2) // 3, 13, 15, 18, 20
+
   qConfig.tpcds_queryNum_start = 1
   qConfig.tpcds_queryNum_end = 22
-  qConfig.tpcds_queryNum_list = ListBuffer(1) // 1, 2, 3, 5, 6, 7, 8, 9
+  qConfig.tpcds_queryNum_list = ListBuffer(2) // 1, 2, 3, 5, 6, 7, 8, 9
 
   qConfig.pure_sw_mode = 0
   qConfig.query_plan_optimization_enable = "11111"
   qConfig.scale_factor = 1
-  var TPCH_or_DS = 0
+  qConfig.tpch_or_tpcds = 1
 
   // Macro defines
   val DEBUG_ALL = false
@@ -273,11 +274,11 @@ object SQL2FPGA_Top {
 
     // Start SQL2FPGA Compilation
     val output = new ListBuffer[(String, Float)]
-    if (TPCH_or_DS == 0) {
+    if (qConfig.tpch_or_tpcds == 0) {
       val tpchschemaProvider  = new TpchSchemaProvider(spark, INPUT_DIR_TPCH, qConfig.format);
       output ++= executeTPCHQueries(spark, tpchschemaProvider, qConfig, OUTPUT_DIR_TPCH);
-    } else if (TPCH_or_DS == 1) {
-      val tpcdsschemaProvider = new TpcdsSchemaProvider(spark, INPUT_DIR_TPCDS);
+    } else if (qConfig.tpch_or_tpcds == 1) {
+      val tpcdsschemaProvider = new TpcdsSchemaProvider(spark, INPUT_DIR_TPCDS, qConfig.format);
       output ++= executeTPCDSQueries(spark, tpcdsschemaProvider, qConfig, OUTPUT_DIR_TPCDS);
     }
 
