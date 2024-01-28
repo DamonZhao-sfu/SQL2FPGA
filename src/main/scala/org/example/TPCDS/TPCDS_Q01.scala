@@ -48,7 +48,7 @@ class TPCDS_Q01 extends TPCDS_Queries{
                      |       AND s_store_sk = ctr1.ctr_store_sk
                      |       AND s_state = 'TN'
                      |       AND ctr1.ctr_customer_sk = c_customer_sk
-                     |ORDER  BY c_customer_id """.stripMargin
+                     |ORDER  BY c_customer_id LIMIT 100 """.stripMargin
     sc.sql(tpcds_q1)
   }
 }

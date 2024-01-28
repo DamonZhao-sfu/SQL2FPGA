@@ -774,7 +774,7 @@ class SQL2FPGA_QPlan {
       } else if (col_stripped == "c_phone")      { return "TPCH_READ_PHONE_LEN"
       } else if (col_stripped == "c_mktsegment") { return "TPCH_READ_MAXAGG_LEN"
       } else if (col_stripped == "c_comment")    { return "TPCH_READ_C_CMNT_MAX"
-      } else { return "TPCH_READ_REGION_LEN"
+      } else { return "TPCDS_READ_MAX"
       }
     } else if (tbl_col._1 == "region") {
       if        (col_stripped == "r_name")    { return "TPCH_READ_REGION_LEN"
@@ -802,7 +802,7 @@ class SQL2FPGA_QPlan {
     //        }
     //      }
     else {
-      return "TPCH_READ_REGION_LEN"
+      return "TPCDS_READ_MAX"
       //return "TPCDS_READ_MAX"
       // return col_stripped
     }
@@ -5209,7 +5209,7 @@ class SQL2FPGA_QPlan {
         }
       }
     }
-    else {
+    else if (qConfig.tpch_or_tpcds == 0){
       // temp hack - Alec // join node reordering hack for Q2
       joinReordering(allCascadeJoinChains_trimmed(1).reverse, dfmap, sf)
       var filterNode = getParentsOtherChild(allCascadeJoinChains_trimmed(0).last._parent(0), allCascadeJoinChains_trimmed(0).last)

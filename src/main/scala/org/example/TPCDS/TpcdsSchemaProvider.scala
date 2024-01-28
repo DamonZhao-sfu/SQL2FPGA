@@ -506,8 +506,78 @@ class TpcdsSchemaProvider(sc: SparkSession, inputDir: String, format: String) {
 
   val dfMap = Map(
   "customer" -> sc.read.format(format)
-  .load("file://" + inputDir + "/customer")
-  .map(row => {
+  .load("file://" + inputDir + "/customer").toDF(),
+
+ "customer_address" -> sc.read.format(format)
+  .load("file://" + inputDir + "/customer_address").toDF(),
+
+ "customer_demographics" -> sc.read.format(format)
+  .load("file://" + inputDir + "/customer_demographics").toDF(),
+
+  "date_dim" -> sc.read.format(format)
+  .load("file://" + inputDir + "/date_dim").toDF(),
+
+  "household_demographics" -> sc.read.format(format)
+  .load("file://" + inputDir + "/household_demographics").toDF(),
+
+  "income_band" -> sc.read.format(format)
+  .load("file://" + inputDir + "/income_band").toDF(),
+
+  "item" -> sc.read.format(format)
+  .load("file://" + inputDir + "/item").toDF(),
+
+  "promotion" -> sc.read.format(format)
+  .load("file://" + inputDir + "/promotion").toDF(),
+
+  "reason" -> sc.read.format(format)
+  .load("file://" + inputDir + "/reason").toDF(),
+
+  "ship_mode" -> sc.read.format(format)
+  .load("file://" + inputDir + "/ship_mode").toDF(),
+
+  "store" -> sc.read.format(format)
+  .load("file://" + inputDir + "/store").toDF(),
+
+  "time_dim" -> sc.read.format(format)
+  .load("file://" + inputDir + "/time_dim").toDF(),
+
+  "warehouse" -> sc.read.format(format)
+  .load("file://" + inputDir + "/warehouse").toDF(),
+
+  "web_site" -> sc.read.format(format)
+  .load("file://" + inputDir + "/web_site").toDF(),
+
+  "web_page" -> sc.read.format(format)
+  .load("file://" + inputDir + "/web_page").toDF(),
+
+  "inventory" -> sc.read.format(format)
+  .load("file://" + inputDir + "/inventory").toDF(),
+
+  "store_returns" -> sc.read.format(format)
+  .load("file://" + inputDir + "/store_returns").toDF(),
+
+  "web_sales" -> sc.read.format(format)
+  .load("file://" + inputDir + "/web_sales").toDF(),
+
+  "web_returns" -> sc.read.format(format)
+  .load("file://" + inputDir + "/web_returns").toDF(),
+
+  "call_center" -> sc.read.format(format)
+  .load("file://" + inputDir + "/call_center").toDF(),
+
+  "catalog_page" -> sc.read.format(format)
+  .load("file://" + inputDir + "/catalog_page").toDF(),
+
+  "catalog_returns" -> sc.read.format(format)
+  .load("file://" + inputDir + "/catalog_returns").toDF(),
+
+  "catalog_sales" -> sc.read.format(format)
+  .load("file://" + inputDir + "/catalog_sales").toDF(),
+
+  "store_sales" -> sc.read.format(format)
+  .load("file://" + inputDir + "/store_sales").toDF())
+
+ /* .map(row => {
     Customer_tpcds(
   c_customer_sk = row.getAs[Long]("c_customer_sk").toInt,
   c_customer_id = row.getAs[String]("c_customer_id"),
@@ -528,8 +598,9 @@ class TpcdsSchemaProvider(sc: SparkSession, inputDir: String, format: String) {
   c_email_address = row.getAs[String]("c_email_address"),
   c_last_review_date = row.getAs[String]("c_last_review_date")
   )
-  }).toDF(),
+  })*/
 
+/*
    "customer_address" -> sc.read.format(format)
   .load("file://" + inputDir + "/customer_address")
   .map(row => {
@@ -566,10 +637,8 @@ class TpcdsSchemaProvider(sc: SparkSession, inputDir: String, format: String) {
     )
   }).toDF(),
 
-
-  "date_dim" -> sc.read.format(format)
-  .load("file://" + inputDir + "/date_dim")
-  .map(row => {
+*/
+ /* .map(row => {
     Date_dim(
   d_date_sk = row.getAs[Long]("d_date_sk").toInt,
   d_date_id = row.getAs[String]("d_date_id"),
@@ -600,9 +669,9 @@ class TpcdsSchemaProvider(sc: SparkSession, inputDir: String, format: String) {
   d_current_quarter = row.getAs[String]("d_current_quarter"),
   d_current_year = row.getAs[String]("d_current_year")
     )
-  }).toDF(),
+  })*/
 
-
+/*
   "household_demographics" -> sc.read.format(format)
   .load("file://" + inputDir + "/household_demographics")
   .map(row => {
@@ -694,10 +763,8 @@ ib_income_band_sk = row.getAs[Long]("ib_income_band_sk").toInt, // Convert from 
     sm_carrier = row.getAs[String]("sm_carrier"),
     sm_contract = row.getAs[String]("sm_contract")
   )).toDF(),
-
-    "store" -> sc.read.format(format)
-  .load("file://" + inputDir + "/store")
-  .map(row => Store(
+*/
+ /* .map(row => Store(
     s_store_sk = row.getAs[Long]("s_store_sk").toInt,  // Convert from Long to Int
     s_store_id = row.getAs[String]("s_store_id"),
     s_rec_start_date = row.getAs[java.sql.Date]("s_rec_start_date").toString.replace("-", "").toInt,  // Convert date to Int
@@ -727,8 +794,8 @@ ib_income_band_sk = row.getAs[Long]("ib_income_band_sk").toInt, // Convert from 
     s_country = row.getAs[String]("s_country"),
     s_gmt_offset = row.getAs[java.math.BigDecimal]("s_gmt_offset").multiply(new java.math.BigDecimal("100")).intValueExact(),  // Convert from decimal to Int
     s_tax_precentage = row.getAs[java.math.BigDecimal]("s_tax_precentage").multiply(new java.math.BigDecimal("100")).intValueExact()  // Convert from decimal to Int
-  )).toDF(),
-
+  )).toDF(),*/
+/*
    "time_dim" -> sc.read.format(format)
   .load("file://" + inputDir + "/time_dim")
   .map(row => Time_dim(
@@ -822,10 +889,8 @@ ib_income_band_sk = row.getAs[Long]("ib_income_band_sk").toInt, // Convert from 
     inv_warehouse_sk = row.getAs[Long]("inv_warehouse_sk").toInt, // Cast bigint to Int
     inv_quantity_on_hand = row.getAs[Int]("inv_quantity_on_hand")
   )).toDF(),
-
-  "store_returns" -> sc.read.format(format)
-  .load("file://" + inputDir + "/store_returns")
-  .map( row => Store_returns(
+*/
+ /* .map( row => Store_returns(
     sr_returned_date_sk     = row.getAs[Long]("sr_returned_date_sk").toInt,
     sr_return_time_sk       = row.getAs[Long]("sr_return_time_sk").toInt,
     sr_item_sk              = row.getAs[Long]("sr_item_sk").toInt,
@@ -846,8 +911,8 @@ ib_income_band_sk = row.getAs[Long]("ib_income_band_sk").toInt, // Convert from 
     sr_reversed_charge      = row.getAs[BigDecimal]("sr_reversed_charge").multiply(new BigDecimal("100")).intValueExact(), // Potential loss of precision
     sr_store_credit         = row.getAs[BigDecimal]("sr_store_credit").multiply(new BigDecimal("100")).intValueExact(), // Potential loss of precision
     sr_net_loss             = row.getAs[BigDecimal]("sr_net_loss").multiply(new BigDecimal("100")).intValueExact() // Potential loss of precision
-  )).toDF(),
-
+  )).toDF())*/
+/*
   "web_sales" -> sc.read.format(format)
   .load("file://" + inputDir + "/web_sales")
   .map(row => tpcds_web_sales(
@@ -1073,8 +1138,9 @@ ib_income_band_sk = row.getAs[Long]("ib_income_band_sk").toInt, // Convert from 
         ss_net_paid = row.getAs[BigDecimal]("ss_net_paid").multiply(new BigDecimal("100")).intValueExact(),
         ss_net_paid_inc_tax = row.getAs[BigDecimal]("ss_net_paid_inc_tax").multiply(new BigDecimal("100")).intValueExact(),
         ss_net_profit = row.getAs[BigDecimal]("ss_net_profit").multiply(new BigDecimal("100")).intValueExact()
-      ))
-    }).toDF()
+      ))}
+      */
+     // ).toDF())
 
 
   /*
@@ -1151,7 +1217,7 @@ ib_income_band_sk = row.getAs[Long]("ib_income_band_sk").toInt, // Convert from 
     Store_sales(p(0).trim.toInt, p(1).trim.toInt, p(2).trim.toInt, p(3).trim.toInt, p(4).trim.toInt, p(5).trim.toInt, p(6).trim.toInt, p(7).trim.toInt, p(8).trim.toInt, p(9).trim.toInt, p(10).trim.toInt, (p(11).trim.toDouble*100).toInt, (p(12).trim.toDouble*100).toInt, (p(13).trim.toDouble*100).toInt, (p(14).trim.toDouble*100).toInt, (p(15).trim.toDouble*100).toInt, (p(16).trim.toDouble*100).toInt, (p(17).trim.toDouble*100).toInt, (p(18).trim.toDouble*100).toInt, (p(19).trim.toDouble*100).toInt, (p(20).trim.toDouble*100).toInt, (p(21).trim.toDouble*100).toInt, (p(22).trim.toDouble*100).toInt)).toDF()
 
   */
-  )
+
 
   // for implicits
   val customer: DataFrame = dfMap("customer")
@@ -1183,6 +1249,7 @@ ib_income_band_sk = row.getAs[Long]("ib_income_band_sk").toInt, // Convert from 
     case (key, value) => {
       value.printSchema()
       value.show()
+      println(value.count())
       value.createOrReplaceTempView(key)
     }
   }

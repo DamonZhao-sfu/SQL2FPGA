@@ -24,6 +24,6 @@ class TPCDS_Q03 extends TPCDS_Queries{
       "and item.i_manufact_id = 436 " +
       "and d_moy=12 " +
       "group by d_year, item.i_brand, item.i_brand_id " +
-      "order by d_year, sum_agg desc, brand_id;")
+      "order by d_year, sum_agg desc, brand_id LIMIT 100;")
   }
 }

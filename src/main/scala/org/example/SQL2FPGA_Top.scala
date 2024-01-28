@@ -20,10 +20,10 @@ object SQL2FPGA_Top {
   qConfig.tpch_queryNum_list = ListBuffer(2) // 3, 13, 15, 18, 20
 
   qConfig.tpcds_queryNum_start = 1
-  qConfig.tpcds_queryNum_end = 22
-  qConfig.tpcds_queryNum_list = ListBuffer(2) // 1, 2, 3, 5, 6, 7, 8, 9
+  qConfig.tpcds_queryNum_end = 99
+  qConfig.tpcds_queryNum_list = ListBuffer(1,2,3) // 1, 2, 3, 5, 6, 7, 8, 9
 
-  qConfig.pure_sw_mode = 0
+  qConfig.pure_sw_mode = 1
   qConfig.query_plan_optimization_enable = "11111"
   qConfig.scale_factor = 1
   qConfig.tpch_or_tpcds = 1
