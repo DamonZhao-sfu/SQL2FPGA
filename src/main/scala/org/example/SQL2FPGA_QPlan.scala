@@ -5200,7 +5200,7 @@ class SQL2FPGA_QPlan {
       }
     }
     // transformation
-    if (qNum != 2) {
+    if (qConfig.tpch_or_tpcds == 0 && qNum != 2) {
       for (cascadeJoinChain <- allCascadeJoinChains_trimmed) {
         if (cascadeJoinChain.length >= 2) {
           var valid = joinReordering(cascadeJoinChain.reverse, dfmap, sf)
@@ -5775,7 +5775,8 @@ class SQL2FPGA_QPlan {
     }
     var sf = qConfig.scale_factor
     // Temp Hack Alec - tag:output_table_nrow
-    queryNum match {
+    if (qConfig.tpch_or_tpcds == 0) {
+      queryNum match {
         case 1 =>
           if (_nodeType == "Aggregate" && _treeDepth == 1 && _cpuORfpga == 1) {
             _numTableRow = 10
@@ -5941,8 +5942,7 @@ class SQL2FPGA_QPlan {
             _numTableRow = 6283
           }
       }
-
-
+    }
 
     var nodeOpName = _nodeType + "_TD_" + _treeDepth + scala.util.Random.nextInt(1000)
     _fpgaNodeName = nodeOpName
@@ -8620,7 +8620,8 @@ class SQL2FPGA_QPlan {
         (queryNum == 17 && join_operator._treeDepth == 2 && join_operator._nodeType == "JOIN_INNER") ||
         //(queryNum == 20 && join_operator._treeDepth == 3 && join_operator._nodeType == "JOIN_INNER") ||
         (queryNum == 21 && join_operator._treeDepth == 2 && join_operator._nodeType == "JOIN_INNER") ||
-        (queryNum == 23 && join_operator._treeDepth == 0 && join_operator._nodeType == "JOIN_INNER"))) {
+        (queryNum == 23 && join_operator._treeDepth == 0 && join_operator._nodeType == "JOIN_INNER")))
+      {
         joinTblOrderSwapped = true
         var temp_operator = rightmost_operator
         rightmost_operator = leftmost_operator
