@@ -1,14 +1,30 @@
 package org.example
 import org.apache.spark.sql._
-
 /**
- * TPC-DS Query 06
+ * TPC-DS Query 6
  */
 class TPCDS_Q06 extends TPCDS_Queries {
-
   override def TPCDS_execute(sc: SparkSession, schemaProvider: TpcdsSchemaProvider): DataFrame = {
-    sc.sql("select i_brand_id brand_id, i_brand brand, i_manufact_id, i_manufact,  sum(ss_ext_sales_price) ext_price " +
-      "from date_dim, store_sales, item,customer,customer_address,store " +
-      "where d_date_sk = ss_sold_date_sk   and ss_item_sk = i_item_sk   and i_manager_id=91   and d_moy=12   and d_year=2002   and ss_customer_sk = c_customer_sk   and c_current_addr_sk = ca_address_sk   and substr(ca_zip,1,5) <> substr(s_zip,1,5)   and ss_store_sk = s_store_sk group by i_brand      ,i_brand_id      ,i_manufact_id      ,i_manufact order by ext_price desc         ,i_brand         ,i_brand_id         ,i_manufact_id         ,i_manufact")
+    sc.sql("""--q6.sql--
+
+SELECT state, cnt FROM (
+ SELECT a.ca_state state, count(*) cnt
+ FROM
+    customer_address a, customer c, store_sales s, date_dim d, item i
+ WHERE a.ca_address_sk = c.c_current_addr_sk
+ 	AND c.c_customer_sk = s.ss_customer_sk
+ 	AND s.ss_sold_date_sk = d.d_date_sk
+ 	AND s.ss_item_sk = i.i_item_sk
+ 	AND d.d_month_seq =
+ 	     (SELECT distinct (d_month_seq) FROM date_dim 
+        WHERE d_year = 2001 AND d_moy = 1)
+ 	AND i.i_current_price > 1.2 *
+             (SELECT avg(j.i_current_price) FROM item j
+ 	            WHERE j.i_category = i.i_category)
+ GROUP BY a.ca_state
+) x
+WHERE cnt >= 10
+ORDER BY cnt LIMIT 100
+            """)
   }
 }

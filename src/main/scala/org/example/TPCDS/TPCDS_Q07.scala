@@ -1,12 +1,29 @@
 package org.example
 import org.apache.spark.sql._
-
 /**
- * TPC-DS Query 07
+ * TPC-DS Query 7
  */
 class TPCDS_Q07 extends TPCDS_Queries {
-
   override def TPCDS_execute(sc: SparkSession, schemaProvider: TpcdsSchemaProvider): DataFrame = {
-    sc.sql("select s_store_name, s_store_id,        sum(case when (d_day_name='Sunday') then ss_sales_price else null end) sun_sales,        sum(case when (d_day_name='Monday') then ss_sales_price else null end) mon_sales,        sum(case when (d_day_name='Tuesday') then ss_sales_price else  null end) tue_sales,        sum(case when (d_day_name='Wednesday') then ss_sales_price else null end) wed_sales,        sum(case when (d_day_name='Thursday') then ss_sales_price else null end) thu_sales,        sum(case when (d_day_name='Friday') then ss_sales_price else null end) fri_sales,        sum(case when (d_day_name='Saturday') then ss_sales_price else null end) sat_sales from date_dim, store_sales, store where d_date_sk = ss_sold_date_sk and       s_store_sk = ss_store_sk and       s_gmt_offset = -5 and       d_year = 2000 group by s_store_name, s_store_id order by s_store_name, s_store_id,sun_sales,mon_sales,tue_sales,wed_sales,thu_sales,fri_sales,sat_sales")
+    sc.sql("""--q7.sql--
+
+ SELECT i_item_id,
+        avg(ss_quantity) agg1,
+        avg(ss_list_price) agg2,
+        avg(ss_coupon_amt) agg3,
+        avg(ss_sales_price) agg4
+ FROM store_sales, customer_demographics, date_dim, item, promotion
+ WHERE ss_sold_date_sk = d_date_sk AND
+       ss_item_sk = i_item_sk AND
+       ss_cdemo_sk = cd_demo_sk AND
+       ss_promo_sk = p_promo_sk AND
+       cd_gender = 'M' AND
+       cd_marital_status = 'S' AND
+       cd_education_status = 'College' AND
+       (p_channel_email = 'N' or p_channel_event = 'N') AND
+       d_year = 2000
+ GROUP BY i_item_id
+ ORDER BY i_item_id LIMIT 100
+            """)
   }
 }
