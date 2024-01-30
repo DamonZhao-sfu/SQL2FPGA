@@ -69,9 +69,9 @@ class SQL2FPGA_QPlan {
   private var _fpgaOutputCode: ListBuffer[String] = new ListBuffer[String]()
   private var _fpgaOutputDevAllocateCode: ListBuffer[String] = new ListBuffer[String]()
   private var _executionTimeCode: ListBuffer[String] = new ListBuffer[String]()
-  val simplePairPattern: Regex = """\(([^=]+)\s*=\s*([^=]+)\)""".r
-  val withFunctionPattern: Regex = """([^=()\s]+\(.*?\)|[^=()\s]+)\s*=\s*([^=()\s]+\(.*?\)|[^=()\s]+)""".r
-
+  val simplePairPattern: Regex = """\(([^=!<>]+?)\s*(=|!=|<=>)\s*([^=!<>]+?)\)""".r
+  val withFunctionPattern: Regex = """([^=()\s]+\(.*?\)|[^=()<>\s]+)\s*(=|!=|<=>)\s*([^=()<>\s]+\(.*?\)|[^=()<>\s]+)""".r
+  
   def treeDepth = _treeDepth
   def genCodeVisited = _genCodeVisited
   def genHostCodeVisited = _genHostCodeVisited
@@ -2547,9 +2547,9 @@ class SQL2FPGA_QPlan {
     //  Key
     var key_str = ""
     for (key_col <- leftTableKeyColNames) {
-      var raw_key_col = key_col.split("#").head
+      var raw_col = getRawColumnName(key_col)
       var join_left_key_col_name = stripColumnName(key_col) + "_k"
-      var join_left_key_col_type = getColumnType(key_col, dfmap)
+      var join_left_key_col_type = getColumnType(raw_col, dfmap)
       var join_left_key_col_idx = join_left_table_col.indexOf(key_col)
       join_left_key_col_type match {
         case "IntegerType" =>
@@ -2575,16 +2575,16 @@ class SQL2FPGA_QPlan {
             }
             //find the col index of the string data in the original stringRowID table
             if (orig_tbl_idx == -1 && orig_tbl_col_idx == -1) {
-              coreCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(raw_key_col)) + " + 1> " + join_left_key_col_name + "_n = " + tbl_in_1 + ".getcharN<char, " + getStringLengthMacro(columnTableMap(raw_key_col)) + " + 1>(i, " + join_left_key_col_idx + ");"
+              coreCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(raw_col)) + " + 1> " + join_left_key_col_name + "_n = " + tbl_in_1 + ".getcharN<char, " + getStringLengthMacro(columnTableMap(raw_col)) + " + 1>(i, " + join_left_key_col_idx + ");"
               coreCode += "        std::string " + join_left_key_col_name + " = std::string(" + join_left_key_col_name + "_n.data());"
             }
             else {
               var rowIDNum = tbl_in_1 + ".getInt32(i, " + join_left_key_col_idx + ")"
-              coreCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(raw_key_col)) + " + 1> " + join_left_key_col_name + "_n = " + orig_table_names(orig_tbl_idx) + ".getcharN<char, " + getStringLengthMacro(columnTableMap(raw_key_col)) + " + 1>(" + rowIDNum + ", " + orig_tbl_col_idx + ");"
+              coreCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(raw_col)) + " + 1> " + join_left_key_col_name + "_n = " + orig_table_names(orig_tbl_idx) + ".getcharN<char, " + getStringLengthMacro(columnTableMap(raw_col)) + " + 1>(" + rowIDNum + ", " + orig_tbl_col_idx + ");"
               coreCode += "        std::string " + join_left_key_col_name + " = std::string(" + join_left_key_col_name + "_n.data());"
             }
           } else {
-            coreCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(raw_key_col)) + " + 1> " + join_left_key_col_name + "_n = " + tbl_in_1 + ".getcharN<char, " + getStringLengthMacro(columnTableMap(raw_key_col)) + " + 1>(i, " + join_left_key_col_idx + ");"
+            coreCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(raw_col)) + " + 1> " + join_left_key_col_name + "_n = " + tbl_in_1 + ".getcharN<char, " + getStringLengthMacro(columnTableMap(raw_col)) + " + 1>(i, " + join_left_key_col_idx + ");"
             coreCode += "        std::string " + join_left_key_col_name + " = std::string(" + join_left_key_col_name + "_n.data());"
           }
         case _ =>
@@ -2705,8 +2705,9 @@ class SQL2FPGA_QPlan {
     coreCode += "            auto it_bounds = ht1.equal_range(unique_key);"
     coreCode += "            for (auto it=it_bounds.first; it!=it_bounds.second; it++) {"
     for (left_payload <- leftTablePayloadColNames) {
+      var raw_col = getRawColumnName(left_payload) 
       var left_payload_name = stripColumnName(left_payload)
-      var left_payload_type = getColumnType(left_payload, dfmap)
+      var left_payload_type = getColumnType(raw_col, dfmap)
       var left_payload_input_index = join_left_table_col.indexOf(left_payload)
       left_payload_type match {
         case "IntegerType" =>
@@ -2718,7 +2719,7 @@ class SQL2FPGA_QPlan {
             coreCode += "                int32_t " + left_payload_name + " = (it->second)." + left_payload_name + ";"
           } else {
             coreCode += "                std::string " + left_payload_name + " = (it->second)." + left_payload_name + ";"
-            coreCode += "                std::array<char, " + getStringLengthMacro(columnTableMap(left_payload.split("#").head)) + " + 1> " + left_payload_name + "_n" + "{};"
+            coreCode += "                std::array<char, " + getStringLengthMacro(columnTableMap(raw_col) + " + 1> " + left_payload_name + "_n" + "{};"
             coreCode += "                memcpy(" + left_payload_name + "_n" + ".data(), (" + left_payload_name + ").data(), (" + left_payload_name + ").length());"
           }
         case _ =>
@@ -6546,8 +6547,8 @@ class SQL2FPGA_QPlan {
               println(key_pair)
               // var leftTblCol = key_pair.stripPrefix("(").stripSuffix(")").trim.split(" = ").head
               // var rightTblCol = key_pair.stripPrefix("(").stripSuffix(")").trim.split(" = ").last
-              var leftTblCol = key_pair.stripPrefix("(").stripSuffix(")").trim.split(" ").head
-              var rightTblCol = key_pair.stripPrefix("(").stripSuffix(")").trim.split(" ").last
+              var (leftTblCol, rightTblCol) = extractTableColumns(key_pair.stripPrefix("(").stripSuffix(")").trim)
+
               if (join_left_table_col.indexOf(leftTblCol) == -1) {
                 var tmpTblCol = leftTblCol
                 leftTblCol = rightTblCol
@@ -8949,7 +8950,7 @@ class SQL2FPGA_QPlan {
 
       // join key-payload col rearrangement
       for (key_pair <- join_key_pairs) {
-        var leftTblCol = key_pair.stripPrefix("(").stripSuffix(")").trim.split(" = ").head
+        /*var leftTblCol = key_pair.stripPrefix("(").stripSuffix(")").trim.split(" = ").head
         var rightTblCol = key_pair.stripPrefix("(").stripSuffix(")").trim.split(" = ").last
         if (join_operator._isSpecialSemiJoin && key_pair.contains(" != ")) {
           leftTblCol = key_pair.stripPrefix("(").stripSuffix(")").trim.split(" != ").head
@@ -8958,7 +8959,9 @@ class SQL2FPGA_QPlan {
         else if (join_operator._isSpecialAntiJoin && key_pair.contains(" != ")) {
           leftTblCol = key_pair.stripPrefix("(").stripSuffix(")").trim.split(" != ").head
           rightTblCol = key_pair.stripPrefix("(").stripSuffix(")").trim.split(" != ").last
-        }
+        }*/
+        var (leftTblCol, rightTblCol) = extractTableColumns(key_pair.stripPrefix("(").stripSuffix(")").trim)
+
 
         var needTableColSwap = false
         if (a_col_idx_dict_prev.contains(rightTblCol.split("#").head) && b_col_idx_dict_prev.contains(leftTblCol.split("#").head)) { //no alias
@@ -10088,13 +10091,13 @@ class SQL2FPGA_QPlan {
       // TODO: re-shuffle input col to be situated in the first 4 col
       var tmp_idx = 0
       for (ref_col <- filter_operator._filtering_expression.references) {
-        var refCol = ref_col.toString.split("#").head
-        var prev_ref_idx = col_idx_dict_next(refCol)
+        var raw_Col = ref_col.toString.split("#").head
+        var prev_ref_idx = col_idx_dict_next(raw_Col)
         var tmp_col = idx_col_dict_next(tmp_idx).split("#").head
         col_idx_dict_next(tmp_col) = prev_ref_idx
-        idx_col_dict_next(prev_ref_idx) = refCol
-        col_idx_dict_next(refCol) = tmp_idx
-        idx_col_dict_next(tmp_idx) = refCol
+        idx_col_dict_next(prev_ref_idx) = raw_Col
+        col_idx_dict_next(raw_Col) = tmp_idx
+        idx_col_dict_next(tmp_idx) = raw_Col
         tmp_idx += 1
       }
       var filterCfgFuncName = "gen_fcfg_" + _fpgaNodeName
