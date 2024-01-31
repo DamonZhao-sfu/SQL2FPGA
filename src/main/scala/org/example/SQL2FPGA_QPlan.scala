@@ -1,6 +1,6 @@
 package org.example
 import org.apache.spark.sql.DataFrame
-import org.apache.spark.sql.catalyst.expressions.Expression
+import org.apache.spark.sql.catalyst.expressions.{Expression, InSet}
 import org.example.SQL2FPGA_Top.{DEBUG_CASCADE_JOIN_OPT, DEBUG_REDUNDANT_OP_OPT, DEBUG_SPECIAL_JOIN_OPT, DEBUG_STRINGDATATYPE_OPT, columnCodeMap, columnDictionary, columnTableMap, qConfig}
 
 import scala.util.matching.Regex
@@ -69,7 +69,6 @@ class SQL2FPGA_QPlan {
   private var _fpgaOutputCode: ListBuffer[String] = new ListBuffer[String]()
   private var _fpgaOutputDevAllocateCode: ListBuffer[String] = new ListBuffer[String]()
   private var _executionTimeCode: ListBuffer[String] = new ListBuffer[String]()
-  val simplePairPattern: Regex = """\(([^=!<>]+?)\s*(=|!=|<=>)\s*([^=!<>]+?)\)""".r
   val withFunctionPattern: Regex = """([^=()\s]+\(.*?\)|[^=()<>\s]+)\s*(=|!=|<=>)\s*([^=()<>\s]+\(.*?\)|[^=()<>\s]+)""".r
   
   def treeDepth = _treeDepth
@@ -316,6 +315,11 @@ class SQL2FPGA_QPlan {
     result
   }
 
+  def extractEquailty(expression: String): String = {
+    val pattern: Regex = "(=|!=|<=>)".r
+    pattern.findFirstIn(expression).get(0).toString
+  }
+
   def getColumnType(raw_col_name: String, dfmap: Map[String, DataFrame]): String = {
     var result = ""
     var col_name = raw_col_name
@@ -352,8 +356,7 @@ class SQL2FPGA_QPlan {
   }
 
   def extractTableColumns(key_pair: String): (String, String) = key_pair match {
-    case withFunctionPattern(left, right) => (left.trim, right.trim)
-    case simplePairPattern(left, right) => (left.trim, right.trim)
+    case withFunctionPattern(left, _, right) => (left.trim, right.trim)
     case _ => throw new IllegalArgumentException(s"Unexpected key pair format: $key_pair")
   }
 
@@ -404,10 +407,10 @@ class SQL2FPGA_QPlan {
     if (raw_col_name.contains("substr")) {
       val substrPattern: Regex = """substr\(\s*([^,]+?)\s*,\s*(\d+)\s*,\s*(\d+)\s*\)""".r
       result = substrPattern.replaceAllIn(raw_col_name, m => {
-        val columnName = m.group(1).trim
+        val columnName = m.group(1).trim.split("#").head
         val start = m.group(2)
         val length = m.group(3)
-        s"substr_${columnName}-$start-$length"
+        return "substr_" + columnName + "_" + start+ "_" + length
       })
       return result
     }
@@ -962,7 +965,47 @@ class SQL2FPGA_QPlan {
         prereq_str ++= right_sub._1
         return (prereq_str, "(" + left_sub._2 + " < " + right_sub._2 + ")")
       }
-      else if (expr.getClass.getName == "org.apache.spark.sql.catalyst.expressions.In") {
+      else if (expr.getClass.getName == "org.apache.spark.sql.catalyst.expressions.InSet") {
+        var expr_type = expr.children(0).dataType.toString
+        var reuse_col_str = ""
+        var reuse_col_str_name = "reuse_col_str_" + scala.util.Random.nextInt(1000).toString
+        var target_col_str = getFilterExpression(expr.children(0), children)
+        var set = expr.asInstanceOf[InSet].hset
+        var filtering_term = "("
+        var vec_name = "vec_" + scala.util.Random.nextInt(1000).toString
+        prereq_str += "std::vector<std::string>"+ vec_name +" = {"
+        prereq_str += set.map { element =>
+          if (expr_type == "StringType") {
+            "\"" + element.toString + "\""
+          } else {
+            element.toString
+          }
+        }.mkString(",")
+        prereq_str += "};"
+
+        if (expr_type == "StringType") {
+          if (expr.children(0).getClass.getName == "org.apache.spark.sql.catalyst.expressions.AttributeReference") {
+            reuse_col_str = "auto " + reuse_col_str_name + " = " + "std::string(" + target_col_str._2 + ".data());"
+          } else {
+            reuse_col_str = "auto " + reuse_col_str_name + " = " + target_col_str._2.stripPrefix("(") + ";"
+          }
+        }
+        else if (expr_type == "IntegerType" || expr_type == "LongType" || expr_type == "DoubleType"){
+          reuse_col_str = "auto " + reuse_col_str_name + " = " + target_col_str._2 + ";"
+        }
+        else{
+          filtering_term += "// Unrecognized filtering type"
+        }
+        prereq_str += reuse_col_str
+        // Logic to judge whether an element exists in the vector
+        prereq_str += "bool elementExists = std::find(" + vec_name + ".begin(), " + vec_name + ".end()," + reuse_col_str_name + ") != " + vec_name + ".end();"
+
+        filtering_term += "(elementExists)" + " || "
+        filtering_term += "(0)" //to complete the additional "||" term
+        filtering_term += ")"
+        return (prereq_str, filtering_term)
+
+      } else if (expr.getClass.getName == "org.apache.spark.sql.catalyst.expressions.In") {
         var expr_type = expr.children(0).dataType.toString
         var target_col_str = getFilterExpression(expr.children(0), children)
         prereq_str ++= target_col_str._1
@@ -1036,7 +1079,6 @@ class SQL2FPGA_QPlan {
         //            and it only has one output (i.e., outputCols(0))
         var col_symbol = children(1).operation(0).split(" AS ").last
         var col_symbol_trimmed = stripColumnName(col_symbol)
-        // TODO this is codemap?
         return (prereq_str, columnDictionary(col_symbol.split("#").head)._1)
       }
       else {
@@ -2407,7 +2449,7 @@ class SQL2FPGA_QPlan {
     structCode += "struct " + joinKeyTypeName + " {"
     for (key_pair <- join_key_pairs) {
       // for case like 'substr(ca_zip#63, 1, 5) = ca_zip#3545'
-      var (leftTblCol, rightTblCol) = extractTableColumns(key_pair.stripPrefix("(").stripSuffix(")").trim)
+      var (leftTblCol, rightTblCol) = extractTableColumns(key_pair)
       //var leftTblCol = key_pair.stripPrefix("(").stripSuffix(")").trim.split(" ").head
       //var rightTblCol = key_pair.stripPrefix("(").stripSuffix(")").trim.split(" ").last
       if (join_left_table_col.indexOf(leftTblCol) == -1) {
@@ -2439,14 +2481,14 @@ class SQL2FPGA_QPlan {
     var equivalentOperation = "        return ("
     var i = 0
     for (i <- 0 to leftTableKeyColNames.length - 2) {
-      var equality = join_key_pairs(i).stripPrefix("(").stripSuffix(")").trim.split(" ")(1) // operator is in index 1
+      var equality = extractEquailty(join_key_pairs(i).stripPrefix("(").stripSuffix(")").trim) // operator is in index 1
       if (equality == "=") {
         equivalentOperation += "(" + stripColumnName(leftTableKeyColNames(i)) + " == other." + stripColumnName(leftTableKeyColNames(i)) + ") && "
       } else if (equality == "!=" || equality == "<=>") {
         equivalentOperation += "(" + stripColumnName(leftTableKeyColNames(i)) + " != other." + stripColumnName(leftTableKeyColNames(i)) + ") && "
       }
     }
-    var equality = join_key_pairs.last.stripPrefix("(").stripSuffix(")").trim.split(" ")(1) // operator is in index 1
+    var equality = extractEquailty(join_key_pairs(i).stripPrefix("(").stripSuffix(")").trim) // operator is in index 1
     if (equality == "=") {
       equivalentOperation += "(" + stripColumnName(leftTableKeyColNames.last) + " == other." + stripColumnName(leftTableKeyColNames.last) + "));"
     } else if (equality == "!=" || equality == "<=>") {
@@ -2467,7 +2509,7 @@ class SQL2FPGA_QPlan {
     var joinKeyHashStr = "        return "
     i = 0
     for (left_key_pair <- leftTableKeyColNames) {
-      var equality = join_key_pairs(i).stripPrefix("(").stripSuffix(")").trim.split(" ")(1) // operator is in index 1
+      var equality = extractEquailty(join_key_pairs(i).stripPrefix("(").stripSuffix(")").trim) // operator is in index 1
       if (equality == "=") {
         var leftTblColType = getColumnType(left_key_pair, dfmap)
         var leftTblColName = stripColumnName(left_key_pair)
@@ -2719,7 +2761,7 @@ class SQL2FPGA_QPlan {
             coreCode += "                int32_t " + left_payload_name + " = (it->second)." + left_payload_name + ";"
           } else {
             coreCode += "                std::string " + left_payload_name + " = (it->second)." + left_payload_name + ";"
-            coreCode += "                std::array<char, " + getStringLengthMacro(columnTableMap(raw_col) + " + 1> " + left_payload_name + "_n" + "{};"
+            coreCode += "                std::array<char, " + getStringLengthMacro(columnTableMap(raw_col)) + " + 1> " + left_payload_name + "_n" + "{};"
             coreCode += "                memcpy(" + left_payload_name + "_n" + ".data(), (" + left_payload_name + ").data(), (" + left_payload_name + ").length());"
           }
         case _ =>
@@ -2910,7 +2952,7 @@ class SQL2FPGA_QPlan {
     for (key_col <- rightTableKeyColNames) {
       var raw_col = getRawColumnName(key_col)
       var join_right_key_col_name = stripColumnName(key_col) + "_k"
-      var join_right_key_col_type = getColumnType(raw_col, dfMap)
+      var join_right_key_col_type = getColumnType(raw_col, dfmap)
       var join_right_key_col_idx = join_right_table_col.indexOf(key_col)
       join_right_key_col_type match {
         case "IntegerType" =>
@@ -3303,7 +3345,7 @@ class SQL2FPGA_QPlan {
     }
     else { //no filtering - standard write out output columns
       for (left_payload <- leftTablePayloadColNames) {
-        var raw_col = getRawColumnName(left_payload
+        var raw_col = getRawColumnName(left_payload)
         var left_payload_name = stripColumnName(left_payload)
         var left_payload_type = getColumnType(raw_col, dfmap)
         var left_payload_index = thisNode._outputCols.indexOf(left_payload)
@@ -3557,7 +3599,7 @@ class SQL2FPGA_QPlan {
       var filter_expr = getJoinFilterExpression(joining_expression(0))
       coreCode += "            if " + filter_expr + " {"
       for (left_payload <- leftTablePayloadColNames) {
-        var raw_col = getRawColumnName(leftTablePayloadColNames
+        var raw_col = getRawColumnName(left_payload)
         var left_payload_name = stripColumnName(left_payload)
         var left_payload_type = getColumnType(raw_col, dfmap)
         var left_payload_index = thisNode._outputCols.indexOf(left_payload)
@@ -3571,7 +3613,7 @@ class SQL2FPGA_QPlan {
               if (left_child._stringRowIDSubstitution == true && thisNode._stringRowIDBackSubstitution == false) {
                 coreCode += "                " + tbl_out_1 + ".setInt32(r, " + left_payload_index + ", " + left_payload_name + ");"
               } else {
-                coreCode += "                " + tbl_out_1 + ".setcharN<char, " + getStringLengthMacro(columnTableMap(raw_col) + " + 1>(r, " + left_payload_index + ", " + left_payload_name + ");"
+                coreCode += "                " + tbl_out_1 + ".setcharN<char, " + getStringLengthMacro(columnTableMap(raw_col)) + " + 1>(r, " + left_payload_index + ", " + left_payload_name + ");"
               }
             case _ =>
               coreCode += "                // Unsupported join key type"
@@ -6547,7 +6589,7 @@ class SQL2FPGA_QPlan {
               println(key_pair)
               // var leftTblCol = key_pair.stripPrefix("(").stripSuffix(")").trim.split(" = ").head
               // var rightTblCol = key_pair.stripPrefix("(").stripSuffix(")").trim.split(" = ").last
-              var (leftTblCol, rightTblCol) = extractTableColumns(key_pair.stripPrefix("(").stripSuffix(")").trim)
+              var (leftTblCol, rightTblCol) = extractTableColumns(key_pair)
 
               if (join_left_table_col.indexOf(leftTblCol) == -1) {
                 var tmpTblCol = leftTblCol
@@ -6573,14 +6615,14 @@ class SQL2FPGA_QPlan {
             var equivalentOperation = "        return ("
             var i = 0
             for (i <- 0 to leftTableKeyColNames.length - 2) {
-              var equality = join_key_pairs(i).stripPrefix("(").stripSuffix(")").trim.split(" ")(1) // operator is in index 1
+              var equality = extractEquailty(join_key_pairs(i).stripPrefix("(").stripSuffix(")").trim) // operator is in index 1
               if (equality == "=") {
                 equivalentOperation += "(" + stripColumnName(leftTableKeyColNames(i)) + " == other." + stripColumnName(leftTableKeyColNames(i)) + ") && "
               } else if (equality == "!=" || equality == "<=>") {
                 equivalentOperation += "(" + stripColumnName(leftTableKeyColNames(i)) + " != other." + stripColumnName(leftTableKeyColNames(i)) + ") && "
               }
             }
-            var equality = join_key_pairs.last.stripPrefix("(").stripSuffix(")").trim.split(" ")(1) // operator is in index 1
+            var equality = extractEquailty(join_key_pairs(i).stripPrefix("(").stripSuffix(")").trim) // operator is in index 1
             if (equality == "=") {
               equivalentOperation += "(" + stripColumnName(leftTableKeyColNames.last) + " == other." + stripColumnName(leftTableKeyColNames.last) + "));"
             } else if (equality == "!=" || equality == "<=>") {
@@ -6601,7 +6643,7 @@ class SQL2FPGA_QPlan {
             var joinKeyHashStr = "        return "
             i = 0
             for (left_key_pair <- leftTableKeyColNames) {
-              var equality = join_key_pairs(i).stripPrefix("(").stripSuffix(")").trim.split(" ")(1) // operator is in index 1
+              var equality = extractEquailty(join_key_pairs(i).stripPrefix("(").stripSuffix(")").trim) // operator is in index 1
               if (equality == "=") {
                 var leftTblColType = getColumnType(left_key_pair, dfmap)
                 var leftTblColName = stripColumnName(left_key_pair)
@@ -7392,7 +7434,6 @@ class SQL2FPGA_QPlan {
                 var col_type = groupBy_payload.dataType.toString
                 var col_symbol = groupBy_payload.toString.split(" AS ").last
                 var raw_col = getRawColumnName(col_symbol)
-
                 columnDictionary += (raw_col -> (col_type, "NULL"))
                 columnDictionary += (col_symbol -> (col_type, "NULL"))
                 var col_symbol_trimmed = stripColumnName(col_symbol)
@@ -7408,6 +7449,9 @@ class SQL2FPGA_QPlan {
                     columnTableMap(raw_col) = columnTableMap(groupBy_payload.references.head.toString.split("#").head)
                     if (_stringRowIDSubstitution) {
                       _fpgaSWFuncCode += "        int32_t " + col_symbol_trimmed + " = " + col_expr + ";"
+                    }
+                    else if(groupBy_payload.children(0).getClass.getName == "org.apache.spark.sql.catalyst.expressions.Substring") {
+                      _fpgaSWFuncCode += "        std::string " + col_symbol_trimmed + " = " + col_expr + ";"
                     }
                     else {
                       _fpgaSWFuncCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(raw_col)) + " + 1> " + col_symbol_trimmed + " = " + col_expr + ";"
@@ -8960,7 +9004,7 @@ class SQL2FPGA_QPlan {
           leftTblCol = key_pair.stripPrefix("(").stripSuffix(")").trim.split(" != ").head
           rightTblCol = key_pair.stripPrefix("(").stripSuffix(")").trim.split(" != ").last
         }*/
-        var (leftTblCol, rightTblCol) = extractTableColumns(key_pair.stripPrefix("(").stripSuffix(")").trim)
+        var (leftTblCol, rightTblCol) = extractTableColumns(key_pair)
 
 
         var needTableColSwap = false
