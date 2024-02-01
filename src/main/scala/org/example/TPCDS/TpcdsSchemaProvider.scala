@@ -1,7 +1,7 @@
 package org.example
 import org.apache.spark.sql.{DataFrame, SparkSession}
 import java.math.BigDecimal
-// TPC-DS table schemas
+// TPC-DS table schemasd
 
 case class Customer_tpcds(
                            c_customer_sk           : Int, //bigint

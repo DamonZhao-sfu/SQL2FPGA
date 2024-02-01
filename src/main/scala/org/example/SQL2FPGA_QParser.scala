@@ -1,9 +1,9 @@
 package org.example
 import org.apache.spark.sql.catalyst.expressions.Expression
 import org.apache.spark.sql.catalyst.plans.QueryPlan
-import org.apache.spark.sql.catalyst.plans.logical.{Aggregate, AppendColumns, AppendColumnsWithObject, BinaryNode, DeserializeToObject, Distinct, Filter, Generate, GlobalLimit, Join, LocalLimit, LogicalPlan, MapElements, Project, Repartition, RepartitionByExpression, Sample, SerializeFromObject, Sort, SubqueryAlias, TypedFilter, UnaryNode, Window}
+import org.apache.spark.sql.catalyst.plans.logical.{Aggregate, AppendColumns, AppendColumnsWithObject, BinaryNode, DeserializeToObject, Distinct, Filter, Generate, GlobalLimit, Join, LocalLimit, LogicalPlan, MapElements, Project, Repartition, RepartitionByExpression, Sample, SerializeFromObject, Sort, SubqueryAlias, TypedFilter, UnaryNode, Union, Window}
 import org.apache.spark.sql.execution.datasources.LogicalRelation
-import org.example.SQL2FPGA_Top.{DEBUG_PARSER, columnDictionary, columnTableMap, columnCodeMap}
+import org.example.SQL2FPGA_Top.{DEBUG_PARSER, columnCodeMap, columnDictionary, columnTableMap}
 
 import scala.collection.mutable.ListBuffer
 
@@ -32,7 +32,7 @@ class SQL2FPGA_QParser {
   }
   //------------------------
   // functions
-  //------------------------
+  //-----------------------// TODO add tpcds support
   def getTableRow(tbl_name: String, scale_factor: Int): Int = {
     var result = 0
     tbl_name match {
@@ -392,6 +392,10 @@ class SQL2FPGA_QParser {
     }
   }
 
+  def printUnionOperation(union: Union, num_indent: Int, root_required_col: ListBuffer[String], fpga_plan: SQL2FPGA_QPlan, sf: Int): Unit = {
+    print("Union Operation Not Supported Yet")
+  }
+
   def printBinaryOperation(b: BinaryNode,
                            num_indent: Int,
                            root_required_col: ListBuffer[String],
@@ -406,6 +410,8 @@ class SQL2FPGA_QParser {
 //    }
     nodeType = b.nodeName
     fpga_plan.nodeType = nodeType
+    println("nodeType is " +  nodeType)
+
     print("\n")
     b match {
       case al_join: Join =>
@@ -422,6 +428,7 @@ class SQL2FPGA_QParser {
         print("Process: ")
         var condition = new ListBuffer[String]()
         var joining_expr = new ListBuffer[Expression]()
+        // TODO Q28 Join Cross Support
         for (_condition <- al_join.condition) {
           println(_condition.getClass.getName)
           print(_condition.toString + ", ")
@@ -485,7 +492,10 @@ class SQL2FPGA_QParser {
       case r: LogicalRelation => {
          printReadLogicalRelation(r, num_indent, parent_required_col, fpga_plan, scale_factor)
       }
-      case _ => Nil
+      case un: Union => printUnionOperation(un, num_indent, parent_required_col, fpga_plan, scale_factor)
+      case _ => {
+        println("Unsupported plan" + plan)
+      }
     }
   }
   def parse_SparkQPlan_to_SQL2FPGAQPlan_TPCH(SparkOptQPlan: QueryPlan[_], qConfig: SQL2FPGA_QConfig, schemaProvider: TpchSchemaProvider): Unit = {

@@ -1,6 +1,7 @@
 package org.example
 import org.apache.spark.sql.DataFrame
-import org.apache.spark.sql.catalyst.expressions.{Expression, InSet}
+import org.apache.spark.sql.catalyst.expressions.{Expression, InSet, ScalarSubquery}
+import org.apache.spark.sql.catalyst.plans.logical.Aggregate
 import org.example.SQL2FPGA_Top.{DEBUG_CASCADE_JOIN_OPT, DEBUG_REDUNDANT_OP_OPT, DEBUG_SPECIAL_JOIN_OPT, DEBUG_STRINGDATATYPE_OPT, columnCodeMap, columnDictionary, columnTableMap, qConfig}
 
 import scala.util.matching.Regex
@@ -965,6 +966,13 @@ class SQL2FPGA_QPlan {
         prereq_str ++= right_sub._1
         return (prereq_str, "(" + left_sub._2 + " < " + right_sub._2 + ")")
       }
+      else if (expr.getClass.getName == "org.apache.spark.sql.catalyst.expressions.Multiply") {
+        var left_sub = getFilterExpression(expr.children(0), children)
+        var right_sub = getFilterExpression(expr.children(1), children)
+        prereq_str ++= left_sub._1
+        prereq_str ++= right_sub._1
+        return (prereq_str, "(" + left_sub._2 + " * " + right_sub._2 + ")")
+      }
       else if (expr.getClass.getName == "org.apache.spark.sql.catalyst.expressions.InSet") {
         var expr_type = expr.children(0).dataType.toString
         var reuse_col_str = ""
@@ -1079,7 +1087,7 @@ class SQL2FPGA_QPlan {
         //            and it only has one output (i.e., outputCols(0))
         var col_symbol = children(1).operation(0).split(" AS ").last
         var col_symbol_trimmed = stripColumnName(col_symbol)
-        return (prereq_str, columnDictionary(col_symbol.split("#").head)._1)
+        return (prereq_str, columnDictionary(col_symbol_trimmed)._1)
       }
       else {
         println(expr.getClass.getName)
@@ -1555,10 +1563,24 @@ class SQL2FPGA_QPlan {
         return "std::string(" + target_str + ".data())" + ".substr(" + target_start_pos + ", " + target_str_len + ")"
       }
       else if (expr.getClass.getName == "org.apache.spark.sql.catalyst.expressions.CaseWhen") {
-        var case_condition = getAggregateExpression(expr.children(0))
-        var case_yes_val = getAggregateExpression(expr.children(1))
-        var case_no_val = getAggregateExpression(expr.children(2))
-        return case_condition + " ? " + case_yes_val + " : " + case_no_val
+        // for case like
+        //  case when A then B else C end
+        if (expr.children.length == 3) {
+          var case_condition = getAggregateExpression(expr.children(0))
+          var case_yes_val = getAggregateExpression(expr.children(1))
+          var case_no_val = getAggregateExpression(expr.children(2))
+          return case_condition + " ? " + case_yes_val + " : " + case_no_val
+        }
+          // for case like
+          // case when A then B end
+          var case_condition = getAggregateExpression(expr.children(0))
+          var case_yes_val = getAggregateExpression(expr.children(1))
+          return case_condition + " ? " + case_yes_val + " : 1"
+
+      }
+      else if (expr.getClass.getName == "org.apache.spark.sql.catalyst.expressions.ScalarSubquery") {
+        var colName = expr.asInstanceOf[ScalarSubquery].plan.asInstanceOf[Aggregate].aggregateExpressions.toString().split(" AS ").last
+        return stripColumnName(colName)
       }
       else {
         println(expr.getClass.getName)
@@ -1643,10 +1665,21 @@ class SQL2FPGA_QPlan {
         return "(" + "std::string(" + left_sub + ".data()).find(" + right_sub + ")" + "!="  + "std::string::npos" + ")"
       }
       else if (expr.getClass.getName == "org.apache.spark.sql.catalyst.expressions.CaseWhen") {
-        var case_condition = getAggregateExpression_abstracted(expr.children(0), col_aggregate_ops, start_op_idx, prefix_str)
-        var case_yes_val = getAggregateExpression_abstracted(expr.children(1), col_aggregate_ops, start_op_idx, prefix_str)
-        var case_no_val = getAggregateExpression_abstracted(expr.children(2), col_aggregate_ops, start_op_idx, prefix_str)
-        return case_condition + " ? " + case_yes_val + " : " + case_no_val
+
+        if (expr.children.length == 3) {
+          var case_condition = getAggregateExpression_abstracted(expr.children(0), col_aggregate_ops, start_op_idx, prefix_str)
+          var case_yes_val = getAggregateExpression_abstracted(expr.children(1), col_aggregate_ops, start_op_idx, prefix_str)
+          var case_no_val = getAggregateExpression_abstracted(expr.children(2), col_aggregate_ops, start_op_idx, prefix_str)
+          return case_condition + " ? " + case_yes_val + " : " + case_no_val
+        }
+          // for case like
+          // case when A then B end
+          var case_condition = getAggregateExpression_abstracted(expr.children(0), col_aggregate_ops, start_op_idx, prefix_str)
+          var case_yes_val = getAggregateExpression_abstracted(expr.children(1), col_aggregate_ops, start_op_idx, prefix_str)
+          // TODO
+          return case_condition + " ? " + case_yes_val + " : 1"
+
+
       }
       else if (expr.getClass.getName == "org.apache.spark.sql.catalyst.expressions.aggregate.Sum"){
         var op_idx = col_aggregate_ops.indexOf(expr) + start_op_idx
@@ -1757,10 +1790,19 @@ class SQL2FPGA_QPlan {
         return "std::string(" + target_str + ".data())" + ".substr(" + target_start_pos + ", " + target_str_len + ")"
       }
       else if (expr.getClass.getName == "org.apache.spark.sql.catalyst.expressions.CaseWhen") {
-        var case_condition = getAggregateExpression_ALUOPCompiler(expr.children(0))
-        var case_yes_val = getAggregateExpression_ALUOPCompiler(expr.children(1))
-        var case_no_val = getAggregateExpression_ALUOPCompiler(expr.children(2))
-        return case_condition + " ? " + case_yes_val + " : " + case_no_val
+        if (expr.children.length == 3) {
+          var case_condition = getAggregateExpression_ALUOPCompiler(expr.children(0))
+          var case_yes_val = getAggregateExpression_ALUOPCompiler(expr.children(1))
+          var case_no_val = getAggregateExpression_ALUOPCompiler(expr.children(2))
+          return case_condition + " ? " + case_yes_val + " : " + case_no_val
+        }
+          // for case like
+          // case when A then B end
+          var case_condition = getAggregateExpression_ALUOPCompiler(expr.children(0))
+          var case_yes_val = getAggregateExpression_ALUOPCompiler(expr.children(1))
+          // TODO
+          return case_condition + " ? " + case_yes_val + " : 1"
+
       }
       else {
         println(expr.getClass.getName)
@@ -1972,10 +2014,22 @@ class SQL2FPGA_QPlan {
         return this_op
       }
       else if (expr.getClass.getName == "org.apache.spark.sql.catalyst.expressions.CaseWhen") {
+
+        if (expr.children.length == 3) {
+          var case_condition = getAggregateOperations(expr.children(0))
+          var case_yes_val = getAggregateOperations(expr.children(1))
+          var case_no_val = getAggregateOperations(expr.children(2))
+          this_op = case_condition ++ case_yes_val ++ case_no_val
+          return this_op
+        }
+        // for case like
+        // case when A then B end
         var case_condition = getAggregateOperations(expr.children(0))
         var case_yes_val = getAggregateOperations(expr.children(1))
-        var case_no_val = getAggregateOperations(expr.children(2))
-        this_op = case_condition ++ case_yes_val ++ case_no_val
+        this_op = case_condition ++ case_yes_val
+        return this_op
+      }
+      else if (expr.getClass.getName == "org.apache.spark.sql.catalyst.expressions.ScalarSubquery") {
         return this_op
       }
       else {
@@ -7060,7 +7114,8 @@ class SQL2FPGA_QPlan {
               }
               dataType match {
                 case "StringType" =>
-                  if (_parent.head._stringRowIDSubstitution) {
+                  // TPCDS Q24 fix: _parent != null
+                  if (!_parent.isEmpty && _parent.head._stringRowIDSubstitution) {
                     // return row index
                     _fpgaSWFuncCode += "            " + tbl_out_1 + ".setInt32(r, " + i + ", i);"
                     _stringRowIDSubstitution = true
@@ -8241,30 +8296,28 @@ class SQL2FPGA_QPlan {
     if (_nodeType == "Aggregate" || _nodeType == "Project") {
       var groupByExists = false
       if (_groupBy_operation.length > 0) {
-        groupByExists = true
-      }
-      if (groupByExists == false) {
         var tbl_out = _fpgaOutputTableName
         var op_idx = 0
-        for (groupBy_payload <- _aggregate_expression) {
-          var col_symbol = groupBy_payload.toString.split(" AS ").last
-          var col_type = getColumnType(col_symbol, dfmap)
-          var col_symbol_trimmed = stripColumnName(col_symbol)
-          var col_aggregate_ops = getAggregateOperations(groupBy_payload.children(0))
+        groupByExists = true
+        for (groupBy_payload <- _groupBy_expression) {
+          var col_name = groupBy_payload.toString
+          var raw_col = getRawColumnName(col_name)
+          var col_type = getColumnType(raw_col, dfmap)
+          var col_symbol_trimmed = stripColumnName(col_name)
+
           if (col_type == "IntegerType") {
           } else if (col_type == "LongType") {
           } else if (col_type == "StringType") {
-            columnDictionary(col_symbol_trimmed) = columnDictionary(groupBy_payload.references.head.toString)
+            columnDictionary(raw_col) = columnDictionary(groupBy_payload.references.head.toString)
           } else if (col_type == "DoubleType") {
-            columnDictionary(col_symbol) = ("LongType", "NULL")
+            columnDictionary(raw_col) = ("LongType", "NULL")
           } else {
             col_type = col_type.split("\\(").head
             if (col_type == "DecimalType"){
-              columnDictionary(col_symbol) = ("LongType", "NULL")
+              columnDictionary(raw_col) = ("LongType", "NULL")
               col_type = "LongType"
             }
           }
-          col_type = getColumnType(col_symbol, dfmap)
           if (col_type == "IntegerType") {
             //Alec-added: adding aggregation result based on the "AS" name in the case of subquery
             columnDictionary += (col_symbol_trimmed -> (tbl_out + ".getInt32(" + op_idx + ", 0)", "NULL"))
@@ -8272,6 +8325,40 @@ class SQL2FPGA_QPlan {
             //Alec-added: adding aggregation result based on the "AS" name in the case of subquery
             columnDictionary += (col_symbol_trimmed -> (tbl_out + ".getInt64(" + op_idx + ", 0)", "NULL"))
           } else {
+
+          }
+        }
+      }
+      if (groupByExists == false) {
+        var tbl_out = _fpgaOutputTableName
+        var op_idx = 0
+        for (groupBy_payload <- _aggregate_expression) {
+          var col_symbol = groupBy_payload.toString.split(" AS ").last
+          var col_type = getColumnType(col_symbol, dfmap)
+          var raw_col = getRawColumnName(col_symbol)
+          var col_symbol_trimmed = stripColumnName(col_symbol)
+          var col_aggregate_ops = getAggregateOperations(groupBy_payload.children(0))
+          if (col_type == "IntegerType") {
+          } else if (col_type == "LongType") {
+          } else if (col_type == "StringType") {
+            columnDictionary(raw_col) = columnDictionary(groupBy_payload.references.head.toString)
+          } else if (col_type == "DoubleType") {
+            columnDictionary(raw_col) = ("LongType", "NULL")
+          } else {
+            col_type = col_type.split("\\(").head
+            if (col_type == "DecimalType"){
+              columnDictionary(raw_col) = ("LongType", "NULL")
+              col_type = "LongType"
+            }
+          }
+          if (col_type == "IntegerType") {
+            //Alec-added: adding aggregation result based on the "AS" name in the case of subquery
+            columnDictionary += (col_symbol_trimmed -> (tbl_out + ".getInt32(" + op_idx + ", 0)", "NULL"))
+          } else if (col_type == "LongType") {
+            //Alec-added: adding aggregation result based on the "AS" name in the case of subquery
+            columnDictionary += (col_symbol_trimmed -> (tbl_out + ".getInt64(" + op_idx + ", 0)", "NULL"))
+          } else {
+
           }
           op_idx += col_aggregate_ops.length
         }
