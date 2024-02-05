@@ -3,7 +3,7 @@ import org.apache.spark.sql._
 /**
  * TPC-DS Query ss_max
  */
-class TPCDS_SS_MAX extends TPCDS_Queries {
+class TPCDS_Q100 extends TPCDS_Queries {
   override def TPCDS_execute(sc: SparkSession, schemaProvider: TpcdsSchemaProvider): DataFrame = {
     sc.sql("""select
   count(*) as total,

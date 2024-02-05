@@ -393,7 +393,26 @@ class SQL2FPGA_QParser {
   }
 
   def printUnionOperation(union: Union, num_indent: Int, root_required_col: ListBuffer[String], fpga_plan: SQL2FPGA_QPlan, sf: Int): Unit = {
-    print("Union Operation Not Supported Yet")
+    print(num_indent.toString)
+    print_indent(num_indent)
+    var nodeType = ""
+    nodeType = union.nodeName
+    fpga_plan.nodeType = nodeType
+    print("nodeType is " +  nodeType)
+    fpga_plan.outputCols = root_required_col
+    var operation = new ListBuffer[String]()
+    operation += union.nodePatterns.toString()
+
+    for (ch <- union.children) {
+      var next_fpga_plan = new SQL2FPGA_QPlan
+      next_fpga_plan.treeDepth = fpga_plan.treeDepth + 1
+      parse_optimized_query(ch, num_indent + 1, null, next_fpga_plan, sf)
+      var current_children = fpga_plan.children
+      current_children += next_fpga_plan
+      fpga_plan.children = current_children
+    }
+    fpga_plan.operation =  operation
+
   }
 
   def printBinaryOperation(b: BinaryNode,

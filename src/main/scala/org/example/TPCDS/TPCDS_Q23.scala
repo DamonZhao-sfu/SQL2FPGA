@@ -5,9 +5,7 @@ import org.apache.spark.sql._
  */
 class TPCDS_Q23 extends TPCDS_Queries {
   override def TPCDS_execute(sc: SparkSession, schemaProvider: TpcdsSchemaProvider): DataFrame = {
-   /* sc.sql("""--q23b.sql--
-
-
+    sc.sql("""--q23b.sql--
  with frequent_ss_items as
  (select substr(i_item_desc,1,30) itemdesc,i_item_sk item_sk,d_date solddate,count(*) cnt
   from store_sales, date_dim, item
@@ -54,9 +52,9 @@ class TPCDS_Q23 extends TPCDS_Queries {
        group by c_last_name,c_first_name)) y
      order by c_last_name,c_first_name,sales
  limit 100
-            """)*/
+            """)
 
-    sc.sql("""--q23a.sql--
+  /*  sc.sql("""--q23a.sql--
 
  with frequent_ss_items as
  (select substr(i_item_desc,1,30) itemdesc,i_item_sk item_sk,d_date solddate,count(*) cnt
@@ -98,7 +96,7 @@ class TPCDS_Q23 extends TPCDS_Queries {
          and ws_item_sk in (select item_sk from frequent_ss_items)
          and ws_bill_customer_sk in (select c_customer_sk from best_ss_customer))) x
  limit 100
-""")
+""")*/
 
 
   }

@@ -479,7 +479,7 @@ class SQL2FPGA_Codegen {
     while(s_entire_plan.nonEmpty) {
       var tmp_node = s_entire_plan.pop()
       if (tmp_node.operation.nonEmpty){
-        var timeVal_id = scala.util.Random.nextInt(1000)
+        var timeVal_id = scala.util.Random.nextInt(1000000)
         bw.write("    struct timeval " + "tv_r_" + tmp_node.nodeType + "_" + tmp_node.treeDepth.toString + "_" + timeVal_id + "_s, " + "tv_r_" + tmp_node.nodeType + "_" + tmp_node.treeDepth.toString + "_" + timeVal_id + "_e;" + "\n")
         bw.write("    gettimeofday(&" + "tv_r_" + tmp_node.nodeType + "_" + tmp_node.treeDepth.toString + "_" + timeVal_id + "_s, 0);" + "\n")
         if (tmp_node.cpuORfpga == 0) { // CPU SW implementation

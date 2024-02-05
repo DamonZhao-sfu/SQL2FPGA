@@ -3,7 +3,8 @@ import org.apache.spark.sql._
 /**
  * TPC-DS Query 1
  */
-class TPCDS_Q01 extends TPCDS_Queries {
+class
+TPCDS_Q01 extends TPCDS_Queries {
   override def TPCDS_execute(sc: SparkSession, schemaProvider: TpcdsSchemaProvider): DataFrame = {
     sc.sql("""--q1.sql--
 
