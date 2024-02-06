@@ -1,6 +1,7 @@
 package org.example
 import org.apache.spark.sql.DataFrame
-import org.apache.spark.sql.catalyst.expressions.{Expression, InSet, ScalarSubquery}
+import org.apache.spark.sql.catalyst.expressions.aggregate.{AggregateExpression, AggregateFunction}
+import org.apache.spark.sql.catalyst.expressions.{Alias, Expression, InSet, ScalarSubquery, WindowExpression}
 import org.apache.spark.sql.catalyst.plans.logical.Aggregate
 import org.example.SQL2FPGA_Top.{DEBUG_CASCADE_JOIN_OPT, DEBUG_REDUNDANT_OP_OPT, DEBUG_SPECIAL_JOIN_OPT, DEBUG_STRINGDATATYPE_OPT, columnCodeMap, columnDictionary, columnTableMap, qConfig}
 
@@ -29,6 +30,7 @@ class SQL2FPGA_QPlan {
   private var _groupBy_expression: ListBuffer[Expression] = new ListBuffer[Expression]()
   private var _sorting_expression: ListBuffer[Expression] = new ListBuffer[Expression]()
   private var _joining_expression: ListBuffer[Expression] = new ListBuffer[Expression]()
+  private var _window_expression: ListBuffer[Expression] = new ListBuffer[Expression]()
   private var _isSpecialSemiJoin: Boolean = false
   private var _isSpecialAntiJoin: Boolean = false
   private var _stringRowIDSubstitution: Boolean = false
@@ -89,6 +91,7 @@ class SQL2FPGA_QPlan {
   def groupBy_operation = _groupBy_operation
   def groupBy_expression = _groupBy_expression
   def sorting_expression = _sorting_expression
+  def window_expression = _window_expression
   def joining_expression = _joining_expression
   def isSpecialSemiJoin = _isSpecialSemiJoin
   def isSpecialAntiJoin = _isSpecialAntiJoin
@@ -179,6 +182,9 @@ class SQL2FPGA_QPlan {
   }
   def sorting_expression_= (newValue: ListBuffer[Expression]): Unit ={
     _sorting_expression = newValue
+  }
+  def window_expression_= (newValue: ListBuffer[Expression]): Unit ={
+    _window_expression = newValue
   }
   def joining_expression_= (newValue: ListBuffer[Expression]): Unit ={
     _joining_expression = newValue
@@ -1107,8 +1113,7 @@ class SQL2FPGA_QPlan {
           //var literal = filter_expr.split(" = ").last.replaceAll("\\)", "").replaceAll("\\(", "")
           //return (prereq_str, "(" + col_symbol + " == " + literal + ")")
 
-        } else if (child_operation.contains("+")) {
-          // TODO FIX TPCDS 54
+        } else {
           col_symbol = child_operation.toString
         }
         var col_symbol_trimmed = stripColumnName(col_symbol)
@@ -5780,7 +5785,7 @@ class SQL2FPGA_QPlan {
             }
           }
           // if (this_node._nodeType == "Sort" || this_node._nodeType == "Project") {
-          if (this_node._nodeType == "Sort" || this_node._nodeType == "Project" || this_node._nodeType == "Union") {
+          if (this_node._nodeType == "Sort" || this_node._nodeType == "Project" || this_node._nodeType == "Union" || this_node._nodeType == "Window") {
             cpuORfpgaExecution = 0
           }
           if (this_node._nodeType == "Aggregate") {
@@ -6477,146 +6482,12 @@ class SQL2FPGA_QPlan {
         // SW Function Code
         _nodeType match {
           case "JOIN_CROSS" => {
-
-            var tempStr = "void " + _fpgaSWFuncName + "("
-            for (ch <- _children) {
-              if (sf == 30 && ch._cpuORfpga == 1 && ch._nodeType != "SerializeFromObject") {
-                tempStr += "Table *" + ch.fpgaOutputTableName + ", "
-              } else {
-                tempStr += "Table &" + ch.fpgaOutputTableName + ", "
-              }
-            }
-            if (_stringRowIDBackSubstitution == true) {
-              var orig_table_names = get_stringRowIDOriginalTableName(this)
-              for (orig_tbl <- orig_table_names){
-                tempStr += "Table &" + orig_tbl + ", "
-              }
-            }
-            if (sf == 30 && ((_children.head._cpuORfpga == 1 && _children.head._nodeType != "SerializeFromObject") || (_children.last._cpuORfpga == 1 && _children.last._nodeType != "SerializeFromObject"))) {
-              tempStr += "Table &" + _fpgaOutputTableName + ", int hpTimes) {"
-            } else {
-              tempStr += "Table &" + _fpgaOutputTableName + ") {"
-            }
-            var tbl_in_1 = _children.head.fpgaOutputTableName
-            var tbl_in_2 = _children.last.fpgaOutputTableName
-
-            var join_left_table_col = _children.head.outputCols
-            var join_right_table_col = _children.last.outputCols
-
-            _fpgaSWFuncCode += tempStr
-            _fpgaSWFuncCode += "    // StringRowIDSubstitution: " + _stringRowIDSubstitution + " StringRowIDBackSubstitution: " + _stringRowIDBackSubstitution
-            _fpgaSWFuncCode += "    // Supported operation: " + _nodeType
-            // ----------------------------------- Debug info -----------------------------------
-            _fpgaSWFuncCode += "    // Operation: " + _operation
-            _fpgaSWFuncCode += "    // Left Table: " + join_left_table_col
-            _fpgaSWFuncCode += "    // Right Table: " + join_right_table_col
-            _fpgaSWFuncCode += "    // Output Table: " + _outputCols
-            // ----------------------------------- Debug info -----------------------------------
-            if (sf == 30 && _children.head._cpuORfpga == 1 && _children.head._nodeType != "SerializeFromObject") {
-              _fpgaSWFuncCode += "    int left_nrow = " + tbl_in_1 + "[0].getNumRow();"
-            } else {
-              _fpgaSWFuncCode += "    int left_nrow = " + tbl_in_1 + ".getNumRow();"
-            }
-            if (sf == 30 && _children.last._cpuORfpga == 1 && _children.last._nodeType != "SerializeFromObject") {
-              _fpgaSWFuncCode += "    int right_nrow = " + tbl_in_2 + "[0].getNumRow();"
-            } else {
-              _fpgaSWFuncCode += "    int right_nrow = " + tbl_in_2 + ".getNumRow();"
-            }
-            _fpgaSWFuncCode += "    long r = 0;"
-            _fpgaSWFuncCode += "    for (int i = 0; i < left_nrow; i++) {"
-            _fpgaSWFuncCode += "        for (int i = 0; i < right_nrow; i++) {"
-
-            var outputTableColumnIdx = 0
-            for (left_col <- join_left_table_col) {
-              var raw_left_col = getRawColumnName(left_col)
-              var join_left_key_col_name = stripColumnName(left_col)
-              var join_left_key_col_type = getColumnType(raw_left_col, dfmap)
-              join_left_key_col_type match {
-                case "IntegerType" =>
-                  _fpgaSWFuncCode += "        " + _fpgaOutputTableName + ".setInt32(r, "+ outputTableColumnIdx.toString + ", " + tbl_in_1 + ".getInt32(i, " + outputTableColumnIdx.toString +"));"
-                case "LongType" =>
-                  _fpgaSWFuncCode += "        " + _fpgaOutputTableName + ".setInt32(r, "+ outputTableColumnIdx.toString + ", " + tbl_in_1 + ".getInt64(i, " + outputTableColumnIdx.toString +"));"
-                case "StringType" =>
-                  _fpgaSWFuncCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(raw_left_col)) + " + 1> " + join_left_key_col_name + "_n = " + _fpgaOutputTableName + ".getcharN<char, " + getStringLengthMacro(columnTableMap(raw_left_col)) + " + 1>(i, " + outputTableColumnIdx.toString + ");"
-                  _fpgaSWFuncCode += "        " + _fpgaOutputTableName + ".setcharN<char, " + getStringLengthMacro(columnTableMap(raw_left_col)) + " + 1>(r, " + outputTableColumnIdx.toString + ", " + join_left_key_col_name + "_n" + ");"
-                case _ =>
-                  _fpgaSWFuncCode += "        // Unsupported Union key type"
-              }
-              outputTableColumnIdx +=1
-            }
-            for (right_col <- join_right_table_col) {
-              var raw_right_col = getRawColumnName(right_col)
-              var join_right_key_col_name = stripColumnName(right_col)
-              var join_right_key_col_type = getColumnType(raw_right_col, dfmap)
-              join_right_key_col_type match {
-                case "IntegerType" =>
-                  _fpgaSWFuncCode += "        " + _fpgaOutputTableName + ".setInt32(r, "+ outputTableColumnIdx.toString + ", " + tbl_in_2 + ".getInt32(i, " + outputTableColumnIdx.toString +"));"
-                case "LongType" =>
-                  _fpgaSWFuncCode += "        " + _fpgaOutputTableName + ".setInt32(r, "+ outputTableColumnIdx.toString + ", " + tbl_in_2 + ".getInt64(i, " + outputTableColumnIdx.toString +"));"
-                case "StringType" =>
-                  _fpgaSWFuncCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(raw_right_col)) + " + 1> " + join_right_key_col_name + "_n = " + _fpgaOutputTableName + ".getcharN<char, " + getStringLengthMacro(columnTableMap(raw_right_col)) + " + 1>(i, " + outputTableColumnIdx.toString + ");"
-                  _fpgaSWFuncCode += "        " + _fpgaOutputTableName + ".setcharN<char, " + getStringLengthMacro(columnTableMap(raw_right_col)) + " + 1>(r, " + outputTableColumnIdx.toString + ", " + join_right_key_col_name + "_n" + ");"
-                case _ =>
-                  _fpgaSWFuncCode += "        // Unsupported Union key type"
-              }
-              outputTableColumnIdx +=1
-            }
-            _fpgaSWFuncCode += "        ++r;"
-            _fpgaSWFuncCode += "    }"
+            genCrossJoinCPUCode(sf, dfmap)
           }
-
-
           case "Union" => {
-            println("UNION Operator")
-            var tempStr = "void " + _fpgaSWFuncName + "("
-            for (ch <- _children) {
-              tempStr += "Table &" + ch.fpgaOutputTableName + ", "
-            }
-            if (_stringRowIDBackSubstitution == true) {
-              var orig_table_names = get_stringRowIDOriginalTableName(this)
-              for (orig_tbl <- orig_table_names){
-                tempStr += "Table &" + orig_tbl + ", "
-              }
-            }
-            tempStr += "Table &" + _fpgaOutputTableName + ") {"
-            _fpgaSWFuncCode += tempStr
-            _fpgaSWFuncCode += "    // StringRowIDSubstitution: " + _stringRowIDSubstitution + " StringRowIDBackSubstitution: " + _stringRowIDBackSubstitution
-            _fpgaSWFuncCode += "    // Supported operation: " + _nodeType
-            // ----------------------------------- Debug info -----------------------------------
-            _fpgaSWFuncCode += "    // Operation: " + _operation
-            _fpgaSWFuncCode += "    // Output Table: " + _outputCols
-            _fpgaSWFuncCode += "    int r = 0;"
-            for (i <- 0 until _children.length) {
-              var tableName = _children(i).fpgaOutputTableName
-              _fpgaSWFuncCode += "    int row" +  i.toString +  " = " + tableName + ".getNumRow();"
-              _fpgaSWFuncCode += "    for (int i = 0; i < row" + i.toString + "; i++) {"
-              for (j <- 0 until _children(i).outputCols.length) {
-                var outputCol = _children(i).outputCols(j)
-                var colName = stripColumnName(outputCol)
-                var raw_col = getRawColumnName(outputCol)
-                var colType = getColumnType(raw_col, dfmap)
-                colType match {
-                  case "IntegerType" =>
-                    _fpgaSWFuncCode += "        " + _fpgaOutputTableName + ".setInt32(r, "+ j.toString + ", " + tableName + ".getInt32(i, " + j.toString +"));"
-                  case "LongType" =>
-                    _fpgaSWFuncCode += "        " + _fpgaOutputTableName + ".setInt32(r, "+ j.toString + ", " + tableName + ".getInt64(i, " + j.toString +"));"
-                  case "StringType" =>
-                    _fpgaSWFuncCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(raw_col)) + " + 1> " + colName + "_n = " + _fpgaOutputTableName + ".getcharN<char, " + getStringLengthMacro(columnTableMap(raw_col)) + " + 1>(i, " + j.toString + ");"
-                    _fpgaSWFuncCode += "        " + _fpgaOutputTableName + ".setcharN<char, " + getStringLengthMacro(columnTableMap(raw_col)) + " + 1>(r, " + j.toString + ", " + colName + "_n" + ");"
-
-                  case _ =>
-                    _fpgaSWFuncCode += "        // Unsupported Union key type"
-                }
-
-              }
-              _fpgaSWFuncCode += "        ++r;"
-              _fpgaSWFuncCode += "    }"
-            }
-
-
+            genUnionCPUCode(sf, dfmap)
           }
           case "JOIN_INNER" =>
-            // tag:innerjoin
             var tempStr = "void " + _fpgaSWFuncName + "("
             for (ch <- _children) {
               if (sf == 30 && ch._cpuORfpga == 1 && ch._nodeType != "SerializeFromObject") {
@@ -7295,7 +7166,7 @@ class SQL2FPGA_QPlan {
               }
               dataType match {
                 case "StringType" =>
-                  // TPCDS Q24 fix: _parent != null
+                  // TPCDS Q24 fix: !_parent.isEmpty
                   if (!_parent.isEmpty && _parent.head._stringRowIDSubstitution) {
                     // return row index
                     _fpgaSWFuncCode += "            " + tbl_out_1 + ".setInt32(r, " + i + ", i);"
@@ -8485,6 +8356,11 @@ class SQL2FPGA_QPlan {
             _fpgaSWFuncCode += "        ++r;"
             _fpgaSWFuncCode += "    }"
             _fpgaSWFuncCode += "    " + tbl_out_1 + ".setNumRow(r);"
+
+          case "Window" => {
+            genWindowCPUCode(sf, dfmap)
+          }
+
           case _ =>
             var tempStr = "void " + _fpgaSWFuncName + "("
             for (ch <- _children){
@@ -10901,6 +10777,244 @@ class SQL2FPGA_QPlan {
     _fpgaKernelRunCode += tmp_aggr_col_consolidate
 
   }
+
+  def genUnionCPUCode(sf: Int, dfmap: Map[String, DataFrame]): Unit = {
+    var tempStr = "void " + _fpgaSWFuncName + "("
+    for (ch <- _children) {
+      if (sf == 30) {
+        if (ch._cpuORfpga == 1) {
+          tempStr += "Table *" + ch.fpgaOutputTableName + ", "
+        } else {
+          tempStr += "Table &" + ch.fpgaOutputTableName + ", "
+        }
+      } else {
+        tempStr += "Table &" + ch.fpgaOutputTableName + ", "
+      }
+    }
+    if (_stringRowIDBackSubstitution == true) {
+      var orig_table_names = get_stringRowIDOriginalTableName(this)
+      for (orig_tbl <- orig_table_names){
+        tempStr += "Table &" + orig_tbl + ", "
+      }
+    }
+    if (sf == 30 && _children.head._cpuORfpga == 1) {
+      tempStr += "Table &" + _fpgaOutputTableName + ", int hpTimes) {"
+    } else {
+      tempStr += "Table &" + _fpgaOutputTableName + ") {"
+    }
+
+    _fpgaSWFuncCode += tempStr
+    _fpgaSWFuncCode += "    // StringRowIDSubstitution: " + _stringRowIDSubstitution + " StringRowIDBackSubstitution: " + _stringRowIDBackSubstitution
+    _fpgaSWFuncCode += "    // Supported operation: " + _nodeType
+    // ----------------------------------- Debug info -----------------------------------
+    _fpgaSWFuncCode += "    // Operation: " + _operation
+    _fpgaSWFuncCode += "    // Output Table: " + _outputCols
+    _fpgaSWFuncCode += "    int r = 0;"
+    for (i <- 0 until _children.length) {
+      var tableName = _children(i).fpgaOutputTableName
+      _fpgaSWFuncCode += "    int row" +  i.toString +  " = " + tableName + ".getNumRow();"
+      _fpgaSWFuncCode += "    for (int i = 0; i < row" + i.toString + "; i++) {"
+      for (j <- 0 until _children(i).outputCols.length) {
+        var outputCol = _children(i).outputCols(j)
+        var colName = stripColumnName(outputCol)
+        var raw_col = getRawColumnName(outputCol)
+        var colType = getColumnType(raw_col, dfmap)
+        colType match {
+          case "IntegerType" =>
+            _fpgaSWFuncCode += "        " + _fpgaOutputTableName + ".setInt32(r, "+ j.toString + ", " + tableName + ".getInt32(i, " + j.toString +"));"
+          case "LongType" =>
+            _fpgaSWFuncCode += "        " + _fpgaOutputTableName + ".setInt32(r, "+ j.toString + ", " + tableName + ".getInt64(i, " + j.toString +"));"
+          case "StringType" =>
+            _fpgaSWFuncCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(raw_col)) + " + 1> " + colName + "_n = " + _fpgaOutputTableName + ".getcharN<char, " + getStringLengthMacro(columnTableMap(raw_col)) + " + 1>(i, " + j.toString + ");"
+            _fpgaSWFuncCode += "        " + _fpgaOutputTableName + ".setcharN<char, " + getStringLengthMacro(columnTableMap(raw_col)) + " + 1>(r, " + j.toString + ", " + colName + "_n" + ");"
+
+          case _ =>
+            _fpgaSWFuncCode += "        // Unsupported Union key type"
+        }
+
+      }
+      _fpgaSWFuncCode += "        ++r;"
+      _fpgaSWFuncCode += "    }"
+    }
+    _fpgaSWFuncCode += "    " + _fpgaOutputTableName + ".setNumRow(r);"
+  }
+
+  def genCrossJoinCPUCode(sf: Int, dfmap: Map[String, DataFrame]): Unit = {
+    var tempStr = "void " + _fpgaSWFuncName + "("
+    for (ch <- _children) {
+      if (sf == 30 && ch._cpuORfpga == 1 && ch._nodeType != "SerializeFromObject") {
+        tempStr += "Table *" + ch.fpgaOutputTableName + ", "
+      } else {
+        tempStr += "Table &" + ch.fpgaOutputTableName + ", "
+      }
+    }
+    if (_stringRowIDBackSubstitution == true) {
+      var orig_table_names = get_stringRowIDOriginalTableName(this)
+      for (orig_tbl <- orig_table_names){
+        tempStr += "Table &" + orig_tbl + ", "
+      }
+    }
+    if (sf == 30 && ((_children.head._cpuORfpga == 1 && _children.head._nodeType != "SerializeFromObject") || (_children.last._cpuORfpga == 1 && _children.last._nodeType != "SerializeFromObject"))) {
+      tempStr += "Table &" + _fpgaOutputTableName + ", int hpTimes) {"
+    } else {
+      tempStr += "Table &" + _fpgaOutputTableName + ") {"
+    }
+    var tbl_in_1 = _children.head.fpgaOutputTableName
+    var tbl_in_2 = _children.last.fpgaOutputTableName
+
+    var join_left_table_col = _children.head.outputCols
+    var join_right_table_col = _children.last.outputCols
+
+    _fpgaSWFuncCode += tempStr
+    _fpgaSWFuncCode += "    // StringRowIDSubstitution: " + _stringRowIDSubstitution + " StringRowIDBackSubstitution: " + _stringRowIDBackSubstitution
+    _fpgaSWFuncCode += "    // Supported operation: " + _nodeType
+    // ----------------------------------- Debug info -----------------------------------
+    _fpgaSWFuncCode += "    // Operation: " + _operation
+    _fpgaSWFuncCode += "    // Left Table: " + join_left_table_col
+    _fpgaSWFuncCode += "    // Right Table: " + join_right_table_col
+    _fpgaSWFuncCode += "    // Output Table: " + _outputCols
+    // ----------------------------------- Debug info -----------------------------------
+    if (sf == 30 && _children.head._cpuORfpga == 1 && _children.head._nodeType != "SerializeFromObject") {
+      _fpgaSWFuncCode += "    int left_nrow = " + tbl_in_1 + "[0].getNumRow();"
+    } else {
+      _fpgaSWFuncCode += "    int left_nrow = " + tbl_in_1 + ".getNumRow();"
+    }
+    if (sf == 30 && _children.last._cpuORfpga == 1 && _children.last._nodeType != "SerializeFromObject") {
+      _fpgaSWFuncCode += "    int right_nrow = " + tbl_in_2 + "[0].getNumRow();"
+    } else {
+      _fpgaSWFuncCode += "    int right_nrow = " + tbl_in_2 + ".getNumRow();"
+    }
+    _fpgaSWFuncCode += "    long r = 0;"
+    _fpgaSWFuncCode += "    for (int i = 0; i < left_nrow; i++) {"
+    _fpgaSWFuncCode += "        for (int i = 0; i < right_nrow; i++) {"
+
+    var outputTableColumnIdx = 0
+    for (left_col <- join_left_table_col) {
+      var raw_left_col = getRawColumnName(left_col)
+      var join_left_key_col_name = stripColumnName(left_col)
+      var join_left_key_col_type = getColumnType(raw_left_col, dfmap)
+      join_left_key_col_type match {
+        case "IntegerType" =>
+          _fpgaSWFuncCode += "        " + _fpgaOutputTableName + ".setInt32(r, "+ outputTableColumnIdx.toString + ", " + tbl_in_1 + ".getInt32(i, " + outputTableColumnIdx.toString +"));"
+        case "LongType" =>
+          _fpgaSWFuncCode += "        " + _fpgaOutputTableName + ".setInt32(r, "+ outputTableColumnIdx.toString + ", " + tbl_in_1 + ".getInt64(i, " + outputTableColumnIdx.toString +"));"
+        case "StringType" =>
+          _fpgaSWFuncCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(raw_left_col)) + " + 1> " + join_left_key_col_name + "_n = " + _fpgaOutputTableName + ".getcharN<char, " + getStringLengthMacro(columnTableMap(raw_left_col)) + " + 1>(i, " + outputTableColumnIdx.toString + ");"
+          _fpgaSWFuncCode += "        " + _fpgaOutputTableName + ".setcharN<char, " + getStringLengthMacro(columnTableMap(raw_left_col)) + " + 1>(r, " + outputTableColumnIdx.toString + ", " + join_left_key_col_name + "_n" + ");"
+        case _ =>
+          _fpgaSWFuncCode += "        // Unsupported Union key type"
+      }
+      outputTableColumnIdx +=1
+    }
+    for (right_col <- join_right_table_col) {
+      var raw_right_col = getRawColumnName(right_col)
+      var join_right_key_col_name = stripColumnName(right_col)
+      var join_right_key_col_type = getColumnType(raw_right_col, dfmap)
+      join_right_key_col_type match {
+        case "IntegerType" =>
+          _fpgaSWFuncCode += "        " + _fpgaOutputTableName + ".setInt32(r, "+ outputTableColumnIdx.toString + ", " + tbl_in_2 + ".getInt32(i, " + outputTableColumnIdx.toString +"));"
+        case "LongType" =>
+          _fpgaSWFuncCode += "        " + _fpgaOutputTableName + ".setInt32(r, "+ outputTableColumnIdx.toString + ", " + tbl_in_2 + ".getInt64(i, " + outputTableColumnIdx.toString +"));"
+        case "StringType" =>
+          _fpgaSWFuncCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(raw_right_col)) + " + 1> " + join_right_key_col_name + "_n = " + _fpgaOutputTableName + ".getcharN<char, " + getStringLengthMacro(columnTableMap(raw_right_col)) + " + 1>(i, " + outputTableColumnIdx.toString + ");"
+          _fpgaSWFuncCode += "        " + _fpgaOutputTableName + ".setcharN<char, " + getStringLengthMacro(columnTableMap(raw_right_col)) + " + 1>(r, " + outputTableColumnIdx.toString + ", " + join_right_key_col_name + "_n" + ");"
+        case _ =>
+          _fpgaSWFuncCode += "        // Unsupported Union key type"
+      }
+      outputTableColumnIdx +=1
+    }
+    _fpgaSWFuncCode += "        ++r;"
+    _fpgaSWFuncCode += "    }"
+    _fpgaSWFuncCode += "    " + _fpgaOutputTableName + ".setNumRow(r);"
+
+  }
+
+  def genWindowCPUCode(sf: Int, dfmap: Map[String, DataFrame]): Unit = {
+    var tempStr = "void " + _fpgaSWFuncName + "("
+    for (ch <- _children) {
+      if (sf == 30) {
+        if (ch._cpuORfpga == 1) {
+          tempStr += "Table *" + ch.fpgaOutputTableName + ", "
+        } else {
+          tempStr += "Table &" + ch.fpgaOutputTableName + ", "
+        }
+      } else {
+        tempStr += "Table &" + ch.fpgaOutputTableName + ", "
+      }
+    }
+    if (_stringRowIDBackSubstitution == true) {
+      var orig_table_names = get_stringRowIDOriginalTableName(this)
+      for (orig_tbl <- orig_table_names){
+        tempStr += "Table &" + orig_tbl + ", "
+      }
+    }
+    if (sf == 30 && _children.head._cpuORfpga == 1) {
+      tempStr += "Table &" + _fpgaOutputTableName + ", int hpTimes) {"
+    } else {
+      tempStr += "Table &" + _fpgaOutputTableName + ") {"
+    }
+    _fpgaSWFuncCode += tempStr
+    _fpgaSWFuncCode += "    // StringRowIDSubstitution: " + _stringRowIDSubstitution + " StringRowIDBackSubstitution: " + _stringRowIDBackSubstitution
+    _fpgaSWFuncCode += "    // Supported operation: " + _nodeType
+    _fpgaSWFuncCode += "    // Operation: " + _operation
+    _fpgaSWFuncCode += "    // Input: " + _children.head.outputCols
+    _fpgaSWFuncCode += "    // Output: " + outputCols
+
+    for ( expr <- _window_expression) {
+      var windowExpr = expr.asInstanceOf[Alias].child.asInstanceOf[WindowExpression]
+      var windowFunction = windowExpr.windowFunction
+      _fpgaSWFuncCode += "    // window spec " + windowExpr.windowSpec.toString()
+      var partitionKeys = windowExpr.windowSpec.partitionSpec
+      var orderByKeys = windowExpr.windowSpec.orderSpec
+      var frameSpec = windowExpr.windowSpec.frameSpecification
+
+      for (partitionKey <- partitionKeys) {
+
+
+      }
+
+      for (orderByKey <- orderByKeys) {
+
+      }
+
+      windowFunction.getClass.getName match {
+        case "org.apache.spark.sql.catalyst.expressions.Rank" => {
+
+        }
+        case "org.apache.spark.sql.catalyst.expressions.aggregate.AggregateExpression" => {
+          var aggFunction = windowFunction.asInstanceOf[AggregateExpression].aggregateFunction.getClass.getName
+          _fpgaSWFuncCode += "    // window aggregationFunction " + aggFunction
+
+          // TODO group by with partitionKeys and order by with orderByKeys
+          aggFunction match {
+            case "org.apache.spark.sql.catalyst.expressions.aggregate.Average" => {
+
+            }
+            case "org.apache.spark.sql.catalyst.expressions.aggregate.Sum" => {
+
+            }
+            case "org.apache.spark.sql.catalyst.expressions.aggregate.Count" => {
+
+            }
+            case "org.apache.spark.sql.catalyst.expressions.aggregate.Max" => {
+
+            }
+            case "org.apache.spark.sql.catalyst.expressions.aggregate.Min" => {
+
+            }
+            case _ => {
+              _fpgaSWFuncCode += "    // unsupported window aggregation " + aggFunction
+            }
+          }
+        }
+        case _ => {
+          _fpgaSWFuncCode += "    // not supported window function " + windowFunction
+        }
+      }
+    }
+
+  }
+
 
   def genFPGAPartOverlayCode(parentNode: SQL2FPGA_QPlan, dfmap: Map[String, DataFrame], nodeOpName :String, sf : Int, queryNum: Int): Unit = {
     var nodeCfgCmd = "cfg_" + nodeOpName + "_cmds"

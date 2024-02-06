@@ -18,7 +18,9 @@ class TPCDS_Q44 extends TPCDS_Queries {
                                                   from store_sales
                                                   where ss_store_sk = 4
                                                     and ss_addr_sk is null
-                                                  group by ss_store_sk))V1)V11
+                                                  group by ss_store_sk)
+
+                                                  )V1)V11
      where rnk  < 11) asceding,
     (select *
      from (select item_sk,rank() over (order by rank_col desc) rnk

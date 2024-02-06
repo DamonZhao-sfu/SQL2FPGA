@@ -133,6 +133,32 @@ class SQL2FPGA_QParser {
     var parent_required_col = new ListBuffer[String]()
 
     u match {
+      case al_window: Window => {
+        print_indent(num_indent)
+        print("Output: ")
+        var outputCols = new ListBuffer[String]()
+        for (_output <- al_window.output) {
+          print(_output.toString + ", ")
+          outputCols += _output.toString
+        }
+        var operation = new ListBuffer[String]()
+        var window_expression = new ListBuffer[Expression]()
+        for (_expression <- al_window.windowExpressions) {
+          if (!operation.contains(_expression.toString)) {
+            print(_expression.toString + ", ")
+            operation += _expression.toString
+            window_expression += _expression
+          }
+        }
+
+        print("\n")
+        print_indent(num_indent)
+        fpga_plan.operation = operation
+        fpga_plan.outputCols = outputCols
+        fpga_plan.window_expression = window_expression
+
+      }
+
       case al_sort: Sort =>
         print_indent(num_indent)
         print("Output: ")
@@ -300,7 +326,6 @@ class SQL2FPGA_QParser {
           //          fpga_plan.nodeType = "AGGREGATE"
         }
       case _: SubqueryAlias => println(" SubqueryAlias ")
-      case _: Window => println(" Window ")
       case _: Sample => println(" Sample ")
       case _: GlobalLimit => println(" GlobalLimit ")
       case _: LocalLimit => println(" LocalLimit ")
@@ -433,6 +458,7 @@ class SQL2FPGA_QParser {
 
     print("\n")
     b match {
+
       case al_join: Join =>
 
         var nodeType = "JOIN_" + al_join.joinType.toString.toUpperCase()
