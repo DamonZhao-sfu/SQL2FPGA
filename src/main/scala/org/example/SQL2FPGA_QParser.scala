@@ -434,6 +434,7 @@ class SQL2FPGA_QParser {
     print("\n")
     b match {
       case al_join: Join =>
+
         var nodeType = "JOIN_" + al_join.joinType.toString.toUpperCase()
         fpga_plan.nodeType = nodeType
         print_indent(num_indent)
@@ -446,32 +447,36 @@ class SQL2FPGA_QParser {
         print_indent(num_indent)
         print("Process: ")
         var condition = new ListBuffer[String]()
-        var joining_expr = new ListBuffer[Expression]()
-        // TODO Q28 Join Cross Support
-        for (_condition <- al_join.condition) {
-          println(_condition.getClass.getName)
-          print(_condition.toString + ", ")
-          condition += _condition.toString
-          joining_expr += _condition
+
+        if (al_join.joinType.toString == "Cross") {
+          condition += "JOIN_CROSS"
+          fpga_plan.operation = condition
+        } else {
+          var joining_expr = new ListBuffer[Expression]()
+          for (_condition <- al_join.condition) {
+            println(_condition.getClass.getName)
+            print(_condition.toString + ", ")
+            condition += _condition.toString
+            joining_expr += _condition
+          }
+          fpga_plan.operation = condition
+          fpga_plan.joining_expression = joining_expr
+          print("\n")
+          print_indent(num_indent)
+          print("Input left: ")
+          println(al_join.left.output)
+          print_indent(num_indent)
+          print("Input right: ")
+          println(al_join.right.output)
+
+          var join_clauses = fpga_plan.getJoinKeyTerms(fpga_plan.joining_expression(0), false)
+          var isSpecialSemiJoin = fpga_plan.nodeType == "JOIN_LEFTSEMI" && join_clauses.length == 2 &&
+            ((join_clauses(0).contains("!=") && !join_clauses(1).contains("!=")) || (!join_clauses(0).contains("!=") && join_clauses(1).contains("!=")))
+          fpga_plan.isSpecialSemiJoin = isSpecialSemiJoin
+          var isSpecialAntiJoin = fpga_plan.nodeType == "JOIN_LEFTANTI" && join_clauses.length == 2 &&
+            ((join_clauses(0).contains("!=") && !join_clauses(1).contains("!=")) || (!join_clauses(0).contains("!=") && join_clauses(1).contains("!=")))
+          fpga_plan.isSpecialAntiJoin = isSpecialAntiJoin
         }
-        fpga_plan.operation = condition
-        fpga_plan.joining_expression = joining_expr
-        print("\n")
-        print_indent(num_indent)
-        print("Input left: ")
-        println(al_join.left.output)
-        print_indent(num_indent)
-        print("Input right: ")
-        println(al_join.right.output)
-
-        var join_clauses = fpga_plan.getJoinKeyTerms(fpga_plan.joining_expression(0), false)
-        var isSpecialSemiJoin = fpga_plan.nodeType == "JOIN_LEFTSEMI" && join_clauses.length == 2 &&
-          ((join_clauses(0).contains("!=") && !join_clauses(1).contains("!=")) || (!join_clauses(0).contains("!=") && join_clauses(1).contains("!=")))
-        fpga_plan.isSpecialSemiJoin = isSpecialSemiJoin
-        var isSpecialAntiJoin = fpga_plan.nodeType == "JOIN_LEFTANTI" && join_clauses.length == 2 &&
-          ((join_clauses(0).contains("!=") && !join_clauses(1).contains("!=")) || (!join_clauses(0).contains("!=") && join_clauses(1).contains("!=")))
-        fpga_plan.isSpecialAntiJoin = isSpecialAntiJoin
-
       case al_other => println(al_other.getClass.getName)
     }
     for (ch <- b.children) {

@@ -6476,6 +6476,96 @@ class SQL2FPGA_QPlan {
         _fpgaSWCode += swFuncCall
         // SW Function Code
         _nodeType match {
+          case "JOIN_CROSS" => {
+
+            var tempStr = "void " + _fpgaSWFuncName + "("
+            for (ch <- _children) {
+              if (sf == 30 && ch._cpuORfpga == 1 && ch._nodeType != "SerializeFromObject") {
+                tempStr += "Table *" + ch.fpgaOutputTableName + ", "
+              } else {
+                tempStr += "Table &" + ch.fpgaOutputTableName + ", "
+              }
+            }
+            if (_stringRowIDBackSubstitution == true) {
+              var orig_table_names = get_stringRowIDOriginalTableName(this)
+              for (orig_tbl <- orig_table_names){
+                tempStr += "Table &" + orig_tbl + ", "
+              }
+            }
+            if (sf == 30 && ((_children.head._cpuORfpga == 1 && _children.head._nodeType != "SerializeFromObject") || (_children.last._cpuORfpga == 1 && _children.last._nodeType != "SerializeFromObject"))) {
+              tempStr += "Table &" + _fpgaOutputTableName + ", int hpTimes) {"
+            } else {
+              tempStr += "Table &" + _fpgaOutputTableName + ") {"
+            }
+            var tbl_in_1 = _children.head.fpgaOutputTableName
+            var tbl_in_2 = _children.last.fpgaOutputTableName
+
+            var join_left_table_col = _children.head.outputCols
+            var join_right_table_col = _children.last.outputCols
+
+            _fpgaSWFuncCode += tempStr
+            _fpgaSWFuncCode += "    // StringRowIDSubstitution: " + _stringRowIDSubstitution + " StringRowIDBackSubstitution: " + _stringRowIDBackSubstitution
+            _fpgaSWFuncCode += "    // Supported operation: " + _nodeType
+            // ----------------------------------- Debug info -----------------------------------
+            _fpgaSWFuncCode += "    // Operation: " + _operation
+            _fpgaSWFuncCode += "    // Left Table: " + join_left_table_col
+            _fpgaSWFuncCode += "    // Right Table: " + join_right_table_col
+            _fpgaSWFuncCode += "    // Output Table: " + _outputCols
+            // ----------------------------------- Debug info -----------------------------------
+            if (sf == 30 && _children.head._cpuORfpga == 1 && _children.head._nodeType != "SerializeFromObject") {
+              _fpgaSWFuncCode += "    int left_nrow = " + tbl_in_1 + "[0].getNumRow();"
+            } else {
+              _fpgaSWFuncCode += "    int left_nrow = " + tbl_in_1 + ".getNumRow();"
+            }
+            if (sf == 30 && _children.last._cpuORfpga == 1 && _children.last._nodeType != "SerializeFromObject") {
+              _fpgaSWFuncCode += "    int right_nrow = " + tbl_in_2 + "[0].getNumRow();"
+            } else {
+              _fpgaSWFuncCode += "    int right_nrow = " + tbl_in_2 + ".getNumRow();"
+            }
+            _fpgaSWFuncCode += "    long r = 0;"
+            _fpgaSWFuncCode += "    for (int i = 0; i < left_nrow; i++) {"
+            _fpgaSWFuncCode += "        for (int i = 0; i < right_nrow; i++) {"
+
+            var outputTableColumnIdx = 0
+            for (left_col <- join_left_table_col) {
+              var raw_left_col = getRawColumnName(left_col)
+              var join_left_key_col_name = stripColumnName(left_col)
+              var join_left_key_col_type = getColumnType(raw_left_col, dfmap)
+              join_left_key_col_type match {
+                case "IntegerType" =>
+                  _fpgaSWFuncCode += "        " + _fpgaOutputTableName + ".setInt32(r, "+ outputTableColumnIdx.toString + ", " + tbl_in_1 + ".getInt32(i, " + outputTableColumnIdx.toString +"));"
+                case "LongType" =>
+                  _fpgaSWFuncCode += "        " + _fpgaOutputTableName + ".setInt32(r, "+ outputTableColumnIdx.toString + ", " + tbl_in_1 + ".getInt64(i, " + outputTableColumnIdx.toString +"));"
+                case "StringType" =>
+                  _fpgaSWFuncCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(raw_left_col)) + " + 1> " + join_left_key_col_name + "_n = " + _fpgaOutputTableName + ".getcharN<char, " + getStringLengthMacro(columnTableMap(raw_left_col)) + " + 1>(i, " + outputTableColumnIdx.toString + ");"
+                  _fpgaSWFuncCode += "        " + _fpgaOutputTableName + ".setcharN<char, " + getStringLengthMacro(columnTableMap(raw_left_col)) + " + 1>(r, " + outputTableColumnIdx.toString + ", " + join_left_key_col_name + "_n" + ");"
+                case _ =>
+                  _fpgaSWFuncCode += "        // Unsupported Union key type"
+              }
+              outputTableColumnIdx +=1
+            }
+            for (right_col <- join_right_table_col) {
+              var raw_right_col = getRawColumnName(right_col)
+              var join_right_key_col_name = stripColumnName(right_col)
+              var join_right_key_col_type = getColumnType(raw_right_col, dfmap)
+              join_right_key_col_type match {
+                case "IntegerType" =>
+                  _fpgaSWFuncCode += "        " + _fpgaOutputTableName + ".setInt32(r, "+ outputTableColumnIdx.toString + ", " + tbl_in_2 + ".getInt32(i, " + outputTableColumnIdx.toString +"));"
+                case "LongType" =>
+                  _fpgaSWFuncCode += "        " + _fpgaOutputTableName + ".setInt32(r, "+ outputTableColumnIdx.toString + ", " + tbl_in_2 + ".getInt64(i, " + outputTableColumnIdx.toString +"));"
+                case "StringType" =>
+                  _fpgaSWFuncCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(raw_right_col)) + " + 1> " + join_right_key_col_name + "_n = " + _fpgaOutputTableName + ".getcharN<char, " + getStringLengthMacro(columnTableMap(raw_right_col)) + " + 1>(i, " + outputTableColumnIdx.toString + ");"
+                  _fpgaSWFuncCode += "        " + _fpgaOutputTableName + ".setcharN<char, " + getStringLengthMacro(columnTableMap(raw_right_col)) + " + 1>(r, " + outputTableColumnIdx.toString + ", " + join_right_key_col_name + "_n" + ");"
+                case _ =>
+                  _fpgaSWFuncCode += "        // Unsupported Union key type"
+              }
+              outputTableColumnIdx +=1
+            }
+            _fpgaSWFuncCode += "        ++r;"
+            _fpgaSWFuncCode += "    }"
+          }
+
+
           case "Union" => {
             println("UNION Operator")
             var tempStr = "void " + _fpgaSWFuncName + "("
@@ -6525,7 +6615,6 @@ class SQL2FPGA_QPlan {
 
 
           }
-
           case "JOIN_INNER" =>
             // tag:innerjoin
             var tempStr = "void " + _fpgaSWFuncName + "("
