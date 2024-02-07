@@ -10886,7 +10886,7 @@ class SQL2FPGA_QPlan {
     }
     _fpgaSWFuncCode += "    long r = 0;"
     _fpgaSWFuncCode += "    for (int i = 0; i < left_nrow; i++) {"
-    _fpgaSWFuncCode += "        for (int i = 0; i < right_nrow; i++) {"
+    _fpgaSWFuncCode += "        for (int j = 0; j < right_nrow; j++) {"
 
     var outputTableColumnIdx = 0
     for (left_col <- join_left_table_col) {
@@ -10912,11 +10912,11 @@ class SQL2FPGA_QPlan {
       var join_right_key_col_type = getColumnType(raw_right_col, dfmap)
       join_right_key_col_type match {
         case "IntegerType" =>
-          _fpgaSWFuncCode += "        " + _fpgaOutputTableName + ".setInt32(r, "+ outputTableColumnIdx.toString + ", " + tbl_in_2 + ".getInt32(i, " + outputTableColumnIdx.toString +"));"
+          _fpgaSWFuncCode += "        " + _fpgaOutputTableName + ".setInt32(r, "+ outputTableColumnIdx.toString + ", " + tbl_in_2 + ".getInt32(j, " + outputTableColumnIdx.toString +"));"
         case "LongType" =>
-          _fpgaSWFuncCode += "        " + _fpgaOutputTableName + ".setInt32(r, "+ outputTableColumnIdx.toString + ", " + tbl_in_2 + ".getInt64(i, " + outputTableColumnIdx.toString +"));"
+          _fpgaSWFuncCode += "        " + _fpgaOutputTableName + ".setInt32(r, "+ outputTableColumnIdx.toString + ", " + tbl_in_2 + ".getInt64(j, " + outputTableColumnIdx.toString +"));"
         case "StringType" =>
-          _fpgaSWFuncCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(raw_right_col)) + " + 1> " + join_right_key_col_name + "_n = " + _fpgaOutputTableName + ".getcharN<char, " + getStringLengthMacro(columnTableMap(raw_right_col)) + " + 1>(i, " + outputTableColumnIdx.toString + ");"
+          _fpgaSWFuncCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(raw_right_col)) + " + 1> " + join_right_key_col_name + "_n = " + _fpgaOutputTableName + ".getcharN<char, " + getStringLengthMacro(columnTableMap(raw_right_col)) + " + 1>(j, " + outputTableColumnIdx.toString + ");"
           _fpgaSWFuncCode += "        " + _fpgaOutputTableName + ".setcharN<char, " + getStringLengthMacro(columnTableMap(raw_right_col)) + " + 1>(r, " + outputTableColumnIdx.toString + ", " + join_right_key_col_name + "_n" + ");"
         case _ =>
           _fpgaSWFuncCode += "        // Unsupported Union key type"
@@ -10960,22 +10960,178 @@ class SQL2FPGA_QPlan {
     _fpgaSWFuncCode += "    // Input: " + _children.head.outputCols
     _fpgaSWFuncCode += "    // Output: " + outputCols
 
-    for ( expr <- _window_expression) {
+    var tbl_in_1 = _children.head.fpgaOutputTableName
+    var tbl_out_1 = _fpgaOutputTableName
+
+    // Creating the struct for row data
+    /**   struct SW_Window_TD_4635Row {
+        int32_t _item_sk3544;
+        int32_t _d_date3545;
+        int32_t _web_sales3546;
+        int32_t _store_sales3547;
+    };**/
+
+
+    var sortRowName = _fpgaSWFuncName + "Row";
+    _fpgaSWFuncCode += "    struct " + sortRowName + " {"
+    for (col <- _children.head.outputCols) {
+      var output_col_type = getColumnType(col, dfmap)
+      var output_col_symbol = stripColumnName(col)
+      if (output_col_type == "IntegerType") {
+        _fpgaSWFuncCode += "        int32_t " + output_col_symbol + ";"
+      }
+      else if (output_col_type == "LongType") {
+        _fpgaSWFuncCode += "        int64_t " + output_col_symbol + ";"
+      }
+      else if (output_col_type == "DoubleType") {
+        _fpgaSWFuncCode += "        int32_t " + output_col_symbol + ";"
+      }
+      else if (output_col_type == "StringType") {
+        _fpgaSWFuncCode += "        std::string " + output_col_symbol + ";"
+      }
+      else {
+        _fpgaSWFuncCode += "        // Unsupported input column type"
+      }
+    }
+    _fpgaSWFuncCode += "    }; \n"
+
+
+    // Creating row data and inserting to vector
+    //    int nrows = tbl_Project_TD_5514_output.getNumRow();
+    //    std::vector<SW_Window_TD_4635Row0> rows;
+    _fpgaSWFuncCode += "    int nrow = " + tbl_in_1 + ".getNumRow();"
+
+    for ( idx <- 0 to  _window_expression.length -1 ) {
+      _fpgaSWFuncCode += "    std::vector<" + sortRowName + "> rows" + idx.toString + ";"
+    }
+
+    _fpgaSWFuncCode += "    int r = 0;"
+    _fpgaSWFuncCode += "    for (int i = 0; i < nrow; i++) {"
+    var rowString = ""
+    var colIdx = 0
+    // intput tables cols
+    for (col <- _children.head.outputCols) {
+      var input_col_type = getColumnType(col, dfmap)
+      var raw_col = getRawColumnName(col)
+      var input_col_symbol = stripColumnName(col)
+      if (input_col_type == "IntegerType") {
+        _fpgaSWFuncCode += "        int32_t " + input_col_symbol + " = " + tbl_in_1 + ".getInt32(i, " + colIdx + ");"
+        _fpgaSWFuncCode += "        " + tbl_out_1 + ".setInt32(r, " + colIdx + ","  + input_col_symbol + ");"
+        rowString += input_col_symbol + ","
+      }
+      else if (input_col_type == "LongType") {
+        _fpgaSWFuncCode += "        int64_t " + input_col_symbol + " = " + tbl_in_1 + ".getInt64(i, " + colIdx + ");"
+        _fpgaSWFuncCode += "        " + tbl_out_1 + ".setInt64(r, " + colIdx + ","  + input_col_symbol + ");"
+        rowString += input_col_symbol + ","
+      }
+      else if (input_col_type == "DoubleType") {
+        _fpgaSWFuncCode += "        int32_t " + input_col_symbol + " = " + tbl_in_1 + ".getInt32(i, " + colIdx + ");"
+        _fpgaSWFuncCode += "        " + tbl_out_1 + ".setInt32(r, " + colIdx + ","  + input_col_symbol + ");"
+        rowString += input_col_symbol + ","
+      }
+      else if (input_col_type == "StringType") {
+        if (_stringRowIDBackSubstitution) {
+          //find the original stringRowID table that contains this string data
+          var orig_table_names = get_stringRowIDOriginalTableName(this)
+          var orig_table_columns = get_stringRowIDOriginalTableColumns(this)
+          var orig_tbl_idx = -1
+          var orig_tbl_col_idx = -1
+          for (orig_tbl <- orig_table_columns) {
+            for (orig_col <- orig_tbl) {
+              if (columnDictionary(col) == columnDictionary(orig_col)) {
+                orig_tbl_idx = orig_table_columns.indexOf(orig_tbl)
+                orig_tbl_col_idx = orig_tbl.indexOf(orig_col)
+              }
+            }
+          }
+          //find the col index of the string data in the original stringRowID table
+          if (orig_tbl_idx == -1 && orig_tbl_col_idx == -1) {
+            _fpgaSWFuncCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(raw_col)) + " + 1> " + input_col_symbol + " = " + tbl_in_1 + ".getcharN<char, " + getStringLengthMacro(columnTableMap(raw_col)) + " + 1>(i, " + colIdx + ");"
+          }
+          else {
+            var rowIDNum = tbl_in_1 + ".getInt32(i, " + colIdx + ")"
+            _fpgaSWFuncCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(raw_col)) + " + 1> " + input_col_symbol + " = " + orig_table_names(orig_tbl_idx) + ".getcharN<char, " + getStringLengthMacro(columnTableMap(raw_col)) + " + 1>(" + rowIDNum + ", " + orig_tbl_col_idx + ");"
+          }
+        }
+        else {
+          _fpgaSWFuncCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(raw_col)) + " + 1> " + input_col_symbol + " = " + tbl_in_1 + ".getcharN<char, " + getStringLengthMacro(columnTableMap(raw_col)) + " +1>(i, " + colIdx + ");"
+
+        }
+        _fpgaSWFuncCode += "        " + tbl_out_1 + ".setcharN<char, " + getStringLengthMacro(columnTableMap(raw_col)) + " +1>(r, " + colIdx + ", " + input_col_symbol + ");"
+        rowString += "std::string(" + input_col_symbol + ".data()),"
+      } else {
+        _fpgaSWFuncCode += "        // Unsupported input column type"
+      }
+
+      colIdx += 1
+    }
+
+    _fpgaSWFuncCode += "        r++;"
+    _fpgaSWFuncCode += "        " + sortRowName + " t = {" + rowString.stripPrefix(",").stripSuffix(",") + "};"
+
+    for ( idx <- 0 to  _window_expression.length -1 ) {
+      _fpgaSWFuncCode += "        rows" + idx.toString + ".push_back(t);"
+    }
+
+    _fpgaSWFuncCode += "    }"
+
+    for ( idx <- 0 to  _window_expression.length -1 ) {
+      var expr = _window_expression(idx)
       var windowExpr = expr.asInstanceOf[Alias].child.asInstanceOf[WindowExpression]
       var windowFunction = windowExpr.windowFunction
-      _fpgaSWFuncCode += "    // window spec " + windowExpr.windowSpec.toString()
       var partitionKeys = windowExpr.windowSpec.partitionSpec
       var orderByKeys = windowExpr.windowSpec.orderSpec
       var frameSpec = windowExpr.windowSpec.frameSpecification
-
+      var sortKeys = new ListBuffer[Expression]()
       for (partitionKey <- partitionKeys) {
-
-
+        sortKeys += partitionKey
       }
-
       for (orderByKey <- orderByKeys) {
-
+        sortKeys += orderByKey
       }
+
+
+      // Creating the lamda function for the sort algo
+      var sortLamdaFuncName = _fpgaSWFuncName + "_order" + idx.toString
+      var sortLamdaFuncStr = "        bool operator()(const " + sortRowName + "& a, const "+ sortRowName + "& b) const { return \n"
+      var sortLamdaFuncConditionStr = ""
+      var firstSortLamdaFuncCondition = true
+      _fpgaSWFuncCode += "    struct {"
+      for (sorting_expr <- sortKeys) {
+        var col_symbol = ""
+        var col_direction = ""
+        if (sorting_expr.getClass.getName == "org.apache.spark.sql.catalyst.expressions.AttributeReference") {
+          col_symbol = sorting_expr.toString()
+          col_direction = "ASC"
+        } else {
+          col_symbol = sorting_expr.children(0).toString()
+          col_direction = sorting_expr.toString.split(" ")(1)
+        }
+
+        var sort_col = stripColumnName(col_symbol)
+        if (firstSortLamdaFuncCondition == true){
+          firstSortLamdaFuncCondition = false
+          if (col_direction == "DESC") {
+            sortLamdaFuncStr += "(a." + sort_col + " > b." + sort_col + ")"
+          } else if (col_direction == "ASC") {
+            sortLamdaFuncStr += "(a." + sort_col + " < b." + sort_col + ")"
+          }
+        } else {
+          sortLamdaFuncStr += " || \n ("
+          sortLamdaFuncStr += sortLamdaFuncConditionStr
+          if (col_direction == "DESC") {
+            sortLamdaFuncStr += "(a." + sort_col + " > b." + sort_col + "))"
+          } else if (col_direction == "ASC") {
+            sortLamdaFuncStr += "(a." + sort_col + " < b." + sort_col + "))"
+          }
+        }
+        sortLamdaFuncConditionStr += "(a." + sort_col + " == b." + sort_col + ") && "
+      }
+      sortLamdaFuncStr += "; \n}"
+      _fpgaSWFuncCode += sortLamdaFuncStr
+      _fpgaSWFuncCode += "    }" + sortLamdaFuncName + "; \n"
+      // Issuing the sorting call
+      _fpgaSWFuncCode += "    std::sort(rows" + idx.toString + ".begin(), rows" + idx.toString + ".end(), " + sortLamdaFuncName + ");"
 
       windowFunction.getClass.getName match {
         case "org.apache.spark.sql.catalyst.expressions.Rank" => {
@@ -10983,7 +11139,6 @@ class SQL2FPGA_QPlan {
         }
         case "org.apache.spark.sql.catalyst.expressions.aggregate.AggregateExpression" => {
           var aggFunction = windowFunction.asInstanceOf[AggregateExpression].aggregateFunction.getClass.getName
-          _fpgaSWFuncCode += "    // window aggregationFunction " + aggFunction
 
           // TODO group by with partitionKeys and order by with orderByKeys
           aggFunction match {
@@ -10997,6 +11152,49 @@ class SQL2FPGA_QPlan {
 
             }
             case "org.apache.spark.sql.catalyst.expressions.aggregate.Max" => {
+              var refCol = stripColumnName(windowFunction.references.head.toString())
+              _fpgaSWFuncCode += "    int64_t max" + idx.toString + " = std::numeric_limits<int>::min();"
+              var partition_key_if_str = "        if (";
+
+              for (partition_key <- partitionKeys) {
+                var partition_key_col = stripColumnName(partition_key.toString()) + idx.toString
+                var col_type = getColumnType(partition_key.toString, dfmap)
+                var firstCol = true
+                if (firstCol) {
+                  firstCol = false
+                  partition_key_if_str += "current" + partition_key_col + " != " + "it." + partition_key_col
+                } else {
+                  partition_key_if_str += " || current" + partition_key_col + " != " + "it." + partition_key_col
+                }
+                col_type match {
+                  case "StringType" => {
+                    _fpgaSWFuncCode += "    std::string current" + stripColumnName(partition_key.toString()) + idx.toString + " = \"\";"
+                  }
+                  case "IntegerType" => {
+                    _fpgaSWFuncCode += "    int32_t current" + stripColumnName(partition_key.toString()) + idx.toString + " = std::numeric_limits<int32_t>::min();"
+                  }
+                  case "DoubleType" => {
+                    _fpgaSWFuncCode += "    int32_t current" + stripColumnName(partition_key.toString()) + idx.toString + " = std::numeric_limits<int32_t>::min();"
+                  }
+                  case "LongType" => {
+                    _fpgaSWFuncCode += "    int64_t current" + stripColumnName(partition_key.toString()) + idx.toString + " = std::numeric_limits<int64_t>::min();"
+
+                  }
+                }
+              }
+              _fpgaSWFuncCode += "    for (auto& it : rows" + idx.toString + ") {"
+
+              _fpgaSWFuncCode += partition_key_if_str + ") {"
+              _fpgaSWFuncCode += "            max" + idx.toString + " = std::numeric_limits<int>::min();"
+              for (partition_key <- partitionKeys) {
+                var partition_key_col = stripColumnName(partition_key.toString()) + idx.toString
+                _fpgaSWFuncCode += "            current" + partition_key_col + " = it." + partition_key_col + ";"
+              }
+              _fpgaSWFuncCode += "        }";
+              _fpgaSWFuncCode += "        " + _fpgaOutputTableName + ".setInt64(r, " + colIdx + ", max" + idx.toString + " < it." + refCol + " ? it." + refCol + " : max" + idx + ");";
+              _fpgaSWFuncCode += "    }";
+
+
 
             }
             case "org.apache.spark.sql.catalyst.expressions.aggregate.Min" => {
@@ -11010,9 +11208,11 @@ class SQL2FPGA_QPlan {
         case _ => {
           _fpgaSWFuncCode += "    // not supported window function " + windowFunction
         }
+          colIdx+=1
       }
-    }
 
+    }
+    _fpgaSWFuncCode += "    " + _fpgaOutputTableName + ".setNumRow(r);"
   }
 
 
