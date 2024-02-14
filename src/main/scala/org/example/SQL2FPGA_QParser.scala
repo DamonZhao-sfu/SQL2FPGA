@@ -1,7 +1,7 @@
 package org.example
 import org.apache.spark.sql.catalyst.expressions.Expression
 import org.apache.spark.sql.catalyst.plans.QueryPlan
-import org.apache.spark.sql.catalyst.plans.logical.{Aggregate, AppendColumns, AppendColumnsWithObject, BinaryNode, DeserializeToObject, Distinct, Filter, Generate, GlobalLimit, Join, LocalLimit, LogicalPlan, MapElements, Project, Repartition, RepartitionByExpression, Sample, SerializeFromObject, Sort, SubqueryAlias, TypedFilter, UnaryNode, Union, Window}
+import org.apache.spark.sql.catalyst.plans.logical.{Aggregate, AppendColumns, AppendColumnsWithObject, BinaryNode, DeserializeToObject, Distinct, Expand, Filter, Generate, GlobalLimit, Join, LocalLimit, LogicalPlan, MapElements, Project, Repartition, RepartitionByExpression, Sample, SerializeFromObject, Sort, SubqueryAlias, TypedFilter, UnaryNode, Union, Window}
 import org.apache.spark.sql.execution.datasources.LogicalRelation
 import org.example.SQL2FPGA_Top.{DEBUG_PARSER, columnCodeMap, columnDictionary, columnTableMap}
 
@@ -327,10 +327,94 @@ class SQL2FPGA_QParser {
         }
       case _: SubqueryAlias => println(" SubqueryAlias ")
       case _: Sample => println(" Sample ")
-      case _: GlobalLimit => println(" GlobalLimit ")
-      case _: LocalLimit => println(" LocalLimit ")
+      case al_globalLimit: GlobalLimit =>
+        var outputCols = new ListBuffer[String]()
+        for (_output <- al_globalLimit.output) {
+          print(_output.toString + ", ")
+          outputCols += _output.toString
+        }
+        fpga_plan.outputCols = outputCols
+        print("\n")
+        print_indent(num_indent)
+        print("Process: ")
+        var operation = new ListBuffer[String]()
+        operation += "globallimit"
+        fpga_plan.limit = al_globalLimit.limitExpr.toString().toInt
+        fpga_plan.operation = operation
+        for (item <- al_globalLimit.references) {
+          if (!parent_required_col.contains(item.toString)) {
+            parent_required_col += item.toString
+          }
+          print(item + ", ")
+        }
+      case al_localLimit: LocalLimit => {
+        var outputCols = new ListBuffer[String]()
+        for (_output <- al_localLimit.output) {
+          print(_output.toString + ", ")
+          outputCols += _output.toString
+        }
+        fpga_plan.outputCols = outputCols
+        print("\n")
+        print_indent(num_indent)
+        print("Process: ")
+        var operation = new ListBuffer[String]()
+        operation += "locallimit"
+        print(al_localLimit.limitExpr.toString())
+        fpga_plan.limit = al_localLimit.limitExpr.toString().toInt
+
+        for (item <- al_localLimit.references) {
+          if (!parent_required_col.contains(item.toString)) {
+            parent_required_col += item.toString
+          }
+          print(item + ", ")
+        }
+        fpga_plan.operation = operation
+      }
+      case al_expand: Expand => {
+        var outputCols = new ListBuffer[String]()
+        for (_output <- al_expand.output) {
+          print(_output.toString + ", ")
+          outputCols += _output.toString
+        }
+        fpga_plan.outputCols = outputCols
+        print("\n")
+        print_indent(num_indent)
+        print("Process: ")
+        var operation = new ListBuffer[String]()
+        operation += "Expand"
+        fpga_plan.operation = operation
+        for (item <- al_expand.references) {
+          if (!parent_required_col.contains(item.toString)) {
+            parent_required_col += item.toString
+          }
+          print(item + ", ")
+        }
+      }
+
       case _: Generate => println(" Generate ")
-      case _: Distinct => println(" Distinct ")
+      case al_distinct: Distinct => {
+
+        var outputCols = new ListBuffer[String]()
+        for (_output <- al_distinct.output) {
+          print(_output.toString + ", ")
+          outputCols += _output.toString
+        }
+        fpga_plan.outputCols = outputCols
+        print("\n")
+        print_indent(num_indent)
+        print("Process: ")
+        var operation = new ListBuffer[String]()
+        operation += "Distinct"
+        fpga_plan.operation = operation
+        for (item <- al_distinct.references) {
+          if (!parent_required_col.contains(item.toString)) {
+            parent_required_col += item.toString
+          }
+          print(item + ", ")
+        }
+
+
+      }
       case _: AppendColumns => println(" AppendColumns ")
       case _: AppendColumnsWithObject => println(" AppendColumnsWithObject ")
       case _: RepartitionByExpression => println(" RepartitionByExpression ")

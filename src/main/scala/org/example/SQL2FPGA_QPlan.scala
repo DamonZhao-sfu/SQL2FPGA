@@ -53,6 +53,7 @@ class SQL2FPGA_QPlan {
   private var _fpgaEventsName: String = "NULL"
   private var _fpgaSWFuncName: String = "NULL"
   private var _cpuORfpga: Int = 1
+  private var _limit: Int = 0
   private var _fpgaOverlayID: Int = -1
   private var _fpgaOverlayType: Int = 0
   private var _fpgaJoinOverlayPipelineDepth: Int = 0
@@ -74,7 +75,7 @@ class SQL2FPGA_QPlan {
   private var _executionTimeCode: ListBuffer[String] = new ListBuffer[String]()
   val withFunctionPattern: Regex = """([^=()\s]+\(.*?\)|[^=()<>\s]+)\s*(=|!=|<=>)\s*([^=()<>\s]+\(.*?\)|[^=()<>\s]+)""".r
   val withOperatorPattern: Regex = """\(?([\w#]+).*?\)?\s*(=|!=|<=>)\s*\(?([\w#]+).*?\)?""".r
-
+  def limit = _limit
   def treeDepth = _treeDepth
   def genCodeVisited = _genCodeVisited
   def genHostCodeVisited = _genHostCodeVisited
@@ -140,6 +141,9 @@ class SQL2FPGA_QPlan {
   }
   def genCodeVisited_= (newValue: Boolean): Unit = {
     _genCodeVisited = newValue
+  }
+  def limit_= (newValue: Int): Unit = {
+    _limit = newValue
   }
   def genHostCodeVisited_= (newValue: Boolean): Unit = {
     _genHostCodeVisited = newValue
@@ -1399,7 +1403,7 @@ class SQL2FPGA_QPlan {
       key_term += expr.toString
       return key_term
     } else if (expr.getClass.getName == "org.apache.spark.sql.catalyst.expressions.Cast") {
-      // cast(o_orderkey#324L as int)
+      // match 'cast(o_orderkey#324L as int)
       var key_term = new ListBuffer[String]()
       val pattern = """cast\(([^)]+) as [^)]+\)""".r
       expr.toString match {
@@ -1501,7 +1505,7 @@ class SQL2FPGA_QPlan {
         if (right_sub != null)
           terms ++= right_sub
       }
-      else if (expr.getClass.getName == "org.apache.spark.sql.catalyst.expressions.EqualTo") {
+      else if (expr.getClass.getName == "org.apache.spark.sql.catalyst.expressions.EqualTo" || expr.getClass.getName == "org.apache.spark.sql.catalyst.expressions.EqualNullSafe") {
         if ((expr.children(0).getClass.getName == "org.apache.spark.sql.catalyst.expressions.AttributeReference" || expr.children(0).getClass.getName == "org.apache.spark.sql.catalyst.expressions.Cast" || expr.children(1).getClass.getName == "org.apache.spark.sql.catalyst.expressions.AttributeReference" || expr.children(1).getClass.getName == "org.apache.spark.sql.catalyst.expressions.Cast")
           && ((expr.children(0).getClass.getName != "org.apache.spark.sql.catalyst.expressions.AttributeReference" && expr.children(0).getClass.getName != "org.apache.spark.sql.catalyst.expressions.Cast") || (expr.children(1).getClass.getName != "org.apache.spark.sql.catalyst.expressions.AttributeReference" && expr.children(1).getClass.getName != "org.apache.spark.sql.catalyst.expressions.Cast"))
         ) {
@@ -1604,6 +1608,24 @@ class SQL2FPGA_QPlan {
         var target_start_pos = (getAggregateExpression(expr.children(1)).toInt - 1).toString
         var target_str_len = getAggregateExpression(expr.children(2))
         return "std::string(" + target_str + ".data())" + ".substr(" + target_start_pos + ", " + target_str_len + ")"
+      }
+      else if (expr.getClass.getName == "org.apache.spark.sql.catalyst.expressions.Concat") {
+        var left_sub = ""
+        var right_sub = ""
+        if (expr.children(0).getClass.getName == "org.apache.spark.sql.catalyst.expressions.Literal") {
+          left_sub = getAggregateExpression(expr.children(0))
+        }
+        else if (expr.children(0).getClass.getName == "org.apache.spark.sql.catalyst.expressions.AttributeReference") {
+          left_sub = getAggregateExpression(expr.children(0)) + ".data()"
+        }
+
+        if (expr.children(1).getClass.getName == "org.apache.spark.sql.catalyst.expressions.Literal") {
+          right_sub = getAggregateExpression(expr.children(1))
+        }
+        else if (expr.children(1).getClass.getName == "org.apache.spark.sql.catalyst.expressions.AttributeReference") {
+          right_sub = getAggregateExpression(expr.children(1)) + ".data()"
+        }
+        return "std::string(" + left_sub + ").append(std::string(" + right_sub + ")"
       }
       else if (expr.getClass.getName == "org.apache.spark.sql.catalyst.expressions.CaseWhen") {
         // for case like
@@ -1832,6 +1854,7 @@ class SQL2FPGA_QPlan {
         var target_str_len = getAggregateExpression_ALUOPCompiler(expr.children(2))
         return "std::string(" + target_str + ".data())" + ".substr(" + target_start_pos + ", " + target_str_len + ")"
       }
+
       else if (expr.getClass.getName == "org.apache.spark.sql.catalyst.expressions.CaseWhen") {
         if (expr.children.length == 3) {
           var case_condition = getAggregateExpression_ALUOPCompiler(expr.children(0))
@@ -1848,7 +1871,7 @@ class SQL2FPGA_QPlan {
 
       }
       else {
-        println(expr.getClass.getName)
+        println("notsupported" + expr.getClass.getName)
         return getAggregateExpression_ALUOPCompiler(expr.children(0))
       }
     }
@@ -2558,6 +2581,8 @@ class SQL2FPGA_QPlan {
       var leftTblColType = getColumnType(leftTblCol, dfmap)
       var leftTblColName = stripColumnName(leftTblCol)
       leftTblColType match {
+        case "BooleanType" =>
+          structCode += "    int32_t " + leftTblColName + ";"
         case "IntegerType" =>
           structCode += "    int32_t " + leftTblColName + ";"
         case "LongType" =>
@@ -2609,6 +2634,8 @@ class SQL2FPGA_QPlan {
         var leftTblColType = getColumnType(left_key_pair, dfmap)
         var leftTblColName = stripColumnName(left_key_pair)
         leftTblColType match {
+          case "BooleanType" =>
+            joinKeyHashStr += "(hash<int32_t>()(k." + leftTblColName + ")) + "
           case "IntegerType" =>
             joinKeyHashStr += "(hash<int32_t>()(k." + leftTblColName + ")) + "
           case "LongType" =>
@@ -2636,6 +2663,8 @@ class SQL2FPGA_QPlan {
       var leftTblColName = stripColumnName(left_payload)
       var leftPayloadColType = getColumnType(left_payload, dfmap)
       leftPayloadColType match {
+        case "BooleanType" =>
+          structCode += "    int32_t " + leftTblColName + ";"
         case "IntegerType" =>
           structCode += "    int32_t " + leftTblColName + ";"
         case "LongType" =>
@@ -3603,6 +3632,8 @@ class SQL2FPGA_QPlan {
       var join_right_key_col_type = getColumnType(raw_col, dfmap)
       var join_right_key_col_idx = join_right_table_col.indexOf(key_col)
       join_right_key_col_type match {
+        case "BooleanType" =>
+          coreCode += "        int32_t " + join_right_key_col_name + " = " + tbl_in_2 + ".getInt32(i, " + join_right_key_col_idx + ");"
         case "IntegerType" =>
           coreCode += "        int32_t " + join_right_key_col_name + " = " + tbl_in_2 + ".getInt32(i, " + join_right_key_col_idx + ");"
         case "LongType" =>
@@ -3653,6 +3684,8 @@ class SQL2FPGA_QPlan {
       var right_payload_input_index = join_right_table_col.indexOf(right_payload)
       var right_payload_index = thisNode._outputCols.indexOf(right_payload)
       right_payload_type match {
+        case "BooleanType" =>
+          coreCode += "            int32_t " + right_payload_name + " = " + tbl_in_2 + ".getInt32(i, " + right_payload_input_index + ");"
         case "IntegerType" =>
           coreCode += "            int32_t " + right_payload_name + " = " + tbl_in_2 + ".getInt32(i, " + right_payload_input_index + ");"
         case "LongType" =>
@@ -3700,6 +3733,9 @@ class SQL2FPGA_QPlan {
         var left_payload_index = thisNode._outputCols.indexOf(left_payload)
         if (left_payload_index != -1) {
           left_payload_type match {
+            case "BooleanType" => {
+              coreCode += "                " + tbl_out_1 + ".setInt32(r, " + left_payload_index + ", " + left_payload_name + ");"
+            }
             case "IntegerType" =>
               coreCode += "                " + tbl_out_1 + ".setInt32(r, " + left_payload_index + ", " + left_payload_name + ");"
             case "LongType" =>
@@ -3722,6 +3758,9 @@ class SQL2FPGA_QPlan {
         var right_payload_index = thisNode._outputCols.indexOf(right_payload)
         if (right_payload_index != -1) {
           right_payload_type match {
+            case "BooleanType" => {
+              coreCode += "                " + tbl_out_1 + ".setInt32(r, " + right_payload_index + ", " + right_payload_name + ");"
+            }
             case "IntegerType" =>
               coreCode += "                " + tbl_out_1 + ".setInt32(r, " + right_payload_index + ", " + right_payload_name + ");"
             case "LongType" =>
@@ -3747,6 +3786,9 @@ class SQL2FPGA_QPlan {
         var left_payload_index = thisNode._outputCols.indexOf(left_payload)
         if (left_payload_index != -1) {
           left_payload_type match {
+            case "BooleanType" => {
+              coreCode += "                " + tbl_out_1 + ".setInt32(r, " + left_payload_index + ", " + left_payload_name + ");"
+            }
             case "IntegerType" =>
               coreCode += "            " + tbl_out_1 + ".setInt32(r, " + left_payload_index + ", " + left_payload_name + ");"
             case "LongType" =>
@@ -3769,6 +3811,9 @@ class SQL2FPGA_QPlan {
         var right_payload_index = thisNode._outputCols.indexOf(right_payload)
         if (right_payload_index != -1) {
           right_payload_type match {
+            case "BooleanType" => {
+              coreCode += "                " + tbl_out_1 + ".setInt32(r, " + right_payload_index + ", " + right_payload_name + ");"
+            }
             case "IntegerType" =>
               coreCode += "            " + tbl_out_1 + ".setInt32(r, " + right_payload_index + ", " + right_payload_name + ");"
             case "LongType" =>
@@ -3790,6 +3835,348 @@ class SQL2FPGA_QPlan {
     coreCode += "    }"
     coreCode += "    " + tbl_out_1 + ".setNumRow(r);"
   }
+
+  def genExistenceJoin_rightMajor_core(thisNode: SQL2FPGA_QPlan, dfmap: Map[String, DataFrame],
+                                  leftTableKeyColNames: ListBuffer[String], rightTableKeyColNames: ListBuffer[String],
+                                  leftTablePayloadColNames: ListBuffer[String], rightTablePayloadColNames: ListBuffer[String],
+                                  joinKeyTypeName: String, joinPayloadTypeName: String): ListBuffer[String] = {
+    var coreCode = new ListBuffer[String]()
+
+    var tbl_in_1 = thisNode._children.last.fpgaOutputTableName
+    var tbl_in_2 = thisNode._children.head.fpgaOutputTableName
+    var tbl_out_1 = thisNode._fpgaOutputTableName
+    var join_left_table_col = thisNode._children.last.outputCols
+    var join_right_table_col = thisNode._children.head.outputCols
+    var left_child = thisNode._children.last
+    var right_child = thisNode._children.head
+
+    coreCode += "    std::unordered_map<" + joinKeyTypeName + ", " + joinPayloadTypeName + "> ht1;"
+    coreCode += "    int nrow1 = " + tbl_in_1 + ".getNumRow();"
+    coreCode += "    int nrow2 = " + tbl_in_2 + ".getNumRow();"
+    // Enumerate input table
+    coreCode += "    for (int i = 0; i < nrow1; i++) {"
+    //  Key
+    var key_str = ""
+    for (key_col <- leftTableKeyColNames) {
+      var raw_col = getRawColumnName(key_col)
+      var join_left_key_col_name = stripColumnName(key_col) + "_k"
+      var join_left_key_col_type = getColumnType(raw_col, dfmap)
+      var join_left_key_col_idx = join_left_table_col.indexOf(key_col)
+      join_left_key_col_type match {
+        case "IntegerType" =>
+          coreCode += "        int32_t " + join_left_key_col_name + " = " + tbl_in_1 + ".getInt32(i, " + join_left_key_col_idx + ");"
+        case "LongType" =>
+          coreCode += "        int64_t " + join_left_key_col_name + " = " + tbl_in_1 + ".getInt64(i, " + join_left_key_col_idx + ");"
+        case "StringType" =>
+          if (left_child._stringRowIDSubstitution == true && thisNode._stringRowIDBackSubstitution == false) {
+            coreCode += "        int32_t " + join_left_key_col_name + " = " + tbl_in_1 + ".getInt32(i, " + join_left_key_col_idx + ");"
+          } else if (left_child._stringRowIDSubstitution == true && thisNode._stringRowIDBackSubstitution == true) {
+            //find the original stringRowID table that contains this string data
+            var orig_table_names = get_stringRowIDOriginalTableName(thisNode)
+            var orig_table_columns = get_stringRowIDOriginalTableColumns(thisNode)
+            var orig_tbl_idx = -1
+            var orig_tbl_col_idx = -1
+            for (orig_tbl <- orig_table_columns) {
+              for (col <- orig_tbl) {
+                if (columnDictionary(key_col) == columnDictionary(col)) {
+                  orig_tbl_idx = orig_table_columns.indexOf(orig_tbl)
+                  orig_tbl_col_idx = orig_tbl.indexOf(col)
+                }
+              }
+            }
+            //find the col index of the string data in the original stringRowID table
+            if (orig_tbl_idx == -1 && orig_tbl_col_idx == -1) {
+              coreCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(raw_col)) + " + 1> " + join_left_key_col_name + "_n = " + tbl_in_1 + ".getcharN<char, " + getStringLengthMacro(columnTableMap(raw_col)) + " + 1>(i, " + join_left_key_col_idx + ");"
+              coreCode += "        std::string " + join_left_key_col_name + " = std::string(" + join_left_key_col_name + "_n.data());"
+            }
+            else {
+              var rowIDNum = tbl_in_1 + ".getInt32(i, " + join_left_key_col_idx + ")"
+              coreCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(raw_col)) + " + 1> " + join_left_key_col_name + "_n = " + orig_table_names(orig_tbl_idx) + ".getcharN<char, " + getStringLengthMacro(columnTableMap(raw_col)) + " + 1>(" + rowIDNum + ", " + orig_tbl_col_idx + ");"
+              coreCode += "        std::string " + join_left_key_col_name + " = std::string(" + join_left_key_col_name + "_n.data());"
+            }
+          } else {
+            coreCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(raw_col)) + " + 1> " + join_left_key_col_name + "_n = " + tbl_in_1 + ".getcharN<char, " + getStringLengthMacro(columnTableMap(raw_col)) + " + 1>(i, " + join_left_key_col_idx + ");"
+            coreCode += "        std::string " + join_left_key_col_name + " = std::string(" + join_left_key_col_name + "_n.data());"
+          }
+        case _ =>
+          coreCode += "        // Unsupported join key type"
+      }
+      key_str += join_left_key_col_name + ", "
+    }
+    coreCode += "        " + joinKeyTypeName + " keyA{" + key_str.stripSuffix(", ") + "};"
+    //  Payload
+    var payload_str = ""
+    for (payload_col <- leftTablePayloadColNames) {
+      var raw_col = getRawColumnName(payload_col)
+      var join_left_payload_col_name = stripColumnName(payload_col)
+      var join_left_payload_col_type = getColumnType(raw_col, dfmap)
+      var join_left_payload_col_idx = join_left_table_col.indexOf(payload_col)
+      join_left_payload_col_type match {
+        case "IntegerType" =>
+          coreCode += "        int32_t " + join_left_payload_col_name + " = " + tbl_in_1 + ".getInt32(i, " + join_left_payload_col_idx + ");"
+        case "LongType" =>
+          coreCode += "        int64_t " + join_left_payload_col_name + " = " + tbl_in_1 + ".getInt64(i, " + join_left_payload_col_idx + ");"
+        case "StringType" =>
+          if (left_child._stringRowIDSubstitution == true && thisNode._stringRowIDBackSubstitution == false) {
+            coreCode += "        int32_t " + join_left_payload_col_name + " = " + tbl_in_1 + ".getInt32(i, " + join_left_payload_col_idx + ");"
+          } else if (left_child._stringRowIDSubstitution == true && thisNode._stringRowIDBackSubstitution == true) {
+            //find the original stringRowID table that contains this string data
+            var orig_table_names = get_stringRowIDOriginalTableName(thisNode)
+            var orig_table_columns = get_stringRowIDOriginalTableColumns(thisNode)
+            var orig_tbl_idx = -1
+            var orig_tbl_col_idx = -1
+            for (orig_tbl <- orig_table_columns) {
+              for (col <- orig_tbl) {
+                if (columnDictionary(payload_col) == columnDictionary(col)) {
+                  orig_tbl_idx = orig_table_columns.indexOf(orig_tbl)
+                  orig_tbl_col_idx = orig_tbl.indexOf(col)
+                }
+              }
+            }
+            //find the col index of the string data in the original stringRowID table
+            if (orig_tbl_idx == -1 && orig_tbl_col_idx == -1) {
+              coreCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(raw_col)) + " + 1> " + join_left_payload_col_name + "_n = " + tbl_in_1 + ".getcharN<char, " + getStringLengthMacro(columnTableMap(raw_col)) + " + 1>(i, " + join_left_payload_col_idx + ");"
+              coreCode += "        std::string " + join_left_payload_col_name + " = std::string(" + join_left_payload_col_name + "_n.data());"
+            }
+            else {
+              var rowIDNum = tbl_in_1 + ".getInt32(i, " + join_left_payload_col_idx + ")"
+              coreCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(raw_col)) + " + 1> " + join_left_payload_col_name + "_n = " + orig_table_names(orig_tbl_idx) + ".getcharN<char, " + getStringLengthMacro(columnTableMap(raw_col)) + " + 1>(" + rowIDNum + ", " + orig_tbl_col_idx + ");"
+              coreCode += "        std::string " + join_left_payload_col_name + " = std::string(" + join_left_payload_col_name + "_n.data());"
+            }
+          } else {
+            coreCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(raw_col)) + " + 1> " + join_left_payload_col_name + "_n = " + tbl_in_1 + ".getcharN<char, " + getStringLengthMacro(columnTableMap(raw_col)) + " + 1>(i, " + join_left_payload_col_idx + ");"
+            coreCode += "        std::string " + join_left_payload_col_name + " = std::string(" + join_left_payload_col_name + "_n.data());"
+          }
+        case _ =>
+          coreCode += "        // Unsupported join key type"
+      }
+      payload_str += join_left_payload_col_name + ", "
+    }
+    coreCode += "        " + joinPayloadTypeName + " payloadA{" + payload_str.stripSuffix(", ") + "};"
+    coreCode += "        ht1.insert(std::make_pair(keyA, payloadA));"
+    coreCode += "    }"
+    coreCode += "    int r = 0;"
+    // Enumerate output table
+    coreCode += "    for (int i = 0; i < nrow2; i++) {"
+    //  Key
+    key_str = ""
+    for (key_col <- rightTableKeyColNames) {
+      var raw_col = getRawColumnName(key_col)
+      var join_right_key_col_name = stripColumnName(key_col) + "_k"
+      var join_right_key_col_type = getColumnType(raw_col, dfmap)
+      var join_right_key_col_idx = join_right_table_col.indexOf(key_col)
+      join_right_key_col_type match {
+        case "BooleanType" =>
+          coreCode += "        int32_t " + join_right_key_col_name + " = " + tbl_in_2 + ".getInt32(i, " + join_right_key_col_idx + ");"
+        case "IntegerType" =>
+          coreCode += "        int32_t " + join_right_key_col_name + " = " + tbl_in_2 + ".getInt32(i, " + join_right_key_col_idx + ");"
+        case "LongType" =>
+          coreCode += "        int64_t " + join_right_key_col_name + " = " + tbl_in_2 + ".getInt64(i, " + join_right_key_col_idx + ");"
+        case "StringType" =>
+          if (right_child._stringRowIDSubstitution == true && thisNode._stringRowIDBackSubstitution == false) {
+            coreCode += "        int32_t " + join_right_key_col_name + " = " + tbl_in_2 + ".getInt32(i, " + join_right_key_col_idx + ");"
+          } else if (right_child._stringRowIDSubstitution == true && thisNode._stringRowIDBackSubstitution == true) {
+            //find the original stringRowID table that contains this string data
+            var orig_table_names = get_stringRowIDOriginalTableName(thisNode)
+            var orig_table_columns = get_stringRowIDOriginalTableColumns(thisNode)
+            var orig_tbl_idx = -1
+            var orig_tbl_col_idx = -1
+            for (orig_tbl <- orig_table_columns) {
+              for (col <- orig_tbl) {
+                if (columnDictionary(key_col) == columnDictionary(col)) {
+                  orig_tbl_idx = orig_table_columns.indexOf(orig_tbl)
+                  orig_tbl_col_idx = orig_tbl.indexOf(col)
+                }
+              }
+            }
+            //find the col index of the string data in the original stringRowID table
+            if (orig_tbl_idx == -1 && orig_tbl_col_idx == -1) {
+              coreCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(raw_col)) + " + 1> " + join_right_key_col_name + "_n = " + tbl_in_1 + ".getcharN<char, " + getStringLengthMacro(columnTableMap(raw_col)) + " + 1>(i, " + join_right_key_col_idx + ");"
+              coreCode += "        std::string " + join_right_key_col_name + " = std::string(" + join_right_key_col_name + "_n.data());"
+            }
+            else {
+              var rowIDNum = tbl_in_2 + ".getInt32(i, " + join_right_key_col_idx + ")"
+              coreCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(raw_col)) + " + 1> " + join_right_key_col_name + "_n = " + orig_table_names(orig_tbl_idx) + ".getcharN<char, " + getStringLengthMacro(columnTableMap(raw_col)) + " + 1>(" + rowIDNum + ", " + orig_tbl_col_idx + ");"
+              coreCode += "        std::string " + join_right_key_col_name + " = std::string(" + join_right_key_col_name + "_n.data());"
+            }
+          } else {
+            coreCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(raw_col)) + " + 1> " + join_right_key_col_name + "_n = " + tbl_in_2 + ".getcharN<char, " + getStringLengthMacro(columnTableMap(raw_col)) + " + 1>(i, " + join_right_key_col_idx + ");"
+            coreCode += "        std::string " + join_right_key_col_name + " = std::string(" + join_right_key_col_name + "_n.data());"
+          }
+        case _ =>
+          coreCode += "        // Unsupported join key type"
+      }
+      key_str += join_right_key_col_name + ", "
+    }
+
+    coreCode += "        auto it = ht1.find(" + joinKeyTypeName + "{" + key_str.stripSuffix(", ") + "}" + ");"
+    coreCode += "        if (it != ht1.end()) {"
+    for (right_payload <- rightTablePayloadColNames) {
+      var raw_col = getRawColumnName(right_payload)
+      var right_payload_name = stripColumnName(right_payload)
+      var right_payload_type = getColumnType(raw_col, dfmap)
+      var right_payload_input_index = join_right_table_col.indexOf(right_payload)
+      var right_payload_index = thisNode._outputCols.indexOf(right_payload)
+      right_payload_type match {
+        case "BooleanType" =>
+          coreCode += "            int32_t " + right_payload_name + " = " + tbl_in_2 + ".getInt32(i, " + right_payload_input_index + ");"
+        case "IntegerType" =>
+          coreCode += "            int32_t " + right_payload_name + " = " + tbl_in_2 + ".getInt32(i, " + right_payload_input_index + ");"
+        case "LongType" =>
+          coreCode += "            int64_t " + right_payload_name + " = " + tbl_in_2 + ".getInt64(i, " + right_payload_input_index + ");"
+        case "StringType" =>
+          if (right_child._stringRowIDSubstitution == true && thisNode._stringRowIDBackSubstitution == false) {
+            coreCode += "            int32_t " + right_payload_name + " = " + tbl_in_2 + ".getInt32(i, " + right_payload_input_index + ");"
+          } else if (right_child._stringRowIDSubstitution == true && thisNode._stringRowIDBackSubstitution == true) {
+            //find the original stringRowID table that contains this string data
+            var orig_table_names = get_stringRowIDOriginalTableName(thisNode)
+            var orig_table_columns = get_stringRowIDOriginalTableColumns(thisNode)
+            var orig_tbl_idx = -1
+            var orig_tbl_col_idx = -1
+            for (orig_tbl <- orig_table_columns) {
+              for (col <- orig_tbl) {
+                if (columnDictionary(right_payload) == columnDictionary(col)) {
+                  orig_tbl_idx = orig_table_columns.indexOf(orig_tbl)
+                  orig_tbl_col_idx = orig_tbl.indexOf(col)
+                }
+              }
+            }
+            //find the col index of the string data in the original stringRowID table
+            if (orig_tbl_idx == -1 && orig_tbl_col_idx == -1) {
+              coreCode += "            std::array<char, " + getStringLengthMacro(columnTableMap(raw_col)) + " + 1> " + right_payload_name + " = " + tbl_in_2 + ".getcharN<char, " + getStringLengthMacro(columnTableMap(raw_col)) + " + 1>(i, " + right_payload_input_index + ");"
+            }
+            else {
+              var rowIDNum = tbl_in_2 + ".getInt32(i, " + right_payload_input_index + ")"
+              coreCode += "            std::array<char, " + getStringLengthMacro(columnTableMap(raw_col)) + " + 1> " + right_payload_name + " = " + orig_table_names(orig_tbl_idx) + ".getcharN<char, " + getStringLengthMacro(columnTableMap(raw_col)) + " + 1>(" + rowIDNum + ", " + orig_tbl_col_idx + ");"
+            }
+          } else {
+            coreCode += "            std::array<char, " + getStringLengthMacro(columnTableMap(raw_col)) + " + 1> " + right_payload_name + " = " + tbl_in_2 + ".getcharN<char, " + getStringLengthMacro(columnTableMap(raw_col)) + " + 1>(i, " + right_payload_input_index + ");"
+          }
+        case _ =>
+          coreCode += "            // Unsupported join key type"
+      }
+    }
+    var join_filter_pairs = getJoinFilterTerms(thisNode.joining_expression(0), false)
+    if (join_filter_pairs.length > 0) { //filtering is need
+      var filter_expr = getJoinFilterExpression(joining_expression(0))
+      coreCode += "            if " + filter_expr + " {"
+      for (left_payload <- leftTablePayloadColNames) {
+        var raw_col = getRawColumnName(left_payload)
+        var left_payload_name = stripColumnName(left_payload)
+        var left_payload_type = getColumnType(raw_col, dfmap)
+        var left_payload_index = thisNode._outputCols.indexOf(left_payload)
+        if (left_payload_index != -1) {
+          left_payload_type match {
+            case "BooleanType" => {
+              coreCode += "                " + tbl_out_1 + ".setInt32(r, " + left_payload_index + ", " + left_payload_name + ");"
+            }
+            case "IntegerType" =>
+              coreCode += "                " + tbl_out_1 + ".setInt32(r, " + left_payload_index + ", " + left_payload_name + ");"
+            case "LongType" =>
+              coreCode += "                " + tbl_out_1 + ".setInt64(r, " + left_payload_index + ", " + left_payload_name + ");"
+            case "StringType" =>
+              if (left_child._stringRowIDSubstitution == true && thisNode._stringRowIDBackSubstitution == false) {
+                coreCode += "                " + tbl_out_1 + ".setInt32(r, " + left_payload_index + ", " + left_payload_name + ");"
+              } else {
+                coreCode += "                " + tbl_out_1 + ".setcharN<char, " + getStringLengthMacro(columnTableMap(raw_col)) + " + 1>(r, " + left_payload_index + ", " + left_payload_name + ");"
+              }
+            case _ =>
+              coreCode += "                // Unsupported join key type"
+          }
+        }
+      }
+      for (right_payload <- rightTablePayloadColNames) {
+        var right_payload_name = stripColumnName(right_payload)
+        var right_payload_type = getColumnType(right_payload, dfmap)
+        var right_payload_input_index = join_right_table_col.indexOf(right_payload)
+        var right_payload_index = thisNode._outputCols.indexOf(right_payload)
+        if (right_payload_index != -1) {
+          right_payload_type match {
+            case "BooleanType" => {
+              coreCode += "                " + tbl_out_1 + ".setInt32(r, " + right_payload_index + ", " + right_payload_name + ");"
+            }
+            case "IntegerType" =>
+              coreCode += "                " + tbl_out_1 + ".setInt32(r, " + right_payload_index + ", " + right_payload_name + ");"
+            case "LongType" =>
+              coreCode += "                " + tbl_out_1 + ".setInt64(r, " + right_payload_index + ", " + right_payload_name + ");"
+            case "StringType" =>
+              if (right_child._stringRowIDSubstitution == true && thisNode._stringRowIDBackSubstitution == false) {
+                coreCode += "                " + tbl_out_1 + ".setInt32(r, " + right_payload_index + ", " + right_payload_name + ");"
+              } else {
+                coreCode += "                " + tbl_out_1 + ".setcharN<char, " + getStringLengthMacro(columnTableMap(right_payload.split("#").head)) + " + 1>(r, " + right_payload_index + ", " + right_payload_name + ");"
+              }
+            case _ =>
+              coreCode += "                // Unsupported join key type"
+          }
+        }
+      }
+      // add the exists col
+      coreCode += "            " + tbl_out_1 + ".setInt32(r, " + (outputCols.size-1).toString + ", 1);"
+
+      coreCode += "                r++;"
+      coreCode += "            }"
+    }
+    else { //no filtering - standard write out output columns
+      // add exists col
+      for (left_payload <- leftTablePayloadColNames) {
+        var left_payload_name = stripColumnName(left_payload)
+        var left_payload_type = getColumnType(left_payload, dfmap)
+        var left_payload_index = thisNode._outputCols.indexOf(left_payload)
+        if (left_payload_index != -1) {
+          left_payload_type match {
+            case "BooleanType" => {
+              coreCode += "            " + tbl_out_1 + ".setInt32(r, " + left_payload_index + ", " + left_payload_name + ");"
+            }
+            case "IntegerType" =>
+              coreCode += "            " + tbl_out_1 + ".setInt32(r, " + left_payload_index + ", " + left_payload_name + ");"
+            case "LongType" =>
+              coreCode += "            " + tbl_out_1 + ".setInt64(r, " + left_payload_index + ", " + left_payload_name + ");"
+            case "StringType" =>
+              if (left_child._stringRowIDSubstitution == true && thisNode._stringRowIDBackSubstitution == false) {
+                coreCode += "            " + tbl_out_1 + ".setInt32(r, " + left_payload_index + ", " + left_payload_name + ");"
+              } else {
+                coreCode += "            " + tbl_out_1 + ".setcharN<char, " + getStringLengthMacro(columnTableMap(left_payload.split("#").head)) + " + 1>(r, " + left_payload_index + ", " + left_payload_name + ");"
+              }
+            case _ =>
+              coreCode += "            // Unsupported join key type"
+          }
+        }
+      }
+      for (right_payload <- rightTablePayloadColNames) {
+        var right_payload_name = stripColumnName(right_payload)
+        var right_payload_type = getColumnType(right_payload, dfmap)
+        var right_payload_input_index = join_right_table_col.indexOf(right_payload)
+        var right_payload_index = thisNode._outputCols.indexOf(right_payload)
+        if (right_payload_index != -1) {
+          right_payload_type match {
+            case "BooleanType" => {
+              coreCode += "             " + tbl_out_1 + ".setInt32(r, " + right_payload_index + ", " + right_payload_name + ");"
+            }
+            case "IntegerType" =>
+              coreCode += "            " + tbl_out_1 + ".setInt32(r, " + right_payload_index + ", " + right_payload_name + ");"
+            case "LongType" =>
+              coreCode += "            " + tbl_out_1 + ".setInt64(r, " + right_payload_index + ", " + right_payload_name + ");"
+            case "StringType" =>
+              if (right_child._stringRowIDSubstitution == true && thisNode._stringRowIDBackSubstitution == false) {
+                coreCode += "            " + tbl_out_1 + ".setInt32(r, " + right_payload_index + ", " + right_payload_name + ");"
+              } else {
+                coreCode += "            " + tbl_out_1 + ".setcharN<char, " + getStringLengthMacro(columnTableMap(right_payload.split("#").head)) + " + 1>(r, " + right_payload_index + ", " + right_payload_name + ");"
+              }
+            case _ =>
+              coreCode += "            // Unsupported join key type"
+          }
+        }
+      }
+      // add the exists col
+      coreCode += "            " + tbl_out_1 + ".setInt32(r, " + (outputCols.size-1).toString + ", 1);"
+
+      coreCode += "            r++;"
+    }
+    coreCode += "        }"
+    coreCode += "    }"
+    coreCode += "    " + tbl_out_1 + ".setNumRow(r);"
+  }
+
 
   def genInnerJoin_core(thisNode: SQL2FPGA_QPlan, tableOrder: String, dfmap: Map[String, DataFrame],
                         leftTableKeyColNames: ListBuffer[String], rightTableKeyColNames: ListBuffer[String],
@@ -4399,6 +4786,9 @@ class SQL2FPGA_QPlan {
         case "JOIN_LEFTSEMI" =>
           _fpgaJoinOverlayPipelineDepth = 2 //disable fusion between filter and semijoin
           _fpgaAggrOverlayPipelineDepth = -1
+        case "JOIN_FULLOUTER" =>
+          _fpgaJoinOverlayPipelineDepth = 2
+          _fpgaAggrOverlayPipelineDepth = -1
         case "JOIN_LEFTOUTER" =>
           _fpgaJoinOverlayPipelineDepth = 2
           _fpgaAggrOverlayPipelineDepth = -1
@@ -4658,7 +5048,8 @@ class SQL2FPGA_QPlan {
           if (this_node._nodeType == "JOIN_INNER" ||
             this_node._nodeType == "JOIN_LEFTANTI" ||
             this_node._nodeType == "JOIN_LEFTSEMI" ||
-            this_node._nodeType == "JOIN_LEFTOUTER") {
+            this_node._nodeType == "JOIN_LEFTOUTER" ||
+            this_node._nodeType == "JOIN_FULLOUTER")  {
             println(this_node._joining_expression(0).references.toString)
             for (join_expr <- this_node._joining_expression) {
               for (col <- join_expr.references) {
@@ -5543,6 +5934,23 @@ class SQL2FPGA_QPlan {
         var this_node = q_node.dequeue()
         println(this_node._nodeType)
 
+     /*   if (this_node._nodeType == "JOIN_FULLOUTER"){
+          var newJoinNode = new SQL2FPGA_QPlan
+          newJoinNode._nodeType = "JOIN_LEFTANTI"
+          newJoinNode._children = this_node._children.clone()
+          newJoinNode._parent += this_node
+          var newOutputList = new ListBuffer[String]
+          for (ch <- this_node._children) {
+            for (o_col <- ch._outputCols) {
+              newOutputList += o_col
+            }
+          }
+          newJoinNode._outputCols = newOutputList
+          newJoinNode._operation = this_node._operation.clone()
+          newJoinNode._joining_expression = this_node._joining_expression.clone()
+          // TODO unfinished concacate join_leftanti + righttable
+        }*/
+
         if (this_node._nodeType == "JOIN_LEFTOUTER") {
           var newJoinNode = new SQL2FPGA_QPlan
           newJoinNode._nodeType = "JOIN_INNER"
@@ -5569,7 +5977,6 @@ class SQL2FPGA_QPlan {
           }
           this_node._children = newChildrenList
 
-          // TODO: this is not completed - need to add a SW function node that concatnate the inner+anti join outputs
         }
 
         for (ch <- this_node._children) {
@@ -5701,7 +6108,7 @@ class SQL2FPGA_QPlan {
       // Breath-First Traversal
       while(!q_node.isEmpty) {
         var this_node = q_node.dequeue()
-        println("nodeType" + this_node._nodeType)
+        println("nodeType " + this_node._nodeType)
 
         var cpuORfpgaExecution = 1 // CPU-0, FPGA-1
         var overlay_type = 0 // gqe_join-0, gqe_aggr-1, gqe_part-2
@@ -5760,7 +6167,7 @@ class SQL2FPGA_QPlan {
             }
           }
           if (this_node._nodeType == "JOIN_INNER" || this_node._nodeType == "JOIN_LEFTANTI" ||
-            this_node._nodeType == "JOIN_LEFTSEMI" || this_node._nodeType == "JOIN_LEFTOUTER") {
+            this_node._nodeType == "JOIN_LEFTSEMI" || this_node._nodeType == "JOIN_LEFTOUTER" || this_node._nodeType == "JOIN_FULLOUTER")  {
             var join_clauses = getJoinKeyTerms(this_node.joining_expression(0), false)
             // var invalid_join_connect = this_node._operation.head.contains("NOT") || this_node._operation.head.contains("OR")
             // var invalid_join_connect = (join_clauses.length > 1) & this_node._operation.head.contains("OR")
@@ -5785,7 +6192,7 @@ class SQL2FPGA_QPlan {
             }
           }
           // if (this_node._nodeType == "Sort" || this_node._nodeType == "Project") {
-          if (this_node._nodeType == "Sort" || this_node._nodeType == "Project" || this_node._nodeType == "Union" || this_node._nodeType == "Window") {
+          if (this_node._nodeType == "Sort" || this_node._nodeType == "Project" || this_node._nodeType == "Union" || this_node._nodeType == "Window" || this_node._nodeType == "JOIN_CROSS" || this_node._nodeType == "Expand" || this_node._nodeType == "LocalLimit" || this_node._nodeType == "GlobalLimit") {
             cpuORfpgaExecution = 0
           }
           if (this_node._nodeType == "Aggregate") {
@@ -6435,6 +6842,12 @@ class SQL2FPGA_QPlan {
       }
       else { // Execute on CPU
         // tag:sw
+        if (nodeOpName.contains("JOIN_EXISTENCEJOIN"))
+        {
+          nodeOpName = nodeOpName.replaceAll("#", "").replaceAll("\\(", "").replaceAll("\\)", "")
+          _fpgaOutputTableName = _fpgaOutputTableName.replaceAll("#", "").replaceAll("\\(", "").replaceAll("\\)", "")
+
+        }
         _fpgaSWFuncName = "SW_" + nodeOpName; // Generate SW implementations of the operation
         var swFuncCall = _fpgaSWFuncName + "("
         var contains_partitioned_tbl = false
@@ -6479,13 +6892,21 @@ class SQL2FPGA_QPlan {
           swFuncCall += _fpgaOutputTableName + ");"
         }
         _fpgaSWCode += swFuncCall
+        val joinExistencePattern = """.*JOIN_EXISTENCEJOIN.*""".r
         // SW Function Code
         _nodeType match {
+          case joinExistencePattern() => {
+            genExistenceJoin(sf, dfmap)
+          }
           case "JOIN_CROSS" => {
             genCrossJoinCPUCode(sf, dfmap)
           }
           case "Union" => {
             genUnionCPUCode(sf, dfmap)
+          }
+
+          case "JOIN_FULLOUTER" => {
+            genFullOuterJoinCode(sf, dfmap)
           }
           case "JOIN_INNER" =>
             var tempStr = "void " + _fpgaSWFuncName + "("
@@ -7128,6 +7549,9 @@ class SQL2FPGA_QPlan {
               filter_input_col_name = stripColumnName(filter_input_col_name)
               if (filter_input_col_type == "StringType") {
                 _fpgaSWFuncCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(raw_col)) + " + 1> " + filter_input_col_name + " = " + tbl_in_1 + ".getcharN<char, " + getStringLengthMacro(columnTableMap(raw_col)) + " + 1>(i, " + filter_input_col_idx.toString + ");"
+              } else if (filter_input_col_type == "BooleanType") {
+                _fpgaSWFuncCode += "        int32_t " + filter_input_col_name + " = " + tbl_in_1 + ".getInt32(i, " + filter_input_col_idx.toString + ");"
+
               } else if (filter_input_col_type == "IntegerType") {
                 _fpgaSWFuncCode += "        int32_t " + filter_input_col_name + " = " + tbl_in_1 + ".getInt32(i, " + filter_input_col_idx.toString + ");"
               } else if (filter_input_col_type == "LongType") {
@@ -7177,6 +7601,9 @@ class SQL2FPGA_QPlan {
                     _fpgaSWFuncCode += "            std::array<char, " + getStringLengthMacro(columnTableMap(refCol)) + " + 1> " + col_symbol + "_t = " + tbl_in_1 + ".getcharN<char, " + getStringLengthMacro(columnTableMap(refCol)) + " + 1>(i, " + col_idx + ");"
                     _fpgaSWFuncCode += "            " + tbl_out_1 + ".setcharN<char, " + getStringLengthMacro(columnTableMap(refCol)) + " + 1>(r, " + i + ", " + col_symbol + "_t);"
                   }
+                case "BooleanType" =>
+                  _fpgaSWFuncCode += "            int32_t " + col_symbol + "_t = " + tbl_in_1 + ".getInt32(i, " + col_idx + ");"
+                  _fpgaSWFuncCode += "            " + tbl_out_1 + ".setInt32(r, " + i + ", " + col_symbol + "_t);"
                 case "IntegerType" =>
                   _fpgaSWFuncCode += "            int32_t " + col_symbol + "_t = " + tbl_in_1 + ".getInt32(i, " + col_idx + ");"
                   _fpgaSWFuncCode += "            " + tbl_out_1 + ".setInt32(r, " + i + ", " + col_symbol + "_t);"
@@ -7561,13 +7988,17 @@ class SQL2FPGA_QPlan {
                   } else if (col_type == "StringType") {
                     if ( groupBy_payload.children(0).getClass.getName == "org.apache.spark.sql.catalyst.expressions.Literal") {
                       // TPCDS Q76
-
                       // Literal value has no table
                       columnTableMap += (raw_col -> ("Literal", raw_col))
                       _fpgaSWFuncCode += "        std::string " + col_symbol_trimmed + " = " + col_expr + ";"
                     } else {
                       columnDictionary(raw_col) = columnDictionary(groupBy_payload.references.head.toString)
-                      columnTableMap(raw_col) = columnTableMap(groupBy_payload.references.head.toString.split("#").head)
+                      if (groupBy_payload.references.head.toString.contains("spark_grouping_id")) {
+                        //virtual column spark_grouping_id has no table
+                        columnTableMap += (raw_col -> ("Groupingid", raw_col))
+                      } else {
+                        columnTableMap(raw_col) = columnTableMap(groupBy_payload.references.head.toString.split("#").head)
+                      }
                       if (_stringRowIDSubstitution) {
                         _fpgaSWFuncCode += "        int32_t " + col_symbol_trimmed + " = " + col_expr + ";"
                       }
@@ -8360,7 +8791,15 @@ class SQL2FPGA_QPlan {
           case "Window" => {
             genWindowCPUCode(sf, dfmap)
           }
-
+          case "Expand" => {
+            genExpandCPUCode(sf, dfmap)
+          }
+          case "GlobalLimit" => {
+            genLimitCPUCode(sf, dfmap)
+          }
+          case "LocalLimit" => {
+            genLimitCPUCode(sf, dfmap)
+          }
           case _ =>
             var tempStr = "void " + _fpgaSWFuncName + "("
             for (ch <- _children){
@@ -8370,6 +8809,7 @@ class SQL2FPGA_QPlan {
             _fpgaSWFuncCode += tempStr
             _fpgaSWFuncCode += "    // Unsupported operation: " + _nodeType
         }
+
         _fpgaSWFuncCode += "    std::cout << \"" + _fpgaOutputTableName + " #Row: \" << " + _fpgaOutputTableName + ".getNumRow() << std::endl;"
         _fpgaSWFuncCode += "}"
       }
@@ -9123,6 +9563,7 @@ class SQL2FPGA_QPlan {
         dual_key_join_on = 0
       }
       // join type
+      // TODO existencejoin and fullouter join
       join_operator._nodeType match {
         case "JOIN_INNER" =>
           join_flag = 0
@@ -10929,6 +11370,620 @@ class SQL2FPGA_QPlan {
 
   }
 
+  def genExistenceJoin(sf: Int, dfmap: Map[String, DataFrame]): Unit = {
+
+    var tempStr = "void " + _fpgaSWFuncName + "("
+    for (ch <- _children) {
+      tempStr += "Table &" + ch.fpgaOutputTableName + ", "
+    }
+    if (_stringRowIDBackSubstitution == true) {
+      var orig_table_names = get_stringRowIDOriginalTableName(this)
+      for (orig_tbl <- orig_table_names){
+        tempStr += "Table &" + orig_tbl + ", "
+      }
+    }
+    tempStr += "Table &" + _fpgaOutputTableName + ") {"
+
+    var tbl_in_1 = _children.head.fpgaOutputTableName.replaceAll("#", "").replaceAll("\\(", "").replaceAll("\\)", "")
+    var tbl_in_2 = _children.last.fpgaOutputTableName.replaceAll("#", "").replaceAll("\\(", "").replaceAll("\\)", "")
+    var join_left_table_col = _children.head.outputCols
+    var join_right_table_col = _children.last.outputCols
+
+    println("------Join LEFTSEMI Terms: " + _operation.head)
+    var (structCode_leftMajor, leftTableKeyColNames_leftMajor, rightTableKeyColNames_leftMajor, leftTablePayloadColNames_leftMajor, rightTablePayloadColNames_leftMajor, joinKeyTypeName_leftMajor, joinPayloadTypeName_leftMajor) = genJoin_KeyPayloadStruct(this, "leftMajor", dfmap);
+    var (structCode_rightMajor, leftTableKeyColNames_rightMajor, rightTableKeyColNames_rightMajor, leftTablePayloadColNames_rightMajor, rightTablePayloadColNames_rightMajor, joinKeyTypeName_rightMajor, joinPayloadTypeName_rightMajor) = genJoin_KeyPayloadStruct(this, "rightMajor", dfmap);
+    for (line <- structCode_leftMajor) {
+      _fpgaSWFuncCode += line
+    }
+    for (line <- structCode_rightMajor) {
+      _fpgaSWFuncCode += line
+    }
+
+    _fpgaSWFuncCode += tempStr
+    _fpgaSWFuncCode += "    // StringRowIDSubstitution: " + _stringRowIDSubstitution + " StringRowIDBackSubstitution: " + _stringRowIDBackSubstitution
+    _fpgaSWFuncCode += "    // Supported operation: " + _nodeType
+    // ----------------------------------- Debug info -----------------------------------
+    _fpgaSWFuncCode += "    // Operation: " + _operation
+    _fpgaSWFuncCode += "    // Left Table: " + join_left_table_col
+    _fpgaSWFuncCode += "    // Right Table: " + join_right_table_col
+    _fpgaSWFuncCode += "    // Output Table: " + _outputCols
+    // ----------------------------------- Debug info -----------------------------------
+    _fpgaSWFuncCode += "    int left_nrow = " + tbl_in_1 + ".getNumRow();"
+    _fpgaSWFuncCode += "    int right_nrow = " + tbl_in_2 + ".getNumRow();"
+
+    var existenceJoin_rightMajor_code = genExistenceJoin_rightMajor_core(this, dfmap, leftTableKeyColNames_rightMajor, rightTableKeyColNames_rightMajor, leftTablePayloadColNames_rightMajor, rightTablePayloadColNames_rightMajor, joinKeyTypeName_rightMajor, joinPayloadTypeName_rightMajor)
+    for (line <- existenceJoin_rightMajor_code) {
+      _fpgaSWFuncCode += line
+    }
+
+  }
+
+  def genFullOuterJoinCode(sf: Int, dfmap: Map[String, DataFrame]): Unit = {
+    var tempStr = "void " + _fpgaSWFuncName + "("
+    for (ch <- _children) {
+      tempStr += "Table &" + ch.fpgaOutputTableName + ", "
+    }
+    if (_stringRowIDBackSubstitution == true) {
+      var orig_table_names = get_stringRowIDOriginalTableName(this)
+      for (orig_tbl <- orig_table_names){
+        tempStr += "Table &" + orig_tbl + ", "
+      }
+    }
+    tempStr += "Table &" + _fpgaOutputTableName + ") {"
+
+    var tbl_in_1 = _children.last.fpgaOutputTableName
+    var tbl_in_2 = _children.head.fpgaOutputTableName
+    var join_left_table_col = _children.last.outputCols
+    var join_right_table_col = _children.head.outputCols
+    var tbl_out_1 = _fpgaOutputTableName
+
+    println("------Join LEFTOUTER Terms: " + _operation.head)
+    var join_pairs = getJoinTerms(joining_expression(0))
+    var join_key_pairs = getJoinKeyTerms(joining_expression(0), false)
+    var join_filter_pairs = getJoinFilterTerms(joining_expression(0), false)
+    var num_join_key_pairs = join_key_pairs.length
+
+    //Key struct
+    var leftTableKeyColNames = new ListBuffer[String]()
+    var rightTableKeyColNames = new ListBuffer[String]()
+    var joinKeyTypeName = _fpgaSWFuncName + "_key"
+    _fpgaSWFuncCode += "struct " + joinKeyTypeName + " {"
+
+    println("# Key Operations: " + num_join_key_pairs)
+
+    for (key_pair <- join_key_pairs) {
+      println(key_pair)
+      // var leftTblCol = key_pair.stripPrefix("(").stripSuffix(")").trim.split(" = ").head
+      // var rightTblCol = key_pair.stripPrefix("(").stripSuffix(")").trim.split(" = ").last
+      var (leftTblCol, rightTblCol) = extractJoinTableColumns(key_pair)
+
+      if (join_left_table_col.indexOf(leftTblCol) == -1) {
+        var tmpTblCol = leftTblCol
+        leftTblCol = rightTblCol
+        rightTblCol = tmpTblCol
+      }
+      leftTableKeyColNames += leftTblCol
+      rightTableKeyColNames += rightTblCol
+      var leftTblColType = getColumnType(leftTblCol, dfmap)
+      var leftTblColName = stripColumnName(leftTblCol)
+      leftTblColType match {
+        case "IntegerType" =>
+          _fpgaSWFuncCode += "    int32_t " + leftTblColName + ";"
+        case "LongType" =>
+          _fpgaSWFuncCode += "    int64_t " + leftTblColName + ";"
+        case "StringType" =>
+          _fpgaSWFuncCode += "    std::string " + leftTblColName + ";"
+        case _ =>
+          _fpgaSWFuncCode += "    // Unsupported join key type"
+      }
+    }
+    _fpgaSWFuncCode += "    bool operator==(const " + joinKeyTypeName + "& other) const {"
+    var equivalentOperation = "        return ("
+    var i = 0
+    for (i <- 0 to leftTableKeyColNames.length - 2) {
+      var equality = extractEquailty(join_key_pairs(i).stripPrefix("(").stripSuffix(")").trim) // operator is in index 1
+      if (equality == "=") {
+        equivalentOperation += "(" + stripColumnName(leftTableKeyColNames(i)) + " == other." + stripColumnName(leftTableKeyColNames(i)) + ") && "
+      } else if (equality == "!=" || equality == "<=>") {
+        equivalentOperation += "(" + stripColumnName(leftTableKeyColNames(i)) + " != other." + stripColumnName(leftTableKeyColNames(i)) + ") && "
+      }
+    }
+    var equality = extractEquailty(join_key_pairs(i).stripPrefix("(").stripSuffix(")").trim) // operator is in index 1
+    if (equality == "=") {
+      equivalentOperation += "(" + stripColumnName(leftTableKeyColNames.last) + " == other." + stripColumnName(leftTableKeyColNames.last) + "));"
+    } else if (equality == "!=" || equality == "<=>") {
+      equivalentOperation += "(" + stripColumnName(leftTableKeyColNames.last) + " != other." + stripColumnName(leftTableKeyColNames.last) + "));"
+    }
+    _fpgaSWFuncCode += equivalentOperation
+    _fpgaSWFuncCode += "    }"
+    _fpgaSWFuncCode += "};"
+
+    //Key hash struct - joinKeyHashTypeName
+    _fpgaSWFuncCode += "namespace std {"
+    _fpgaSWFuncCode += "template <>"
+    _fpgaSWFuncCode += "struct hash<" + joinKeyTypeName + "> {"
+    _fpgaSWFuncCode += "    std::size_t operator() (const " + joinKeyTypeName + "& k) const {"
+    _fpgaSWFuncCode += "        using std::size_t;"
+    _fpgaSWFuncCode += "        using std::hash;"
+    _fpgaSWFuncCode += "        using std::string;"
+    var joinKeyHashStr = "        return "
+    i = 0
+    for (left_key_pair <- leftTableKeyColNames) {
+      var equality = extractEquailty(join_key_pairs(i).stripPrefix("(").stripSuffix(")").trim) // operator is in index 1
+      if (equality == "=") {
+        var leftTblColType = getColumnType(left_key_pair, dfmap)
+        var leftTblColName = stripColumnName(left_key_pair)
+        leftTblColType match {
+          case "IntegerType" =>
+            joinKeyHashStr += "(hash<int32_t>()(k." + leftTblColName + ")) + "
+          case "LongType" =>
+            joinKeyHashStr += "(hash<int64_t>()(k." + leftTblColName + ")) + "
+          case "StringType" =>
+            joinKeyHashStr += "(hash<string>()(k." + leftTblColName + ")) + "
+          case _ =>
+            _fpgaSWFuncCode += "        // Unsupported join key type"
+        }
+      }
+      i += 1
+    }
+    _fpgaSWFuncCode += joinKeyHashStr.stripSuffix(" + ") + ";"
+    _fpgaSWFuncCode += "    }"
+    _fpgaSWFuncCode += "};"
+    _fpgaSWFuncCode += "}"
+
+    //Payload struct - Left table
+    var leftTablePayloadColNames = new ListBuffer[String]()
+    var joinPayloadTypeName = _fpgaSWFuncName + "_payload"
+    _fpgaSWFuncCode += "struct " + joinPayloadTypeName + " {"
+    for (left_payload <- join_left_table_col) {
+      var leftTblColName = stripColumnName(left_payload)
+      var leftPayloadColType = getColumnType(left_payload, dfmap)
+      leftPayloadColType match {
+        case "IntegerType" =>
+          _fpgaSWFuncCode += "    int32_t " + leftTblColName + ";"
+        case "LongType" =>
+          _fpgaSWFuncCode += "    int64_t " + leftTblColName + ";"
+        case "StringType" =>
+          _fpgaSWFuncCode += "    std::string " + leftTblColName + ";"
+        case _ =>
+          _fpgaSWFuncCode += "    // Unsupported join key type"
+      }
+      leftTablePayloadColNames += left_payload
+    }
+    _fpgaSWFuncCode += "};"
+    //Payload struct - Right table
+    var rightTablePayloadColNames = new ListBuffer[String]()
+    for (right_payload <- join_right_table_col) {
+      rightTablePayloadColNames += right_payload
+    }
+    _fpgaSWFuncCode += tempStr
+    _fpgaSWFuncCode += "    // StringRowIDSubstitution: " + _stringRowIDSubstitution + " StringRowIDBackSubstitution: " + _stringRowIDBackSubstitution
+    _fpgaSWFuncCode += "    // Supported operation: " + _nodeType
+    // ----------------------------------- Debug info -----------------------------------
+    _fpgaSWFuncCode += "    // Operation: " + _operation
+    _fpgaSWFuncCode += "    // Left Table: " + join_right_table_col
+    _fpgaSWFuncCode += "    // Right Table: " + join_left_table_col
+    _fpgaSWFuncCode += "    // Output Table: " + _outputCols
+    // ----------------------------------- Debug info -----------------------------------
+    _fpgaSWFuncCode += "    std::unordered_multimap<" + joinKeyTypeName + ", " + joinPayloadTypeName + "> ht1;"
+    _fpgaSWFuncCode += "    std::unordered_map<" + joinKeyTypeName + ", bool> ht1;"
+    _fpgaSWFuncCode += "    int nrow1 = " + tbl_in_1 + ".getNumRow();"
+    _fpgaSWFuncCode += "    int nrow2 = " + tbl_in_2 + ".getNumRow();"
+    // Enumerate input table
+    _fpgaSWFuncCode += "    for (int i = 0; i < nrow1; i++) {"
+    //  Key
+    var key_str = ""
+    for (key_col <- leftTableKeyColNames) {
+      var raw_col = getRawColumnName(key_col)
+      var join_left_key_col_name = stripColumnName(key_col) + "_k"
+      var join_left_key_col_type = getColumnType(raw_col, dfmap)
+      var join_left_key_col_idx = join_left_table_col.indexOf(key_col)
+      join_left_key_col_type match {
+        case "IntegerType" =>
+          _fpgaSWFuncCode += "        int32_t " + join_left_key_col_name + " = " + tbl_in_1 + ".getInt32(i, " + join_left_key_col_idx + ");"
+        case "LongType" =>
+          _fpgaSWFuncCode += "        int64_t " + join_left_key_col_name + " = " + tbl_in_1 + ".getInt64(i, " + join_left_key_col_idx + ");"
+        case "StringType" =>
+          _fpgaSWFuncCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(raw_col)) + " + 1> " + join_left_key_col_name + "_n = " + tbl_in_1 + ".getcharN<char, " + getStringLengthMacro(columnTableMap(raw_col)) + " + 1>(i, " + join_left_key_col_idx + ");"
+          _fpgaSWFuncCode += "        std::string " + join_left_key_col_name + " = std::string(" + join_left_key_col_name + "_n.data());"
+        case _ =>
+          _fpgaSWFuncCode += "        // Unsupported join key type"
+      }
+      key_str += join_left_key_col_name + ", "
+    }
+    _fpgaSWFuncCode += "        " + joinKeyTypeName + " keyA{" + key_str.stripSuffix(", ") + "};"
+    //  Payload
+    var payload_str = ""
+    for (payload_col <- leftTablePayloadColNames) {
+      var raw_col = getRawColumnName(payload_col)
+      var join_left_payload_col_name = stripColumnName(payload_col)
+      var join_left_payload_col_type = getColumnType(raw_col, dfmap)
+      var join_left_payload_col_idx = join_left_table_col.indexOf(payload_col)
+      join_left_payload_col_type match {
+        case "IntegerType" =>
+          _fpgaSWFuncCode += "        int32_t " + join_left_payload_col_name + " = " + tbl_in_1 + ".getInt32(i, " + join_left_payload_col_idx + ");"
+        case "LongType" =>
+          _fpgaSWFuncCode += "        int64_t " + join_left_payload_col_name + " = " + tbl_in_1 + ".getInt64(i, " + join_left_payload_col_idx + ");"
+        case "StringType" =>
+          _fpgaSWFuncCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(raw_col)) + " + 1> " + join_left_payload_col_name + "_n = " + tbl_in_1 + ".getcharN<char, " + getStringLengthMacro(columnTableMap(raw_col)) + " + 1>(i, " + join_left_payload_col_idx + ");"
+          _fpgaSWFuncCode += "        std::string " + join_left_payload_col_name + " = std::string(" + join_left_payload_col_name + "_n.data());"
+        case _ =>
+          _fpgaSWFuncCode += "        // Unsupported join key type"
+      }
+      payload_str += join_left_payload_col_name + ", "
+    }
+    _fpgaSWFuncCode += "        " + joinPayloadTypeName + " payloadA{" + payload_str.stripSuffix(", ") + "};"
+    _fpgaSWFuncCode += "        ht1.insert(std::make_pair(keyA, payloadA));"
+    _fpgaSWFuncCode += "    }"
+    _fpgaSWFuncCode += "    int r = 0;"
+    // Enumerate output table
+    _fpgaSWFuncCode += "    for (int i = 0; i < nrow2; i++) {"
+    //  Key
+    key_str = ""
+    for (key_col <- rightTableKeyColNames) {
+      var raw_col = getRawColumnName(key_col)
+      var join_right_key_col_name = stripColumnName(key_col) + "_k"
+      var join_right_key_col_type = getColumnType(raw_col, dfmap)
+      var join_right_key_col_idx = join_right_table_col.indexOf(key_col)
+      join_right_key_col_type match {
+        case "IntegerType" =>
+          _fpgaSWFuncCode += "        int32_t " + join_right_key_col_name + " = " + tbl_in_2 + ".getInt32(i, " + join_right_key_col_idx + ");"
+        case "LongType" =>
+          _fpgaSWFuncCode += "        int64_t " + join_right_key_col_name + " = " + tbl_in_2 + ".getInt64(i, " + join_right_key_col_idx + ");"
+        case "StringType" =>
+          _fpgaSWFuncCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(raw_col)) + " + 1> " + join_right_key_col_name + "_n = " + tbl_in_2 + ".getcharN<char, " + getStringLengthMacro(columnTableMap(raw_col)) + " + 1>(i, " + join_right_key_col_idx + ");"
+          _fpgaSWFuncCode += "        std::string " + join_right_key_col_name + " = std::string(" + join_right_key_col_name + "_n.data());"
+        case _ =>
+          _fpgaSWFuncCode += "        // Unsupported join key type"
+      }
+      key_str += join_right_key_col_name + ", "
+    }
+    _fpgaSWFuncCode += "        " + joinKeyTypeName + " key " +  "{" + key_str.stripSuffix(", ") + "};"
+    _fpgaSWFuncCode += "        auto it = ht1.find(key);"
+    //  Payload
+    for (right_payload <- rightTablePayloadColNames) {
+      var raw_col = getRawColumnName(right_payload)
+      var right_payload_name = stripColumnName(right_payload)
+      var right_payload_type = getColumnType(raw_col, dfmap)
+      var right_payload_input_index = join_right_table_col.indexOf(right_payload)
+      var right_payload_index = _outputCols.indexOf(right_payload)
+      right_payload_type match {
+        case "IntegerType" =>
+          _fpgaSWFuncCode += "        int32_t " + right_payload_name + " = " + tbl_in_2 + ".getInt32(i, " + right_payload_input_index + ");"
+        case "LongType" =>
+          _fpgaSWFuncCode += "        int64_t " + right_payload_name + " = " + tbl_in_2 + ".getInt64(i, " + right_payload_input_index + ");"
+        case "StringType" =>
+          _fpgaSWFuncCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(raw_col)) + " + 1> " + right_payload_name + " = " + tbl_in_2 + ".getcharN<char, " + getStringLengthMacro(columnTableMap(raw_col)) + " + 1>(i, " + right_payload_input_index + ");"
+        case _ =>
+          _fpgaSWFuncCode += "        // Unsupported join key type"
+      }
+    }
+    _fpgaSWFuncCode += "        if (it != ht1.end()) {"
+    _fpgaSWFuncCode += "            auto its = ht1.equal_range(key);"
+    _fpgaSWFuncCode += "            auto it_it = its.first;"
+    _fpgaSWFuncCode += "            while (it_it != its.second) {"
+    for (left_payload <- leftTablePayloadColNames) {
+      var raw_col = getRawColumnName(left_payload)
+      var left_payload_name = stripColumnName(left_payload)
+      var left_payload_type = getColumnType(raw_col, dfmap)
+      var left_payload_index = _outputCols.indexOf(left_payload)
+      left_payload_type match {
+        case "IntegerType" =>
+          _fpgaSWFuncCode += "                int32_t " + left_payload_name + " = (it_it->second)." + left_payload_name + ";"
+        case "LongType" =>
+          _fpgaSWFuncCode += "                int64_t " + left_payload_name + " = (it_it->second)." + left_payload_name + ";"
+        case "StringType" =>
+          _fpgaSWFuncCode += "                std::string " + left_payload_name + "_n = (it_it->second)." + left_payload_name + ";"
+          _fpgaSWFuncCode += "                std::array<char, " + getStringLengthMacro(columnTableMap(raw_col)) + " + 1> " + left_payload_name + "{};"
+          _fpgaSWFuncCode += "                memcpy(" + left_payload_name + ".data(), (" + left_payload_name + "_n).data(), (" + left_payload_name + "_n).length());"
+        case _ =>
+          _fpgaSWFuncCode += "                // Unsupported join key type"
+      }
+    }
+    if (join_filter_pairs.length > 0) { //filtering is need
+
+      var filter_expr = getJoinFilterExpression(joining_expression(0))
+      _fpgaSWFuncCode += "                if " + filter_expr + " {"
+      for (left_payload <- leftTablePayloadColNames) {
+        var raw_col = getRawColumnName(left_payload)
+        var left_payload_name = stripColumnName(left_payload)
+        var left_payload_type = getColumnType(raw_col, dfmap)
+        var left_payload_index = _outputCols.indexOf(left_payload)
+        if (left_payload_index != -1) {
+          left_payload_type match {
+            case "IntegerType" =>
+              _fpgaSWFuncCode += "                    " + tbl_out_1 + ".setInt32(r, " + left_payload_index + ", " + left_payload_name + ");"
+            case "LongType" =>
+              _fpgaSWFuncCode += "                    " + tbl_out_1 + ".setInt64(r, " + left_payload_index + ", " + left_payload_name + ");"
+            case "StringType" =>
+              _fpgaSWFuncCode += "                    " + tbl_out_1 + ".setcharN<char, " + getStringLengthMacro(columnTableMap(raw_col)) + " + 1>(r, " + left_payload_index + ", " + left_payload_name + ");"
+            case _ =>
+              _fpgaSWFuncCode += "                    // Unsupported join key type"
+          }
+        }
+      }
+      for (right_payload <- rightTablePayloadColNames) {
+        var raw_col = getRawColumnName(right_payload)
+        var right_payload_name = stripColumnName(right_payload)
+        var right_payload_type = getColumnType(raw_col, dfmap)
+        var right_payload_input_index = join_right_table_col.indexOf(right_payload)
+        var right_payload_index = _outputCols.indexOf(right_payload)
+        if (right_payload_index != -1) {
+          right_payload_type match {
+            case "IntegerType" =>
+              _fpgaSWFuncCode += "                    " + tbl_out_1 + ".setInt32(r, " + right_payload_index + ", " + right_payload_name + ");"
+            case "LongType" =>
+              _fpgaSWFuncCode += "                    " + tbl_out_1 + ".setInt64(r, " + right_payload_index + ", " + right_payload_name + ");"
+            case "StringType" =>
+              _fpgaSWFuncCode += "                    " + tbl_out_1 + ".setcharN<char, " + getStringLengthMacro(columnTableMap(raw_col)) + " + 1>(r, " + right_payload_index + ", " + right_payload_name + ");"
+            case _ =>
+              _fpgaSWFuncCode += "                    // Unsupported join key type"
+          }
+        }
+      }
+      _fpgaSWFuncCode += "            }"
+    }
+    else { //no filtering - standard write out output columns
+      for (left_payload <- leftTablePayloadColNames) {
+        var raw_col = getRawColumnName(left_payload)
+
+        var left_payload_name = stripColumnName(left_payload)
+        var left_payload_type = getColumnType(raw_col, dfmap)
+        var left_payload_index = _outputCols.indexOf(left_payload)
+        if (left_payload_index != -1) {
+          left_payload_type match {
+            case "IntegerType" =>
+              _fpgaSWFuncCode += "                " + tbl_out_1 + ".setInt32(r, " + left_payload_index + ", " + left_payload_name + ");"
+            case "LongType" =>
+              _fpgaSWFuncCode += "                " + tbl_out_1 + ".setInt64(r, " + left_payload_index + ", " + left_payload_name + ");"
+            case "StringType" =>
+              _fpgaSWFuncCode += "                " + tbl_out_1 + ".setcharN<char, " + getStringLengthMacro(columnTableMap(raw_col)) + " + 1>(r, " + left_payload_index + ", " + left_payload_name + ");"
+            case _ =>
+              _fpgaSWFuncCode += "                // Unsupported join key type"
+          }
+        }
+      }
+      for (right_payload <- rightTablePayloadColNames) {
+        var raw_col = getRawColumnName(right_payload)
+        var right_payload_name = stripColumnName(right_payload)
+        var right_payload_type = getColumnType(right_payload, dfmap)
+        var right_payload_input_index = join_right_table_col.indexOf(right_payload)
+        var right_payload_index = _outputCols.indexOf(right_payload)
+        if (right_payload_index != -1) {
+          right_payload_type match {
+            case "IntegerType" =>
+              _fpgaSWFuncCode += "                " + tbl_out_1 + ".setInt32(r, " + right_payload_index + ", " + right_payload_name + ");"
+            case "LongType" =>
+              _fpgaSWFuncCode += "                " + tbl_out_1 + ".setInt64(r, " + right_payload_index + ", " + right_payload_name + ");"
+            case "StringType" =>
+              _fpgaSWFuncCode += "                " + tbl_out_1 + ".setcharN<char, " + getStringLengthMacro(columnTableMap(raw_col)) + " + 1>(r, " + right_payload_index + ", " + right_payload_name + ");"
+            case _ =>
+              _fpgaSWFuncCode += "                // Unsupported join key type"
+          }
+        }
+      }
+    }
+    _fpgaSWFuncCode += "                it_it++;"
+    _fpgaSWFuncCode += "                r++;"
+
+    _fpgaSWFuncCode += "            }"
+    _fpgaSWFuncCode += "            matched[key] = true;"
+
+    _fpgaSWFuncCode += "        } else {"
+    if (join_filter_pairs.length > 0) { //filtering is need
+      var filter_expr = getJoinFilterExpression(joining_expression(0))
+      _fpgaSWFuncCode += "            if " + filter_expr + " {"
+      // Leave right table (i.e., left_payload) columns blank
+      /* for (left_payload <- leftTablePayloadColNames) {
+          var left_payload_name = stripColumnName(left_payload)
+          var left_payload_type = getColumnType(left_payload, dfmap)
+          var left_payload_index = _outputCols.indexOf(left_payload)
+          if (left_payload_index != -1) {
+            left_payload_type match {
+              case "IntegerType" =>
+                _fpgaSWFuncCode += "                " + tbl_out_1 + ".setInt32(r, " + left_payload_index + ", " + "0" + ");"
+              case "LongType" =>
+                _fpgaSWFuncCode += "                " + tbl_out_1 + ".setInt64(r, " + left_payload_index + ", " + "0" + ");"
+              case "StringType" =>
+                _fpgaSWFuncCode += "                " + tbl_out_1 + ".setcharN<char, " + getStringLengthMacro(columnTableMap(left_payload)) + " + 1>(r, " + left_payload_index + ", " + "\"\"" + ");"
+              case _ =>
+                _fpgaSWFuncCode += "                // Unsupported join key type"
+            }
+          }
+        } */
+      for (right_payload <- rightTablePayloadColNames) {
+        var right_payload_name = stripColumnName(right_payload)
+        var right_payload_type = getColumnType(right_payload, dfmap)
+        var right_payload_input_index = join_right_table_col.indexOf(right_payload)
+        var right_payload_index = _outputCols.indexOf(right_payload)
+        if (right_payload_index != -1) {
+          right_payload_type match {
+            case "IntegerType" =>
+              _fpgaSWFuncCode += "                " + tbl_out_1 + ".setInt32(r, " + right_payload_index + ", " + right_payload_name + ");"
+            case "LongType" =>
+              _fpgaSWFuncCode += "                " + tbl_out_1 + ".setInt64(r, " + right_payload_index + ", " + right_payload_name + ");"
+            case "StringType" =>
+              _fpgaSWFuncCode += "                " + tbl_out_1 + ".setcharN<char, " + getStringLengthMacro(columnTableMap(right_payload.split("#").head)) + " + 1>(r, " + right_payload_index + ", " + right_payload_name + ");"
+            case _ =>
+              _fpgaSWFuncCode += "                // Unsupported join key type"
+          }
+        }
+      }
+      _fpgaSWFuncCode += "            }"
+    }
+    else { //no filtering - standard write out output columns
+      // Leave right table (i.e., left_payload) columns blank
+      /* for (left_payload <- leftTablePayloadColNames) {
+          var left_payload_name = stripColumnName(left_payload)
+          var left_payload_type = getColumnType(left_payload, dfmap)
+          var left_payload_index = _outputCols.indexOf(left_payload)
+          if (left_payload_index != -1) {
+            left_payload_type match {
+              case "IntegerType" =>
+                _fpgaSWFuncCode += "            " + tbl_out_1 + ".setInt32(r, " + left_payload_index + ", " + "0" + ");"
+              case "LongType" =>
+                _fpgaSWFuncCode += "            " + tbl_out_1 + ".setInt64(r, " + left_payload_index + ", " + "0" + ");"
+              case "StringType" =>
+                _fpgaSWFuncCode += "            " + tbl_out_1 + ".setcharN<char, " + getStringLengthMacro(columnTableMap(left_payload)) + " + 1>(r, " + left_payload_index + ", " + "\"\"" + ");"
+              case _ =>
+                _fpgaSWFuncCode += "            // Unsupported join key type"
+            }
+          }
+        } */
+      for (right_payload <- rightTablePayloadColNames) {
+        var right_payload_name = stripColumnName(right_payload)
+        var right_payload_type = getColumnType(right_payload, dfmap)
+        var right_payload_input_index = join_right_table_col.indexOf(right_payload)
+        var right_payload_index = _outputCols.indexOf(right_payload)
+        if (right_payload_index != -1) {
+          right_payload_type match {
+            case "IntegerType" =>
+              _fpgaSWFuncCode += "            " + tbl_out_1 + ".setInt32(r, " + right_payload_index + ", " + right_payload_name + ");"
+            case "LongType" =>
+              _fpgaSWFuncCode += "            " + tbl_out_1 + ".setInt64(r, " + right_payload_index + ", " + right_payload_name + ");"
+            case "StringType" =>
+              _fpgaSWFuncCode += "            " + tbl_out_1 + ".setcharN<char, " + getStringLengthMacro(columnTableMap(right_payload.split("#").head)) + " + 1>(r, " + right_payload_index + ", " + "\"\"" + ");"
+            case _ =>
+              _fpgaSWFuncCode += "            // Unsupported join key type"
+          }
+        }
+      }
+    }
+    _fpgaSWFuncCode += "            r++;"
+    _fpgaSWFuncCode += "        }"
+    _fpgaSWFuncCode += "    }"
+
+    _fpgaSWFuncCode += "    for (const auto& kv : ht1) {"
+    _fpgaSWFuncCode += "        if (!matched[kv.first]) {"
+
+    for (left_payload <- leftTablePayloadColNames) {
+      var raw_col = getRawColumnName(left_payload)
+
+      var left_payload_name = stripColumnName(left_payload)
+      var left_payload_type = getColumnType(raw_col, dfmap)
+      var left_payload_index = _outputCols.indexOf(left_payload)
+      if (left_payload_index != -1) {
+        left_payload_type match {
+          case "IntegerType" =>
+            _fpgaSWFuncCode += "            " + tbl_out_1 + ".setInt32(r, " + left_payload_index + ", " + left_payload_name + ");"
+          case "LongType" =>
+            _fpgaSWFuncCode += "            " + tbl_out_1 + ".setInt64(r, " + left_payload_index + ", " + left_payload_name + ");"
+          case "StringType" =>
+            _fpgaSWFuncCode += "            " + tbl_out_1 + ".setcharN<char, " + getStringLengthMacro(columnTableMap(raw_col)) + " + 1>(r, " + left_payload_index + ", " + left_payload_name + ");"
+          case _ =>
+            _fpgaSWFuncCode += "                // Unsupported join key type"
+        }
+      }
+    }
+
+    _fpgaSWFuncCode += "            r++"
+    _fpgaSWFuncCode += "        }"
+    _fpgaSWFuncCode += "    }"
+
+
+    _fpgaSWFuncCode += "    " + tbl_out_1 + ".setNumRow(r);"
+
+  }
+
+  def genExpandCPUCode(sf: Int, dfmap: Map[String, DataFrame]): Unit = {
+    var tempStr = "void " + _fpgaSWFuncName + "("
+    for (ch <- _children) {
+      if (sf == 30) {
+        if (ch._cpuORfpga == 1) {
+          tempStr += "Table *" + ch.fpgaOutputTableName + ", "
+        } else {
+          tempStr += "Table &" + ch.fpgaOutputTableName + ", "
+        }
+      } else {
+        tempStr += "Table &" + ch.fpgaOutputTableName + ", "
+      }
+    }
+    if (_stringRowIDBackSubstitution == true) {
+      var orig_table_names = get_stringRowIDOriginalTableName(this)
+      for (orig_tbl <- orig_table_names) {
+        tempStr += "Table &" + orig_tbl + ", "
+      }
+    }
+    if (sf == 30 && _children.head._cpuORfpga == 1) {
+      tempStr += "Table &" + _fpgaOutputTableName + ", int hpTimes) {"
+    } else {
+      tempStr += "Table &" + _fpgaOutputTableName + ") {"
+    }
+    _fpgaSWFuncCode += tempStr
+    _fpgaSWFuncCode += "    // StringRowIDSubstitution: " + _stringRowIDSubstitution + " StringRowIDBackSubstitution: " + _stringRowIDBackSubstitution
+    _fpgaSWFuncCode += "    // Supported operation: " + _nodeType
+    _fpgaSWFuncCode += "    // Operation: " + _operation
+    _fpgaSWFuncCode += "    // Input: " + _children.head.outputCols
+    _fpgaSWFuncCode += "    // Output: " + outputCols
+
+    var tbl_in_1 = _children.head.fpgaOutputTableName
+    var tbl_out_1 = _fpgaOutputTableName
+  }
+  def genLimitCPUCode(sf: Int, dfmap: Map[String, DataFrame]): Unit = {
+    var tempStr = "void " + _fpgaSWFuncName + "("
+    for (ch <- _children) {
+      if (sf == 30) {
+        if (ch._cpuORfpga == 1) {
+          tempStr += "Table *" + ch.fpgaOutputTableName + ", "
+        } else {
+          tempStr += "Table &" + ch.fpgaOutputTableName + ", "
+        }
+      } else {
+        tempStr += "Table &" + ch.fpgaOutputTableName + ", "
+      }
+    }
+    if (_stringRowIDBackSubstitution == true) {
+      var orig_table_names = get_stringRowIDOriginalTableName(this)
+      for (orig_tbl <- orig_table_names) {
+        tempStr += "Table &" + orig_tbl + ", "
+      }
+    }
+    if (sf == 30 && _children.head._cpuORfpga == 1) {
+      tempStr += "Table &" + _fpgaOutputTableName + ", int hpTimes) {"
+    } else {
+      tempStr += "Table &" + _fpgaOutputTableName + ") {"
+    }
+    _fpgaSWFuncCode += tempStr
+    _fpgaSWFuncCode += "    // StringRowIDSubstitution: " + _stringRowIDSubstitution + " StringRowIDBackSubstitution: " + _stringRowIDBackSubstitution
+    _fpgaSWFuncCode += "    // Supported operation: " + _nodeType
+    _fpgaSWFuncCode += "    // Operation: " + _operation
+    _fpgaSWFuncCode += "    // Input: " + _children.head.outputCols
+    _fpgaSWFuncCode += "    // Output: " + outputCols
+
+    var tbl_in_1 = _children.head.fpgaOutputTableName
+    var tbl_out_1 = _fpgaOutputTableName
+    _fpgaSWFuncCode += "    int r = 0;"
+    _fpgaSWFuncCode += "    int nrow = " + _limit.toString + ";"
+
+    _fpgaSWFuncCode += "    for (int i = 0; i < nrow; i++) {"
+    var outputTableColumnIdx = 0
+
+    for (col <- outputCols) {
+      var output_col_type = getColumnType(col, dfmap)
+      var raw_col = getRawColumnName(col)
+      var formatted_col = stripColumnName(col)
+      output_col_type match {
+        case "IntegerType" =>
+          _fpgaSWFuncCode += "        " + _fpgaOutputTableName + ".setInt32(r, "+ outputTableColumnIdx.toString + ", " + tbl_in_1 + ".getInt32(i, " + outputTableColumnIdx.toString +"));"
+        case "LongType" =>
+          _fpgaSWFuncCode += "        " + _fpgaOutputTableName + ".setInt32(r, "+ outputTableColumnIdx.toString + ", " + tbl_in_1 + ".getInt64(i, " + outputTableColumnIdx.toString +"));"
+        case "StringType" =>
+          _fpgaSWFuncCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(raw_col)) + " + 1> " + formatted_col + "_n = " + tbl_in_1 + ".getcharN<char, " + getStringLengthMacro(columnTableMap(raw_col)) + " + 1>(i, " + outputTableColumnIdx.toString + ");"
+          _fpgaSWFuncCode += "        " + _fpgaOutputTableName + ".setcharN<char, " + getStringLengthMacro(columnTableMap(raw_col)) + " + 1>(r, " + outputTableColumnIdx.toString + ", " + formatted_col + "_n" + ");"
+        case _ =>
+          _fpgaSWFuncCode += "        // Unsupported Union key type"
+      }
+      outputTableColumnIdx += 1
+    }
+    _fpgaSWFuncCode += "        r++;"
+    _fpgaSWFuncCode += "    }"
+
+
+    _fpgaSWFuncCode += "    " + tbl_out_1 + ".setNumRow(r);"
+
+  }
+
+
   def genWindowCPUCode(sf: Int, dfmap: Map[String, DataFrame]): Unit = {
     var tempStr = "void " + _fpgaSWFuncName + "("
     for (ch <- _children) {
@@ -11133,20 +12188,168 @@ class SQL2FPGA_QPlan {
       // Issuing the sorting call
       _fpgaSWFuncCode += "    std::sort(rows" + idx.toString + ".begin(), rows" + idx.toString + ".end(), " + sortLamdaFuncName + ");"
 
+
       windowFunction.getClass.getName match {
         case "org.apache.spark.sql.catalyst.expressions.Rank" => {
+          // rank function may have multiple refCol, aka the order by keys
+          _fpgaSWFuncCode += "    std::vector<int32_t> ranks" + idx.toString + "(rows" + idx.toString + ".size(), 0);"
+          _fpgaSWFuncCode += "    int32_t currentRank" + idx.toString + " = 0;"
+          _fpgaSWFuncCode += "    int32_t currentPartitionCount" + idx.toString + " = 1;"
+
+          _fpgaSWFuncCode += "    bool isSamePartition" + idx.toString + " = true;"
+          _fpgaSWFuncCode += "    bool isSameOrderKey" + idx.toString + " = true;"
+
+          _fpgaSWFuncCode += "    if (!rows" + idx.toString + ".empty()) {;"
+          _fpgaSWFuncCode += "      ranks" + idx.toString + "[0] = ++currentRank" + idx.toString + ";"
+          _fpgaSWFuncCode += "    };"
+
+          _fpgaSWFuncCode += "    for (int i = 1; i< rows" + idx.toString +".size(); i++) {"
+
+          var isSamePartitionKey = "        isSamePartition" + idx.toString + " = ("
+          var firstCol = true
+          for (partition_key <- partitionKeys) {
+            var partition_key_col = stripColumnName(partition_key.toString())
+            if (firstCol) {
+              firstCol = false
+              isSamePartitionKey += " rows" + idx.toString + "[i]." + partition_key_col + " == rows" + idx.toString + "[i-1]." + partition_key_col
+            } else {
+              isSamePartitionKey += " && rows" + idx.toString + "[i]." + partition_key_col + " == rows" + idx.toString + "[i-1]." + partition_key_col
+            }
+          }
+          isSamePartitionKey += ");"
+          _fpgaSWFuncCode += isSamePartitionKey
+
+          var isSameOrderKey = "        isSameOrderKey" + idx.toString + " = ("
+          firstCol = true
+          for (order_key <- orderByKeys) {
+            var order_key_col = stripColumnName(order_key.children(0).toString())
+            if (firstCol) {
+              firstCol = false
+              isSameOrderKey += " rows" + idx.toString + "[i]." + order_key_col + " == rows" + idx.toString + "[i-1]." + order_key_col
+            } else {
+              isSameOrderKey += " && rows" + idx.toString + "[i]." + order_key_col + " == rows" + idx.toString + "[i-1]." + order_key_col
+            }
+          }
+          isSameOrderKey += ");"
+          _fpgaSWFuncCode += isSameOrderKey
+          _fpgaSWFuncCode += "        curPartitionCount" + idx.toString + "++;"
+          _fpgaSWFuncCode += "        if (isSamePartition" + idx.toString +  "&& !isSameOrderKey" + idx.toString + ") {"
+          _fpgaSWFuncCode += "            currentRank" + idx.toString + " = currentPartitionCount" + idx.toString+ ";"
+          _fpgaSWFuncCode += "        } else if (!isSamePartition" + idx.toString + ") {"
+          _fpgaSWFuncCode += "            currentPartitionCount" + idx.toString + " = 1;"
+          _fpgaSWFuncCode += "            currentRank" + idx.toString + " = currentPartitionCount" + idx.toString+ ";"
+          _fpgaSWFuncCode += "        }"
+          _fpgaSWFuncCode += "        ranks" + idx.toString + "[i] = currentRank" + idx.toString + ";"
+
+          _fpgaSWFuncCode += "    }"
+
+          _fpgaSWFuncCode += "    for (int i = 0; i< nrow; i++) {"
+          _fpgaSWFuncCode += "        " + _fpgaOutputTableName + ".setInt32(r, " + colIdx + ", ranks" + idx.toString + "[i]);"
+
+          _fpgaSWFuncCode += "    }"
+          colIdx += 1
+
 
         }
         case "org.apache.spark.sql.catalyst.expressions.aggregate.AggregateExpression" => {
           var aggFunction = windowFunction.asInstanceOf[AggregateExpression].aggregateFunction.getClass.getName
 
-          // TODO group by with partitionKeys and order by with orderByKeys
           aggFunction match {
             case "org.apache.spark.sql.catalyst.expressions.aggregate.Average" => {
+              var refCol = stripColumnName(windowFunction.references.head.toString())
+              _fpgaSWFuncCode += "    int64_t sum" + idx.toString + " = 0;"
+              _fpgaSWFuncCode += "    int64_t currentRow" + idx.toString + " = 0;"
+
+              var partition_key_if_str = "        if (";
+              var firstCol = true
+              for (partition_key <- partitionKeys) {
+                var partition_key_col = stripColumnName(partition_key.toString())
+                var col_type = getColumnType(partition_key.toString, dfmap)
+                if (firstCol) {
+                  firstCol = false
+                  partition_key_if_str += "current" + partition_key_col + idx.toString +  " != " + "it." + partition_key_col
+                } else {
+                  partition_key_if_str += " || current" + partition_key_col +  idx.toString + " != " + "it." + partition_key_col
+                }
+                col_type match {
+                  case "StringType" => {
+                    _fpgaSWFuncCode += "    std::string current" +partition_key_col  + idx.toString + " = \"\";"
+                  }
+                  case "IntegerType" => {
+                    _fpgaSWFuncCode += "    int32_t current" + partition_key_col + idx.toString + " = std::numeric_limits<int32_t>::min();"
+                  }
+                  case "DoubleType" => {
+                    _fpgaSWFuncCode += "    int32_t current" + partition_key_col + idx.toString + " = std::numeric_limits<int32_t>::min();"
+                  }
+                  case "LongType" => {
+                    _fpgaSWFuncCode += "    int64_t current" + partition_key_col + idx.toString + " = std::numeric_limits<int64_t>::min();"
+
+                  }
+                }
+              }
+              _fpgaSWFuncCode += "    for (auto& it : rows" + idx.toString + ") {"
+
+              _fpgaSWFuncCode += partition_key_if_str + ") {"
+              _fpgaSWFuncCode += "            sum" + idx.toString + " = 0;"
+              _fpgaSWFuncCode += "            currentRow" + idx.toString + " = 0;"
+
+              for (partition_key <- partitionKeys) {
+                var partition_key_col = stripColumnName(partition_key.toString())
+                _fpgaSWFuncCode += "            current" + partition_key_col + idx.toString + " = it." + partition_key_col + ";"
+              }
+              _fpgaSWFuncCode += "        }"
+              _fpgaSWFuncCode += "        sum" + idx.toString + " += it." + refCol + ";"
+              _fpgaSWFuncCode += "        currentRow" + idx.toString + " +=1;"
+
+              _fpgaSWFuncCode += "        " + _fpgaOutputTableName + ".setInt64(r, " + colIdx + ", sum" + idx.toString + " / currentRow" + idx.toString + " );"
+              _fpgaSWFuncCode += "    }"
 
             }
             case "org.apache.spark.sql.catalyst.expressions.aggregate.Sum" => {
+              var refCol = stripColumnName(windowFunction.references.head.toString())
+              _fpgaSWFuncCode += "    int64_t sum" + idx.toString + " = 0;"
 
+              var partition_key_if_str = "        if (";
+              var firstCol = true
+              for (partition_key <- partitionKeys) {
+                var partition_key_col = stripColumnName(partition_key.toString())
+                var col_type = getColumnType(partition_key.toString, dfmap)
+                if (firstCol) {
+                  firstCol = false
+                  partition_key_if_str += "current" + partition_key_col + idx.toString +  " != " + "it." + partition_key_col
+                } else {
+                  partition_key_if_str += " || current" + partition_key_col +  idx.toString + " != " + "it." + partition_key_col
+                }
+                col_type match {
+                  case "StringType" => {
+                    _fpgaSWFuncCode += "    std::string current" +partition_key_col  + idx.toString + " = \"\";"
+                  }
+                  case "IntegerType" => {
+                    _fpgaSWFuncCode += "    int32_t current" + partition_key_col + idx.toString + " = std::numeric_limits<int32_t>::min();"
+                  }
+                  case "DoubleType" => {
+                    _fpgaSWFuncCode += "    int32_t current" + partition_key_col + idx.toString + " = std::numeric_limits<int32_t>::min();"
+                  }
+                  case "LongType" => {
+                    _fpgaSWFuncCode += "    int64_t current" + partition_key_col + idx.toString + " = std::numeric_limits<int64_t>::min();"
+
+                  }
+                }
+              }
+              _fpgaSWFuncCode += "    for (auto& it : rows" + idx.toString + ") {"
+
+              _fpgaSWFuncCode += partition_key_if_str + ") {"
+              _fpgaSWFuncCode += "            sum" + idx.toString + " = 0;"
+
+              for (partition_key <- partitionKeys) {
+                var partition_key_col = stripColumnName(partition_key.toString())
+                _fpgaSWFuncCode += "            current" + partition_key_col + idx.toString + " = it." + partition_key_col + ";"
+              }
+              _fpgaSWFuncCode += "        }"
+              _fpgaSWFuncCode += "        sum" + idx.toString + " += it." + refCol + ";"
+
+              _fpgaSWFuncCode += "        " + _fpgaOutputTableName + ".setInt64(r, " + colIdx + ", sum" + idx.toString + " );"
+              _fpgaSWFuncCode += "    }"
             }
             case "org.apache.spark.sql.catalyst.expressions.aggregate.Count" => {
 
@@ -11157,27 +12360,27 @@ class SQL2FPGA_QPlan {
               var partition_key_if_str = "        if (";
 
               for (partition_key <- partitionKeys) {
-                var partition_key_col = stripColumnName(partition_key.toString()) + idx.toString
+                var partition_key_col = stripColumnName(partition_key.toString())
                 var col_type = getColumnType(partition_key.toString, dfmap)
                 var firstCol = true
                 if (firstCol) {
                   firstCol = false
-                  partition_key_if_str += "current" + partition_key_col + " != " + "it." + partition_key_col
+                  partition_key_if_str += "current" + partition_key_col + idx.toString +  " != " + "it." + partition_key_col
                 } else {
-                  partition_key_if_str += " || current" + partition_key_col + " != " + "it." + partition_key_col
+                  partition_key_if_str += " || current" + partition_key_col +  idx.toString + " != " + "it." + partition_key_col
                 }
                 col_type match {
                   case "StringType" => {
-                    _fpgaSWFuncCode += "    std::string current" + stripColumnName(partition_key.toString()) + idx.toString + " = \"\";"
+                    _fpgaSWFuncCode += "    std::string current" +partition_key_col  + idx.toString + " = \"\";"
                   }
                   case "IntegerType" => {
-                    _fpgaSWFuncCode += "    int32_t current" + stripColumnName(partition_key.toString()) + idx.toString + " = std::numeric_limits<int32_t>::min();"
+                    _fpgaSWFuncCode += "    int32_t current" + partition_key_col + idx.toString + " = std::numeric_limits<int32_t>::min();"
                   }
                   case "DoubleType" => {
-                    _fpgaSWFuncCode += "    int32_t current" + stripColumnName(partition_key.toString()) + idx.toString + " = std::numeric_limits<int32_t>::min();"
+                    _fpgaSWFuncCode += "    int32_t current" + partition_key_col + idx.toString + " = std::numeric_limits<int32_t>::min();"
                   }
                   case "LongType" => {
-                    _fpgaSWFuncCode += "    int64_t current" + stripColumnName(partition_key.toString()) + idx.toString + " = std::numeric_limits<int64_t>::min();"
+                    _fpgaSWFuncCode += "    int64_t current" + partition_key_col + idx.toString + " = std::numeric_limits<int64_t>::min();"
 
                   }
                 }
@@ -11187,14 +12390,12 @@ class SQL2FPGA_QPlan {
               _fpgaSWFuncCode += partition_key_if_str + ") {"
               _fpgaSWFuncCode += "            max" + idx.toString + " = std::numeric_limits<int>::min();"
               for (partition_key <- partitionKeys) {
-                var partition_key_col = stripColumnName(partition_key.toString()) + idx.toString
-                _fpgaSWFuncCode += "            current" + partition_key_col + " = it." + partition_key_col + ";"
+                var partition_key_col = stripColumnName(partition_key.toString())
+                _fpgaSWFuncCode += "            current" + partition_key_col + idx.toString + " = it." + partition_key_col + ";"
               }
-              _fpgaSWFuncCode += "        }";
-              _fpgaSWFuncCode += "        " + _fpgaOutputTableName + ".setInt64(r, " + colIdx + ", max" + idx.toString + " < it." + refCol + " ? it." + refCol + " : max" + idx + ");";
-              _fpgaSWFuncCode += "    }";
-
-
+              _fpgaSWFuncCode += "        }"
+              _fpgaSWFuncCode += "        " + _fpgaOutputTableName + ".setInt64(r, " + colIdx + ", max" + idx.toString + " < it." + refCol + " ? it." + refCol + " : max" + idx + ");"
+              _fpgaSWFuncCode += "    }"
 
             }
             case "org.apache.spark.sql.catalyst.expressions.aggregate.Min" => {
