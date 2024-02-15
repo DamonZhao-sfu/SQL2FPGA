@@ -8348,6 +8348,7 @@ class SQL2FPGA_QPlan {
                       _fpgaSWFuncCode += "        memcpy(" + key_col + ".data(), (it.first).data(), (it.first).length());"
                       _fpgaSWFuncCode += "        " + tbl_out_1 + ".setcharN<char, " + getStringLengthMacro(columnTableMap(raw_col)) + " + 1>(r, " + outputCols_idx + ", " + key_col + ");"
                     }
+                    
                   } else {
                     _fpgaSWFuncCode += "        // Unsupported payload type"
                   }
@@ -8391,6 +8392,16 @@ class SQL2FPGA_QPlan {
                       _fpgaSWFuncCode += "        " + tbl_out_1 + ".setInt32(r, " + outputCols_idx + ", " + col_symbol + ");"
                     } else if (col_type == "LongType") {
                       _fpgaSWFuncCode += "        " + tbl_out_1 + ".setInt64(r, " + outputCols_idx + ", " + col_symbol + ");"
+                    } else if(col_type == "StringType") {
+                      if (_stringRowIDSubstitution) {
+                        _fpgaSWFuncCode += "        " + tbl_out_1 + ".setInt32(r, " + outputCols_idx + ", (it.second)." + col_symbol + ");"
+                      
+                      } else {
+                        _fpgaSWFuncCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(raw_col)) + " + 1> " + col_symbol + "_n{};"
+                        _fpgaSWFuncCode += "        memcpy(" + col_symbol + "_n.data(), (it.second)." + col_symbol + ".data(), (it.second)." + col_symbol +  ".length());"
+                        _fpgaSWFuncCode += "        " + tbl_out_1 + ".setcharN<char, " + getStringLengthMacro(columnTableMap(raw_col)) + " + 1>(r, " + outputCols_idx + ", " + col_symbol + "_n);"
+                        
+                      }
                     } else {
                       _fpgaSWFuncCode += "        // Unsupported payload type: " + col_type
                     }
@@ -8406,6 +8417,17 @@ class SQL2FPGA_QPlan {
                       _fpgaSWFuncCode += "        " + tbl_out_1 + ".setInt32(r, " + outputCols_idx + ", (it.second)." + col_symbol + ");"
                     } else if (col_type == "LongType") {
                       _fpgaSWFuncCode += "        " + tbl_out_1 + ".setInt64(r, " + outputCols_idx + ", (it.second)." + col_symbol + ");"
+                    } else if (col_type == "StringType") {
+                      if (_stringRowIDSubstitution) {
+                        _fpgaSWFuncCode += "        " + tbl_out_1 + ".setInt32(r, " + outputCols_idx + ", (it.second)." + col_symbol + ");"
+                      
+                      } else {
+                        _fpgaSWFuncCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(raw_col)) + " + 1> " + col_symbol + "_n{};"
+                        _fpgaSWFuncCode += "        memcpy(" + col_symbol + "_n.data(), (it.second)." + col_symbol + ".data(), (it.second)." + col_symbol +  ".length());"
+                        _fpgaSWFuncCode += "        " + tbl_out_1 + ".setcharN<char, " + getStringLengthMacro(columnTableMap(raw_col)) + " + 1>(r, " + outputCols_idx + ", " + col_symbol + "_n);"
+                        
+                      }
+
                     } else {
                       _fpgaSWFuncCode += "        // Unsupported payload type: " + col_type
                     }

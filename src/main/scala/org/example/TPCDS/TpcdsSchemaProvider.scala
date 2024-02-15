@@ -1249,7 +1249,7 @@ ib_income_band_sk = row.getAs[Long]("ib_income_band_sk").toInt, // Convert from 
     case (key, value) => {
       value.printSchema()
       value.show()
-      println(value.count())
+      println("table: " + key + "row:" + value.count())
       value.createOrReplaceTempView(key)
     }
   }

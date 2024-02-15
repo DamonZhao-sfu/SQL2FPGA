@@ -14,7 +14,7 @@ TPCDS_Q01 extends TPCDS_Queries {
     FROM store_returns, date_dim
     WHERE sr_returned_date_sk = d_date_sk AND d_year = 2000
     GROUP BY sr_customer_sk, sr_store_sk)
- SELECT c_customer_id
+ SELECT c_customer_id, ctr1.ctr_total_return
    FROM customer_total_return ctr1, store, customer
    WHERE ctr1.ctr_total_return >
     (SELECT avg(ctr_total_return)*1.2
@@ -23,7 +23,7 @@ TPCDS_Q01 extends TPCDS_Queries {
    AND s_store_sk = ctr1.ctr_store_sk
    AND s_state = 'TN'
    AND ctr1.ctr_customer_sk = c_customer_sk
-   ORDER BY c_customer_id LIMIT 100
+   ORDER BY c_customer_id
             """)
   }
 }

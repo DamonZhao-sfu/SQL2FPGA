@@ -15,7 +15,7 @@ class TPCDS_Q03 extends TPCDS_Queries {
    AND dt.d_moy=11
  GROUP BY dt.d_year, item.i_brand, item.i_brand_id
  ORDER BY dt.d_year, sum_agg desc, brand_id
- LIMIT 100
+
             """)
   }
 }
