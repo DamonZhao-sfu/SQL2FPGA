@@ -887,10 +887,10 @@ class SQL2FPGA_QPlan {
     }
     else if (expr.getClass.getName == "org.apache.spark.sql.catalyst.expressions.IsNotNull") {
       if (expr.dataType.toString == "StringType"){
-        return (prereq_str, "（std::string(" + stripColumnName(expr.toString) + ".data()) != \"\")")
+        return (prereq_str, "（std::string(" + stripColumnName(expr.toString) + ".data()) != \"NULL\")")
       }
       else {
-        return (prereq_str, "(1)")
+        return (prereq_str, "(" + stripColumnName(expr.toString).replaceAll("isnotnull", "") + "!= 0)")
       }
     }
     else {
@@ -1625,7 +1625,7 @@ class SQL2FPGA_QPlan {
         else if (expr.children(1).getClass.getName == "org.apache.spark.sql.catalyst.expressions.AttributeReference") {
           right_sub = getAggregateExpression(expr.children(1)) + ".data()"
         }
-        return "std::string(" + left_sub + ").append(std::string(" + right_sub + ")"
+        return "std::string(" + left_sub + ").append(std::string(" + right_sub + "))"
       }
       else if (expr.getClass.getName == "org.apache.spark.sql.catalyst.expressions.CaseWhen") {
         // for case like
@@ -8174,8 +8174,8 @@ class SQL2FPGA_QPlan {
                   else if (col_aggregate_op == "avg") {
                     if (col_type == "IntegerType") {
                       // FIXME: optimization to reduce number of division op in avg()
-                      // _fpgaSWFuncCode += "            int32_t " + col_aggregate_op + "_" + op_idx + " = ((it->second)." + col_symbol + "_" + col_aggregate_op + "_" + op_idx + " * i + " + col_symbol + "_" + col_aggregate_op + "_" + op_idx + ") / (i+1);"
-                      _fpgaSWFuncCode += "            int32_t " + col_aggregate_op + "_" + op_idx + " = ((it->second)." + col_symbol + "_" + col_aggregate_op + "_" + op_idx + " + " + col_symbol + "_" + col_aggregate_op + "_" + op_idx + ");"
+                      // int64_t incase of overflow
+                      _fpgaSWFuncCode += "            int64_t " + col_aggregate_op + "_" + op_idx + " = ((it->second)." + col_symbol + "_" + col_aggregate_op + "_" + op_idx + " + " + col_symbol + "_" + col_aggregate_op + "_" + op_idx + ");"
                     } else if (col_type == "LongType") {
                       //_fpgaSWFuncCode += "            int64_t " + col_aggregate_op + "_" + op_idx + " = ((it->second)." + col_symbol + "_" + col_aggregate_op + "_" + op_idx + " * i + " + col_symbol + "_" + col_aggregate_op + "_" + op_idx + ") / (i+1);"
                       _fpgaSWFuncCode += "            int64_t " + col_aggregate_op + "_" + op_idx + " = ((it->second)." + col_symbol + "_" + col_aggregate_op + "_" + op_idx + " + " + col_symbol + "_" + col_aggregate_op + "_" + op_idx + ");"

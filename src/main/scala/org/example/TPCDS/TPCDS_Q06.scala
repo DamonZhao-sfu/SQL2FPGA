@@ -47,7 +47,7 @@ SELECT state, cnt FROM (
  GROUP BY a.ca_state
 ) x
 WHERE cnt >= 10
-ORDER BY cnt LIMIT 100
+ORDER BY cnt
             """)
   }
 }
