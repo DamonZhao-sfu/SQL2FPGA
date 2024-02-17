@@ -886,8 +886,8 @@ class SQL2FPGA_QPlan {
       }
     }
     else if (expr.getClass.getName == "org.apache.spark.sql.catalyst.expressions.IsNotNull") {
-      if (expr.dataType.toString == "StringType"){
-        return (prereq_str, "（std::string(" + stripColumnName(expr.toString) + ".data()) != \"NULL\")")
+      if (expr.children(0).dataType.toString == "StringType"){
+        return (prereq_str, "(std::string(" + stripColumnName(expr.toString).replaceAll("isnotnull", "") + ".data()) != \"NULL\")")
       }
       else {
         return (prereq_str, "(" + stripColumnName(expr.toString).replaceAll("isnotnull", "") + "!= 0)")
@@ -2585,6 +2585,8 @@ class SQL2FPGA_QPlan {
           structCode += "    int32_t " + leftTblColName + ";"
         case "IntegerType" =>
           structCode += "    int32_t " + leftTblColName + ";"
+        case "DoubleType" =>
+          structCode += "    int64_t " + leftTblColName + ";"
         case "LongType" =>
           structCode += "    int64_t " + leftTblColName + ";"
         case "StringType" =>
@@ -2638,6 +2640,8 @@ class SQL2FPGA_QPlan {
             joinKeyHashStr += "(hash<int32_t>()(k." + leftTblColName + ")) + "
           case "IntegerType" =>
             joinKeyHashStr += "(hash<int32_t>()(k." + leftTblColName + ")) + "
+          case "DoubleType" =>
+            joinKeyHashStr += "(hash<int64_t>()(k." + leftTblColName + ")) + "
           case "LongType" =>
             joinKeyHashStr += "(hash<int64_t>()(k." + leftTblColName + ")) + "
           case "StringType" =>
@@ -2665,6 +2669,8 @@ class SQL2FPGA_QPlan {
       leftPayloadColType match {
         case "BooleanType" =>
           structCode += "    int32_t " + leftTblColName + ";"
+        case "DoubleType" =>
+          structCode += "    int64_t " + leftTblColName + ";"
         case "IntegerType" =>
           structCode += "    int32_t " + leftTblColName + ";"
         case "LongType" =>
@@ -2718,6 +2724,8 @@ class SQL2FPGA_QPlan {
       var join_left_key_col_type = getColumnType(raw_col, dfmap)
       var join_left_key_col_idx = join_left_table_col.indexOf(key_col)
       join_left_key_col_type match {
+        case "DoubleType" =>
+          coreCode += "        int64_t " + join_left_key_col_name + " = " + tbl_in_1 + ".getInt64(i, " + join_left_key_col_idx + ");"
         case "IntegerType" =>
           coreCode += "        int32_t " + join_left_key_col_name + " = " + tbl_in_1 + ".getInt32(i, " + join_left_key_col_idx + ");"
         case "LongType" =>
@@ -2769,6 +2777,8 @@ class SQL2FPGA_QPlan {
       join_left_payload_col_type match {
         case "IntegerType" =>
           coreCode += "        int32_t " + join_left_payload_col_name + " = " + tbl_in_1 + ".getInt32(i, " + join_left_payload_col_idx + ");"
+        case "DoubleType" =>
+          coreCode += "        int64_t " + join_left_payload_col_name + " = " + tbl_in_1 + ".getInt64(i, " + join_left_payload_col_idx + ");"
         case "LongType" =>
           coreCode += "        int64_t " + join_left_payload_col_name + " = " + tbl_in_1 + ".getInt64(i, " + join_left_payload_col_idx + ");"
         case "StringType" =>
@@ -2823,6 +2833,8 @@ class SQL2FPGA_QPlan {
       join_right_key_col_type match {
         case "IntegerType" =>
           coreCode += "        int32_t " + join_right_key_col_name + " = " + tbl_in_2 + ".getInt32(i, " + join_right_key_col_idx + ");"
+        case "DoubleType" =>
+          coreCode += "        int64_t " + join_right_key_col_name + " = " + tbl_in_2 + ".getInt64(i, " + join_right_key_col_idx + ");"
         case "LongType" =>
           coreCode += "        int64_t " + join_right_key_col_name + " = " + tbl_in_2 + ".getInt64(i, " + join_right_key_col_idx + ");"
         case "StringType" =>
@@ -2878,6 +2890,8 @@ class SQL2FPGA_QPlan {
       left_payload_type match {
         case "IntegerType" =>
           coreCode += "                int32_t " + left_payload_name + " = (it->second)." + left_payload_name + ";"
+        case "DoubleType" =>
+          coreCode += "                int64_t " + left_payload_name + " = (it->second)." + left_payload_name + ";"
         case "LongType" =>
           coreCode += "                int64_t " + left_payload_name + " = (it->second)." + left_payload_name + ";"
         case "StringType" =>
@@ -2904,6 +2918,8 @@ class SQL2FPGA_QPlan {
           left_payload_type match {
             case "IntegerType" =>
               coreCode += "                    " + tbl_out_1 + ".setInt32(r, " + left_payload_index + ", " + left_payload_name + ");"
+            case "DoubleType" =>
+              coreCode += "                    " + tbl_out_1 + ".setInt64(r, " + left_payload_index + ", " + left_payload_name + ");"
             case "LongType" =>
               coreCode += "                    " + tbl_out_1 + ".setInt64(r, " + left_payload_index + ", " + left_payload_name + ");"
             case "StringType" =>
@@ -2929,6 +2945,8 @@ class SQL2FPGA_QPlan {
           left_payload_type match {
             case "IntegerType" =>
               coreCode += "                " + tbl_out_1 + ".setInt32(r, " + left_payload_index + ", " + left_payload_name + ");"
+            case "DoubleType" =>
+              coreCode += "                " + tbl_out_1 + ".setInt64(r, " + left_payload_index + ", " + left_payload_name + ");"
             case "LongType" =>
               coreCode += "                " + tbl_out_1 + ".setInt64(r, " + left_payload_index + ", " + left_payload_name + ");"
             case "StringType" =>
@@ -2978,6 +2996,8 @@ class SQL2FPGA_QPlan {
       join_left_key_col_type match {
         case "IntegerType" =>
           coreCode += "        int32_t " + join_left_key_col_name + " = " + tbl_in_1 + ".getInt32(i, " + join_left_key_col_idx + ");"
+        case "DoubleType" =>
+          coreCode += "        int64_t " + join_left_key_col_name + " = " + tbl_in_1 + ".getInt64(i, " + join_left_key_col_idx + ");"
         case "LongType" =>
           coreCode += "        int64_t " + join_left_key_col_name + " = " + tbl_in_1 + ".getInt64(i, " + join_left_key_col_idx + ");"
         case "StringType" =>
@@ -3027,6 +3047,8 @@ class SQL2FPGA_QPlan {
       join_left_payload_col_type match {
         case "IntegerType" =>
           coreCode += "        int32_t " + join_left_payload_col_name + " = " + tbl_in_1 + ".getInt32(i, " + join_left_payload_col_idx + ");"
+        case "DoubleType" =>
+          coreCode += "        int64_t " + join_left_payload_col_name + " = " + tbl_in_1 + ".getInt64(i, " + join_left_payload_col_idx + ");"
         case "LongType" =>
           coreCode += "        int64_t " + join_left_payload_col_name + " = " + tbl_in_1 + ".getInt64(i, " + join_left_payload_col_idx + ");"
         case "StringType" =>
@@ -3081,6 +3103,8 @@ class SQL2FPGA_QPlan {
       join_right_key_col_type match {
         case "IntegerType" =>
           coreCode += "        int32_t " + join_right_key_col_name + " = " + tbl_in_2 + ".getInt32(i, " + join_right_key_col_idx + ");"
+        case "DoubleType" =>
+          coreCode += "        int64_t " + join_right_key_col_name + " = " + tbl_in_2 + ".getInt64(i, " + join_right_key_col_idx + ");"
         case "LongType" =>
           coreCode += "        int64_t " + join_right_key_col_name + " = " + tbl_in_2 + ".getInt64(i, " + join_right_key_col_idx + ");"
         case "StringType" =>
@@ -3131,6 +3155,8 @@ class SQL2FPGA_QPlan {
       right_payload_type match {
         case "IntegerType" =>
           coreCode += "            int32_t " + right_payload_name + " = " + tbl_in_2 + ".getInt32(i, " + right_payload_input_index + ");"
+        case "DoubleType" =>
+          coreCode += "            int64_t " + right_payload_name + " = " + tbl_in_2 + ".getInt64(i, " + right_payload_input_index + ");"
         case "LongType" =>
           coreCode += "            int64_t " + right_payload_name + " = " + tbl_in_2 + ".getInt64(i, " + right_payload_input_index + ");"
         case "StringType" =>
@@ -3181,6 +3207,8 @@ class SQL2FPGA_QPlan {
           right_payload_type match {
             case "IntegerType" =>
               coreCode += "                " + tbl_out_1 + ".setInt32(r, " + right_payload_index + ", " + right_payload_name + ");"
+            case "DoubleType" =>
+              coreCode += "                " + tbl_out_1 + ".setInt64(r, " + right_payload_index + ", " + right_payload_name + ");"
             case "LongType" =>
               coreCode += "                " + tbl_out_1 + ".setInt64(r, " + right_payload_index + ", " + right_payload_name + ");"
             case "StringType" =>
@@ -3197,6 +3225,8 @@ class SQL2FPGA_QPlan {
           right_payload_type match {
             case "IntegerType" =>
               coreCode += "            " + tbl_out_1 + ".setInt32(r, " + idx + ", " + right_payload_name + ");"
+            case "DoubleType" =>
+              coreCode += "            " + tbl_out_1 + ".setInt64(r, " + idx + ", " + right_payload_name + ");"
             case "LongType" =>
               coreCode += "            " + tbl_out_1 + ".setInt64(r, " + idx + ", " + right_payload_name + ");"
             case "StringType" =>
@@ -3226,6 +3256,8 @@ class SQL2FPGA_QPlan {
           right_payload_type match {
             case "IntegerType" =>
               coreCode += "            " + tbl_out_1 + ".setInt32(r, " + right_payload_index + ", " + right_payload_name + ");"
+            case "DoubleType" =>
+              coreCode += "            " + tbl_out_1 + ".setInt64(r, " + right_payload_index + ", " + right_payload_name + ");"
             case "LongType" =>
               coreCode += "            " + tbl_out_1 + ".setInt64(r, " + right_payload_index + ", " + right_payload_name + ");"
             case "StringType" =>
@@ -3242,6 +3274,8 @@ class SQL2FPGA_QPlan {
           right_payload_type match {
             case "IntegerType" =>
               coreCode += "            " + tbl_out_1 + ".setInt32(r, " + idx + ", " + right_payload_name + ");"
+            case "DoubleType" =>
+              coreCode += "            " + tbl_out_1 + ".setInt64(r, " + idx + ", " + right_payload_name + ");"
             case "LongType" =>
               coreCode += "            " + tbl_out_1 + ".setInt64(r, " + idx + ", " + right_payload_name + ");"
             case "StringType" =>
@@ -3292,6 +3326,8 @@ class SQL2FPGA_QPlan {
       join_left_key_col_type match {
         case "IntegerType" =>
           coreCode += "        int32_t " + join_left_key_col_name + " = " + tbl_in_1 + ".getInt32(i, " + join_left_key_col_idx + ");"
+        case "DoubleType" =>
+          coreCode += "        int64_t " + join_left_key_col_name + " = " + tbl_in_1 + ".getInt64(i, " + join_left_key_col_idx + ");"
         case "LongType" =>
           coreCode += "        int64_t " + join_left_key_col_name + " = " + tbl_in_1 + ".getInt64(i, " + join_left_key_col_idx + ");"
         case "StringType" =>
@@ -3340,6 +3376,8 @@ class SQL2FPGA_QPlan {
       join_left_payload_col_type match {
         case "IntegerType" =>
           coreCode += "        int32_t " + join_left_payload_col_name + " = " + tbl_in_1 + ".getInt32(i, " + join_left_payload_col_idx + ");"
+        case "DoubleType" =>
+          coreCode += "        int64_t " + join_left_payload_col_name + " = " + tbl_in_1 + ".getInt64(i, " + join_left_payload_col_idx + ");"
         case "LongType" =>
           coreCode += "        int64_t " + join_left_payload_col_name + " = " + tbl_in_1 + ".getInt64(i, " + join_left_payload_col_idx + ");"
         case "StringType" =>
@@ -3394,6 +3432,8 @@ class SQL2FPGA_QPlan {
       join_right_key_col_type match {
         case "IntegerType" =>
           coreCode += "        int32_t " + join_right_key_col_name + " = " + tbl_in_2 + ".getInt32(i, " + join_right_key_col_idx + ");"
+        case "DoubleType" =>
+          coreCode += "        int64_t " + join_right_key_col_name + " = " + tbl_in_2 + ".getInt64(i, " + join_right_key_col_idx + ");"
         case "LongType" =>
           coreCode += "        int64_t " + join_right_key_col_name + " = " + tbl_in_2 + ".getInt64(i, " + join_right_key_col_idx + ");"
         case "StringType" =>
@@ -3423,6 +3463,8 @@ class SQL2FPGA_QPlan {
       left_payload_type match {
         case "IntegerType" =>
           coreCode += "            int32_t " + left_payload_name + " = (it->second)." + left_payload_name + ";"
+        case "DoubleType" =>
+          coreCode += "            int64_t " + left_payload_name + " = (it->second)." + left_payload_name + ";"
         case "LongType" =>
           coreCode += "            int64_t " + left_payload_name + " = (it->second)." + left_payload_name + ";"
         case "StringType" =>
@@ -3448,6 +3490,8 @@ class SQL2FPGA_QPlan {
         var left_payload_index = thisNode._outputCols.indexOf(left_payload)
         if (left_payload_index != -1) {
           left_payload_type match {
+            case "DoubleType" =>
+              coreCode += "                " + tbl_out_1 + ".setInt64(r, " + left_payload_index + ", " + left_payload_name + ");"
             case "IntegerType" =>
               coreCode += "                " + tbl_out_1 + ".setInt32(r, " + left_payload_index + ", " + left_payload_name + ");"
             case "LongType" =>
@@ -3475,6 +3519,8 @@ class SQL2FPGA_QPlan {
         var left_payload_index = thisNode._outputCols.indexOf(left_payload)
         if (left_payload_index != -1) {
           left_payload_type match {
+            case "DoubleType" =>
+              coreCode += "            " + tbl_out_1 + ".setInt64(r, " + left_payload_index + ", " + left_payload_name + ");"
             case "IntegerType" =>
               coreCode += "            " + tbl_out_1 + ".setInt32(r, " + left_payload_index + ", " + left_payload_name + ");"
             case "LongType" =>
@@ -3529,6 +3575,8 @@ class SQL2FPGA_QPlan {
       var join_left_key_col_type = getColumnType(raw_col, dfmap)
       var join_left_key_col_idx = join_left_table_col.indexOf(key_col)
       join_left_key_col_type match {
+        case "DoubleType" =>
+          coreCode += "        int64_t " + join_left_key_col_name + " = " + tbl_in_1 + ".getInt32(i, " + join_left_key_col_idx + ");"
         case "IntegerType" =>
           coreCode += "        int32_t " + join_left_key_col_name + " = " + tbl_in_1 + ".getInt32(i, " + join_left_key_col_idx + ");"
         case "LongType" =>
@@ -3578,6 +3626,8 @@ class SQL2FPGA_QPlan {
       var join_left_payload_col_type = getColumnType(raw_col, dfmap)
       var join_left_payload_col_idx = join_left_table_col.indexOf(payload_col)
       join_left_payload_col_type match {
+        case "DoubleType" =>
+          coreCode += "        int64_t " + join_left_payload_col_name + " = " + tbl_in_1 + ".getInt32(i, " + join_left_payload_col_idx + ");"
         case "IntegerType" =>
           coreCode += "        int32_t " + join_left_payload_col_name + " = " + tbl_in_1 + ".getInt32(i, " + join_left_payload_col_idx + ");"
         case "LongType" =>
@@ -3636,6 +3686,8 @@ class SQL2FPGA_QPlan {
           coreCode += "        int32_t " + join_right_key_col_name + " = " + tbl_in_2 + ".getInt32(i, " + join_right_key_col_idx + ");"
         case "IntegerType" =>
           coreCode += "        int32_t " + join_right_key_col_name + " = " + tbl_in_2 + ".getInt32(i, " + join_right_key_col_idx + ");"
+        case "DoubleType" =>
+          coreCode += "        int64_t " + join_right_key_col_name + " = " + tbl_in_2 + ".getInt64(i, " + join_right_key_col_idx + ");"
         case "LongType" =>
           coreCode += "        int64_t " + join_right_key_col_name + " = " + tbl_in_2 + ".getInt64(i, " + join_right_key_col_idx + ");"
         case "StringType" =>
@@ -3688,6 +3740,8 @@ class SQL2FPGA_QPlan {
           coreCode += "            int32_t " + right_payload_name + " = " + tbl_in_2 + ".getInt32(i, " + right_payload_input_index + ");"
         case "IntegerType" =>
           coreCode += "            int32_t " + right_payload_name + " = " + tbl_in_2 + ".getInt32(i, " + right_payload_input_index + ");"
+        case "DoubleType" =>
+          coreCode += "            int64_t " + right_payload_name + " = " + tbl_in_2 + ".getInt64(i, " + right_payload_input_index + ");"
         case "LongType" =>
           coreCode += "            int64_t " + right_payload_name + " = " + tbl_in_2 + ".getInt64(i, " + right_payload_input_index + ");"
         case "StringType" =>
@@ -3738,6 +3792,8 @@ class SQL2FPGA_QPlan {
             }
             case "IntegerType" =>
               coreCode += "                " + tbl_out_1 + ".setInt32(r, " + left_payload_index + ", " + left_payload_name + ");"
+            case "DoubleType" =>
+              coreCode += "                " + tbl_out_1 + ".setInt64(r, " + left_payload_index + ", " + left_payload_name + ");"
             case "LongType" =>
               coreCode += "                " + tbl_out_1 + ".setInt64(r, " + left_payload_index + ", " + left_payload_name + ");"
             case "StringType" =>
@@ -3763,6 +3819,8 @@ class SQL2FPGA_QPlan {
             }
             case "IntegerType" =>
               coreCode += "                " + tbl_out_1 + ".setInt32(r, " + right_payload_index + ", " + right_payload_name + ");"
+            case "DoubleType" =>
+              coreCode += "                " + tbl_out_1 + ".setInt64(r, " + right_payload_index + ", " + right_payload_name + ");"
             case "LongType" =>
               coreCode += "                " + tbl_out_1 + ".setInt64(r, " + right_payload_index + ", " + right_payload_name + ");"
             case "StringType" =>
@@ -3791,6 +3849,8 @@ class SQL2FPGA_QPlan {
             }
             case "IntegerType" =>
               coreCode += "            " + tbl_out_1 + ".setInt32(r, " + left_payload_index + ", " + left_payload_name + ");"
+            case "DoubleType" =>
+              coreCode += "            " + tbl_out_1 + ".setInt64(r, " + left_payload_index + ", " + left_payload_name + ");"
             case "LongType" =>
               coreCode += "            " + tbl_out_1 + ".setInt64(r, " + left_payload_index + ", " + left_payload_name + ");"
             case "StringType" =>
@@ -3816,6 +3876,8 @@ class SQL2FPGA_QPlan {
             }
             case "IntegerType" =>
               coreCode += "            " + tbl_out_1 + ".setInt32(r, " + right_payload_index + ", " + right_payload_name + ");"
+            case "DoubleType" =>
+              coreCode += "            " + tbl_out_1 + ".setInt64(r, " + right_payload_index + ", " + right_payload_name + ");"
             case "LongType" =>
               coreCode += "            " + tbl_out_1 + ".setInt64(r, " + right_payload_index + ", " + right_payload_name + ");"
             case "StringType" =>
@@ -3865,6 +3927,8 @@ class SQL2FPGA_QPlan {
       join_left_key_col_type match {
         case "IntegerType" =>
           coreCode += "        int32_t " + join_left_key_col_name + " = " + tbl_in_1 + ".getInt32(i, " + join_left_key_col_idx + ");"
+        case "DoubleType" =>
+          coreCode += "        int64_t " + join_left_key_col_name + " = " + tbl_in_1 + ".getInt64(i, " + join_left_key_col_idx + ");"
         case "LongType" =>
           coreCode += "        int64_t " + join_left_key_col_name + " = " + tbl_in_1 + ".getInt64(i, " + join_left_key_col_idx + ");"
         case "StringType" =>
@@ -3914,6 +3978,8 @@ class SQL2FPGA_QPlan {
       join_left_payload_col_type match {
         case "IntegerType" =>
           coreCode += "        int32_t " + join_left_payload_col_name + " = " + tbl_in_1 + ".getInt32(i, " + join_left_payload_col_idx + ");"
+        case "DoubleType" =>
+          coreCode += "        int64_t " + join_left_payload_col_name + " = " + tbl_in_1 + ".getInt64(i, " + join_left_payload_col_idx + ");"
         case "LongType" =>
           coreCode += "        int64_t " + join_left_payload_col_name + " = " + tbl_in_1 + ".getInt64(i, " + join_left_payload_col_idx + ");"
         case "StringType" =>
@@ -8133,8 +8199,8 @@ class SQL2FPGA_QPlan {
                   var col_aggregate_op = aggr_op.toString.split("\\(").head
                   if (col_aggregate_op == "sum") {
                     if (col_type == "IntegerType") {
-                      _fpgaSWFuncCode += "            int32_t " + col_aggregate_op + "_" + op_idx + " = (it->second)." + col_symbol + "_" + col_aggregate_op + "_" + op_idx + " + " + col_symbol + "_" + col_aggregate_op + "_" + op_idx + ";"
-                    } else if (col_type == "LongType") {
+                      _fpgaSWFuncCode += "            int64_t " + col_aggregate_op + "_" + op_idx + " = (it->second)." + col_symbol + "_" + col_aggregate_op + "_" + op_idx + " + " + col_symbol + "_" + col_aggregate_op + "_" + op_idx + ";"
+                    } else if (col_type == "LongType"|| col_type == "DoubleType") {
                       _fpgaSWFuncCode += "            int64_t " + col_aggregate_op + "_" + op_idx + " = (it->second)." + col_symbol + "_" + col_aggregate_op + "_" + op_idx + " + " + col_symbol + "_" + col_aggregate_op + "_" + op_idx + ";"
                     } else {
                       _fpgaSWFuncCode += "            // Unsupported payload Type"
@@ -8144,7 +8210,7 @@ class SQL2FPGA_QPlan {
                   else if (col_aggregate_op == "count") {
                     if (col_type == "IntegerType") {
                       _fpgaSWFuncCode += "            int32_t " + col_aggregate_op + "_" + op_idx + " = (it->second)." + col_symbol + "_" + col_aggregate_op + "_" + op_idx + " + " + col_symbol + "_" + col_aggregate_op + "_" + op_idx + ";"
-                    } else if (col_type == "LongType") {
+                    } else if (col_type == "LongType"|| col_type == "DoubleType") {
                       _fpgaSWFuncCode += "            int64_t " + col_aggregate_op + "_" + op_idx + " = (it->second)." + col_symbol + "_" + col_aggregate_op + "_" + op_idx + " + " + col_symbol + "_" + col_aggregate_op + "_" + op_idx + ";"
                     } else {
                       _fpgaSWFuncCode += "            // Unsupported payload Type"
@@ -8154,7 +8220,7 @@ class SQL2FPGA_QPlan {
                   else if (col_aggregate_op == "min") {
                     if (col_type == "IntegerType") {
                       _fpgaSWFuncCode += "            int32_t " + col_aggregate_op + "_" + op_idx + " = (it->second)." + col_symbol + "_" + col_aggregate_op + "_" + op_idx + " > " + col_symbol + "_" + col_aggregate_op + "_" + op_idx + " ? " + col_symbol + "_" + col_aggregate_op + "_" + op_idx + " : " + "(it->second)." + col_symbol + "_" + col_aggregate_op + "_" + op_idx + ";"
-                    } else if (col_type == "LongType") {
+                    } else if (col_type == "LongType"|| col_type == "DoubleType") {
                       _fpgaSWFuncCode += "            int64_t " + col_aggregate_op + "_" + op_idx + " = (it->second)." + col_symbol + "_" + col_aggregate_op + "_" + op_idx + " > " + col_symbol + "_" + col_aggregate_op + "_" + op_idx + " ? " + col_symbol + "_" + col_aggregate_op + "_" + op_idx + " : " + "(it->second)." + col_symbol + "_" + col_aggregate_op + "_" + op_idx + ";"
                     } else {
                       _fpgaSWFuncCode += "            // Unsupported payload Type"
@@ -8164,7 +8230,7 @@ class SQL2FPGA_QPlan {
                   else if (col_aggregate_op == "max") {
                     if (col_type == "IntegerType") {
                       _fpgaSWFuncCode += "            int32_t " + col_aggregate_op + "_" + op_idx + " = (it->second)." + col_symbol + "_" + col_aggregate_op + "_" + op_idx + " < " + col_symbol + "_" + col_aggregate_op + "_" + op_idx + " ? " + col_symbol + "_" + col_aggregate_op + "_" + op_idx + " : " + "(it->second)." + col_symbol + "_" + col_aggregate_op + "_" + op_idx + ";"
-                    } else if (col_type == "LongType") {
+                    } else if (col_type == "LongType" || col_type == "DoubleType") {
                       _fpgaSWFuncCode += "            int64_t " + col_aggregate_op + "_" + op_idx + " = (it->second)." + col_symbol + "_" + col_aggregate_op + "_" + op_idx + " < " + col_symbol + "_" + col_aggregate_op + "_" + op_idx + " ? " + col_symbol + "_" + col_aggregate_op + "_" + op_idx + " : " + "(it->second)." + col_symbol + "_" + col_aggregate_op + "_" + op_idx + ";"
                     } else {
                       _fpgaSWFuncCode += "            // Unsupported payload Type"
@@ -8176,11 +8242,11 @@ class SQL2FPGA_QPlan {
                       // FIXME: optimization to reduce number of division op in avg()
                       // int64_t incase of overflow
                       _fpgaSWFuncCode += "            int64_t " + col_aggregate_op + "_" + op_idx + " = ((it->second)." + col_symbol + "_" + col_aggregate_op + "_" + op_idx + " + " + col_symbol + "_" + col_aggregate_op + "_" + op_idx + ");"
-                    } else if (col_type == "LongType") {
+                    } else if (col_type == "LongType" || col_type == "DoubleType") {
                       //_fpgaSWFuncCode += "            int64_t " + col_aggregate_op + "_" + op_idx + " = ((it->second)." + col_symbol + "_" + col_aggregate_op + "_" + op_idx + " * i + " + col_symbol + "_" + col_aggregate_op + "_" + op_idx + ") / (i+1);"
                       _fpgaSWFuncCode += "            int64_t " + col_aggregate_op + "_" + op_idx + " = ((it->second)." + col_symbol + "_" + col_aggregate_op + "_" + op_idx + " + " + col_symbol + "_" + col_aggregate_op + "_" + op_idx + ");"
                     } else {
-                      _fpgaSWFuncCode += "            // Unsupported payload Type"
+                      _fpgaSWFuncCode += "            // Unsupported payload Type" + col_type
                     }
                     _fpgaSWFuncCode += "            p." + col_symbol + "_" + col_aggregate_op + "_" + op_idx + " = " + col_aggregate_op + "_" + op_idx + ";"
                   }
@@ -8390,6 +8456,8 @@ class SQL2FPGA_QPlan {
                   } else { // columns to output
                     if (col_type == "IntegerType") {
                       _fpgaSWFuncCode += "        " + tbl_out_1 + ".setInt32(r, " + outputCols_idx + ", " + col_symbol + ");"
+                    } else if (col_type == "DoubleType") {
+                      _fpgaSWFuncCode += "        " + tbl_out_1 + ".setInt64(r, " + outputCols_idx + ", " + col_symbol + ");"
                     } else if (col_type == "LongType") {
                       _fpgaSWFuncCode += "        " + tbl_out_1 + ".setInt64(r, " + outputCols_idx + ", " + col_symbol + ");"
                     } else if(col_type == "StringType") {
@@ -8415,6 +8483,8 @@ class SQL2FPGA_QPlan {
                   else { // columns to output
                     if (col_type == "IntegerType") {
                       _fpgaSWFuncCode += "        " + tbl_out_1 + ".setInt32(r, " + outputCols_idx + ", (it.second)." + col_symbol + ");"
+                    } else if (col_type == "DoubleType") {
+                      _fpgaSWFuncCode += "        " + tbl_out_1 + ".setInt64(r, " + outputCols_idx + ", (it.second)." + col_symbol + ");"
                     } else if (col_type == "LongType") {
                       _fpgaSWFuncCode += "        " + tbl_out_1 + ".setInt64(r, " + outputCols_idx + ", (it.second)." + col_symbol + ");"
                     } else if (col_type == "StringType") {
@@ -11357,15 +11427,17 @@ class SQL2FPGA_QPlan {
       var join_left_key_col_name = stripColumnName(left_col)
       var join_left_key_col_type = getColumnType(raw_left_col, dfmap)
       join_left_key_col_type match {
+        case "DoubleType" =>
+          _fpgaSWFuncCode += "        " + _fpgaOutputTableName + ".setInt64(r, "+ outputTableColumnIdx.toString + ", " + tbl_in_2 + ".getInt64(j, " + outputTableColumnIdx.toString +"));"
         case "IntegerType" =>
           _fpgaSWFuncCode += "        " + _fpgaOutputTableName + ".setInt32(r, "+ outputTableColumnIdx.toString + ", " + tbl_in_1 + ".getInt32(i, " + outputTableColumnIdx.toString +"));"
         case "LongType" =>
-          _fpgaSWFuncCode += "        " + _fpgaOutputTableName + ".setInt32(r, "+ outputTableColumnIdx.toString + ", " + tbl_in_1 + ".getInt64(i, " + outputTableColumnIdx.toString +"));"
+          _fpgaSWFuncCode += "        " + _fpgaOutputTableName + ".setInt64(r, "+ outputTableColumnIdx.toString + ", " + tbl_in_1 + ".getInt64(i, " + outputTableColumnIdx.toString +"));"
         case "StringType" =>
           _fpgaSWFuncCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(raw_left_col)) + " + 1> " + join_left_key_col_name + "_n = " + _fpgaOutputTableName + ".getcharN<char, " + getStringLengthMacro(columnTableMap(raw_left_col)) + " + 1>(i, " + outputTableColumnIdx.toString + ");"
           _fpgaSWFuncCode += "        " + _fpgaOutputTableName + ".setcharN<char, " + getStringLengthMacro(columnTableMap(raw_left_col)) + " + 1>(r, " + outputTableColumnIdx.toString + ", " + join_left_key_col_name + "_n" + ");"
         case _ =>
-          _fpgaSWFuncCode += "        // Unsupported Union key type"
+          _fpgaSWFuncCode += "        // Unsupported CrossJoin key type"
       }
       outputTableColumnIdx +=1
     }
@@ -11376,13 +11448,15 @@ class SQL2FPGA_QPlan {
       join_right_key_col_type match {
         case "IntegerType" =>
           _fpgaSWFuncCode += "        " + _fpgaOutputTableName + ".setInt32(r, "+ outputTableColumnIdx.toString + ", " + tbl_in_2 + ".getInt32(j, " + outputTableColumnIdx.toString +"));"
+        case "DoubleType" =>
+          _fpgaSWFuncCode += "        " + _fpgaOutputTableName + ".setInt64(r, "+ outputTableColumnIdx.toString + ", " + tbl_in_2 + ".getInt64(j, " + outputTableColumnIdx.toString +"));"
         case "LongType" =>
-          _fpgaSWFuncCode += "        " + _fpgaOutputTableName + ".setInt32(r, "+ outputTableColumnIdx.toString + ", " + tbl_in_2 + ".getInt64(j, " + outputTableColumnIdx.toString +"));"
+          _fpgaSWFuncCode += "        " + _fpgaOutputTableName + ".setInt64(r, "+ outputTableColumnIdx.toString + ", " + tbl_in_2 + ".getInt64(j, " + outputTableColumnIdx.toString +"));"
         case "StringType" =>
           _fpgaSWFuncCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(raw_right_col)) + " + 1> " + join_right_key_col_name + "_n = " + _fpgaOutputTableName + ".getcharN<char, " + getStringLengthMacro(columnTableMap(raw_right_col)) + " + 1>(j, " + outputTableColumnIdx.toString + ");"
           _fpgaSWFuncCode += "        " + _fpgaOutputTableName + ".setcharN<char, " + getStringLengthMacro(columnTableMap(raw_right_col)) + " + 1>(r, " + outputTableColumnIdx.toString + ", " + join_right_key_col_name + "_n" + ");"
         case _ =>
-          _fpgaSWFuncCode += "        // Unsupported Union key type"
+          _fpgaSWFuncCode += "        // Unsupported CrossJoin key type"
       }
       outputTableColumnIdx +=1
     }
@@ -11489,6 +11563,8 @@ class SQL2FPGA_QPlan {
       var leftTblColType = getColumnType(leftTblCol, dfmap)
       var leftTblColName = stripColumnName(leftTblCol)
       leftTblColType match {
+        case "DoubleType" =>
+          _fpgaSWFuncCode += "    int64_t " + leftTblColName + ";"
         case "IntegerType" =>
           _fpgaSWFuncCode += "    int32_t " + leftTblColName + ";"
         case "LongType" =>
@@ -11538,6 +11614,8 @@ class SQL2FPGA_QPlan {
         leftTblColType match {
           case "IntegerType" =>
             joinKeyHashStr += "(hash<int32_t>()(k." + leftTblColName + ")) + "
+          case "DoubleType" =>
+            joinKeyHashStr += "(hash<int64_t>()(k." + leftTblColName + ")) + "
           case "LongType" =>
             joinKeyHashStr += "(hash<int64_t>()(k." + leftTblColName + ")) + "
           case "StringType" =>
@@ -11563,6 +11641,8 @@ class SQL2FPGA_QPlan {
       leftPayloadColType match {
         case "IntegerType" =>
           _fpgaSWFuncCode += "    int32_t " + leftTblColName + ";"
+        case "DoubleType" =>
+          _fpgaSWFuncCode += "    int64_t " + leftTblColName + ";"
         case "LongType" =>
           _fpgaSWFuncCode += "    int64_t " + leftTblColName + ";"
         case "StringType" =>
@@ -11603,6 +11683,8 @@ class SQL2FPGA_QPlan {
       join_left_key_col_type match {
         case "IntegerType" =>
           _fpgaSWFuncCode += "        int32_t " + join_left_key_col_name + " = " + tbl_in_1 + ".getInt32(i, " + join_left_key_col_idx + ");"
+        case "DoubleType" =>
+          _fpgaSWFuncCode += "        int64_t " + join_left_key_col_name + " = " + tbl_in_1 + ".getInt64(i, " + join_left_key_col_idx + ");"
         case "LongType" =>
           _fpgaSWFuncCode += "        int64_t " + join_left_key_col_name + " = " + tbl_in_1 + ".getInt64(i, " + join_left_key_col_idx + ");"
         case "StringType" =>
@@ -11624,6 +11706,8 @@ class SQL2FPGA_QPlan {
       join_left_payload_col_type match {
         case "IntegerType" =>
           _fpgaSWFuncCode += "        int32_t " + join_left_payload_col_name + " = " + tbl_in_1 + ".getInt32(i, " + join_left_payload_col_idx + ");"
+        case "DoubleType" =>
+          _fpgaSWFuncCode += "        int64_t " + join_left_payload_col_name + " = " + tbl_in_1 + ".getInt64(i, " + join_left_payload_col_idx + ");"
         case "LongType" =>
           _fpgaSWFuncCode += "        int64_t " + join_left_payload_col_name + " = " + tbl_in_1 + ".getInt64(i, " + join_left_payload_col_idx + ");"
         case "StringType" =>
@@ -11650,6 +11734,8 @@ class SQL2FPGA_QPlan {
       join_right_key_col_type match {
         case "IntegerType" =>
           _fpgaSWFuncCode += "        int32_t " + join_right_key_col_name + " = " + tbl_in_2 + ".getInt32(i, " + join_right_key_col_idx + ");"
+        case "DoubleType" =>
+          _fpgaSWFuncCode += "        int64_t " + join_right_key_col_name + " = " + tbl_in_2 + ".getInt64(i, " + join_right_key_col_idx + ");"
         case "LongType" =>
           _fpgaSWFuncCode += "        int64_t " + join_right_key_col_name + " = " + tbl_in_2 + ".getInt64(i, " + join_right_key_col_idx + ");"
         case "StringType" =>
@@ -11672,6 +11758,8 @@ class SQL2FPGA_QPlan {
       right_payload_type match {
         case "IntegerType" =>
           _fpgaSWFuncCode += "        int32_t " + right_payload_name + " = " + tbl_in_2 + ".getInt32(i, " + right_payload_input_index + ");"
+        case "DoubleType" =>
+          _fpgaSWFuncCode += "        int64_t " + right_payload_name + " = " + tbl_in_2 + ".getInt64(i, " + right_payload_input_index + ");"
         case "LongType" =>
           _fpgaSWFuncCode += "        int64_t " + right_payload_name + " = " + tbl_in_2 + ".getInt64(i, " + right_payload_input_index + ");"
         case "StringType" =>
@@ -11692,6 +11780,8 @@ class SQL2FPGA_QPlan {
       left_payload_type match {
         case "IntegerType" =>
           _fpgaSWFuncCode += "                int32_t " + left_payload_name + " = (it_it->second)." + left_payload_name + ";"
+        case "DoubleType" =>
+          _fpgaSWFuncCode += "                int64_t " + left_payload_name + " = (it_it->second)." + left_payload_name + ";"
         case "LongType" =>
           _fpgaSWFuncCode += "                int64_t " + left_payload_name + " = (it_it->second)." + left_payload_name + ";"
         case "StringType" =>
@@ -11715,6 +11805,8 @@ class SQL2FPGA_QPlan {
           left_payload_type match {
             case "IntegerType" =>
               _fpgaSWFuncCode += "                    " + tbl_out_1 + ".setInt32(r, " + left_payload_index + ", " + left_payload_name + ");"
+            case "DoubleType" =>
+              _fpgaSWFuncCode += "                    " + tbl_out_1 + ".setInt64(r, " + left_payload_index + ", " + left_payload_name + ");"
             case "LongType" =>
               _fpgaSWFuncCode += "                    " + tbl_out_1 + ".setInt64(r, " + left_payload_index + ", " + left_payload_name + ");"
             case "StringType" =>
@@ -11734,6 +11826,8 @@ class SQL2FPGA_QPlan {
           right_payload_type match {
             case "IntegerType" =>
               _fpgaSWFuncCode += "                    " + tbl_out_1 + ".setInt32(r, " + right_payload_index + ", " + right_payload_name + ");"
+            case "DoubleType" =>
+              _fpgaSWFuncCode += "                    " + tbl_out_1 + ".setInt64(r, " + right_payload_index + ", " + right_payload_name + ");"
             case "LongType" =>
               _fpgaSWFuncCode += "                    " + tbl_out_1 + ".setInt64(r, " + right_payload_index + ", " + right_payload_name + ");"
             case "StringType" =>
@@ -11987,13 +12081,15 @@ class SQL2FPGA_QPlan {
       output_col_type match {
         case "IntegerType" =>
           _fpgaSWFuncCode += "        " + _fpgaOutputTableName + ".setInt32(r, "+ outputTableColumnIdx.toString + ", " + tbl_in_1 + ".getInt32(i, " + outputTableColumnIdx.toString +"));"
+        case "DoubleType" =>
+          _fpgaSWFuncCode += "        " + _fpgaOutputTableName + ".setInt64(r, "+ outputTableColumnIdx.toString + ", " + tbl_in_1 + ".getInt64(i, " + outputTableColumnIdx.toString +"));"
         case "LongType" =>
-          _fpgaSWFuncCode += "        " + _fpgaOutputTableName + ".setInt32(r, "+ outputTableColumnIdx.toString + ", " + tbl_in_1 + ".getInt64(i, " + outputTableColumnIdx.toString +"));"
+          _fpgaSWFuncCode += "        " + _fpgaOutputTableName + ".setInt64(r, "+ outputTableColumnIdx.toString + ", " + tbl_in_1 + ".getInt64(i, " + outputTableColumnIdx.toString +"));"
         case "StringType" =>
           _fpgaSWFuncCode += "        std::array<char, " + getStringLengthMacro(columnTableMap(raw_col)) + " + 1> " + formatted_col + "_n = " + tbl_in_1 + ".getcharN<char, " + getStringLengthMacro(columnTableMap(raw_col)) + " + 1>(i, " + outputTableColumnIdx.toString + ");"
           _fpgaSWFuncCode += "        " + _fpgaOutputTableName + ".setcharN<char, " + getStringLengthMacro(columnTableMap(raw_col)) + " + 1>(r, " + outputTableColumnIdx.toString + ", " + formatted_col + "_n" + ");"
         case _ =>
-          _fpgaSWFuncCode += "        // Unsupported Union key type"
+          _fpgaSWFuncCode += "        // Unsupported Limit key type"
       }
       outputTableColumnIdx += 1
     }
@@ -12399,7 +12495,7 @@ class SQL2FPGA_QPlan {
                     _fpgaSWFuncCode += "    int32_t current" + partition_key_col + idx.toString + " = std::numeric_limits<int32_t>::min();"
                   }
                   case "DoubleType" => {
-                    _fpgaSWFuncCode += "    int32_t current" + partition_key_col + idx.toString + " = std::numeric_limits<int32_t>::min();"
+                    _fpgaSWFuncCode += "    int64_t current" + partition_key_col + idx.toString + " = std::numeric_limits<int64_t>::min();"
                   }
                   case "LongType" => {
                     _fpgaSWFuncCode += "    int64_t current" + partition_key_col + idx.toString + " = std::numeric_limits<int64_t>::min();"
