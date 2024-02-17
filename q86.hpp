@@ -1,86 +1,86 @@
 #include <regex> 
 #include <stdint.h> 
 
-void SW_Filter_TD_80(Table &tbl_SerializeFromObject_TD_9687_input, Table &tbl_Filter_TD_80_output) {
+void SW_Filter_TD_8317(Table &tbl_SerializeFromObject_TD_9726_input, Table &tbl_Filter_TD_8317_output) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: Filter
     // Operation: ListBuffer(((isnotnull(d_month_seq#123) AND ((d_month_seq#123 >= 1200) AND (d_month_seq#123 <= 1211))) AND isnotnull(d_date_sk#120)))
     // Input: ListBuffer(d_date_sk#120, d_month_seq#123)
     // Output: ListBuffer(d_date_sk#120)
     int r = 0;
-    int nrow1 = tbl_SerializeFromObject_TD_9687_input.getNumRow();
+    int nrow1 = tbl_SerializeFromObject_TD_9726_input.getNumRow();
     for (int i = 0; i < nrow1; i++) {
-        int32_t _d_month_seq123 = tbl_SerializeFromObject_TD_9687_input.getInt32(i, 1);
-        int32_t _d_date_sk120 = tbl_SerializeFromObject_TD_9687_input.getInt32(i, 0);
-        if (((1) && ((_d_month_seq123 >= 1200) && (_d_month_seq123 <= 1211))) && (1)) {
-            int32_t _d_date_sk120_t = tbl_SerializeFromObject_TD_9687_input.getInt32(i, 0);
-            tbl_Filter_TD_80_output.setInt32(r, 0, _d_date_sk120_t);
+        int32_t _d_month_seq123 = tbl_SerializeFromObject_TD_9726_input.getInt32(i, 1);
+        int32_t _d_date_sk120 = tbl_SerializeFromObject_TD_9726_input.getInt32(i, 0);
+        if (((_d_month_seq123!= 0) && ((_d_month_seq123 >= 1200) && (_d_month_seq123 <= 1211))) && (_d_date_sk120!= 0)) {
+            int32_t _d_date_sk120_t = tbl_SerializeFromObject_TD_9726_input.getInt32(i, 0);
+            tbl_Filter_TD_8317_output.setInt32(r, 0, _d_date_sk120_t);
             r++;
         }
     }
-    tbl_Filter_TD_80_output.setNumRow(r);
-    std::cout << "tbl_Filter_TD_80_output #Row: " << tbl_Filter_TD_80_output.getNumRow() << std::endl;
+    tbl_Filter_TD_8317_output.setNumRow(r);
+    std::cout << "tbl_Filter_TD_8317_output #Row: " << tbl_Filter_TD_8317_output.getNumRow() << std::endl;
 }
 
-void SW_Filter_TD_8719(Table &tbl_SerializeFromObject_TD_9916_input, Table &tbl_Filter_TD_8719_output) {
+void SW_Filter_TD_8314(Table &tbl_SerializeFromObject_TD_9168_input, Table &tbl_Filter_TD_8314_output) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: Filter
     // Operation: ListBuffer((isnotnull(ws_sold_date_sk#729) AND isnotnull(ws_item_sk#732)))
     // Input: ListBuffer(ws_sold_date_sk#729, ws_item_sk#732, ws_net_paid#758)
     // Output: ListBuffer(ws_sold_date_sk#729, ws_item_sk#732, ws_net_paid#758)
     int r = 0;
-    int nrow1 = tbl_SerializeFromObject_TD_9916_input.getNumRow();
+    int nrow1 = tbl_SerializeFromObject_TD_9168_input.getNumRow();
     for (int i = 0; i < nrow1; i++) {
-        int32_t _ws_sold_date_sk729 = tbl_SerializeFromObject_TD_9916_input.getInt32(i, 0);
-        int32_t _ws_item_sk732 = tbl_SerializeFromObject_TD_9916_input.getInt32(i, 1);
-        if ((1) && (1)) {
-            int32_t _ws_sold_date_sk729_t = tbl_SerializeFromObject_TD_9916_input.getInt32(i, 0);
-            tbl_Filter_TD_8719_output.setInt32(r, 0, _ws_sold_date_sk729_t);
-            int32_t _ws_item_sk732_t = tbl_SerializeFromObject_TD_9916_input.getInt32(i, 1);
-            tbl_Filter_TD_8719_output.setInt32(r, 1, _ws_item_sk732_t);
-            int32_t _ws_net_paid758_t = tbl_SerializeFromObject_TD_9916_input.getInt32(i, 2);
-            tbl_Filter_TD_8719_output.setInt32(r, 2, _ws_net_paid758_t);
+        int32_t _ws_sold_date_sk729 = tbl_SerializeFromObject_TD_9168_input.getInt32(i, 0);
+        int32_t _ws_item_sk732 = tbl_SerializeFromObject_TD_9168_input.getInt32(i, 1);
+        if ((_ws_sold_date_sk729!= 0) && (_ws_item_sk732!= 0)) {
+            int32_t _ws_sold_date_sk729_t = tbl_SerializeFromObject_TD_9168_input.getInt32(i, 0);
+            tbl_Filter_TD_8314_output.setInt32(r, 0, _ws_sold_date_sk729_t);
+            int32_t _ws_item_sk732_t = tbl_SerializeFromObject_TD_9168_input.getInt32(i, 1);
+            tbl_Filter_TD_8314_output.setInt32(r, 1, _ws_item_sk732_t);
+            int32_t _ws_net_paid758_t = tbl_SerializeFromObject_TD_9168_input.getInt32(i, 2);
+            tbl_Filter_TD_8314_output.setInt32(r, 2, _ws_net_paid758_t);
             r++;
         }
     }
-    tbl_Filter_TD_8719_output.setNumRow(r);
-    std::cout << "tbl_Filter_TD_8719_output #Row: " << tbl_Filter_TD_8719_output.getNumRow() << std::endl;
+    tbl_Filter_TD_8314_output.setNumRow(r);
+    std::cout << "tbl_Filter_TD_8314_output #Row: " << tbl_Filter_TD_8314_output.getNumRow() << std::endl;
 }
 
-void SW_Filter_TD_7898(Table &tbl_SerializeFromObject_TD_8121_input, Table &tbl_Filter_TD_7898_output) {
+void SW_Filter_TD_7867(Table &tbl_SerializeFromObject_TD_8180_input, Table &tbl_Filter_TD_7867_output) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: Filter
     // Operation: ListBuffer(isnotnull(i_item_sk#228))
     // Input: ListBuffer(i_item_sk#228, i_class#238, i_category#240)
     // Output: ListBuffer(i_item_sk#228, i_class#238, i_category#240)
     int r = 0;
-    int nrow1 = tbl_SerializeFromObject_TD_8121_input.getNumRow();
+    int nrow1 = tbl_SerializeFromObject_TD_8180_input.getNumRow();
     for (int i = 0; i < nrow1; i++) {
-        int32_t _i_item_sk228 = tbl_SerializeFromObject_TD_8121_input.getInt32(i, 0);
-        if (1) {
-            int32_t _i_item_sk228_t = tbl_SerializeFromObject_TD_8121_input.getInt32(i, 0);
-            tbl_Filter_TD_7898_output.setInt32(r, 0, _i_item_sk228_t);
-            std::array<char, TPCDS_READ_MAX + 1> _i_class238_t = tbl_SerializeFromObject_TD_8121_input.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
-            tbl_Filter_TD_7898_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 1, _i_class238_t);
-            std::array<char, TPCDS_READ_MAX + 1> _i_category240_t = tbl_SerializeFromObject_TD_8121_input.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
-            tbl_Filter_TD_7898_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 2, _i_category240_t);
+        int32_t _i_item_sk228 = tbl_SerializeFromObject_TD_8180_input.getInt32(i, 0);
+        if (_i_item_sk228!= 0) {
+            int32_t _i_item_sk228_t = tbl_SerializeFromObject_TD_8180_input.getInt32(i, 0);
+            tbl_Filter_TD_7867_output.setInt32(r, 0, _i_item_sk228_t);
+            std::array<char, TPCDS_READ_MAX + 1> _i_class238_t = tbl_SerializeFromObject_TD_8180_input.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
+            tbl_Filter_TD_7867_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 1, _i_class238_t);
+            std::array<char, TPCDS_READ_MAX + 1> _i_category240_t = tbl_SerializeFromObject_TD_8180_input.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
+            tbl_Filter_TD_7867_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 2, _i_category240_t);
             r++;
         }
     }
-    tbl_Filter_TD_7898_output.setNumRow(r);
-    std::cout << "tbl_Filter_TD_7898_output #Row: " << tbl_Filter_TD_7898_output.getNumRow() << std::endl;
+    tbl_Filter_TD_7867_output.setNumRow(r);
+    std::cout << "tbl_Filter_TD_7867_output #Row: " << tbl_Filter_TD_7867_output.getNumRow() << std::endl;
 }
 
-struct SW_JOIN_INNER_TD_7908_key_leftMajor {
+struct SW_JOIN_INNER_TD_7362_key_leftMajor {
     int32_t _ws_sold_date_sk729;
-    bool operator==(const SW_JOIN_INNER_TD_7908_key_leftMajor& other) const {
+    bool operator==(const SW_JOIN_INNER_TD_7362_key_leftMajor& other) const {
         return ((_ws_sold_date_sk729 == other._ws_sold_date_sk729));
     }
 };
 namespace std {
 template <>
-struct hash<SW_JOIN_INNER_TD_7908_key_leftMajor> {
-    std::size_t operator() (const SW_JOIN_INNER_TD_7908_key_leftMajor& k) const {
+struct hash<SW_JOIN_INNER_TD_7362_key_leftMajor> {
+    std::size_t operator() (const SW_JOIN_INNER_TD_7362_key_leftMajor& k) const {
         using std::size_t;
         using std::hash;
         using std::string;
@@ -88,21 +88,21 @@ struct hash<SW_JOIN_INNER_TD_7908_key_leftMajor> {
     }
 };
 }
-struct SW_JOIN_INNER_TD_7908_payload_leftMajor {
+struct SW_JOIN_INNER_TD_7362_payload_leftMajor {
     int32_t _ws_sold_date_sk729;
     int32_t _ws_item_sk732;
     int32_t _ws_net_paid758;
 };
-struct SW_JOIN_INNER_TD_7908_key_rightMajor {
+struct SW_JOIN_INNER_TD_7362_key_rightMajor {
     int32_t _d_date_sk120;
-    bool operator==(const SW_JOIN_INNER_TD_7908_key_rightMajor& other) const {
+    bool operator==(const SW_JOIN_INNER_TD_7362_key_rightMajor& other) const {
         return ((_d_date_sk120 == other._d_date_sk120));
     }
 };
 namespace std {
 template <>
-struct hash<SW_JOIN_INNER_TD_7908_key_rightMajor> {
-    std::size_t operator() (const SW_JOIN_INNER_TD_7908_key_rightMajor& k) const {
+struct hash<SW_JOIN_INNER_TD_7362_key_rightMajor> {
+    std::size_t operator() (const SW_JOIN_INNER_TD_7362_key_rightMajor& k) const {
         using std::size_t;
         using std::hash;
         using std::string;
@@ -110,90 +110,90 @@ struct hash<SW_JOIN_INNER_TD_7908_key_rightMajor> {
     }
 };
 }
-struct SW_JOIN_INNER_TD_7908_payload_rightMajor {
+struct SW_JOIN_INNER_TD_7362_payload_rightMajor {
     int32_t _d_date_sk120;
 };
-void SW_JOIN_INNER_TD_7908(Table &tbl_Filter_TD_8719_output, Table &tbl_Filter_TD_80_output, Table &tbl_JOIN_INNER_TD_7908_output) {
+void SW_JOIN_INNER_TD_7362(Table &tbl_Filter_TD_8314_output, Table &tbl_Filter_TD_8317_output, Table &tbl_JOIN_INNER_TD_7362_output) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: JOIN_INNER
     // Operation: ListBuffer((d_date_sk#120 = ws_sold_date_sk#729))
     // Left Table: ListBuffer(ws_sold_date_sk#729, ws_item_sk#732, ws_net_paid#758)
     // Right Table: ListBuffer(d_date_sk#120)
     // Output Table: ListBuffer(ws_item_sk#732, ws_net_paid#758)
-    int left_nrow = tbl_Filter_TD_8719_output.getNumRow();
-    int right_nrow = tbl_Filter_TD_80_output.getNumRow();
+    int left_nrow = tbl_Filter_TD_8314_output.getNumRow();
+    int right_nrow = tbl_Filter_TD_8317_output.getNumRow();
     if (left_nrow < right_nrow) { 
-        std::unordered_multimap<SW_JOIN_INNER_TD_7908_key_leftMajor, SW_JOIN_INNER_TD_7908_payload_leftMajor> ht1;
-        int nrow1 = tbl_Filter_TD_8719_output.getNumRow();
+        std::unordered_multimap<SW_JOIN_INNER_TD_7362_key_leftMajor, SW_JOIN_INNER_TD_7362_payload_leftMajor> ht1;
+        int nrow1 = tbl_Filter_TD_8314_output.getNumRow();
         for (int i = 0; i < nrow1; i++) {
-            int32_t _ws_sold_date_sk729_k = tbl_Filter_TD_8719_output.getInt32(i, 0);
-            SW_JOIN_INNER_TD_7908_key_leftMajor keyA{_ws_sold_date_sk729_k};
-            int32_t _ws_sold_date_sk729 = tbl_Filter_TD_8719_output.getInt32(i, 0);
-            int32_t _ws_item_sk732 = tbl_Filter_TD_8719_output.getInt32(i, 1);
-            int32_t _ws_net_paid758 = tbl_Filter_TD_8719_output.getInt32(i, 2);
-            SW_JOIN_INNER_TD_7908_payload_leftMajor payloadA{_ws_sold_date_sk729, _ws_item_sk732, _ws_net_paid758};
+            int32_t _ws_sold_date_sk729_k = tbl_Filter_TD_8314_output.getInt32(i, 0);
+            SW_JOIN_INNER_TD_7362_key_leftMajor keyA{_ws_sold_date_sk729_k};
+            int32_t _ws_sold_date_sk729 = tbl_Filter_TD_8314_output.getInt32(i, 0);
+            int32_t _ws_item_sk732 = tbl_Filter_TD_8314_output.getInt32(i, 1);
+            int32_t _ws_net_paid758 = tbl_Filter_TD_8314_output.getInt32(i, 2);
+            SW_JOIN_INNER_TD_7362_payload_leftMajor payloadA{_ws_sold_date_sk729, _ws_item_sk732, _ws_net_paid758};
             ht1.insert(std::make_pair(keyA, payloadA));
         }
         int r = 0;
-        int nrow2 = tbl_Filter_TD_80_output.getNumRow();
+        int nrow2 = tbl_Filter_TD_8317_output.getNumRow();
         for (int i = 0; i < nrow2; i++) {
-            int32_t _d_date_sk120_k = tbl_Filter_TD_80_output.getInt32(i, 0);
-            auto its = ht1.equal_range(SW_JOIN_INNER_TD_7908_key_leftMajor{_d_date_sk120_k});
+            int32_t _d_date_sk120_k = tbl_Filter_TD_8317_output.getInt32(i, 0);
+            auto its = ht1.equal_range(SW_JOIN_INNER_TD_7362_key_leftMajor{_d_date_sk120_k});
             auto it = its.first;
             while (it != its.second) {
                 int32_t _ws_sold_date_sk729 = (it->second)._ws_sold_date_sk729;
                 int32_t _ws_item_sk732 = (it->second)._ws_item_sk732;
                 int32_t _ws_net_paid758 = (it->second)._ws_net_paid758;
-                int32_t _d_date_sk120 = tbl_Filter_TD_80_output.getInt32(i, 0);
-                tbl_JOIN_INNER_TD_7908_output.setInt32(r, 0, _ws_item_sk732);
-                tbl_JOIN_INNER_TD_7908_output.setInt32(r, 1, _ws_net_paid758);
+                int32_t _d_date_sk120 = tbl_Filter_TD_8317_output.getInt32(i, 0);
+                tbl_JOIN_INNER_TD_7362_output.setInt32(r, 0, _ws_item_sk732);
+                tbl_JOIN_INNER_TD_7362_output.setInt32(r, 1, _ws_net_paid758);
                 it++;
                 r++;
             }
         }
-        tbl_JOIN_INNER_TD_7908_output.setNumRow(r);
+        tbl_JOIN_INNER_TD_7362_output.setNumRow(r);
     } else { 
-        std::unordered_multimap<SW_JOIN_INNER_TD_7908_key_rightMajor, SW_JOIN_INNER_TD_7908_payload_rightMajor> ht1;
-        int nrow1 = tbl_Filter_TD_80_output.getNumRow();
+        std::unordered_multimap<SW_JOIN_INNER_TD_7362_key_rightMajor, SW_JOIN_INNER_TD_7362_payload_rightMajor> ht1;
+        int nrow1 = tbl_Filter_TD_8317_output.getNumRow();
         for (int i = 0; i < nrow1; i++) {
-            int32_t _d_date_sk120_k = tbl_Filter_TD_80_output.getInt32(i, 0);
-            SW_JOIN_INNER_TD_7908_key_rightMajor keyA{_d_date_sk120_k};
-            int32_t _d_date_sk120 = tbl_Filter_TD_80_output.getInt32(i, 0);
-            SW_JOIN_INNER_TD_7908_payload_rightMajor payloadA{_d_date_sk120};
+            int32_t _d_date_sk120_k = tbl_Filter_TD_8317_output.getInt32(i, 0);
+            SW_JOIN_INNER_TD_7362_key_rightMajor keyA{_d_date_sk120_k};
+            int32_t _d_date_sk120 = tbl_Filter_TD_8317_output.getInt32(i, 0);
+            SW_JOIN_INNER_TD_7362_payload_rightMajor payloadA{_d_date_sk120};
             ht1.insert(std::make_pair(keyA, payloadA));
         }
         int r = 0;
-        int nrow2 = tbl_Filter_TD_8719_output.getNumRow();
+        int nrow2 = tbl_Filter_TD_8314_output.getNumRow();
         for (int i = 0; i < nrow2; i++) {
-            int32_t _ws_sold_date_sk729_k = tbl_Filter_TD_8719_output.getInt32(i, 0);
-            auto its = ht1.equal_range(SW_JOIN_INNER_TD_7908_key_rightMajor{_ws_sold_date_sk729_k});
+            int32_t _ws_sold_date_sk729_k = tbl_Filter_TD_8314_output.getInt32(i, 0);
+            auto its = ht1.equal_range(SW_JOIN_INNER_TD_7362_key_rightMajor{_ws_sold_date_sk729_k});
             auto it = its.first;
             while (it != its.second) {
                 int32_t _d_date_sk120 = (it->second)._d_date_sk120;
-                int32_t _ws_sold_date_sk729 = tbl_Filter_TD_8719_output.getInt32(i, 0);
-                int32_t _ws_item_sk732 = tbl_Filter_TD_8719_output.getInt32(i, 1);
-                int32_t _ws_net_paid758 = tbl_Filter_TD_8719_output.getInt32(i, 2);
-                tbl_JOIN_INNER_TD_7908_output.setInt32(r, 0, _ws_item_sk732);
-                tbl_JOIN_INNER_TD_7908_output.setInt32(r, 1, _ws_net_paid758);
+                int32_t _ws_sold_date_sk729 = tbl_Filter_TD_8314_output.getInt32(i, 0);
+                int32_t _ws_item_sk732 = tbl_Filter_TD_8314_output.getInt32(i, 1);
+                int32_t _ws_net_paid758 = tbl_Filter_TD_8314_output.getInt32(i, 2);
+                tbl_JOIN_INNER_TD_7362_output.setInt32(r, 0, _ws_item_sk732);
+                tbl_JOIN_INNER_TD_7362_output.setInt32(r, 1, _ws_net_paid758);
                 it++;
                 r++;
             }
         }
-        tbl_JOIN_INNER_TD_7908_output.setNumRow(r);
+        tbl_JOIN_INNER_TD_7362_output.setNumRow(r);
     } 
-    std::cout << "tbl_JOIN_INNER_TD_7908_output #Row: " << tbl_JOIN_INNER_TD_7908_output.getNumRow() << std::endl;
+    std::cout << "tbl_JOIN_INNER_TD_7362_output #Row: " << tbl_JOIN_INNER_TD_7362_output.getNumRow() << std::endl;
 }
 
-struct SW_JOIN_INNER_TD_6638_key_leftMajor {
+struct SW_JOIN_INNER_TD_6208_key_leftMajor {
     int32_t _ws_item_sk732;
-    bool operator==(const SW_JOIN_INNER_TD_6638_key_leftMajor& other) const {
+    bool operator==(const SW_JOIN_INNER_TD_6208_key_leftMajor& other) const {
         return ((_ws_item_sk732 == other._ws_item_sk732));
     }
 };
 namespace std {
 template <>
-struct hash<SW_JOIN_INNER_TD_6638_key_leftMajor> {
-    std::size_t operator() (const SW_JOIN_INNER_TD_6638_key_leftMajor& k) const {
+struct hash<SW_JOIN_INNER_TD_6208_key_leftMajor> {
+    std::size_t operator() (const SW_JOIN_INNER_TD_6208_key_leftMajor& k) const {
         using std::size_t;
         using std::hash;
         using std::string;
@@ -201,20 +201,20 @@ struct hash<SW_JOIN_INNER_TD_6638_key_leftMajor> {
     }
 };
 }
-struct SW_JOIN_INNER_TD_6638_payload_leftMajor {
+struct SW_JOIN_INNER_TD_6208_payload_leftMajor {
     int32_t _ws_item_sk732;
     int32_t _ws_net_paid758;
 };
-struct SW_JOIN_INNER_TD_6638_key_rightMajor {
+struct SW_JOIN_INNER_TD_6208_key_rightMajor {
     int32_t _i_item_sk228;
-    bool operator==(const SW_JOIN_INNER_TD_6638_key_rightMajor& other) const {
+    bool operator==(const SW_JOIN_INNER_TD_6208_key_rightMajor& other) const {
         return ((_i_item_sk228 == other._i_item_sk228));
     }
 };
 namespace std {
 template <>
-struct hash<SW_JOIN_INNER_TD_6638_key_rightMajor> {
-    std::size_t operator() (const SW_JOIN_INNER_TD_6638_key_rightMajor& k) const {
+struct hash<SW_JOIN_INNER_TD_6208_key_rightMajor> {
+    std::size_t operator() (const SW_JOIN_INNER_TD_6208_key_rightMajor& k) const {
         using std::size_t;
         using std::hash;
         using std::string;
@@ -222,72 +222,72 @@ struct hash<SW_JOIN_INNER_TD_6638_key_rightMajor> {
     }
 };
 }
-struct SW_JOIN_INNER_TD_6638_payload_rightMajor {
+struct SW_JOIN_INNER_TD_6208_payload_rightMajor {
     int32_t _i_item_sk228;
     std::string _i_class238;
     std::string _i_category240;
 };
-void SW_JOIN_INNER_TD_6638(Table &tbl_JOIN_INNER_TD_7908_output, Table &tbl_Filter_TD_7898_output, Table &tbl_JOIN_INNER_TD_6638_output) {
+void SW_JOIN_INNER_TD_6208(Table &tbl_JOIN_INNER_TD_7362_output, Table &tbl_Filter_TD_7867_output, Table &tbl_JOIN_INNER_TD_6208_output) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: JOIN_INNER
     // Operation: ListBuffer((i_item_sk#228 = ws_item_sk#732))
     // Left Table: ListBuffer(ws_item_sk#732, ws_net_paid#758)
     // Right Table: ListBuffer(i_item_sk#228, i_class#238, i_category#240)
     // Output Table: ListBuffer(ws_net_paid#758, i_category#240, i_class#238)
-    int left_nrow = tbl_JOIN_INNER_TD_7908_output.getNumRow();
-    int right_nrow = tbl_Filter_TD_7898_output.getNumRow();
+    int left_nrow = tbl_JOIN_INNER_TD_7362_output.getNumRow();
+    int right_nrow = tbl_Filter_TD_7867_output.getNumRow();
     if (left_nrow < right_nrow) { 
-        std::unordered_multimap<SW_JOIN_INNER_TD_6638_key_leftMajor, SW_JOIN_INNER_TD_6638_payload_leftMajor> ht1;
-        int nrow1 = tbl_JOIN_INNER_TD_7908_output.getNumRow();
+        std::unordered_multimap<SW_JOIN_INNER_TD_6208_key_leftMajor, SW_JOIN_INNER_TD_6208_payload_leftMajor> ht1;
+        int nrow1 = tbl_JOIN_INNER_TD_7362_output.getNumRow();
         for (int i = 0; i < nrow1; i++) {
-            int32_t _ws_item_sk732_k = tbl_JOIN_INNER_TD_7908_output.getInt32(i, 0);
-            SW_JOIN_INNER_TD_6638_key_leftMajor keyA{_ws_item_sk732_k};
-            int32_t _ws_item_sk732 = tbl_JOIN_INNER_TD_7908_output.getInt32(i, 0);
-            int32_t _ws_net_paid758 = tbl_JOIN_INNER_TD_7908_output.getInt32(i, 1);
-            SW_JOIN_INNER_TD_6638_payload_leftMajor payloadA{_ws_item_sk732, _ws_net_paid758};
+            int32_t _ws_item_sk732_k = tbl_JOIN_INNER_TD_7362_output.getInt32(i, 0);
+            SW_JOIN_INNER_TD_6208_key_leftMajor keyA{_ws_item_sk732_k};
+            int32_t _ws_item_sk732 = tbl_JOIN_INNER_TD_7362_output.getInt32(i, 0);
+            int32_t _ws_net_paid758 = tbl_JOIN_INNER_TD_7362_output.getInt32(i, 1);
+            SW_JOIN_INNER_TD_6208_payload_leftMajor payloadA{_ws_item_sk732, _ws_net_paid758};
             ht1.insert(std::make_pair(keyA, payloadA));
         }
         int r = 0;
-        int nrow2 = tbl_Filter_TD_7898_output.getNumRow();
+        int nrow2 = tbl_Filter_TD_7867_output.getNumRow();
         for (int i = 0; i < nrow2; i++) {
-            int32_t _i_item_sk228_k = tbl_Filter_TD_7898_output.getInt32(i, 0);
-            auto its = ht1.equal_range(SW_JOIN_INNER_TD_6638_key_leftMajor{_i_item_sk228_k});
+            int32_t _i_item_sk228_k = tbl_Filter_TD_7867_output.getInt32(i, 0);
+            auto its = ht1.equal_range(SW_JOIN_INNER_TD_6208_key_leftMajor{_i_item_sk228_k});
             auto it = its.first;
             while (it != its.second) {
                 int32_t _ws_item_sk732 = (it->second)._ws_item_sk732;
                 int32_t _ws_net_paid758 = (it->second)._ws_net_paid758;
-                int32_t _i_item_sk228 = tbl_Filter_TD_7898_output.getInt32(i, 0);
-                std::array<char, TPCDS_READ_MAX + 1> _i_class238_n = tbl_Filter_TD_7898_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
+                int32_t _i_item_sk228 = tbl_Filter_TD_7867_output.getInt32(i, 0);
+                std::array<char, TPCDS_READ_MAX + 1> _i_class238_n = tbl_Filter_TD_7867_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
                 std::string _i_class238 = std::string(_i_class238_n.data());
-                std::array<char, TPCDS_READ_MAX + 1> _i_category240_n = tbl_Filter_TD_7898_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
+                std::array<char, TPCDS_READ_MAX + 1> _i_category240_n = tbl_Filter_TD_7867_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
                 std::string _i_category240 = std::string(_i_category240_n.data());
-                tbl_JOIN_INNER_TD_6638_output.setInt32(r, 0, _ws_net_paid758);
-                tbl_JOIN_INNER_TD_6638_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 2, _i_class238_n);
-                tbl_JOIN_INNER_TD_6638_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 1, _i_category240_n);
+                tbl_JOIN_INNER_TD_6208_output.setInt32(r, 0, _ws_net_paid758);
+                tbl_JOIN_INNER_TD_6208_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 2, _i_class238_n);
+                tbl_JOIN_INNER_TD_6208_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 1, _i_category240_n);
                 it++;
                 r++;
             }
         }
-        tbl_JOIN_INNER_TD_6638_output.setNumRow(r);
+        tbl_JOIN_INNER_TD_6208_output.setNumRow(r);
     } else { 
-        std::unordered_multimap<SW_JOIN_INNER_TD_6638_key_rightMajor, SW_JOIN_INNER_TD_6638_payload_rightMajor> ht1;
-        int nrow1 = tbl_Filter_TD_7898_output.getNumRow();
+        std::unordered_multimap<SW_JOIN_INNER_TD_6208_key_rightMajor, SW_JOIN_INNER_TD_6208_payload_rightMajor> ht1;
+        int nrow1 = tbl_Filter_TD_7867_output.getNumRow();
         for (int i = 0; i < nrow1; i++) {
-            int32_t _i_item_sk228_k = tbl_Filter_TD_7898_output.getInt32(i, 0);
-            SW_JOIN_INNER_TD_6638_key_rightMajor keyA{_i_item_sk228_k};
-            int32_t _i_item_sk228 = tbl_Filter_TD_7898_output.getInt32(i, 0);
-            std::array<char, TPCDS_READ_MAX + 1> _i_class238_n = tbl_Filter_TD_7898_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
+            int32_t _i_item_sk228_k = tbl_Filter_TD_7867_output.getInt32(i, 0);
+            SW_JOIN_INNER_TD_6208_key_rightMajor keyA{_i_item_sk228_k};
+            int32_t _i_item_sk228 = tbl_Filter_TD_7867_output.getInt32(i, 0);
+            std::array<char, TPCDS_READ_MAX + 1> _i_class238_n = tbl_Filter_TD_7867_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
             std::string _i_class238 = std::string(_i_class238_n.data());
-            std::array<char, TPCDS_READ_MAX + 1> _i_category240_n = tbl_Filter_TD_7898_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
+            std::array<char, TPCDS_READ_MAX + 1> _i_category240_n = tbl_Filter_TD_7867_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
             std::string _i_category240 = std::string(_i_category240_n.data());
-            SW_JOIN_INNER_TD_6638_payload_rightMajor payloadA{_i_item_sk228, _i_class238, _i_category240};
+            SW_JOIN_INNER_TD_6208_payload_rightMajor payloadA{_i_item_sk228, _i_class238, _i_category240};
             ht1.insert(std::make_pair(keyA, payloadA));
         }
         int r = 0;
-        int nrow2 = tbl_JOIN_INNER_TD_7908_output.getNumRow();
+        int nrow2 = tbl_JOIN_INNER_TD_7362_output.getNumRow();
         for (int i = 0; i < nrow2; i++) {
-            int32_t _ws_item_sk732_k = tbl_JOIN_INNER_TD_7908_output.getInt32(i, 0);
-            auto its = ht1.equal_range(SW_JOIN_INNER_TD_6638_key_rightMajor{_ws_item_sk732_k});
+            int32_t _ws_item_sk732_k = tbl_JOIN_INNER_TD_7362_output.getInt32(i, 0);
+            auto its = ht1.equal_range(SW_JOIN_INNER_TD_6208_key_rightMajor{_ws_item_sk732_k});
             auto it = its.first;
             while (it != its.second) {
                 int32_t _i_item_sk228 = (it->second)._i_item_sk228;
@@ -297,79 +297,79 @@ void SW_JOIN_INNER_TD_6638(Table &tbl_JOIN_INNER_TD_7908_output, Table &tbl_Filt
                 std::string _i_category240 = (it->second)._i_category240;
                 std::array<char, TPCDS_READ_MAX + 1> _i_category240_n{};
                 memcpy(_i_category240_n.data(), (_i_category240).data(), (_i_category240).length());
-                int32_t _ws_item_sk732 = tbl_JOIN_INNER_TD_7908_output.getInt32(i, 0);
-                int32_t _ws_net_paid758 = tbl_JOIN_INNER_TD_7908_output.getInt32(i, 1);
-                tbl_JOIN_INNER_TD_6638_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 2, _i_class238_n);
-                tbl_JOIN_INNER_TD_6638_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 1, _i_category240_n);
-                tbl_JOIN_INNER_TD_6638_output.setInt32(r, 0, _ws_net_paid758);
+                int32_t _ws_item_sk732 = tbl_JOIN_INNER_TD_7362_output.getInt32(i, 0);
+                int32_t _ws_net_paid758 = tbl_JOIN_INNER_TD_7362_output.getInt32(i, 1);
+                tbl_JOIN_INNER_TD_6208_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 2, _i_class238_n);
+                tbl_JOIN_INNER_TD_6208_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 1, _i_category240_n);
+                tbl_JOIN_INNER_TD_6208_output.setInt32(r, 0, _ws_net_paid758);
                 it++;
                 r++;
             }
         }
-        tbl_JOIN_INNER_TD_6638_output.setNumRow(r);
+        tbl_JOIN_INNER_TD_6208_output.setNumRow(r);
     } 
-    std::cout << "tbl_JOIN_INNER_TD_6638_output #Row: " << tbl_JOIN_INNER_TD_6638_output.getNumRow() << std::endl;
+    std::cout << "tbl_JOIN_INNER_TD_6208_output #Row: " << tbl_JOIN_INNER_TD_6208_output.getNumRow() << std::endl;
 }
 
-void SW_Expand_TD_5536(Table &tbl_JOIN_INNER_TD_6638_output, Table &tbl_Expand_TD_5536_output) {
+void SW_Expand_TD_5414(Table &tbl_JOIN_INNER_TD_6208_output, Table &tbl_Expand_TD_5414_output) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: Expand
     // Operation: ListBuffer(Expand)
     // Input: ListBuffer(ws_net_paid#758, i_category#240, i_class#238)
-    // Output: ListBuffer(ws_net_paid#758, i_category#3554, i_class#3555, spark_grouping_id#3553L)
-    std::cout << "tbl_Expand_TD_5536_output #Row: " << tbl_Expand_TD_5536_output.getNumRow() << std::endl;
+    // Output: ListBuffer(ws_net_paid#758, i_category#9450, i_class#9451, spark_grouping_id#9449L)
+    std::cout << "tbl_Expand_TD_5414_output #Row: " << tbl_Expand_TD_5414_output.getNumRow() << std::endl;
 }
 
-struct SW_Aggregate_TD_4283_key {
-    std::string _i_category3554;
-    std::string _i_class3555;
-    int64_t _spark_grouping_id3553L;
-    bool operator==(const SW_Aggregate_TD_4283_key& other) const { return (_i_category3554 == other._i_category3554) && (_i_class3555 == other._i_class3555) && (_spark_grouping_id3553L == other._spark_grouping_id3553L); }
+struct SW_Aggregate_TD_4443_key {
+    std::string _i_category9450;
+    std::string _i_class9451;
+    int64_t _spark_grouping_id9449L;
+    bool operator==(const SW_Aggregate_TD_4443_key& other) const { return (_i_category9450 == other._i_category9450) && (_i_class9451 == other._i_class9451) && (_spark_grouping_id9449L == other._spark_grouping_id9449L); }
 };
 namespace std {
 template <>
-struct hash<SW_Aggregate_TD_4283_key> {
-    std::size_t operator() (const SW_Aggregate_TD_4283_key& k) const {
+struct hash<SW_Aggregate_TD_4443_key> {
+    std::size_t operator() (const SW_Aggregate_TD_4443_key& k) const {
         using std::size_t;
         using std::hash;
         using std::string;
-        return (hash<string>()(k._i_category3554)) + (hash<string>()(k._i_class3555)) + (hash<int64_t>()(k._spark_grouping_id3553L));
+        return (hash<string>()(k._i_category9450)) + (hash<string>()(k._i_class9451)) + (hash<int64_t>()(k._spark_grouping_id9449L));
     }
 };
 }
-struct SW_Aggregate_TD_4283_payload {
-    int32_t _total_sum3544_sum_0;
+struct SW_Aggregate_TD_4443_payload {
+    int32_t _total_sum9440_sum_0;
     // Unsupported Data Type
     // Unsupported Data Type
-    std::string __w23569;
-    int32_t __w33570_sum_1;
+    std::string __w29465;
+    int32_t __w39466_sum_1;
 };
-void SW_Aggregate_TD_4283(Table &tbl_Expand_TD_5536_output, Table &tbl_Aggregate_TD_4283_output) {
+void SW_Aggregate_TD_4443(Table &tbl_Expand_TD_5414_output, Table &tbl_Aggregate_TD_4443_output) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: Aggregate
-    // Operation: ListBuffer(i_category#3554, i_class#3555, spark_grouping_id#3553L, MakeDecimal(sum(UnscaledValue(ws_net_paid#758)),17,2) AS total_sum#3544, (cast((shiftright(spark_grouping_id#3553L, 1) & 1) as tinyint) + cast((shiftright(spark_grouping_id#3553L, 0) & 1) as tinyint)) AS lochierarchy#3545, (cast((shiftright(spark_grouping_id#3553L, 1) & 1) as tinyint) + cast((shiftright(spark_grouping_id#3553L, 0) & 1) as tinyint)) AS _w1#3568, CASE WHEN (cast((shiftright(spark_grouping_id#3553L, 0) & 1) as tinyint) = 0) THEN i_category#3554 END AS _w2#3569, MakeDecimal(sum(UnscaledValue(ws_net_paid#758)),17,2) AS _w3#3570)
-    // Input: ListBuffer(ws_net_paid#758, i_category#3554, i_class#3555, spark_grouping_id#3553L)
-    // Output: ListBuffer(total_sum#3544, i_category#3554, i_class#3555, lochierarchy#3545, _w1#3568, _w2#3569, _w3#3570)
-    std::unordered_map<SW_Aggregate_TD_4283_key, SW_Aggregate_TD_4283_payload> ht1;
-    int nrow1 = tbl_Expand_TD_5536_output.getNumRow();
+    // Operation: ListBuffer(i_category#9450, i_class#9451, spark_grouping_id#9449L, MakeDecimal(sum(UnscaledValue(ws_net_paid#758)),17,2) AS total_sum#9440, (cast((shiftright(spark_grouping_id#9449L, 1) & 1) as tinyint) + cast((shiftright(spark_grouping_id#9449L, 0) & 1) as tinyint)) AS lochierarchy#9441, (cast((shiftright(spark_grouping_id#9449L, 1) & 1) as tinyint) + cast((shiftright(spark_grouping_id#9449L, 0) & 1) as tinyint)) AS _w1#9464, CASE WHEN (cast((shiftright(spark_grouping_id#9449L, 0) & 1) as tinyint) = 0) THEN i_category#9450 END AS _w2#9465, MakeDecimal(sum(UnscaledValue(ws_net_paid#758)),17,2) AS _w3#9466)
+    // Input: ListBuffer(ws_net_paid#758, i_category#9450, i_class#9451, spark_grouping_id#9449L)
+    // Output: ListBuffer(total_sum#9440, i_category#9450, i_class#9451, lochierarchy#9441, _w1#9464, _w2#9465, _w3#9466)
+    std::unordered_map<SW_Aggregate_TD_4443_key, SW_Aggregate_TD_4443_payload> ht1;
+    int nrow1 = tbl_Expand_TD_5414_output.getNumRow();
     for (int i = 0; i < nrow1; i++) {
-        int32_t _ws_net_paid758 = tbl_Expand_TD_5536_output.getInt32(i, 0);
-        std::array<char, TPCDS_READ_MAX + 1> _i_category3554 = tbl_Expand_TD_5536_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
-        std::array<char, TPCDS_READ_MAX + 1> _i_class3555 = tbl_Expand_TD_5536_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
-        int64_t _spark_grouping_id3553L = tbl_Expand_TD_5536_output.getInt64(i, 3);
-        SW_Aggregate_TD_4283_key k{std::string(_i_category3554.data()), std::string(_i_class3555.data()), _spark_grouping_id3553L};
-        int64_t _total_sum3544_sum_0 = _ws_net_paid758;
+        int32_t _ws_net_paid758 = tbl_Expand_TD_5414_output.getInt32(i, 0);
+        std::array<char, TPCDS_READ_MAX + 1> _i_category9450 = tbl_Expand_TD_5414_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
+        std::array<char, TPCDS_READ_MAX + 1> _i_class9451 = tbl_Expand_TD_5414_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
+        int64_t _spark_grouping_id9449L = tbl_Expand_TD_5414_output.getInt64(i, 3);
+        SW_Aggregate_TD_4443_key k{std::string(_i_category9450.data()), std::string(_i_class9451.data()), _spark_grouping_id9449L};
+        int64_t _total_sum9440_sum_0 = _ws_net_paid758;
         // Unsupported output Type
         // Unsupported output Type
-        std::array<char, TPCDS_READ_MAX + 1> __w23569 = (_spark_grouping_id3553L == 0) ? _i_category3554 : 1;
-        int64_t __w33570_sum_1 = _ws_net_paid758;
-        SW_Aggregate_TD_4283_payload p{_total_sum3544_sum_0,     // Unsupported Data Type,     // Unsupported Data Type, std::string(__w23569.data()), __w33570_sum_1};
+        std::array<char, TPCDS_READ_MAX + 1> __w29465 = (_spark_grouping_id9449L == 0) ? _i_category9450 : 1;
+        int64_t __w39466_sum_1 = _ws_net_paid758;
+        SW_Aggregate_TD_4443_payload p{_total_sum9440_sum_0,     // Unsupported Data Type,     // Unsupported Data Type, std::string(__w29465.data()), __w39466_sum_1};
         auto it = ht1.find(k);
         if (it != ht1.end()) {
-            int32_t sum_0 = (it->second)._total_sum3544_sum_0 + _total_sum3544_sum_0;
-            p._total_sum3544_sum_0 = sum_0;
-            int32_t sum_1 = (it->second).__w33570_sum_1 + __w33570_sum_1;
-            p.__w33570_sum_1 = sum_1;
+            int32_t sum_0 = (it->second)._total_sum9440_sum_0 + _total_sum9440_sum_0;
+            p._total_sum9440_sum_0 = sum_0;
+            int32_t sum_1 = (it->second).__w39466_sum_1 + __w39466_sum_1;
+            p.__w39466_sum_1 = sum_1;
             ht1[k] = p;
         } else { 
             ht1.insert(std::make_pair(k, p));
@@ -377,71 +377,71 @@ void SW_Aggregate_TD_4283(Table &tbl_Expand_TD_5536_output, Table &tbl_Aggregate
     }
     int r = 0;
     for (auto& it : ht1) {
-        std::array<char, TPCDS_READ_MAX + 1> _i_category3554{};
-        memcpy(_i_category3554.data(), ((it.first)._i_category3554).data(), ((it.first)._i_category3554).length());
-        tbl_Aggregate_TD_4283_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 1, _i_category3554);
-        std::array<char, TPCDS_READ_MAX + 1> _i_class3555{};
-        memcpy(_i_class3555.data(), ((it.first)._i_class3555).data(), ((it.first)._i_class3555).length());
-        tbl_Aggregate_TD_4283_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 2, _i_class3555);
-        // _spark_grouping_id3553L not required in the output table
-        int32_t _total_sum3544 = (it.second)._total_sum3544_sum_0;
-        tbl_Aggregate_TD_4283_output.setInt32(r, 0, _total_sum3544);
+        std::array<char, TPCDS_READ_MAX + 1> _i_category9450{};
+        memcpy(_i_category9450.data(), ((it.first)._i_category9450).data(), ((it.first)._i_category9450).length());
+        tbl_Aggregate_TD_4443_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 1, _i_category9450);
+        std::array<char, TPCDS_READ_MAX + 1> _i_class9451{};
+        memcpy(_i_class9451.data(), ((it.first)._i_class9451).data(), ((it.first)._i_class9451).length());
+        tbl_Aggregate_TD_4443_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 2, _i_class9451);
+        // _spark_grouping_id9449L not required in the output table
+        int32_t _total_sum9440 = (it.second)._total_sum9440_sum_0;
+        tbl_Aggregate_TD_4443_output.setInt32(r, 0, _total_sum9440);
         // Unsupported payload type: ByteType
         // Unsupported payload type: ByteType
-        tbl_Aggregate_TD_4283_output.setInt64(r, 5, (it.second).__w23569);
-        int32_t __w33570 = (it.second).__w33570_sum_1;
-        tbl_Aggregate_TD_4283_output.setInt32(r, 6, __w33570);
+        tbl_Aggregate_TD_4443_output.setInt64(r, 5, (it.second).__w29465);
+        int32_t __w39466 = (it.second).__w39466_sum_1;
+        tbl_Aggregate_TD_4443_output.setInt32(r, 6, __w39466);
         ++r;
     }
-    tbl_Aggregate_TD_4283_output.setNumRow(r);
-    std::cout << "tbl_Aggregate_TD_4283_output #Row: " << tbl_Aggregate_TD_4283_output.getNumRow() << std::endl;
+    tbl_Aggregate_TD_4443_output.setNumRow(r);
+    std::cout << "tbl_Aggregate_TD_4443_output #Row: " << tbl_Aggregate_TD_4443_output.getNumRow() << std::endl;
 }
 
-void SW_Window_TD_3702(Table &tbl_Aggregate_TD_4283_output, Table &tbl_Window_TD_3702_output) {
+void SW_Window_TD_344(Table &tbl_Aggregate_TD_4443_output, Table &tbl_Window_TD_344_output) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: Window
-    // Operation: ListBuffer(rank(_w3#3570) windowspecdefinition(_w1#3568, _w2#3569, _w3#3570 DESC NULLS LAST, specifiedwindowframe(RowFrame, unboundedpreceding$(), currentrow$())) AS rank_within_parent#3546)
-    // Input: ListBuffer(total_sum#3544, i_category#3554, i_class#3555, lochierarchy#3545, _w1#3568, _w2#3569, _w3#3570)
-    // Output: ListBuffer(total_sum#3544, i_category#3554, i_class#3555, lochierarchy#3545, _w1#3568, _w2#3569, _w3#3570, rank_within_parent#3546)
-    struct SW_Window_TD_3702Row {
-        int32_t _total_sum3544;
-        std::string _i_category3554;
-        std::string _i_class3555;
+    // Operation: ListBuffer(rank(_w3#9466) windowspecdefinition(_w1#9464, _w2#9465, _w3#9466 DESC NULLS LAST, specifiedwindowframe(RowFrame, unboundedpreceding$(), currentrow$())) AS rank_within_parent#9442)
+    // Input: ListBuffer(total_sum#9440, i_category#9450, i_class#9451, lochierarchy#9441, _w1#9464, _w2#9465, _w3#9466)
+    // Output: ListBuffer(total_sum#9440, i_category#9450, i_class#9451, lochierarchy#9441, _w1#9464, _w2#9465, _w3#9466, rank_within_parent#9442)
+    struct SW_Window_TD_344Row {
+        int32_t _total_sum9440;
+        std::string _i_category9450;
+        std::string _i_class9451;
         // Unsupported input column type
         // Unsupported input column type
-        int64_t __w23569;
-        int32_t __w33570;
+        int64_t __w29465;
+        int32_t __w39466;
     }; 
 
-    int nrow = tbl_Aggregate_TD_4283_output.getNumRow();
-    std::vector<SW_Window_TD_3702Row> rows0;
+    int nrow = tbl_Aggregate_TD_4443_output.getNumRow();
+    std::vector<SW_Window_TD_344Row> rows0;
     int r = 0;
     for (int i = 0; i < nrow; i++) {
-        int32_t _total_sum3544 = tbl_Aggregate_TD_4283_output.getInt32(i, 0);
-        tbl_Window_TD_3702_output.setInt32(r, 0,_total_sum3544);
-        std::array<char, TPCDS_READ_MAX + 1> _i_category3554 = tbl_Aggregate_TD_4283_output.getcharN<char, TPCDS_READ_MAX +1>(i, 1);
-        tbl_Window_TD_3702_output.setcharN<char, TPCDS_READ_MAX +1>(r, 1, _i_category3554);
-        std::array<char, TPCDS_READ_MAX + 1> _i_class3555 = tbl_Aggregate_TD_4283_output.getcharN<char, TPCDS_READ_MAX +1>(i, 2);
-        tbl_Window_TD_3702_output.setcharN<char, TPCDS_READ_MAX +1>(r, 2, _i_class3555);
+        int32_t _total_sum9440 = tbl_Aggregate_TD_4443_output.getInt32(i, 0);
+        tbl_Window_TD_344_output.setInt32(r, 0,_total_sum9440);
+        std::array<char, TPCDS_READ_MAX + 1> _i_category9450 = tbl_Aggregate_TD_4443_output.getcharN<char, TPCDS_READ_MAX +1>(i, 1);
+        tbl_Window_TD_344_output.setcharN<char, TPCDS_READ_MAX +1>(r, 1, _i_category9450);
+        std::array<char, TPCDS_READ_MAX + 1> _i_class9451 = tbl_Aggregate_TD_4443_output.getcharN<char, TPCDS_READ_MAX +1>(i, 2);
+        tbl_Window_TD_344_output.setcharN<char, TPCDS_READ_MAX +1>(r, 2, _i_class9451);
         // Unsupported input column type
         // Unsupported input column type
-        int64_t __w23569 = tbl_Aggregate_TD_4283_output.getInt64(i, 5);
-        tbl_Window_TD_3702_output.setInt64(r, 5,__w23569);
-        int32_t __w33570 = tbl_Aggregate_TD_4283_output.getInt32(i, 6);
-        tbl_Window_TD_3702_output.setInt32(r, 6,__w33570);
+        int64_t __w29465 = tbl_Aggregate_TD_4443_output.getInt64(i, 5);
+        tbl_Window_TD_344_output.setInt64(r, 5,__w29465);
+        int32_t __w39466 = tbl_Aggregate_TD_4443_output.getInt32(i, 6);
+        tbl_Window_TD_344_output.setInt32(r, 6,__w39466);
         r++;
-        SW_Window_TD_3702Row t = {_total_sum3544,std::string(_i_category3554.data()),std::string(_i_class3555.data()),__w23569,__w33570};
+        SW_Window_TD_344Row t = {_total_sum9440,std::string(_i_category9450.data()),std::string(_i_class9451.data()),__w29465,__w39466};
         rows0.push_back(t);
     }
     struct {
-        bool operator()(const SW_Window_TD_3702Row& a, const SW_Window_TD_3702Row& b) const { return 
-(a.__w13568 < b.__w13568) || 
- ((a.__w13568 == b.__w13568) && (a.__w23569 < b.__w23569)) || 
- ((a.__w13568 == b.__w13568) && (a.__w23569 == b.__w23569) && (a.__w33570 > b.__w33570)); 
+        bool operator()(const SW_Window_TD_344Row& a, const SW_Window_TD_344Row& b) const { return 
+(a.__w19464 < b.__w19464) || 
+ ((a.__w19464 == b.__w19464) && (a.__w29465 < b.__w29465)) || 
+ ((a.__w19464 == b.__w19464) && (a.__w29465 == b.__w29465) && (a.__w39466 > b.__w39466)); 
 }
-    }SW_Window_TD_3702_order0; 
+    }SW_Window_TD_344_order0; 
 
-    std::sort(rows0.begin(), rows0.end(), SW_Window_TD_3702_order0);
+    std::sort(rows0.begin(), rows0.end(), SW_Window_TD_344_order0);
     std::vector<int32_t> ranks0(rows0.size(), 0);
     int32_t currentRank0 = 0;
     int32_t currentPartitionCount0 = 1;
@@ -451,8 +451,8 @@ void SW_Window_TD_3702(Table &tbl_Aggregate_TD_4283_output, Table &tbl_Window_TD
       ranks0[0] = ++currentRank0;
     };
     for (int i = 1; i< rows0.size(); i++) {
-        isSamePartition0 = ( rows0[i].__w13568 == rows0[i-1].__w13568 && rows0[i].__w23569 == rows0[i-1].__w23569);
-        isSameOrderKey0 = ( rows0[i].__w33570 == rows0[i-1].__w33570);
+        isSamePartition0 = ( rows0[i].__w19464 == rows0[i-1].__w19464 && rows0[i].__w29465 == rows0[i-1].__w29465);
+        isSameOrderKey0 = ( rows0[i].__w39466 == rows0[i-1].__w39466);
         curPartitionCount0++;
         if (isSamePartition0&& !isSameOrderKey0) {
             currentRank0 = currentPartitionCount0;
@@ -463,107 +463,107 @@ void SW_Window_TD_3702(Table &tbl_Aggregate_TD_4283_output, Table &tbl_Window_TD
         ranks0[i] = currentRank0;
     }
     for (int i = 0; i< nrow; i++) {
-        tbl_Window_TD_3702_output.setInt32(r, 7, ranks0[i]);
+        tbl_Window_TD_344_output.setInt32(r, 7, ranks0[i]);
     }
-    tbl_Window_TD_3702_output.setNumRow(r);
-    std::cout << "tbl_Window_TD_3702_output #Row: " << tbl_Window_TD_3702_output.getNumRow() << std::endl;
+    tbl_Window_TD_344_output.setNumRow(r);
+    std::cout << "tbl_Window_TD_344_output #Row: " << tbl_Window_TD_344_output.getNumRow() << std::endl;
 }
 
-void SW_Sort_TD_2433(Table &tbl_Window_TD_3702_output, Table &tbl_Sort_TD_2433_output) {
+void SW_Sort_TD_2496(Table &tbl_Window_TD_344_output, Table &tbl_Sort_TD_2496_output) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: Sort
-    // Operation: ListBuffer(lochierarchy#3545 DESC NULLS LAST, CASE WHEN (lochierarchy#3545 = 0) THEN i_category#3554 END ASC NULLS FIRST, rank_within_parent#3546 ASC NULLS FIRST)
-    // Input: ListBuffer(total_sum#3544, i_category#3554, i_class#3555, lochierarchy#3545, _w1#3568, _w2#3569, _w3#3570, rank_within_parent#3546)
-    // Output: ListBuffer(total_sum#3544, i_category#3554, i_class#3555, lochierarchy#3545, rank_within_parent#3546)
-    struct SW_Sort_TD_2433Row {
-        int32_t _total_sum3544;
-        std::string _i_category3554;
-        std::string _i_class3555;
+    // Operation: ListBuffer(lochierarchy#9441 DESC NULLS LAST, CASE WHEN (lochierarchy#9441 = 0) THEN i_category#9450 END ASC NULLS FIRST, rank_within_parent#9442 ASC NULLS FIRST)
+    // Input: ListBuffer(total_sum#9440, i_category#9450, i_class#9451, lochierarchy#9441, _w1#9464, _w2#9465, _w3#9466, rank_within_parent#9442)
+    // Output: ListBuffer(total_sum#9440, i_category#9450, i_class#9451, lochierarchy#9441, rank_within_parent#9442)
+    struct SW_Sort_TD_2496Row {
+        int32_t _total_sum9440;
+        std::string _i_category9450;
+        std::string _i_class9451;
         // Unsupported input column type
-        int32_t _rank_within_parent3546;
+        int32_t _rank_within_parent9442;
     }; 
 
     struct {
-        bool operator()(const SW_Sort_TD_2433Row& a, const SW_Sort_TD_2433Row& b) const { return 
- (a._lochierarchy3545 > b._lochierarchy3545) || 
- ((a._lochierarchy3545 == b._lochierarchy3545) &&  || 
- ((a._lochierarchy3545 == b._lochierarchy3545) && (a._END == b._END) && (a._rank_within_parent3546 < b._rank_within_parent3546)); 
+        bool operator()(const SW_Sort_TD_2496Row& a, const SW_Sort_TD_2496Row& b) const { return 
+ (a._lochierarchy9441 > b._lochierarchy9441) || 
+ ((a._lochierarchy9441 == b._lochierarchy9441) &&  || 
+ ((a._lochierarchy9441 == b._lochierarchy9441) && (a._END == b._END) && (a._rank_within_parent9442 < b._rank_within_parent9442)); 
 }
-    }SW_Sort_TD_2433_order; 
+    }SW_Sort_TD_2496_order; 
 
-    int nrow1 = tbl_Window_TD_3702_output.getNumRow();
-    std::vector<SW_Sort_TD_2433Row> rows;
+    int nrow1 = tbl_Window_TD_344_output.getNumRow();
+    std::vector<SW_Sort_TD_2496Row> rows;
     for (int i = 0; i < nrow1; i++) {
-        int32_t _total_sum3544 = tbl_Window_TD_3702_output.getInt32(i, 0);
-        std::array<char, TPCDS_READ_MAX + 1> _i_category3554 = tbl_Window_TD_3702_output.getcharN<char, TPCDS_READ_MAX +1>(i, 1);
-        std::array<char, TPCDS_READ_MAX + 1> _i_class3555 = tbl_Window_TD_3702_output.getcharN<char, TPCDS_READ_MAX +1>(i, 2);
+        int32_t _total_sum9440 = tbl_Window_TD_344_output.getInt32(i, 0);
+        std::array<char, TPCDS_READ_MAX + 1> _i_category9450 = tbl_Window_TD_344_output.getcharN<char, TPCDS_READ_MAX +1>(i, 1);
+        std::array<char, TPCDS_READ_MAX + 1> _i_class9451 = tbl_Window_TD_344_output.getcharN<char, TPCDS_READ_MAX +1>(i, 2);
         // Unsupported input column type
         // Unsupported input column type
-        int64_t __w23569 = tbl_Window_TD_3702_output.getInt64(i, 5);
-        int32_t __w33570 = tbl_Window_TD_3702_output.getInt32(i, 6);
-        int32_t _rank_within_parent3546 = tbl_Window_TD_3702_output.getInt32(i, 7);
-        SW_Sort_TD_2433Row t = {_total_sum3544,std::string(_i_category3554.data()),std::string(_i_class3555.data()),__w23569,__w33570,_rank_within_parent3546};
+        int64_t __w29465 = tbl_Window_TD_344_output.getInt64(i, 5);
+        int32_t __w39466 = tbl_Window_TD_344_output.getInt32(i, 6);
+        int32_t _rank_within_parent9442 = tbl_Window_TD_344_output.getInt32(i, 7);
+        SW_Sort_TD_2496Row t = {_total_sum9440,std::string(_i_category9450.data()),std::string(_i_class9451.data()),__w29465,__w39466,_rank_within_parent9442};
         rows.push_back(t);
     }
-    std::sort(rows.begin(), rows.end(), SW_Sort_TD_2433_order);
+    std::sort(rows.begin(), rows.end(), SW_Sort_TD_2496_order);
     int r = 0;
     for (auto& it : rows) {
-        tbl_Sort_TD_2433_output.setInt32(r, 0, it._total_sum3544);
-        std::array<char, TPCDS_READ_MAX + 1> _i_category3554{};
-        memcpy(_i_category3554.data(), (it._i_category3554).data(), (it._i_category3554).length());
-        tbl_Sort_TD_2433_output.setcharN<char, TPCDS_READ_MAX +1>(r, 1, _i_category3554);
-        std::array<char, TPCDS_READ_MAX + 1> _i_class3555{};
-        memcpy(_i_class3555.data(), (it._i_class3555).data(), (it._i_class3555).length());
-        tbl_Sort_TD_2433_output.setcharN<char, TPCDS_READ_MAX +1>(r, 2, _i_class3555);
+        tbl_Sort_TD_2496_output.setInt32(r, 0, it._total_sum9440);
+        std::array<char, TPCDS_READ_MAX + 1> _i_category9450{};
+        memcpy(_i_category9450.data(), (it._i_category9450).data(), (it._i_category9450).length());
+        tbl_Sort_TD_2496_output.setcharN<char, TPCDS_READ_MAX +1>(r, 1, _i_category9450);
+        std::array<char, TPCDS_READ_MAX + 1> _i_class9451{};
+        memcpy(_i_class9451.data(), (it._i_class9451).data(), (it._i_class9451).length());
+        tbl_Sort_TD_2496_output.setcharN<char, TPCDS_READ_MAX +1>(r, 2, _i_class9451);
         // Unsupported input column type
-        tbl_Sort_TD_2433_output.setInt32(r, 4, it._rank_within_parent3546);
+        tbl_Sort_TD_2496_output.setInt32(r, 4, it._rank_within_parent9442);
         ++r;
     }
-    tbl_Sort_TD_2433_output.setNumRow(r);
-    std::cout << "tbl_Sort_TD_2433_output #Row: " << tbl_Sort_TD_2433_output.getNumRow() << std::endl;
+    tbl_Sort_TD_2496_output.setNumRow(r);
+    std::cout << "tbl_Sort_TD_2496_output #Row: " << tbl_Sort_TD_2496_output.getNumRow() << std::endl;
 }
 
-void SW_LocalLimit_TD_1335(Table &tbl_Sort_TD_2433_output, Table &tbl_LocalLimit_TD_1335_output) {
+void SW_LocalLimit_TD_1876(Table &tbl_Sort_TD_2496_output, Table &tbl_LocalLimit_TD_1876_output) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: LocalLimit
     // Operation: ListBuffer(locallimit)
-    // Input: ListBuffer(total_sum#3544, i_category#3554, i_class#3555, lochierarchy#3545, rank_within_parent#3546)
-    // Output: ListBuffer(total_sum#3544, i_category#3554, i_class#3555, lochierarchy#3545, rank_within_parent#3546)
+    // Input: ListBuffer(total_sum#9440, i_category#9450, i_class#9451, lochierarchy#9441, rank_within_parent#9442)
+    // Output: ListBuffer(total_sum#9440, i_category#9450, i_class#9451, lochierarchy#9441, rank_within_parent#9442)
     int r = 0;
     int nrow = 100;
     for (int i = 0; i < nrow; i++) {
-        tbl_LocalLimit_TD_1335_output.setInt32(r, 0, tbl_Sort_TD_2433_output.getInt32(i, 0));
-        std::array<char, TPCDS_READ_MAX + 1> _i_category3554_n = tbl_Sort_TD_2433_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
-        tbl_LocalLimit_TD_1335_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 1, _i_category3554_n);
-        std::array<char, TPCDS_READ_MAX + 1> _i_class3555_n = tbl_Sort_TD_2433_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
-        tbl_LocalLimit_TD_1335_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 2, _i_class3555_n);
-        // Unsupported Union key type
-        tbl_LocalLimit_TD_1335_output.setInt32(r, 4, tbl_Sort_TD_2433_output.getInt32(i, 4));
+        tbl_LocalLimit_TD_1876_output.setInt32(r, 0, tbl_Sort_TD_2496_output.getInt32(i, 0));
+        std::array<char, TPCDS_READ_MAX + 1> _i_category9450_n = tbl_Sort_TD_2496_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
+        tbl_LocalLimit_TD_1876_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 1, _i_category9450_n);
+        std::array<char, TPCDS_READ_MAX + 1> _i_class9451_n = tbl_Sort_TD_2496_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
+        tbl_LocalLimit_TD_1876_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 2, _i_class9451_n);
+        // Unsupported Expand key typeByteType
+        tbl_LocalLimit_TD_1876_output.setInt32(r, 4, tbl_Sort_TD_2496_output.getInt32(i, 4));
         r++;
     }
-    tbl_LocalLimit_TD_1335_output.setNumRow(r);
-    std::cout << "tbl_LocalLimit_TD_1335_output #Row: " << tbl_LocalLimit_TD_1335_output.getNumRow() << std::endl;
+    tbl_LocalLimit_TD_1876_output.setNumRow(r);
+    std::cout << "tbl_LocalLimit_TD_1876_output #Row: " << tbl_LocalLimit_TD_1876_output.getNumRow() << std::endl;
 }
 
-void SW_GlobalLimit_TD_052(Table &tbl_LocalLimit_TD_1335_output, Table &tbl_GlobalLimit_TD_052_output) {
+void SW_GlobalLimit_TD_0764(Table &tbl_LocalLimit_TD_1876_output, Table &tbl_GlobalLimit_TD_0764_output) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: GlobalLimit
     // Operation: ListBuffer(globallimit)
-    // Input: ListBuffer(total_sum#3544, i_category#3554, i_class#3555, lochierarchy#3545, rank_within_parent#3546)
-    // Output: ListBuffer(total_sum#3544, i_category#3554, i_class#3555, lochierarchy#3545, rank_within_parent#3546)
+    // Input: ListBuffer(total_sum#9440, i_category#9450, i_class#9451, lochierarchy#9441, rank_within_parent#9442)
+    // Output: ListBuffer(total_sum#9440, i_category#9450, i_class#9451, lochierarchy#9441, rank_within_parent#9442)
     int r = 0;
     int nrow = 100;
     for (int i = 0; i < nrow; i++) {
-        tbl_GlobalLimit_TD_052_output.setInt32(r, 0, tbl_LocalLimit_TD_1335_output.getInt32(i, 0));
-        std::array<char, TPCDS_READ_MAX + 1> _i_category3554_n = tbl_LocalLimit_TD_1335_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
-        tbl_GlobalLimit_TD_052_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 1, _i_category3554_n);
-        std::array<char, TPCDS_READ_MAX + 1> _i_class3555_n = tbl_LocalLimit_TD_1335_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
-        tbl_GlobalLimit_TD_052_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 2, _i_class3555_n);
-        // Unsupported Union key type
-        tbl_GlobalLimit_TD_052_output.setInt32(r, 4, tbl_LocalLimit_TD_1335_output.getInt32(i, 4));
+        tbl_GlobalLimit_TD_0764_output.setInt32(r, 0, tbl_LocalLimit_TD_1876_output.getInt32(i, 0));
+        std::array<char, TPCDS_READ_MAX + 1> _i_category9450_n = tbl_LocalLimit_TD_1876_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
+        tbl_GlobalLimit_TD_0764_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 1, _i_category9450_n);
+        std::array<char, TPCDS_READ_MAX + 1> _i_class9451_n = tbl_LocalLimit_TD_1876_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
+        tbl_GlobalLimit_TD_0764_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 2, _i_class9451_n);
+        // Unsupported Expand key typeByteType
+        tbl_GlobalLimit_TD_0764_output.setInt32(r, 4, tbl_LocalLimit_TD_1876_output.getInt32(i, 4));
         r++;
     }
-    tbl_GlobalLimit_TD_052_output.setNumRow(r);
-    std::cout << "tbl_GlobalLimit_TD_052_output #Row: " << tbl_GlobalLimit_TD_052_output.getNumRow() << std::endl;
+    tbl_GlobalLimit_TD_0764_output.setNumRow(r);
+    std::cout << "tbl_GlobalLimit_TD_0764_output #Row: " << tbl_GlobalLimit_TD_0764_output.getNumRow() << std::endl;
 }
 

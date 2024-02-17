@@ -1,96 +1,96 @@
 #include <regex> 
 #include <stdint.h> 
 
-void SW_Filter_TD_14801(Table &tbl_SerializeFromObject_TD_15210_input, Table &tbl_Filter_TD_14801_output) {
+void SW_Filter_TD_14290(Table &tbl_SerializeFromObject_TD_15146_input, Table &tbl_Filter_TD_14290_output) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: Filter
     // Operation: ListBuffer((isnotnull(ss_item_sk#1208) AND (isnotnull(ss_sold_date_sk#1206) AND isnotnull(ss_store_sk#1213))))
     // Input: ListBuffer(ss_sold_date_sk#1206, ss_item_sk#1208, ss_store_sk#1213, ss_sales_price#1219)
     // Output: ListBuffer(ss_sold_date_sk#1206, ss_item_sk#1208, ss_store_sk#1213, ss_sales_price#1219)
     int r = 0;
-    int nrow1 = tbl_SerializeFromObject_TD_15210_input.getNumRow();
+    int nrow1 = tbl_SerializeFromObject_TD_15146_input.getNumRow();
     for (int i = 0; i < nrow1; i++) {
-        int32_t _ss_item_sk1208 = tbl_SerializeFromObject_TD_15210_input.getInt32(i, 1);
-        int32_t _ss_sold_date_sk1206 = tbl_SerializeFromObject_TD_15210_input.getInt32(i, 0);
-        int32_t _ss_store_sk1213 = tbl_SerializeFromObject_TD_15210_input.getInt32(i, 2);
-        if ((1) && ((1) && (1))) {
-            int32_t _ss_sold_date_sk1206_t = tbl_SerializeFromObject_TD_15210_input.getInt32(i, 0);
-            tbl_Filter_TD_14801_output.setInt32(r, 0, _ss_sold_date_sk1206_t);
-            int32_t _ss_item_sk1208_t = tbl_SerializeFromObject_TD_15210_input.getInt32(i, 1);
-            tbl_Filter_TD_14801_output.setInt32(r, 1, _ss_item_sk1208_t);
-            int32_t _ss_store_sk1213_t = tbl_SerializeFromObject_TD_15210_input.getInt32(i, 2);
-            tbl_Filter_TD_14801_output.setInt32(r, 2, _ss_store_sk1213_t);
-            int32_t _ss_sales_price1219_t = tbl_SerializeFromObject_TD_15210_input.getInt32(i, 3);
-            tbl_Filter_TD_14801_output.setInt32(r, 3, _ss_sales_price1219_t);
+        int32_t _ss_item_sk1208 = tbl_SerializeFromObject_TD_15146_input.getInt32(i, 1);
+        int32_t _ss_sold_date_sk1206 = tbl_SerializeFromObject_TD_15146_input.getInt32(i, 0);
+        int32_t _ss_store_sk1213 = tbl_SerializeFromObject_TD_15146_input.getInt32(i, 2);
+        if ((_ss_item_sk1208!= 0) && ((_ss_sold_date_sk1206!= 0) && (_ss_store_sk1213!= 0))) {
+            int32_t _ss_sold_date_sk1206_t = tbl_SerializeFromObject_TD_15146_input.getInt32(i, 0);
+            tbl_Filter_TD_14290_output.setInt32(r, 0, _ss_sold_date_sk1206_t);
+            int32_t _ss_item_sk1208_t = tbl_SerializeFromObject_TD_15146_input.getInt32(i, 1);
+            tbl_Filter_TD_14290_output.setInt32(r, 1, _ss_item_sk1208_t);
+            int32_t _ss_store_sk1213_t = tbl_SerializeFromObject_TD_15146_input.getInt32(i, 2);
+            tbl_Filter_TD_14290_output.setInt32(r, 2, _ss_store_sk1213_t);
+            int32_t _ss_sales_price1219_t = tbl_SerializeFromObject_TD_15146_input.getInt32(i, 3);
+            tbl_Filter_TD_14290_output.setInt32(r, 3, _ss_sales_price1219_t);
             r++;
         }
     }
-    tbl_Filter_TD_14801_output.setNumRow(r);
-    std::cout << "tbl_Filter_TD_14801_output #Row: " << tbl_Filter_TD_14801_output.getNumRow() << std::endl;
+    tbl_Filter_TD_14290_output.setNumRow(r);
+    std::cout << "tbl_Filter_TD_14290_output #Row: " << tbl_Filter_TD_14290_output.getNumRow() << std::endl;
 }
 
-void SW_Filter_TD_1470(Table &tbl_SerializeFromObject_TD_15275_input, Table &tbl_Filter_TD_1470_output) {
+void SW_Filter_TD_14512(Table &tbl_SerializeFromObject_TD_15719_input, Table &tbl_Filter_TD_14512_output) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: Filter
     // Operation: ListBuffer((isnotnull(i_item_sk#228) AND (isnotnull(i_category#240) AND isnotnull(i_brand#236))))
     // Input: ListBuffer(i_item_sk#228, i_brand#236, i_category#240)
     // Output: ListBuffer(i_item_sk#228, i_brand#236, i_category#240)
     int r = 0;
-    int nrow1 = tbl_SerializeFromObject_TD_15275_input.getNumRow();
+    int nrow1 = tbl_SerializeFromObject_TD_15719_input.getNumRow();
     for (int i = 0; i < nrow1; i++) {
-        int32_t _i_item_sk228 = tbl_SerializeFromObject_TD_15275_input.getInt32(i, 0);
-        std::array<char, TPCDS_READ_MAX + 1> _i_category240 = tbl_SerializeFromObject_TD_15275_input.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
-        std::array<char, TPCDS_READ_MAX + 1> _i_brand236 = tbl_SerializeFromObject_TD_15275_input.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
-        if ((1) && ((1) && (1))) {
-            int32_t _i_item_sk228_t = tbl_SerializeFromObject_TD_15275_input.getInt32(i, 0);
-            tbl_Filter_TD_1470_output.setInt32(r, 0, _i_item_sk228_t);
-            std::array<char, TPCDS_READ_MAX + 1> _i_brand236_t = tbl_SerializeFromObject_TD_15275_input.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
-            tbl_Filter_TD_1470_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 1, _i_brand236_t);
-            std::array<char, TPCDS_READ_MAX + 1> _i_category240_t = tbl_SerializeFromObject_TD_15275_input.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
-            tbl_Filter_TD_1470_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 2, _i_category240_t);
+        int32_t _i_item_sk228 = tbl_SerializeFromObject_TD_15719_input.getInt32(i, 0);
+        std::array<char, TPCDS_READ_MAX + 1> _i_category240 = tbl_SerializeFromObject_TD_15719_input.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
+        std::array<char, TPCDS_READ_MAX + 1> _i_brand236 = tbl_SerializeFromObject_TD_15719_input.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
+        if ((_i_item_sk228!= 0) && (（std::string(_isnotnulli_category240.data()) != "NULL") && （std::string(_isnotnulli_brand236.data()) != "NULL"))) {
+            int32_t _i_item_sk228_t = tbl_SerializeFromObject_TD_15719_input.getInt32(i, 0);
+            tbl_Filter_TD_14512_output.setInt32(r, 0, _i_item_sk228_t);
+            std::array<char, TPCDS_READ_MAX + 1> _i_brand236_t = tbl_SerializeFromObject_TD_15719_input.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
+            tbl_Filter_TD_14512_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 1, _i_brand236_t);
+            std::array<char, TPCDS_READ_MAX + 1> _i_category240_t = tbl_SerializeFromObject_TD_15719_input.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
+            tbl_Filter_TD_14512_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 2, _i_category240_t);
             r++;
         }
     }
-    tbl_Filter_TD_1470_output.setNumRow(r);
-    std::cout << "tbl_Filter_TD_1470_output #Row: " << tbl_Filter_TD_1470_output.getNumRow() << std::endl;
+    tbl_Filter_TD_14512_output.setNumRow(r);
+    std::cout << "tbl_Filter_TD_14512_output #Row: " << tbl_Filter_TD_14512_output.getNumRow() << std::endl;
 }
 
-void SW_Filter_TD_13616(Table &tbl_SerializeFromObject_TD_14429_input, Table &tbl_Filter_TD_13616_output) {
+void SW_Filter_TD_13273(Table &tbl_SerializeFromObject_TD_14493_input, Table &tbl_Filter_TD_13273_output) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: Filter
     // Operation: ListBuffer(((((d_year#126 = 1999) OR ((d_year#126 = 1998) AND (d_moy#128 = 12))) OR ((d_year#126 = 2000) AND (d_moy#128 = 1))) AND isnotnull(d_date_sk#120)))
     // Input: ListBuffer(d_date_sk#120, d_year#126, d_moy#128)
     // Output: ListBuffer(d_date_sk#120, d_year#126, d_moy#128)
     int r = 0;
-    int nrow1 = tbl_SerializeFromObject_TD_14429_input.getNumRow();
+    int nrow1 = tbl_SerializeFromObject_TD_14493_input.getNumRow();
     for (int i = 0; i < nrow1; i++) {
-        int32_t _d_year126 = tbl_SerializeFromObject_TD_14429_input.getInt32(i, 1);
-        int32_t _d_moy128 = tbl_SerializeFromObject_TD_14429_input.getInt32(i, 2);
-        int32_t _d_date_sk120 = tbl_SerializeFromObject_TD_14429_input.getInt32(i, 0);
-        if ((((_d_year126 == 1999) || ((_d_year126 == 1998) && (_d_moy128 == 12))) || ((_d_year126 == 2000) && (_d_moy128 == 1))) && (1)) {
-            int32_t _d_date_sk120_t = tbl_SerializeFromObject_TD_14429_input.getInt32(i, 0);
-            tbl_Filter_TD_13616_output.setInt32(r, 0, _d_date_sk120_t);
-            int32_t _d_year126_t = tbl_SerializeFromObject_TD_14429_input.getInt32(i, 1);
-            tbl_Filter_TD_13616_output.setInt32(r, 1, _d_year126_t);
-            int32_t _d_moy128_t = tbl_SerializeFromObject_TD_14429_input.getInt32(i, 2);
-            tbl_Filter_TD_13616_output.setInt32(r, 2, _d_moy128_t);
+        int32_t _d_year126 = tbl_SerializeFromObject_TD_14493_input.getInt32(i, 1);
+        int32_t _d_moy128 = tbl_SerializeFromObject_TD_14493_input.getInt32(i, 2);
+        int32_t _d_date_sk120 = tbl_SerializeFromObject_TD_14493_input.getInt32(i, 0);
+        if ((((_d_year126 == 1999) || ((_d_year126 == 1998) && (_d_moy128 == 12))) || ((_d_year126 == 2000) && (_d_moy128 == 1))) && (_d_date_sk120!= 0)) {
+            int32_t _d_date_sk120_t = tbl_SerializeFromObject_TD_14493_input.getInt32(i, 0);
+            tbl_Filter_TD_13273_output.setInt32(r, 0, _d_date_sk120_t);
+            int32_t _d_year126_t = tbl_SerializeFromObject_TD_14493_input.getInt32(i, 1);
+            tbl_Filter_TD_13273_output.setInt32(r, 1, _d_year126_t);
+            int32_t _d_moy128_t = tbl_SerializeFromObject_TD_14493_input.getInt32(i, 2);
+            tbl_Filter_TD_13273_output.setInt32(r, 2, _d_moy128_t);
             r++;
         }
     }
-    tbl_Filter_TD_13616_output.setNumRow(r);
-    std::cout << "tbl_Filter_TD_13616_output #Row: " << tbl_Filter_TD_13616_output.getNumRow() << std::endl;
+    tbl_Filter_TD_13273_output.setNumRow(r);
+    std::cout << "tbl_Filter_TD_13273_output #Row: " << tbl_Filter_TD_13273_output.getNumRow() << std::endl;
 }
 
-struct SW_JOIN_INNER_TD_13710_key_leftMajor {
+struct SW_JOIN_INNER_TD_13213_key_leftMajor {
     int32_t _i_item_sk228;
-    bool operator==(const SW_JOIN_INNER_TD_13710_key_leftMajor& other) const {
+    bool operator==(const SW_JOIN_INNER_TD_13213_key_leftMajor& other) const {
         return ((_i_item_sk228 == other._i_item_sk228));
     }
 };
 namespace std {
 template <>
-struct hash<SW_JOIN_INNER_TD_13710_key_leftMajor> {
-    std::size_t operator() (const SW_JOIN_INNER_TD_13710_key_leftMajor& k) const {
+struct hash<SW_JOIN_INNER_TD_13213_key_leftMajor> {
+    std::size_t operator() (const SW_JOIN_INNER_TD_13213_key_leftMajor& k) const {
         using std::size_t;
         using std::hash;
         using std::string;
@@ -98,21 +98,21 @@ struct hash<SW_JOIN_INNER_TD_13710_key_leftMajor> {
     }
 };
 }
-struct SW_JOIN_INNER_TD_13710_payload_leftMajor {
+struct SW_JOIN_INNER_TD_13213_payload_leftMajor {
     int32_t _i_item_sk228;
     std::string _i_brand236;
     std::string _i_category240;
 };
-struct SW_JOIN_INNER_TD_13710_key_rightMajor {
+struct SW_JOIN_INNER_TD_13213_key_rightMajor {
     int32_t _ss_item_sk1208;
-    bool operator==(const SW_JOIN_INNER_TD_13710_key_rightMajor& other) const {
+    bool operator==(const SW_JOIN_INNER_TD_13213_key_rightMajor& other) const {
         return ((_ss_item_sk1208 == other._ss_item_sk1208));
     }
 };
 namespace std {
 template <>
-struct hash<SW_JOIN_INNER_TD_13710_key_rightMajor> {
-    std::size_t operator() (const SW_JOIN_INNER_TD_13710_key_rightMajor& k) const {
+struct hash<SW_JOIN_INNER_TD_13213_key_rightMajor> {
+    std::size_t operator() (const SW_JOIN_INNER_TD_13213_key_rightMajor& k) const {
         using std::size_t;
         using std::hash;
         using std::string;
@@ -120,40 +120,40 @@ struct hash<SW_JOIN_INNER_TD_13710_key_rightMajor> {
     }
 };
 }
-struct SW_JOIN_INNER_TD_13710_payload_rightMajor {
+struct SW_JOIN_INNER_TD_13213_payload_rightMajor {
     int32_t _ss_sold_date_sk1206;
     int32_t _ss_item_sk1208;
     int32_t _ss_store_sk1213;
     int32_t _ss_sales_price1219;
 };
-void SW_JOIN_INNER_TD_13710(Table &tbl_Filter_TD_1470_output, Table &tbl_Filter_TD_14801_output, Table &tbl_JOIN_INNER_TD_13710_output) {
+void SW_JOIN_INNER_TD_13213(Table &tbl_Filter_TD_14512_output, Table &tbl_Filter_TD_14290_output, Table &tbl_JOIN_INNER_TD_13213_output) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: JOIN_INNER
     // Operation: ListBuffer((ss_item_sk#1208 = i_item_sk#228))
     // Left Table: ListBuffer(i_item_sk#228, i_brand#236, i_category#240)
     // Right Table: ListBuffer(ss_sold_date_sk#1206, ss_item_sk#1208, ss_store_sk#1213, ss_sales_price#1219)
     // Output Table: ListBuffer(i_brand#236, i_category#240, ss_sold_date_sk#1206, ss_store_sk#1213, ss_sales_price#1219)
-    int left_nrow = tbl_Filter_TD_1470_output.getNumRow();
-    int right_nrow = tbl_Filter_TD_14801_output.getNumRow();
+    int left_nrow = tbl_Filter_TD_14512_output.getNumRow();
+    int right_nrow = tbl_Filter_TD_14290_output.getNumRow();
     if (left_nrow < right_nrow) { 
-        std::unordered_multimap<SW_JOIN_INNER_TD_13710_key_leftMajor, SW_JOIN_INNER_TD_13710_payload_leftMajor> ht1;
-        int nrow1 = tbl_Filter_TD_1470_output.getNumRow();
+        std::unordered_multimap<SW_JOIN_INNER_TD_13213_key_leftMajor, SW_JOIN_INNER_TD_13213_payload_leftMajor> ht1;
+        int nrow1 = tbl_Filter_TD_14512_output.getNumRow();
         for (int i = 0; i < nrow1; i++) {
-            int32_t _i_item_sk228_k = tbl_Filter_TD_1470_output.getInt32(i, 0);
-            SW_JOIN_INNER_TD_13710_key_leftMajor keyA{_i_item_sk228_k};
-            int32_t _i_item_sk228 = tbl_Filter_TD_1470_output.getInt32(i, 0);
-            std::array<char, TPCDS_READ_MAX + 1> _i_brand236_n = tbl_Filter_TD_1470_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
+            int32_t _i_item_sk228_k = tbl_Filter_TD_14512_output.getInt32(i, 0);
+            SW_JOIN_INNER_TD_13213_key_leftMajor keyA{_i_item_sk228_k};
+            int32_t _i_item_sk228 = tbl_Filter_TD_14512_output.getInt32(i, 0);
+            std::array<char, TPCDS_READ_MAX + 1> _i_brand236_n = tbl_Filter_TD_14512_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
             std::string _i_brand236 = std::string(_i_brand236_n.data());
-            std::array<char, TPCDS_READ_MAX + 1> _i_category240_n = tbl_Filter_TD_1470_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
+            std::array<char, TPCDS_READ_MAX + 1> _i_category240_n = tbl_Filter_TD_14512_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
             std::string _i_category240 = std::string(_i_category240_n.data());
-            SW_JOIN_INNER_TD_13710_payload_leftMajor payloadA{_i_item_sk228, _i_brand236, _i_category240};
+            SW_JOIN_INNER_TD_13213_payload_leftMajor payloadA{_i_item_sk228, _i_brand236, _i_category240};
             ht1.insert(std::make_pair(keyA, payloadA));
         }
         int r = 0;
-        int nrow2 = tbl_Filter_TD_14801_output.getNumRow();
+        int nrow2 = tbl_Filter_TD_14290_output.getNumRow();
         for (int i = 0; i < nrow2; i++) {
-            int32_t _ss_item_sk1208_k = tbl_Filter_TD_14801_output.getInt32(i, 1);
-            auto its = ht1.equal_range(SW_JOIN_INNER_TD_13710_key_leftMajor{_ss_item_sk1208_k});
+            int32_t _ss_item_sk1208_k = tbl_Filter_TD_14290_output.getInt32(i, 1);
+            auto its = ht1.equal_range(SW_JOIN_INNER_TD_13213_key_leftMajor{_ss_item_sk1208_k});
             auto it = its.first;
             while (it != its.second) {
                 int32_t _i_item_sk228 = (it->second)._i_item_sk228;
@@ -163,153 +163,153 @@ void SW_JOIN_INNER_TD_13710(Table &tbl_Filter_TD_1470_output, Table &tbl_Filter_
                 std::string _i_category240 = (it->second)._i_category240;
                 std::array<char, TPCDS_READ_MAX + 1> _i_category240_n{};
                 memcpy(_i_category240_n.data(), (_i_category240).data(), (_i_category240).length());
-                int32_t _ss_sold_date_sk1206 = tbl_Filter_TD_14801_output.getInt32(i, 0);
-                int32_t _ss_item_sk1208 = tbl_Filter_TD_14801_output.getInt32(i, 1);
-                int32_t _ss_store_sk1213 = tbl_Filter_TD_14801_output.getInt32(i, 2);
-                int32_t _ss_sales_price1219 = tbl_Filter_TD_14801_output.getInt32(i, 3);
-                tbl_JOIN_INNER_TD_13710_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 0, _i_brand236_n);
-                tbl_JOIN_INNER_TD_13710_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 1, _i_category240_n);
-                tbl_JOIN_INNER_TD_13710_output.setInt32(r, 2, _ss_sold_date_sk1206);
-                tbl_JOIN_INNER_TD_13710_output.setInt32(r, 3, _ss_store_sk1213);
-                tbl_JOIN_INNER_TD_13710_output.setInt32(r, 4, _ss_sales_price1219);
+                int32_t _ss_sold_date_sk1206 = tbl_Filter_TD_14290_output.getInt32(i, 0);
+                int32_t _ss_item_sk1208 = tbl_Filter_TD_14290_output.getInt32(i, 1);
+                int32_t _ss_store_sk1213 = tbl_Filter_TD_14290_output.getInt32(i, 2);
+                int32_t _ss_sales_price1219 = tbl_Filter_TD_14290_output.getInt32(i, 3);
+                tbl_JOIN_INNER_TD_13213_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 0, _i_brand236_n);
+                tbl_JOIN_INNER_TD_13213_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 1, _i_category240_n);
+                tbl_JOIN_INNER_TD_13213_output.setInt32(r, 2, _ss_sold_date_sk1206);
+                tbl_JOIN_INNER_TD_13213_output.setInt32(r, 3, _ss_store_sk1213);
+                tbl_JOIN_INNER_TD_13213_output.setInt32(r, 4, _ss_sales_price1219);
                 it++;
                 r++;
             }
         }
-        tbl_JOIN_INNER_TD_13710_output.setNumRow(r);
+        tbl_JOIN_INNER_TD_13213_output.setNumRow(r);
     } else { 
-        std::unordered_multimap<SW_JOIN_INNER_TD_13710_key_rightMajor, SW_JOIN_INNER_TD_13710_payload_rightMajor> ht1;
-        int nrow1 = tbl_Filter_TD_14801_output.getNumRow();
+        std::unordered_multimap<SW_JOIN_INNER_TD_13213_key_rightMajor, SW_JOIN_INNER_TD_13213_payload_rightMajor> ht1;
+        int nrow1 = tbl_Filter_TD_14290_output.getNumRow();
         for (int i = 0; i < nrow1; i++) {
-            int32_t _ss_item_sk1208_k = tbl_Filter_TD_14801_output.getInt32(i, 1);
-            SW_JOIN_INNER_TD_13710_key_rightMajor keyA{_ss_item_sk1208_k};
-            int32_t _ss_sold_date_sk1206 = tbl_Filter_TD_14801_output.getInt32(i, 0);
-            int32_t _ss_item_sk1208 = tbl_Filter_TD_14801_output.getInt32(i, 1);
-            int32_t _ss_store_sk1213 = tbl_Filter_TD_14801_output.getInt32(i, 2);
-            int32_t _ss_sales_price1219 = tbl_Filter_TD_14801_output.getInt32(i, 3);
-            SW_JOIN_INNER_TD_13710_payload_rightMajor payloadA{_ss_sold_date_sk1206, _ss_item_sk1208, _ss_store_sk1213, _ss_sales_price1219};
+            int32_t _ss_item_sk1208_k = tbl_Filter_TD_14290_output.getInt32(i, 1);
+            SW_JOIN_INNER_TD_13213_key_rightMajor keyA{_ss_item_sk1208_k};
+            int32_t _ss_sold_date_sk1206 = tbl_Filter_TD_14290_output.getInt32(i, 0);
+            int32_t _ss_item_sk1208 = tbl_Filter_TD_14290_output.getInt32(i, 1);
+            int32_t _ss_store_sk1213 = tbl_Filter_TD_14290_output.getInt32(i, 2);
+            int32_t _ss_sales_price1219 = tbl_Filter_TD_14290_output.getInt32(i, 3);
+            SW_JOIN_INNER_TD_13213_payload_rightMajor payloadA{_ss_sold_date_sk1206, _ss_item_sk1208, _ss_store_sk1213, _ss_sales_price1219};
             ht1.insert(std::make_pair(keyA, payloadA));
         }
         int r = 0;
-        int nrow2 = tbl_Filter_TD_1470_output.getNumRow();
+        int nrow2 = tbl_Filter_TD_14512_output.getNumRow();
         for (int i = 0; i < nrow2; i++) {
-            int32_t _i_item_sk228_k = tbl_Filter_TD_1470_output.getInt32(i, 0);
-            auto its = ht1.equal_range(SW_JOIN_INNER_TD_13710_key_rightMajor{_i_item_sk228_k});
+            int32_t _i_item_sk228_k = tbl_Filter_TD_14512_output.getInt32(i, 0);
+            auto its = ht1.equal_range(SW_JOIN_INNER_TD_13213_key_rightMajor{_i_item_sk228_k});
             auto it = its.first;
             while (it != its.second) {
                 int32_t _ss_sold_date_sk1206 = (it->second)._ss_sold_date_sk1206;
                 int32_t _ss_item_sk1208 = (it->second)._ss_item_sk1208;
                 int32_t _ss_store_sk1213 = (it->second)._ss_store_sk1213;
                 int32_t _ss_sales_price1219 = (it->second)._ss_sales_price1219;
-                int32_t _i_item_sk228 = tbl_Filter_TD_1470_output.getInt32(i, 0);
-                std::array<char, TPCDS_READ_MAX + 1> _i_brand236_n = tbl_Filter_TD_1470_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
+                int32_t _i_item_sk228 = tbl_Filter_TD_14512_output.getInt32(i, 0);
+                std::array<char, TPCDS_READ_MAX + 1> _i_brand236_n = tbl_Filter_TD_14512_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
                 std::string _i_brand236 = std::string(_i_brand236_n.data());
-                std::array<char, TPCDS_READ_MAX + 1> _i_category240_n = tbl_Filter_TD_1470_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
+                std::array<char, TPCDS_READ_MAX + 1> _i_category240_n = tbl_Filter_TD_14512_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
                 std::string _i_category240 = std::string(_i_category240_n.data());
-                tbl_JOIN_INNER_TD_13710_output.setInt32(r, 2, _ss_sold_date_sk1206);
-                tbl_JOIN_INNER_TD_13710_output.setInt32(r, 3, _ss_store_sk1213);
-                tbl_JOIN_INNER_TD_13710_output.setInt32(r, 4, _ss_sales_price1219);
-                tbl_JOIN_INNER_TD_13710_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 0, _i_brand236_n);
-                tbl_JOIN_INNER_TD_13710_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 1, _i_category240_n);
+                tbl_JOIN_INNER_TD_13213_output.setInt32(r, 2, _ss_sold_date_sk1206);
+                tbl_JOIN_INNER_TD_13213_output.setInt32(r, 3, _ss_store_sk1213);
+                tbl_JOIN_INNER_TD_13213_output.setInt32(r, 4, _ss_sales_price1219);
+                tbl_JOIN_INNER_TD_13213_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 0, _i_brand236_n);
+                tbl_JOIN_INNER_TD_13213_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 1, _i_category240_n);
                 it++;
                 r++;
             }
         }
-        tbl_JOIN_INNER_TD_13710_output.setNumRow(r);
+        tbl_JOIN_INNER_TD_13213_output.setNumRow(r);
     } 
-    std::cout << "tbl_JOIN_INNER_TD_13710_output #Row: " << tbl_JOIN_INNER_TD_13710_output.getNumRow() << std::endl;
+    std::cout << "tbl_JOIN_INNER_TD_13213_output #Row: " << tbl_JOIN_INNER_TD_13213_output.getNumRow() << std::endl;
 }
 
-void SW_Filter_TD_12710(Table &tbl_SerializeFromObject_TD_13308_input, Table &tbl_Filter_TD_12710_output) {
+void SW_Filter_TD_12948(Table &tbl_SerializeFromObject_TD_13947_input, Table &tbl_Filter_TD_12948_output) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: Filter
-    // Operation: ListBuffer(((isnotnull(ss_item_sk#4680) AND isnotnull(ss_sold_date_sk#4678)) AND isnotnull(ss_store_sk#4685)))
-    // Input: ListBuffer(ss_sold_date_sk#4678, ss_item_sk#4680, ss_store_sk#4685, ss_sales_price#4691)
-    // Output: ListBuffer(ss_sold_date_sk#4678, ss_item_sk#4680, ss_store_sk#4685, ss_sales_price#4691)
+    // Operation: ListBuffer(((isnotnull(ss_item_sk#6054) AND isnotnull(ss_sold_date_sk#6052)) AND isnotnull(ss_store_sk#6059)))
+    // Input: ListBuffer(ss_sold_date_sk#6052, ss_item_sk#6054, ss_store_sk#6059, ss_sales_price#6065)
+    // Output: ListBuffer(ss_sold_date_sk#6052, ss_item_sk#6054, ss_store_sk#6059, ss_sales_price#6065)
     int r = 0;
-    int nrow1 = tbl_SerializeFromObject_TD_13308_input.getNumRow();
+    int nrow1 = tbl_SerializeFromObject_TD_13947_input.getNumRow();
     for (int i = 0; i < nrow1; i++) {
-        int32_t _ss_item_sk4680 = tbl_SerializeFromObject_TD_13308_input.getInt32(i, 1);
-        int32_t _ss_sold_date_sk4678 = tbl_SerializeFromObject_TD_13308_input.getInt32(i, 0);
-        int32_t _ss_store_sk4685 = tbl_SerializeFromObject_TD_13308_input.getInt32(i, 2);
-        if (((1) && (1)) && (1)) {
-            int32_t _ss_sold_date_sk4678_t = tbl_SerializeFromObject_TD_13308_input.getInt32(i, 0);
-            tbl_Filter_TD_12710_output.setInt32(r, 0, _ss_sold_date_sk4678_t);
-            int32_t _ss_item_sk4680_t = tbl_SerializeFromObject_TD_13308_input.getInt32(i, 1);
-            tbl_Filter_TD_12710_output.setInt32(r, 1, _ss_item_sk4680_t);
-            int32_t _ss_store_sk4685_t = tbl_SerializeFromObject_TD_13308_input.getInt32(i, 2);
-            tbl_Filter_TD_12710_output.setInt32(r, 2, _ss_store_sk4685_t);
-            int32_t _ss_sales_price4691_t = tbl_SerializeFromObject_TD_13308_input.getInt32(i, 3);
-            tbl_Filter_TD_12710_output.setInt32(r, 3, _ss_sales_price4691_t);
+        int32_t _ss_item_sk6054 = tbl_SerializeFromObject_TD_13947_input.getInt32(i, 1);
+        int32_t _ss_sold_date_sk6052 = tbl_SerializeFromObject_TD_13947_input.getInt32(i, 0);
+        int32_t _ss_store_sk6059 = tbl_SerializeFromObject_TD_13947_input.getInt32(i, 2);
+        if (((_ss_item_sk6054!= 0) && (_ss_sold_date_sk6052!= 0)) && (_ss_store_sk6059!= 0)) {
+            int32_t _ss_sold_date_sk6052_t = tbl_SerializeFromObject_TD_13947_input.getInt32(i, 0);
+            tbl_Filter_TD_12948_output.setInt32(r, 0, _ss_sold_date_sk6052_t);
+            int32_t _ss_item_sk6054_t = tbl_SerializeFromObject_TD_13947_input.getInt32(i, 1);
+            tbl_Filter_TD_12948_output.setInt32(r, 1, _ss_item_sk6054_t);
+            int32_t _ss_store_sk6059_t = tbl_SerializeFromObject_TD_13947_input.getInt32(i, 2);
+            tbl_Filter_TD_12948_output.setInt32(r, 2, _ss_store_sk6059_t);
+            int32_t _ss_sales_price6065_t = tbl_SerializeFromObject_TD_13947_input.getInt32(i, 3);
+            tbl_Filter_TD_12948_output.setInt32(r, 3, _ss_sales_price6065_t);
             r++;
         }
     }
-    tbl_Filter_TD_12710_output.setNumRow(r);
-    std::cout << "tbl_Filter_TD_12710_output #Row: " << tbl_Filter_TD_12710_output.getNumRow() << std::endl;
+    tbl_Filter_TD_12948_output.setNumRow(r);
+    std::cout << "tbl_Filter_TD_12948_output #Row: " << tbl_Filter_TD_12948_output.getNumRow() << std::endl;
 }
 
-void SW_Filter_TD_12379(Table &tbl_SerializeFromObject_TD_13672_input, Table &tbl_Filter_TD_12379_output) {
+void SW_Filter_TD_12215(Table &tbl_SerializeFromObject_TD_13437_input, Table &tbl_Filter_TD_12215_output) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: Filter
-    // Operation: ListBuffer((isnotnull(i_item_sk#4656) AND (isnotnull(i_category#4668) AND isnotnull(i_brand#4664))))
-    // Input: ListBuffer(i_item_sk#4656, i_brand#4664, i_category#4668)
-    // Output: ListBuffer(i_item_sk#4656, i_brand#4664, i_category#4668)
+    // Operation: ListBuffer((isnotnull(i_item_sk#6030) AND (isnotnull(i_category#6042) AND isnotnull(i_brand#6038))))
+    // Input: ListBuffer(i_item_sk#6030, i_brand#6038, i_category#6042)
+    // Output: ListBuffer(i_item_sk#6030, i_brand#6038, i_category#6042)
     int r = 0;
-    int nrow1 = tbl_SerializeFromObject_TD_13672_input.getNumRow();
+    int nrow1 = tbl_SerializeFromObject_TD_13437_input.getNumRow();
     for (int i = 0; i < nrow1; i++) {
-        int32_t _i_item_sk4656 = tbl_SerializeFromObject_TD_13672_input.getInt32(i, 0);
-        std::array<char, TPCDS_READ_MAX + 1> _i_category4668 = tbl_SerializeFromObject_TD_13672_input.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
-        std::array<char, TPCDS_READ_MAX + 1> _i_brand4664 = tbl_SerializeFromObject_TD_13672_input.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
-        if ((1) && ((1) && (1))) {
-            int32_t _i_item_sk4656_t = tbl_SerializeFromObject_TD_13672_input.getInt32(i, 0);
-            tbl_Filter_TD_12379_output.setInt32(r, 0, _i_item_sk4656_t);
-            std::array<char, TPCDS_READ_MAX + 1> _i_brand4664_t = tbl_SerializeFromObject_TD_13672_input.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
-            tbl_Filter_TD_12379_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 1, _i_brand4664_t);
-            std::array<char, TPCDS_READ_MAX + 1> _i_category4668_t = tbl_SerializeFromObject_TD_13672_input.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
-            tbl_Filter_TD_12379_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 2, _i_category4668_t);
+        int32_t _i_item_sk6030 = tbl_SerializeFromObject_TD_13437_input.getInt32(i, 0);
+        std::array<char, TPCDS_READ_MAX + 1> _i_category6042 = tbl_SerializeFromObject_TD_13437_input.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
+        std::array<char, TPCDS_READ_MAX + 1> _i_brand6038 = tbl_SerializeFromObject_TD_13437_input.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
+        if ((_i_item_sk6030!= 0) && (（std::string(_isnotnulli_category6042.data()) != "NULL") && （std::string(_isnotnulli_brand6038.data()) != "NULL"))) {
+            int32_t _i_item_sk6030_t = tbl_SerializeFromObject_TD_13437_input.getInt32(i, 0);
+            tbl_Filter_TD_12215_output.setInt32(r, 0, _i_item_sk6030_t);
+            std::array<char, TPCDS_READ_MAX + 1> _i_brand6038_t = tbl_SerializeFromObject_TD_13437_input.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
+            tbl_Filter_TD_12215_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 1, _i_brand6038_t);
+            std::array<char, TPCDS_READ_MAX + 1> _i_category6042_t = tbl_SerializeFromObject_TD_13437_input.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
+            tbl_Filter_TD_12215_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 2, _i_category6042_t);
             r++;
         }
     }
-    tbl_Filter_TD_12379_output.setNumRow(r);
-    std::cout << "tbl_Filter_TD_12379_output #Row: " << tbl_Filter_TD_12379_output.getNumRow() << std::endl;
+    tbl_Filter_TD_12215_output.setNumRow(r);
+    std::cout << "tbl_Filter_TD_12215_output #Row: " << tbl_Filter_TD_12215_output.getNumRow() << std::endl;
 }
 
-void SW_Filter_TD_1295(Table &tbl_SerializeFromObject_TD_13157_input, Table &tbl_Filter_TD_1295_output) {
+void SW_Filter_TD_1276(Table &tbl_SerializeFromObject_TD_13842_input, Table &tbl_Filter_TD_1276_output) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: Filter
     // Operation: ListBuffer((isnotnull(s_store_sk#378) AND (isnotnull(s_store_name#383) AND isnotnull(s_company_name#395))))
     // Input: ListBuffer(s_store_sk#378, s_store_name#383, s_company_name#395)
     // Output: ListBuffer(s_store_sk#378, s_store_name#383, s_company_name#395)
     int r = 0;
-    int nrow1 = tbl_SerializeFromObject_TD_13157_input.getNumRow();
+    int nrow1 = tbl_SerializeFromObject_TD_13842_input.getNumRow();
     for (int i = 0; i < nrow1; i++) {
-        int32_t _s_store_sk378 = tbl_SerializeFromObject_TD_13157_input.getInt32(i, 0);
-        std::array<char, TPCDS_READ_MAX + 1> _s_store_name383 = tbl_SerializeFromObject_TD_13157_input.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
-        std::array<char, TPCDS_READ_MAX + 1> _s_company_name395 = tbl_SerializeFromObject_TD_13157_input.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
-        if ((1) && ((1) && (1))) {
-            int32_t _s_store_sk378_t = tbl_SerializeFromObject_TD_13157_input.getInt32(i, 0);
-            tbl_Filter_TD_1295_output.setInt32(r, 0, _s_store_sk378_t);
-            std::array<char, TPCDS_READ_MAX + 1> _s_store_name383_t = tbl_SerializeFromObject_TD_13157_input.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
-            tbl_Filter_TD_1295_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 1, _s_store_name383_t);
-            std::array<char, TPCDS_READ_MAX + 1> _s_company_name395_t = tbl_SerializeFromObject_TD_13157_input.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
-            tbl_Filter_TD_1295_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 2, _s_company_name395_t);
+        int32_t _s_store_sk378 = tbl_SerializeFromObject_TD_13842_input.getInt32(i, 0);
+        std::array<char, TPCDS_READ_MAX + 1> _s_store_name383 = tbl_SerializeFromObject_TD_13842_input.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
+        std::array<char, TPCDS_READ_MAX + 1> _s_company_name395 = tbl_SerializeFromObject_TD_13842_input.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
+        if ((_s_store_sk378!= 0) && (（std::string(_isnotnulls_store_name383.data()) != "NULL") && （std::string(_isnotnulls_company_name395.data()) != "NULL"))) {
+            int32_t _s_store_sk378_t = tbl_SerializeFromObject_TD_13842_input.getInt32(i, 0);
+            tbl_Filter_TD_1276_output.setInt32(r, 0, _s_store_sk378_t);
+            std::array<char, TPCDS_READ_MAX + 1> _s_store_name383_t = tbl_SerializeFromObject_TD_13842_input.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
+            tbl_Filter_TD_1276_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 1, _s_store_name383_t);
+            std::array<char, TPCDS_READ_MAX + 1> _s_company_name395_t = tbl_SerializeFromObject_TD_13842_input.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
+            tbl_Filter_TD_1276_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 2, _s_company_name395_t);
             r++;
         }
     }
-    tbl_Filter_TD_1295_output.setNumRow(r);
-    std::cout << "tbl_Filter_TD_1295_output #Row: " << tbl_Filter_TD_1295_output.getNumRow() << std::endl;
+    tbl_Filter_TD_1276_output.setNumRow(r);
+    std::cout << "tbl_Filter_TD_1276_output #Row: " << tbl_Filter_TD_1276_output.getNumRow() << std::endl;
 }
 
-struct SW_JOIN_INNER_TD_12932_key_leftMajor {
+struct SW_JOIN_INNER_TD_12952_key_leftMajor {
     int32_t _ss_sold_date_sk1206;
-    bool operator==(const SW_JOIN_INNER_TD_12932_key_leftMajor& other) const {
+    bool operator==(const SW_JOIN_INNER_TD_12952_key_leftMajor& other) const {
         return ((_ss_sold_date_sk1206 == other._ss_sold_date_sk1206));
     }
 };
 namespace std {
 template <>
-struct hash<SW_JOIN_INNER_TD_12932_key_leftMajor> {
-    std::size_t operator() (const SW_JOIN_INNER_TD_12932_key_leftMajor& k) const {
+struct hash<SW_JOIN_INNER_TD_12952_key_leftMajor> {
+    std::size_t operator() (const SW_JOIN_INNER_TD_12952_key_leftMajor& k) const {
         using std::size_t;
         using std::hash;
         using std::string;
@@ -317,23 +317,23 @@ struct hash<SW_JOIN_INNER_TD_12932_key_leftMajor> {
     }
 };
 }
-struct SW_JOIN_INNER_TD_12932_payload_leftMajor {
+struct SW_JOIN_INNER_TD_12952_payload_leftMajor {
     std::string _i_brand236;
     std::string _i_category240;
     int32_t _ss_sold_date_sk1206;
     int32_t _ss_store_sk1213;
     int32_t _ss_sales_price1219;
 };
-struct SW_JOIN_INNER_TD_12932_key_rightMajor {
+struct SW_JOIN_INNER_TD_12952_key_rightMajor {
     int32_t _d_date_sk120;
-    bool operator==(const SW_JOIN_INNER_TD_12932_key_rightMajor& other) const {
+    bool operator==(const SW_JOIN_INNER_TD_12952_key_rightMajor& other) const {
         return ((_d_date_sk120 == other._d_date_sk120));
     }
 };
 namespace std {
 template <>
-struct hash<SW_JOIN_INNER_TD_12932_key_rightMajor> {
-    std::size_t operator() (const SW_JOIN_INNER_TD_12932_key_rightMajor& k) const {
+struct hash<SW_JOIN_INNER_TD_12952_key_rightMajor> {
+    std::size_t operator() (const SW_JOIN_INNER_TD_12952_key_rightMajor& k) const {
         using std::size_t;
         using std::hash;
         using std::string;
@@ -341,41 +341,41 @@ struct hash<SW_JOIN_INNER_TD_12932_key_rightMajor> {
     }
 };
 }
-struct SW_JOIN_INNER_TD_12932_payload_rightMajor {
+struct SW_JOIN_INNER_TD_12952_payload_rightMajor {
     int32_t _d_date_sk120;
     int32_t _d_year126;
     int32_t _d_moy128;
 };
-void SW_JOIN_INNER_TD_12932(Table &tbl_JOIN_INNER_TD_13710_output, Table &tbl_Filter_TD_13616_output, Table &tbl_JOIN_INNER_TD_12932_output) {
+void SW_JOIN_INNER_TD_12952(Table &tbl_JOIN_INNER_TD_13213_output, Table &tbl_Filter_TD_13273_output, Table &tbl_JOIN_INNER_TD_12952_output) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: JOIN_INNER
     // Operation: ListBuffer((ss_sold_date_sk#1206 = d_date_sk#120))
     // Left Table: ListBuffer(i_brand#236, i_category#240, ss_sold_date_sk#1206, ss_store_sk#1213, ss_sales_price#1219)
     // Right Table: ListBuffer(d_date_sk#120, d_year#126, d_moy#128)
     // Output Table: ListBuffer(i_brand#236, i_category#240, ss_store_sk#1213, ss_sales_price#1219, d_year#126, d_moy#128)
-    int left_nrow = tbl_JOIN_INNER_TD_13710_output.getNumRow();
-    int right_nrow = tbl_Filter_TD_13616_output.getNumRow();
+    int left_nrow = tbl_JOIN_INNER_TD_13213_output.getNumRow();
+    int right_nrow = tbl_Filter_TD_13273_output.getNumRow();
     if (left_nrow < right_nrow) { 
-        std::unordered_multimap<SW_JOIN_INNER_TD_12932_key_leftMajor, SW_JOIN_INNER_TD_12932_payload_leftMajor> ht1;
-        int nrow1 = tbl_JOIN_INNER_TD_13710_output.getNumRow();
+        std::unordered_multimap<SW_JOIN_INNER_TD_12952_key_leftMajor, SW_JOIN_INNER_TD_12952_payload_leftMajor> ht1;
+        int nrow1 = tbl_JOIN_INNER_TD_13213_output.getNumRow();
         for (int i = 0; i < nrow1; i++) {
-            int32_t _ss_sold_date_sk1206_k = tbl_JOIN_INNER_TD_13710_output.getInt32(i, 2);
-            SW_JOIN_INNER_TD_12932_key_leftMajor keyA{_ss_sold_date_sk1206_k};
-            std::array<char, TPCDS_READ_MAX + 1> _i_brand236_n = tbl_JOIN_INNER_TD_13710_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 0);
+            int32_t _ss_sold_date_sk1206_k = tbl_JOIN_INNER_TD_13213_output.getInt32(i, 2);
+            SW_JOIN_INNER_TD_12952_key_leftMajor keyA{_ss_sold_date_sk1206_k};
+            std::array<char, TPCDS_READ_MAX + 1> _i_brand236_n = tbl_JOIN_INNER_TD_13213_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 0);
             std::string _i_brand236 = std::string(_i_brand236_n.data());
-            std::array<char, TPCDS_READ_MAX + 1> _i_category240_n = tbl_JOIN_INNER_TD_13710_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
+            std::array<char, TPCDS_READ_MAX + 1> _i_category240_n = tbl_JOIN_INNER_TD_13213_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
             std::string _i_category240 = std::string(_i_category240_n.data());
-            int32_t _ss_sold_date_sk1206 = tbl_JOIN_INNER_TD_13710_output.getInt32(i, 2);
-            int32_t _ss_store_sk1213 = tbl_JOIN_INNER_TD_13710_output.getInt32(i, 3);
-            int32_t _ss_sales_price1219 = tbl_JOIN_INNER_TD_13710_output.getInt32(i, 4);
-            SW_JOIN_INNER_TD_12932_payload_leftMajor payloadA{_i_brand236, _i_category240, _ss_sold_date_sk1206, _ss_store_sk1213, _ss_sales_price1219};
+            int32_t _ss_sold_date_sk1206 = tbl_JOIN_INNER_TD_13213_output.getInt32(i, 2);
+            int32_t _ss_store_sk1213 = tbl_JOIN_INNER_TD_13213_output.getInt32(i, 3);
+            int32_t _ss_sales_price1219 = tbl_JOIN_INNER_TD_13213_output.getInt32(i, 4);
+            SW_JOIN_INNER_TD_12952_payload_leftMajor payloadA{_i_brand236, _i_category240, _ss_sold_date_sk1206, _ss_store_sk1213, _ss_sales_price1219};
             ht1.insert(std::make_pair(keyA, payloadA));
         }
         int r = 0;
-        int nrow2 = tbl_Filter_TD_13616_output.getNumRow();
+        int nrow2 = tbl_Filter_TD_13273_output.getNumRow();
         for (int i = 0; i < nrow2; i++) {
-            int32_t _d_date_sk120_k = tbl_Filter_TD_13616_output.getInt32(i, 0);
-            auto its = ht1.equal_range(SW_JOIN_INNER_TD_12932_key_leftMajor{_d_date_sk120_k});
+            int32_t _d_date_sk120_k = tbl_Filter_TD_13273_output.getInt32(i, 0);
+            auto its = ht1.equal_range(SW_JOIN_INNER_TD_12952_key_leftMajor{_d_date_sk120_k});
             auto it = its.first;
             while (it != its.second) {
                 std::string _i_brand236 = (it->second)._i_brand236;
@@ -387,293 +387,293 @@ void SW_JOIN_INNER_TD_12932(Table &tbl_JOIN_INNER_TD_13710_output, Table &tbl_Fi
                 int32_t _ss_sold_date_sk1206 = (it->second)._ss_sold_date_sk1206;
                 int32_t _ss_store_sk1213 = (it->second)._ss_store_sk1213;
                 int32_t _ss_sales_price1219 = (it->second)._ss_sales_price1219;
-                int32_t _d_date_sk120 = tbl_Filter_TD_13616_output.getInt32(i, 0);
-                int32_t _d_year126 = tbl_Filter_TD_13616_output.getInt32(i, 1);
-                int32_t _d_moy128 = tbl_Filter_TD_13616_output.getInt32(i, 2);
-                tbl_JOIN_INNER_TD_12932_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 0, _i_brand236_n);
-                tbl_JOIN_INNER_TD_12932_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 1, _i_category240_n);
-                tbl_JOIN_INNER_TD_12932_output.setInt32(r, 2, _ss_store_sk1213);
-                tbl_JOIN_INNER_TD_12932_output.setInt32(r, 3, _ss_sales_price1219);
-                tbl_JOIN_INNER_TD_12932_output.setInt32(r, 4, _d_year126);
-                tbl_JOIN_INNER_TD_12932_output.setInt32(r, 5, _d_moy128);
+                int32_t _d_date_sk120 = tbl_Filter_TD_13273_output.getInt32(i, 0);
+                int32_t _d_year126 = tbl_Filter_TD_13273_output.getInt32(i, 1);
+                int32_t _d_moy128 = tbl_Filter_TD_13273_output.getInt32(i, 2);
+                tbl_JOIN_INNER_TD_12952_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 0, _i_brand236_n);
+                tbl_JOIN_INNER_TD_12952_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 1, _i_category240_n);
+                tbl_JOIN_INNER_TD_12952_output.setInt32(r, 2, _ss_store_sk1213);
+                tbl_JOIN_INNER_TD_12952_output.setInt32(r, 3, _ss_sales_price1219);
+                tbl_JOIN_INNER_TD_12952_output.setInt32(r, 4, _d_year126);
+                tbl_JOIN_INNER_TD_12952_output.setInt32(r, 5, _d_moy128);
                 it++;
                 r++;
             }
         }
-        tbl_JOIN_INNER_TD_12932_output.setNumRow(r);
+        tbl_JOIN_INNER_TD_12952_output.setNumRow(r);
     } else { 
-        std::unordered_multimap<SW_JOIN_INNER_TD_12932_key_rightMajor, SW_JOIN_INNER_TD_12932_payload_rightMajor> ht1;
-        int nrow1 = tbl_Filter_TD_13616_output.getNumRow();
+        std::unordered_multimap<SW_JOIN_INNER_TD_12952_key_rightMajor, SW_JOIN_INNER_TD_12952_payload_rightMajor> ht1;
+        int nrow1 = tbl_Filter_TD_13273_output.getNumRow();
         for (int i = 0; i < nrow1; i++) {
-            int32_t _d_date_sk120_k = tbl_Filter_TD_13616_output.getInt32(i, 0);
-            SW_JOIN_INNER_TD_12932_key_rightMajor keyA{_d_date_sk120_k};
-            int32_t _d_date_sk120 = tbl_Filter_TD_13616_output.getInt32(i, 0);
-            int32_t _d_year126 = tbl_Filter_TD_13616_output.getInt32(i, 1);
-            int32_t _d_moy128 = tbl_Filter_TD_13616_output.getInt32(i, 2);
-            SW_JOIN_INNER_TD_12932_payload_rightMajor payloadA{_d_date_sk120, _d_year126, _d_moy128};
+            int32_t _d_date_sk120_k = tbl_Filter_TD_13273_output.getInt32(i, 0);
+            SW_JOIN_INNER_TD_12952_key_rightMajor keyA{_d_date_sk120_k};
+            int32_t _d_date_sk120 = tbl_Filter_TD_13273_output.getInt32(i, 0);
+            int32_t _d_year126 = tbl_Filter_TD_13273_output.getInt32(i, 1);
+            int32_t _d_moy128 = tbl_Filter_TD_13273_output.getInt32(i, 2);
+            SW_JOIN_INNER_TD_12952_payload_rightMajor payloadA{_d_date_sk120, _d_year126, _d_moy128};
             ht1.insert(std::make_pair(keyA, payloadA));
         }
         int r = 0;
-        int nrow2 = tbl_JOIN_INNER_TD_13710_output.getNumRow();
+        int nrow2 = tbl_JOIN_INNER_TD_13213_output.getNumRow();
         for (int i = 0; i < nrow2; i++) {
-            int32_t _ss_sold_date_sk1206_k = tbl_JOIN_INNER_TD_13710_output.getInt32(i, 2);
-            auto its = ht1.equal_range(SW_JOIN_INNER_TD_12932_key_rightMajor{_ss_sold_date_sk1206_k});
+            int32_t _ss_sold_date_sk1206_k = tbl_JOIN_INNER_TD_13213_output.getInt32(i, 2);
+            auto its = ht1.equal_range(SW_JOIN_INNER_TD_12952_key_rightMajor{_ss_sold_date_sk1206_k});
             auto it = its.first;
             while (it != its.second) {
                 int32_t _d_date_sk120 = (it->second)._d_date_sk120;
                 int32_t _d_year126 = (it->second)._d_year126;
                 int32_t _d_moy128 = (it->second)._d_moy128;
-                std::array<char, TPCDS_READ_MAX + 1> _i_brand236_n = tbl_JOIN_INNER_TD_13710_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 0);
+                std::array<char, TPCDS_READ_MAX + 1> _i_brand236_n = tbl_JOIN_INNER_TD_13213_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 0);
                 std::string _i_brand236 = std::string(_i_brand236_n.data());
-                std::array<char, TPCDS_READ_MAX + 1> _i_category240_n = tbl_JOIN_INNER_TD_13710_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
+                std::array<char, TPCDS_READ_MAX + 1> _i_category240_n = tbl_JOIN_INNER_TD_13213_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
                 std::string _i_category240 = std::string(_i_category240_n.data());
-                int32_t _ss_sold_date_sk1206 = tbl_JOIN_INNER_TD_13710_output.getInt32(i, 2);
-                int32_t _ss_store_sk1213 = tbl_JOIN_INNER_TD_13710_output.getInt32(i, 3);
-                int32_t _ss_sales_price1219 = tbl_JOIN_INNER_TD_13710_output.getInt32(i, 4);
-                tbl_JOIN_INNER_TD_12932_output.setInt32(r, 4, _d_year126);
-                tbl_JOIN_INNER_TD_12932_output.setInt32(r, 5, _d_moy128);
-                tbl_JOIN_INNER_TD_12932_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 0, _i_brand236_n);
-                tbl_JOIN_INNER_TD_12932_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 1, _i_category240_n);
-                tbl_JOIN_INNER_TD_12932_output.setInt32(r, 2, _ss_store_sk1213);
-                tbl_JOIN_INNER_TD_12932_output.setInt32(r, 3, _ss_sales_price1219);
+                int32_t _ss_sold_date_sk1206 = tbl_JOIN_INNER_TD_13213_output.getInt32(i, 2);
+                int32_t _ss_store_sk1213 = tbl_JOIN_INNER_TD_13213_output.getInt32(i, 3);
+                int32_t _ss_sales_price1219 = tbl_JOIN_INNER_TD_13213_output.getInt32(i, 4);
+                tbl_JOIN_INNER_TD_12952_output.setInt32(r, 4, _d_year126);
+                tbl_JOIN_INNER_TD_12952_output.setInt32(r, 5, _d_moy128);
+                tbl_JOIN_INNER_TD_12952_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 0, _i_brand236_n);
+                tbl_JOIN_INNER_TD_12952_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 1, _i_category240_n);
+                tbl_JOIN_INNER_TD_12952_output.setInt32(r, 2, _ss_store_sk1213);
+                tbl_JOIN_INNER_TD_12952_output.setInt32(r, 3, _ss_sales_price1219);
                 it++;
                 r++;
             }
         }
-        tbl_JOIN_INNER_TD_12932_output.setNumRow(r);
+        tbl_JOIN_INNER_TD_12952_output.setNumRow(r);
     } 
-    std::cout << "tbl_JOIN_INNER_TD_12932_output #Row: " << tbl_JOIN_INNER_TD_12932_output.getNumRow() << std::endl;
+    std::cout << "tbl_JOIN_INNER_TD_12952_output #Row: " << tbl_JOIN_INNER_TD_12952_output.getNumRow() << std::endl;
 }
 
-void SW_Filter_TD_11421(Table &tbl_SerializeFromObject_TD_12441_input, Table &tbl_Filter_TD_11421_output) {
+void SW_Filter_TD_11301(Table &tbl_SerializeFromObject_TD_12771_input, Table &tbl_Filter_TD_11301_output) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: Filter
-    // Operation: ListBuffer(((isnotnull(ss_item_sk#4787) AND isnotnull(ss_sold_date_sk#4785)) AND isnotnull(ss_store_sk#4792)))
-    // Input: ListBuffer(ss_sold_date_sk#4785, ss_item_sk#4787, ss_store_sk#4792, ss_sales_price#4798)
-    // Output: ListBuffer(ss_sold_date_sk#4785, ss_item_sk#4787, ss_store_sk#4792, ss_sales_price#4798)
+    // Operation: ListBuffer(((isnotnull(ss_item_sk#6161) AND isnotnull(ss_sold_date_sk#6159)) AND isnotnull(ss_store_sk#6166)))
+    // Input: ListBuffer(ss_sold_date_sk#6159, ss_item_sk#6161, ss_store_sk#6166, ss_sales_price#6172)
+    // Output: ListBuffer(ss_sold_date_sk#6159, ss_item_sk#6161, ss_store_sk#6166, ss_sales_price#6172)
     int r = 0;
-    int nrow1 = tbl_SerializeFromObject_TD_12441_input.getNumRow();
+    int nrow1 = tbl_SerializeFromObject_TD_12771_input.getNumRow();
     for (int i = 0; i < nrow1; i++) {
-        int32_t _ss_item_sk4787 = tbl_SerializeFromObject_TD_12441_input.getInt32(i, 1);
-        int32_t _ss_sold_date_sk4785 = tbl_SerializeFromObject_TD_12441_input.getInt32(i, 0);
-        int32_t _ss_store_sk4792 = tbl_SerializeFromObject_TD_12441_input.getInt32(i, 2);
-        if (((1) && (1)) && (1)) {
-            int32_t _ss_sold_date_sk4785_t = tbl_SerializeFromObject_TD_12441_input.getInt32(i, 0);
-            tbl_Filter_TD_11421_output.setInt32(r, 0, _ss_sold_date_sk4785_t);
-            int32_t _ss_item_sk4787_t = tbl_SerializeFromObject_TD_12441_input.getInt32(i, 1);
-            tbl_Filter_TD_11421_output.setInt32(r, 1, _ss_item_sk4787_t);
-            int32_t _ss_store_sk4792_t = tbl_SerializeFromObject_TD_12441_input.getInt32(i, 2);
-            tbl_Filter_TD_11421_output.setInt32(r, 2, _ss_store_sk4792_t);
-            int32_t _ss_sales_price4798_t = tbl_SerializeFromObject_TD_12441_input.getInt32(i, 3);
-            tbl_Filter_TD_11421_output.setInt32(r, 3, _ss_sales_price4798_t);
+        int32_t _ss_item_sk6161 = tbl_SerializeFromObject_TD_12771_input.getInt32(i, 1);
+        int32_t _ss_sold_date_sk6159 = tbl_SerializeFromObject_TD_12771_input.getInt32(i, 0);
+        int32_t _ss_store_sk6166 = tbl_SerializeFromObject_TD_12771_input.getInt32(i, 2);
+        if (((_ss_item_sk6161!= 0) && (_ss_sold_date_sk6159!= 0)) && (_ss_store_sk6166!= 0)) {
+            int32_t _ss_sold_date_sk6159_t = tbl_SerializeFromObject_TD_12771_input.getInt32(i, 0);
+            tbl_Filter_TD_11301_output.setInt32(r, 0, _ss_sold_date_sk6159_t);
+            int32_t _ss_item_sk6161_t = tbl_SerializeFromObject_TD_12771_input.getInt32(i, 1);
+            tbl_Filter_TD_11301_output.setInt32(r, 1, _ss_item_sk6161_t);
+            int32_t _ss_store_sk6166_t = tbl_SerializeFromObject_TD_12771_input.getInt32(i, 2);
+            tbl_Filter_TD_11301_output.setInt32(r, 2, _ss_store_sk6166_t);
+            int32_t _ss_sales_price6172_t = tbl_SerializeFromObject_TD_12771_input.getInt32(i, 3);
+            tbl_Filter_TD_11301_output.setInt32(r, 3, _ss_sales_price6172_t);
             r++;
         }
     }
-    tbl_Filter_TD_11421_output.setNumRow(r);
-    std::cout << "tbl_Filter_TD_11421_output #Row: " << tbl_Filter_TD_11421_output.getNumRow() << std::endl;
+    tbl_Filter_TD_11301_output.setNumRow(r);
+    std::cout << "tbl_Filter_TD_11301_output #Row: " << tbl_Filter_TD_11301_output.getNumRow() << std::endl;
 }
 
-void SW_Filter_TD_11390(Table &tbl_SerializeFromObject_TD_1266_input, Table &tbl_Filter_TD_11390_output) {
+void SW_Filter_TD_11784(Table &tbl_SerializeFromObject_TD_12522_input, Table &tbl_Filter_TD_11784_output) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: Filter
-    // Operation: ListBuffer((isnotnull(i_item_sk#4763) AND (isnotnull(i_category#4775) AND isnotnull(i_brand#4771))))
-    // Input: ListBuffer(i_item_sk#4763, i_brand#4771, i_category#4775)
-    // Output: ListBuffer(i_item_sk#4763, i_brand#4771, i_category#4775)
+    // Operation: ListBuffer((isnotnull(i_item_sk#6137) AND (isnotnull(i_category#6149) AND isnotnull(i_brand#6145))))
+    // Input: ListBuffer(i_item_sk#6137, i_brand#6145, i_category#6149)
+    // Output: ListBuffer(i_item_sk#6137, i_brand#6145, i_category#6149)
     int r = 0;
-    int nrow1 = tbl_SerializeFromObject_TD_1266_input.getNumRow();
+    int nrow1 = tbl_SerializeFromObject_TD_12522_input.getNumRow();
     for (int i = 0; i < nrow1; i++) {
-        int32_t _i_item_sk4763 = tbl_SerializeFromObject_TD_1266_input.getInt32(i, 0);
-        std::array<char, TPCDS_READ_MAX + 1> _i_category4775 = tbl_SerializeFromObject_TD_1266_input.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
-        std::array<char, TPCDS_READ_MAX + 1> _i_brand4771 = tbl_SerializeFromObject_TD_1266_input.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
-        if ((1) && ((1) && (1))) {
-            int32_t _i_item_sk4763_t = tbl_SerializeFromObject_TD_1266_input.getInt32(i, 0);
-            tbl_Filter_TD_11390_output.setInt32(r, 0, _i_item_sk4763_t);
-            std::array<char, TPCDS_READ_MAX + 1> _i_brand4771_t = tbl_SerializeFromObject_TD_1266_input.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
-            tbl_Filter_TD_11390_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 1, _i_brand4771_t);
-            std::array<char, TPCDS_READ_MAX + 1> _i_category4775_t = tbl_SerializeFromObject_TD_1266_input.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
-            tbl_Filter_TD_11390_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 2, _i_category4775_t);
+        int32_t _i_item_sk6137 = tbl_SerializeFromObject_TD_12522_input.getInt32(i, 0);
+        std::array<char, TPCDS_READ_MAX + 1> _i_category6149 = tbl_SerializeFromObject_TD_12522_input.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
+        std::array<char, TPCDS_READ_MAX + 1> _i_brand6145 = tbl_SerializeFromObject_TD_12522_input.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
+        if ((_i_item_sk6137!= 0) && (（std::string(_isnotnulli_category6149.data()) != "NULL") && （std::string(_isnotnulli_brand6145.data()) != "NULL"))) {
+            int32_t _i_item_sk6137_t = tbl_SerializeFromObject_TD_12522_input.getInt32(i, 0);
+            tbl_Filter_TD_11784_output.setInt32(r, 0, _i_item_sk6137_t);
+            std::array<char, TPCDS_READ_MAX + 1> _i_brand6145_t = tbl_SerializeFromObject_TD_12522_input.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
+            tbl_Filter_TD_11784_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 1, _i_brand6145_t);
+            std::array<char, TPCDS_READ_MAX + 1> _i_category6149_t = tbl_SerializeFromObject_TD_12522_input.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
+            tbl_Filter_TD_11784_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 2, _i_category6149_t);
             r++;
         }
     }
-    tbl_Filter_TD_11390_output.setNumRow(r);
-    std::cout << "tbl_Filter_TD_11390_output #Row: " << tbl_Filter_TD_11390_output.getNumRow() << std::endl;
+    tbl_Filter_TD_11784_output.setNumRow(r);
+    std::cout << "tbl_Filter_TD_11784_output #Row: " << tbl_Filter_TD_11784_output.getNumRow() << std::endl;
 }
 
-void SW_Filter_TD_11691(Table &tbl_SerializeFromObject_TD_12715_input, Table &tbl_Filter_TD_11691_output) {
+void SW_Filter_TD_11828(Table &tbl_SerializeFromObject_TD_12902_input, Table &tbl_Filter_TD_11828_output) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: Filter
-    // Operation: ListBuffer(((((d_year#4707 = 1999) OR ((d_year#4707 = 1998) AND (d_moy#4709 = 12))) OR ((d_year#4707 = 2000) AND (d_moy#4709 = 1))) AND isnotnull(d_date_sk#4701)))
-    // Input: ListBuffer(d_date_sk#4701, d_year#4707, d_moy#4709)
-    // Output: ListBuffer(d_date_sk#4701, d_year#4707, d_moy#4709)
+    // Operation: ListBuffer(((((d_year#6081 = 1999) OR ((d_year#6081 = 1998) AND (d_moy#6083 = 12))) OR ((d_year#6081 = 2000) AND (d_moy#6083 = 1))) AND isnotnull(d_date_sk#6075)))
+    // Input: ListBuffer(d_date_sk#6075, d_year#6081, d_moy#6083)
+    // Output: ListBuffer(d_date_sk#6075, d_year#6081, d_moy#6083)
     int r = 0;
-    int nrow1 = tbl_SerializeFromObject_TD_12715_input.getNumRow();
+    int nrow1 = tbl_SerializeFromObject_TD_12902_input.getNumRow();
     for (int i = 0; i < nrow1; i++) {
-        int32_t _d_year4707 = tbl_SerializeFromObject_TD_12715_input.getInt32(i, 1);
-        int32_t _d_moy4709 = tbl_SerializeFromObject_TD_12715_input.getInt32(i, 2);
-        int32_t _d_date_sk4701 = tbl_SerializeFromObject_TD_12715_input.getInt32(i, 0);
-        if ((((_d_year4707 == 1999) || ((_d_year4707 == 1998) && (_d_moy4709 == 12))) || ((_d_year4707 == 2000) && (_d_moy4709 == 1))) && (1)) {
-            int32_t _d_date_sk4701_t = tbl_SerializeFromObject_TD_12715_input.getInt32(i, 0);
-            tbl_Filter_TD_11691_output.setInt32(r, 0, _d_date_sk4701_t);
-            int32_t _d_year4707_t = tbl_SerializeFromObject_TD_12715_input.getInt32(i, 1);
-            tbl_Filter_TD_11691_output.setInt32(r, 1, _d_year4707_t);
-            int32_t _d_moy4709_t = tbl_SerializeFromObject_TD_12715_input.getInt32(i, 2);
-            tbl_Filter_TD_11691_output.setInt32(r, 2, _d_moy4709_t);
+        int32_t _d_year6081 = tbl_SerializeFromObject_TD_12902_input.getInt32(i, 1);
+        int32_t _d_moy6083 = tbl_SerializeFromObject_TD_12902_input.getInt32(i, 2);
+        int32_t _d_date_sk6075 = tbl_SerializeFromObject_TD_12902_input.getInt32(i, 0);
+        if ((((_d_year6081 == 1999) || ((_d_year6081 == 1998) && (_d_moy6083 == 12))) || ((_d_year6081 == 2000) && (_d_moy6083 == 1))) && (_d_date_sk6075!= 0)) {
+            int32_t _d_date_sk6075_t = tbl_SerializeFromObject_TD_12902_input.getInt32(i, 0);
+            tbl_Filter_TD_11828_output.setInt32(r, 0, _d_date_sk6075_t);
+            int32_t _d_year6081_t = tbl_SerializeFromObject_TD_12902_input.getInt32(i, 1);
+            tbl_Filter_TD_11828_output.setInt32(r, 1, _d_year6081_t);
+            int32_t _d_moy6083_t = tbl_SerializeFromObject_TD_12902_input.getInt32(i, 2);
+            tbl_Filter_TD_11828_output.setInt32(r, 2, _d_moy6083_t);
             r++;
         }
     }
-    tbl_Filter_TD_11691_output.setNumRow(r);
-    std::cout << "tbl_Filter_TD_11691_output #Row: " << tbl_Filter_TD_11691_output.getNumRow() << std::endl;
+    tbl_Filter_TD_11828_output.setNumRow(r);
+    std::cout << "tbl_Filter_TD_11828_output #Row: " << tbl_Filter_TD_11828_output.getNumRow() << std::endl;
 }
 
-struct SW_JOIN_INNER_TD_11466_key_leftMajor {
-    int32_t _i_item_sk4656;
-    bool operator==(const SW_JOIN_INNER_TD_11466_key_leftMajor& other) const {
-        return ((_i_item_sk4656 == other._i_item_sk4656));
+struct SW_JOIN_INNER_TD_11390_key_leftMajor {
+    int32_t _i_item_sk6030;
+    bool operator==(const SW_JOIN_INNER_TD_11390_key_leftMajor& other) const {
+        return ((_i_item_sk6030 == other._i_item_sk6030));
     }
 };
 namespace std {
 template <>
-struct hash<SW_JOIN_INNER_TD_11466_key_leftMajor> {
-    std::size_t operator() (const SW_JOIN_INNER_TD_11466_key_leftMajor& k) const {
+struct hash<SW_JOIN_INNER_TD_11390_key_leftMajor> {
+    std::size_t operator() (const SW_JOIN_INNER_TD_11390_key_leftMajor& k) const {
         using std::size_t;
         using std::hash;
         using std::string;
-        return (hash<int32_t>()(k._i_item_sk4656));
+        return (hash<int32_t>()(k._i_item_sk6030));
     }
 };
 }
-struct SW_JOIN_INNER_TD_11466_payload_leftMajor {
-    int32_t _i_item_sk4656;
-    std::string _i_brand4664;
-    std::string _i_category4668;
+struct SW_JOIN_INNER_TD_11390_payload_leftMajor {
+    int32_t _i_item_sk6030;
+    std::string _i_brand6038;
+    std::string _i_category6042;
 };
-struct SW_JOIN_INNER_TD_11466_key_rightMajor {
-    int32_t _ss_item_sk4680;
-    bool operator==(const SW_JOIN_INNER_TD_11466_key_rightMajor& other) const {
-        return ((_ss_item_sk4680 == other._ss_item_sk4680));
+struct SW_JOIN_INNER_TD_11390_key_rightMajor {
+    int32_t _ss_item_sk6054;
+    bool operator==(const SW_JOIN_INNER_TD_11390_key_rightMajor& other) const {
+        return ((_ss_item_sk6054 == other._ss_item_sk6054));
     }
 };
 namespace std {
 template <>
-struct hash<SW_JOIN_INNER_TD_11466_key_rightMajor> {
-    std::size_t operator() (const SW_JOIN_INNER_TD_11466_key_rightMajor& k) const {
+struct hash<SW_JOIN_INNER_TD_11390_key_rightMajor> {
+    std::size_t operator() (const SW_JOIN_INNER_TD_11390_key_rightMajor& k) const {
         using std::size_t;
         using std::hash;
         using std::string;
-        return (hash<int32_t>()(k._ss_item_sk4680));
+        return (hash<int32_t>()(k._ss_item_sk6054));
     }
 };
 }
-struct SW_JOIN_INNER_TD_11466_payload_rightMajor {
-    int32_t _ss_sold_date_sk4678;
-    int32_t _ss_item_sk4680;
-    int32_t _ss_store_sk4685;
-    int32_t _ss_sales_price4691;
+struct SW_JOIN_INNER_TD_11390_payload_rightMajor {
+    int32_t _ss_sold_date_sk6052;
+    int32_t _ss_item_sk6054;
+    int32_t _ss_store_sk6059;
+    int32_t _ss_sales_price6065;
 };
-void SW_JOIN_INNER_TD_11466(Table &tbl_Filter_TD_12379_output, Table &tbl_Filter_TD_12710_output, Table &tbl_JOIN_INNER_TD_11466_output) {
+void SW_JOIN_INNER_TD_11390(Table &tbl_Filter_TD_12215_output, Table &tbl_Filter_TD_12948_output, Table &tbl_JOIN_INNER_TD_11390_output) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: JOIN_INNER
-    // Operation: ListBuffer((ss_item_sk#4680 = i_item_sk#4656))
-    // Left Table: ListBuffer(i_item_sk#4656, i_brand#4664, i_category#4668)
-    // Right Table: ListBuffer(ss_sold_date_sk#4678, ss_item_sk#4680, ss_store_sk#4685, ss_sales_price#4691)
-    // Output Table: ListBuffer(i_brand#4664, i_category#4668, ss_sold_date_sk#4678, ss_store_sk#4685, ss_sales_price#4691)
-    int left_nrow = tbl_Filter_TD_12379_output.getNumRow();
-    int right_nrow = tbl_Filter_TD_12710_output.getNumRow();
+    // Operation: ListBuffer((ss_item_sk#6054 = i_item_sk#6030))
+    // Left Table: ListBuffer(i_item_sk#6030, i_brand#6038, i_category#6042)
+    // Right Table: ListBuffer(ss_sold_date_sk#6052, ss_item_sk#6054, ss_store_sk#6059, ss_sales_price#6065)
+    // Output Table: ListBuffer(i_brand#6038, i_category#6042, ss_sold_date_sk#6052, ss_store_sk#6059, ss_sales_price#6065)
+    int left_nrow = tbl_Filter_TD_12215_output.getNumRow();
+    int right_nrow = tbl_Filter_TD_12948_output.getNumRow();
     if (left_nrow < right_nrow) { 
-        std::unordered_multimap<SW_JOIN_INNER_TD_11466_key_leftMajor, SW_JOIN_INNER_TD_11466_payload_leftMajor> ht1;
-        int nrow1 = tbl_Filter_TD_12379_output.getNumRow();
+        std::unordered_multimap<SW_JOIN_INNER_TD_11390_key_leftMajor, SW_JOIN_INNER_TD_11390_payload_leftMajor> ht1;
+        int nrow1 = tbl_Filter_TD_12215_output.getNumRow();
         for (int i = 0; i < nrow1; i++) {
-            int32_t _i_item_sk4656_k = tbl_Filter_TD_12379_output.getInt32(i, 0);
-            SW_JOIN_INNER_TD_11466_key_leftMajor keyA{_i_item_sk4656_k};
-            int32_t _i_item_sk4656 = tbl_Filter_TD_12379_output.getInt32(i, 0);
-            std::array<char, TPCDS_READ_MAX + 1> _i_brand4664_n = tbl_Filter_TD_12379_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
-            std::string _i_brand4664 = std::string(_i_brand4664_n.data());
-            std::array<char, TPCDS_READ_MAX + 1> _i_category4668_n = tbl_Filter_TD_12379_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
-            std::string _i_category4668 = std::string(_i_category4668_n.data());
-            SW_JOIN_INNER_TD_11466_payload_leftMajor payloadA{_i_item_sk4656, _i_brand4664, _i_category4668};
+            int32_t _i_item_sk6030_k = tbl_Filter_TD_12215_output.getInt32(i, 0);
+            SW_JOIN_INNER_TD_11390_key_leftMajor keyA{_i_item_sk6030_k};
+            int32_t _i_item_sk6030 = tbl_Filter_TD_12215_output.getInt32(i, 0);
+            std::array<char, TPCDS_READ_MAX + 1> _i_brand6038_n = tbl_Filter_TD_12215_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
+            std::string _i_brand6038 = std::string(_i_brand6038_n.data());
+            std::array<char, TPCDS_READ_MAX + 1> _i_category6042_n = tbl_Filter_TD_12215_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
+            std::string _i_category6042 = std::string(_i_category6042_n.data());
+            SW_JOIN_INNER_TD_11390_payload_leftMajor payloadA{_i_item_sk6030, _i_brand6038, _i_category6042};
             ht1.insert(std::make_pair(keyA, payloadA));
         }
         int r = 0;
-        int nrow2 = tbl_Filter_TD_12710_output.getNumRow();
+        int nrow2 = tbl_Filter_TD_12948_output.getNumRow();
         for (int i = 0; i < nrow2; i++) {
-            int32_t _ss_item_sk4680_k = tbl_Filter_TD_12710_output.getInt32(i, 1);
-            auto its = ht1.equal_range(SW_JOIN_INNER_TD_11466_key_leftMajor{_ss_item_sk4680_k});
+            int32_t _ss_item_sk6054_k = tbl_Filter_TD_12948_output.getInt32(i, 1);
+            auto its = ht1.equal_range(SW_JOIN_INNER_TD_11390_key_leftMajor{_ss_item_sk6054_k});
             auto it = its.first;
             while (it != its.second) {
-                int32_t _i_item_sk4656 = (it->second)._i_item_sk4656;
-                std::string _i_brand4664 = (it->second)._i_brand4664;
-                std::array<char, TPCDS_READ_MAX + 1> _i_brand4664_n{};
-                memcpy(_i_brand4664_n.data(), (_i_brand4664).data(), (_i_brand4664).length());
-                std::string _i_category4668 = (it->second)._i_category4668;
-                std::array<char, TPCDS_READ_MAX + 1> _i_category4668_n{};
-                memcpy(_i_category4668_n.data(), (_i_category4668).data(), (_i_category4668).length());
-                int32_t _ss_sold_date_sk4678 = tbl_Filter_TD_12710_output.getInt32(i, 0);
-                int32_t _ss_item_sk4680 = tbl_Filter_TD_12710_output.getInt32(i, 1);
-                int32_t _ss_store_sk4685 = tbl_Filter_TD_12710_output.getInt32(i, 2);
-                int32_t _ss_sales_price4691 = tbl_Filter_TD_12710_output.getInt32(i, 3);
-                tbl_JOIN_INNER_TD_11466_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 0, _i_brand4664_n);
-                tbl_JOIN_INNER_TD_11466_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 1, _i_category4668_n);
-                tbl_JOIN_INNER_TD_11466_output.setInt32(r, 2, _ss_sold_date_sk4678);
-                tbl_JOIN_INNER_TD_11466_output.setInt32(r, 3, _ss_store_sk4685);
-                tbl_JOIN_INNER_TD_11466_output.setInt32(r, 4, _ss_sales_price4691);
+                int32_t _i_item_sk6030 = (it->second)._i_item_sk6030;
+                std::string _i_brand6038 = (it->second)._i_brand6038;
+                std::array<char, TPCDS_READ_MAX + 1> _i_brand6038_n{};
+                memcpy(_i_brand6038_n.data(), (_i_brand6038).data(), (_i_brand6038).length());
+                std::string _i_category6042 = (it->second)._i_category6042;
+                std::array<char, TPCDS_READ_MAX + 1> _i_category6042_n{};
+                memcpy(_i_category6042_n.data(), (_i_category6042).data(), (_i_category6042).length());
+                int32_t _ss_sold_date_sk6052 = tbl_Filter_TD_12948_output.getInt32(i, 0);
+                int32_t _ss_item_sk6054 = tbl_Filter_TD_12948_output.getInt32(i, 1);
+                int32_t _ss_store_sk6059 = tbl_Filter_TD_12948_output.getInt32(i, 2);
+                int32_t _ss_sales_price6065 = tbl_Filter_TD_12948_output.getInt32(i, 3);
+                tbl_JOIN_INNER_TD_11390_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 0, _i_brand6038_n);
+                tbl_JOIN_INNER_TD_11390_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 1, _i_category6042_n);
+                tbl_JOIN_INNER_TD_11390_output.setInt32(r, 2, _ss_sold_date_sk6052);
+                tbl_JOIN_INNER_TD_11390_output.setInt32(r, 3, _ss_store_sk6059);
+                tbl_JOIN_INNER_TD_11390_output.setInt32(r, 4, _ss_sales_price6065);
                 it++;
                 r++;
             }
         }
-        tbl_JOIN_INNER_TD_11466_output.setNumRow(r);
+        tbl_JOIN_INNER_TD_11390_output.setNumRow(r);
     } else { 
-        std::unordered_multimap<SW_JOIN_INNER_TD_11466_key_rightMajor, SW_JOIN_INNER_TD_11466_payload_rightMajor> ht1;
-        int nrow1 = tbl_Filter_TD_12710_output.getNumRow();
+        std::unordered_multimap<SW_JOIN_INNER_TD_11390_key_rightMajor, SW_JOIN_INNER_TD_11390_payload_rightMajor> ht1;
+        int nrow1 = tbl_Filter_TD_12948_output.getNumRow();
         for (int i = 0; i < nrow1; i++) {
-            int32_t _ss_item_sk4680_k = tbl_Filter_TD_12710_output.getInt32(i, 1);
-            SW_JOIN_INNER_TD_11466_key_rightMajor keyA{_ss_item_sk4680_k};
-            int32_t _ss_sold_date_sk4678 = tbl_Filter_TD_12710_output.getInt32(i, 0);
-            int32_t _ss_item_sk4680 = tbl_Filter_TD_12710_output.getInt32(i, 1);
-            int32_t _ss_store_sk4685 = tbl_Filter_TD_12710_output.getInt32(i, 2);
-            int32_t _ss_sales_price4691 = tbl_Filter_TD_12710_output.getInt32(i, 3);
-            SW_JOIN_INNER_TD_11466_payload_rightMajor payloadA{_ss_sold_date_sk4678, _ss_item_sk4680, _ss_store_sk4685, _ss_sales_price4691};
+            int32_t _ss_item_sk6054_k = tbl_Filter_TD_12948_output.getInt32(i, 1);
+            SW_JOIN_INNER_TD_11390_key_rightMajor keyA{_ss_item_sk6054_k};
+            int32_t _ss_sold_date_sk6052 = tbl_Filter_TD_12948_output.getInt32(i, 0);
+            int32_t _ss_item_sk6054 = tbl_Filter_TD_12948_output.getInt32(i, 1);
+            int32_t _ss_store_sk6059 = tbl_Filter_TD_12948_output.getInt32(i, 2);
+            int32_t _ss_sales_price6065 = tbl_Filter_TD_12948_output.getInt32(i, 3);
+            SW_JOIN_INNER_TD_11390_payload_rightMajor payloadA{_ss_sold_date_sk6052, _ss_item_sk6054, _ss_store_sk6059, _ss_sales_price6065};
             ht1.insert(std::make_pair(keyA, payloadA));
         }
         int r = 0;
-        int nrow2 = tbl_Filter_TD_12379_output.getNumRow();
+        int nrow2 = tbl_Filter_TD_12215_output.getNumRow();
         for (int i = 0; i < nrow2; i++) {
-            int32_t _i_item_sk4656_k = tbl_Filter_TD_12379_output.getInt32(i, 0);
-            auto its = ht1.equal_range(SW_JOIN_INNER_TD_11466_key_rightMajor{_i_item_sk4656_k});
+            int32_t _i_item_sk6030_k = tbl_Filter_TD_12215_output.getInt32(i, 0);
+            auto its = ht1.equal_range(SW_JOIN_INNER_TD_11390_key_rightMajor{_i_item_sk6030_k});
             auto it = its.first;
             while (it != its.second) {
-                int32_t _ss_sold_date_sk4678 = (it->second)._ss_sold_date_sk4678;
-                int32_t _ss_item_sk4680 = (it->second)._ss_item_sk4680;
-                int32_t _ss_store_sk4685 = (it->second)._ss_store_sk4685;
-                int32_t _ss_sales_price4691 = (it->second)._ss_sales_price4691;
-                int32_t _i_item_sk4656 = tbl_Filter_TD_12379_output.getInt32(i, 0);
-                std::array<char, TPCDS_READ_MAX + 1> _i_brand4664_n = tbl_Filter_TD_12379_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
-                std::string _i_brand4664 = std::string(_i_brand4664_n.data());
-                std::array<char, TPCDS_READ_MAX + 1> _i_category4668_n = tbl_Filter_TD_12379_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
-                std::string _i_category4668 = std::string(_i_category4668_n.data());
-                tbl_JOIN_INNER_TD_11466_output.setInt32(r, 2, _ss_sold_date_sk4678);
-                tbl_JOIN_INNER_TD_11466_output.setInt32(r, 3, _ss_store_sk4685);
-                tbl_JOIN_INNER_TD_11466_output.setInt32(r, 4, _ss_sales_price4691);
-                tbl_JOIN_INNER_TD_11466_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 0, _i_brand4664_n);
-                tbl_JOIN_INNER_TD_11466_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 1, _i_category4668_n);
+                int32_t _ss_sold_date_sk6052 = (it->second)._ss_sold_date_sk6052;
+                int32_t _ss_item_sk6054 = (it->second)._ss_item_sk6054;
+                int32_t _ss_store_sk6059 = (it->second)._ss_store_sk6059;
+                int32_t _ss_sales_price6065 = (it->second)._ss_sales_price6065;
+                int32_t _i_item_sk6030 = tbl_Filter_TD_12215_output.getInt32(i, 0);
+                std::array<char, TPCDS_READ_MAX + 1> _i_brand6038_n = tbl_Filter_TD_12215_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
+                std::string _i_brand6038 = std::string(_i_brand6038_n.data());
+                std::array<char, TPCDS_READ_MAX + 1> _i_category6042_n = tbl_Filter_TD_12215_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
+                std::string _i_category6042 = std::string(_i_category6042_n.data());
+                tbl_JOIN_INNER_TD_11390_output.setInt32(r, 2, _ss_sold_date_sk6052);
+                tbl_JOIN_INNER_TD_11390_output.setInt32(r, 3, _ss_store_sk6059);
+                tbl_JOIN_INNER_TD_11390_output.setInt32(r, 4, _ss_sales_price6065);
+                tbl_JOIN_INNER_TD_11390_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 0, _i_brand6038_n);
+                tbl_JOIN_INNER_TD_11390_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 1, _i_category6042_n);
                 it++;
                 r++;
             }
         }
-        tbl_JOIN_INNER_TD_11466_output.setNumRow(r);
+        tbl_JOIN_INNER_TD_11390_output.setNumRow(r);
     } 
-    std::cout << "tbl_JOIN_INNER_TD_11466_output #Row: " << tbl_JOIN_INNER_TD_11466_output.getNumRow() << std::endl;
+    std::cout << "tbl_JOIN_INNER_TD_11390_output #Row: " << tbl_JOIN_INNER_TD_11390_output.getNumRow() << std::endl;
 }
 
-struct SW_JOIN_INNER_TD_11291_key_leftMajor {
+struct SW_JOIN_INNER_TD_11649_key_leftMajor {
     int32_t _ss_store_sk1213;
-    bool operator==(const SW_JOIN_INNER_TD_11291_key_leftMajor& other) const {
+    bool operator==(const SW_JOIN_INNER_TD_11649_key_leftMajor& other) const {
         return ((_ss_store_sk1213 == other._ss_store_sk1213));
     }
 };
 namespace std {
 template <>
-struct hash<SW_JOIN_INNER_TD_11291_key_leftMajor> {
-    std::size_t operator() (const SW_JOIN_INNER_TD_11291_key_leftMajor& k) const {
+struct hash<SW_JOIN_INNER_TD_11649_key_leftMajor> {
+    std::size_t operator() (const SW_JOIN_INNER_TD_11649_key_leftMajor& k) const {
         using std::size_t;
         using std::hash;
         using std::string;
@@ -681,7 +681,7 @@ struct hash<SW_JOIN_INNER_TD_11291_key_leftMajor> {
     }
 };
 }
-struct SW_JOIN_INNER_TD_11291_payload_leftMajor {
+struct SW_JOIN_INNER_TD_11649_payload_leftMajor {
     std::string _i_brand236;
     std::string _i_category240;
     int32_t _ss_store_sk1213;
@@ -689,16 +689,16 @@ struct SW_JOIN_INNER_TD_11291_payload_leftMajor {
     int32_t _d_year126;
     int32_t _d_moy128;
 };
-struct SW_JOIN_INNER_TD_11291_key_rightMajor {
+struct SW_JOIN_INNER_TD_11649_key_rightMajor {
     int32_t _s_store_sk378;
-    bool operator==(const SW_JOIN_INNER_TD_11291_key_rightMajor& other) const {
+    bool operator==(const SW_JOIN_INNER_TD_11649_key_rightMajor& other) const {
         return ((_s_store_sk378 == other._s_store_sk378));
     }
 };
 namespace std {
 template <>
-struct hash<SW_JOIN_INNER_TD_11291_key_rightMajor> {
-    std::size_t operator() (const SW_JOIN_INNER_TD_11291_key_rightMajor& k) const {
+struct hash<SW_JOIN_INNER_TD_11649_key_rightMajor> {
+    std::size_t operator() (const SW_JOIN_INNER_TD_11649_key_rightMajor& k) const {
         using std::size_t;
         using std::hash;
         using std::string;
@@ -706,42 +706,42 @@ struct hash<SW_JOIN_INNER_TD_11291_key_rightMajor> {
     }
 };
 }
-struct SW_JOIN_INNER_TD_11291_payload_rightMajor {
+struct SW_JOIN_INNER_TD_11649_payload_rightMajor {
     int32_t _s_store_sk378;
     std::string _s_store_name383;
     std::string _s_company_name395;
 };
-void SW_JOIN_INNER_TD_11291(Table &tbl_JOIN_INNER_TD_12932_output, Table &tbl_Filter_TD_1295_output, Table &tbl_JOIN_INNER_TD_11291_output) {
+void SW_JOIN_INNER_TD_11649(Table &tbl_JOIN_INNER_TD_12952_output, Table &tbl_Filter_TD_1276_output, Table &tbl_JOIN_INNER_TD_11649_output) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: JOIN_INNER
     // Operation: ListBuffer((ss_store_sk#1213 = s_store_sk#378))
     // Left Table: ListBuffer(i_brand#236, i_category#240, ss_store_sk#1213, ss_sales_price#1219, d_year#126, d_moy#128)
     // Right Table: ListBuffer(s_store_sk#378, s_store_name#383, s_company_name#395)
     // Output Table: ListBuffer(i_brand#236, i_category#240, ss_sales_price#1219, d_year#126, d_moy#128, s_store_name#383, s_company_name#395)
-    int left_nrow = tbl_JOIN_INNER_TD_12932_output.getNumRow();
-    int right_nrow = tbl_Filter_TD_1295_output.getNumRow();
+    int left_nrow = tbl_JOIN_INNER_TD_12952_output.getNumRow();
+    int right_nrow = tbl_Filter_TD_1276_output.getNumRow();
     if (left_nrow < right_nrow) { 
-        std::unordered_multimap<SW_JOIN_INNER_TD_11291_key_leftMajor, SW_JOIN_INNER_TD_11291_payload_leftMajor> ht1;
-        int nrow1 = tbl_JOIN_INNER_TD_12932_output.getNumRow();
+        std::unordered_multimap<SW_JOIN_INNER_TD_11649_key_leftMajor, SW_JOIN_INNER_TD_11649_payload_leftMajor> ht1;
+        int nrow1 = tbl_JOIN_INNER_TD_12952_output.getNumRow();
         for (int i = 0; i < nrow1; i++) {
-            int32_t _ss_store_sk1213_k = tbl_JOIN_INNER_TD_12932_output.getInt32(i, 2);
-            SW_JOIN_INNER_TD_11291_key_leftMajor keyA{_ss_store_sk1213_k};
-            std::array<char, TPCDS_READ_MAX + 1> _i_brand236_n = tbl_JOIN_INNER_TD_12932_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 0);
+            int32_t _ss_store_sk1213_k = tbl_JOIN_INNER_TD_12952_output.getInt32(i, 2);
+            SW_JOIN_INNER_TD_11649_key_leftMajor keyA{_ss_store_sk1213_k};
+            std::array<char, TPCDS_READ_MAX + 1> _i_brand236_n = tbl_JOIN_INNER_TD_12952_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 0);
             std::string _i_brand236 = std::string(_i_brand236_n.data());
-            std::array<char, TPCDS_READ_MAX + 1> _i_category240_n = tbl_JOIN_INNER_TD_12932_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
+            std::array<char, TPCDS_READ_MAX + 1> _i_category240_n = tbl_JOIN_INNER_TD_12952_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
             std::string _i_category240 = std::string(_i_category240_n.data());
-            int32_t _ss_store_sk1213 = tbl_JOIN_INNER_TD_12932_output.getInt32(i, 2);
-            int32_t _ss_sales_price1219 = tbl_JOIN_INNER_TD_12932_output.getInt32(i, 3);
-            int32_t _d_year126 = tbl_JOIN_INNER_TD_12932_output.getInt32(i, 4);
-            int32_t _d_moy128 = tbl_JOIN_INNER_TD_12932_output.getInt32(i, 5);
-            SW_JOIN_INNER_TD_11291_payload_leftMajor payloadA{_i_brand236, _i_category240, _ss_store_sk1213, _ss_sales_price1219, _d_year126, _d_moy128};
+            int32_t _ss_store_sk1213 = tbl_JOIN_INNER_TD_12952_output.getInt32(i, 2);
+            int32_t _ss_sales_price1219 = tbl_JOIN_INNER_TD_12952_output.getInt32(i, 3);
+            int32_t _d_year126 = tbl_JOIN_INNER_TD_12952_output.getInt32(i, 4);
+            int32_t _d_moy128 = tbl_JOIN_INNER_TD_12952_output.getInt32(i, 5);
+            SW_JOIN_INNER_TD_11649_payload_leftMajor payloadA{_i_brand236, _i_category240, _ss_store_sk1213, _ss_sales_price1219, _d_year126, _d_moy128};
             ht1.insert(std::make_pair(keyA, payloadA));
         }
         int r = 0;
-        int nrow2 = tbl_Filter_TD_1295_output.getNumRow();
+        int nrow2 = tbl_Filter_TD_1276_output.getNumRow();
         for (int i = 0; i < nrow2; i++) {
-            int32_t _s_store_sk378_k = tbl_Filter_TD_1295_output.getInt32(i, 0);
-            auto its = ht1.equal_range(SW_JOIN_INNER_TD_11291_key_leftMajor{_s_store_sk378_k});
+            int32_t _s_store_sk378_k = tbl_Filter_TD_1276_output.getInt32(i, 0);
+            auto its = ht1.equal_range(SW_JOIN_INNER_TD_11649_key_leftMajor{_s_store_sk378_k});
             auto it = its.first;
             while (it != its.second) {
                 std::string _i_brand236 = (it->second)._i_brand236;
@@ -754,42 +754,42 @@ void SW_JOIN_INNER_TD_11291(Table &tbl_JOIN_INNER_TD_12932_output, Table &tbl_Fi
                 int32_t _ss_sales_price1219 = (it->second)._ss_sales_price1219;
                 int32_t _d_year126 = (it->second)._d_year126;
                 int32_t _d_moy128 = (it->second)._d_moy128;
-                int32_t _s_store_sk378 = tbl_Filter_TD_1295_output.getInt32(i, 0);
-                std::array<char, TPCDS_READ_MAX + 1> _s_store_name383_n = tbl_Filter_TD_1295_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
+                int32_t _s_store_sk378 = tbl_Filter_TD_1276_output.getInt32(i, 0);
+                std::array<char, TPCDS_READ_MAX + 1> _s_store_name383_n = tbl_Filter_TD_1276_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
                 std::string _s_store_name383 = std::string(_s_store_name383_n.data());
-                std::array<char, TPCDS_READ_MAX + 1> _s_company_name395_n = tbl_Filter_TD_1295_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
+                std::array<char, TPCDS_READ_MAX + 1> _s_company_name395_n = tbl_Filter_TD_1276_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
                 std::string _s_company_name395 = std::string(_s_company_name395_n.data());
-                tbl_JOIN_INNER_TD_11291_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 0, _i_brand236_n);
-                tbl_JOIN_INNER_TD_11291_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 1, _i_category240_n);
-                tbl_JOIN_INNER_TD_11291_output.setInt32(r, 2, _ss_sales_price1219);
-                tbl_JOIN_INNER_TD_11291_output.setInt32(r, 3, _d_year126);
-                tbl_JOIN_INNER_TD_11291_output.setInt32(r, 4, _d_moy128);
-                tbl_JOIN_INNER_TD_11291_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 5, _s_store_name383_n);
-                tbl_JOIN_INNER_TD_11291_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 6, _s_company_name395_n);
+                tbl_JOIN_INNER_TD_11649_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 0, _i_brand236_n);
+                tbl_JOIN_INNER_TD_11649_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 1, _i_category240_n);
+                tbl_JOIN_INNER_TD_11649_output.setInt32(r, 2, _ss_sales_price1219);
+                tbl_JOIN_INNER_TD_11649_output.setInt32(r, 3, _d_year126);
+                tbl_JOIN_INNER_TD_11649_output.setInt32(r, 4, _d_moy128);
+                tbl_JOIN_INNER_TD_11649_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 5, _s_store_name383_n);
+                tbl_JOIN_INNER_TD_11649_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 6, _s_company_name395_n);
                 it++;
                 r++;
             }
         }
-        tbl_JOIN_INNER_TD_11291_output.setNumRow(r);
+        tbl_JOIN_INNER_TD_11649_output.setNumRow(r);
     } else { 
-        std::unordered_multimap<SW_JOIN_INNER_TD_11291_key_rightMajor, SW_JOIN_INNER_TD_11291_payload_rightMajor> ht1;
-        int nrow1 = tbl_Filter_TD_1295_output.getNumRow();
+        std::unordered_multimap<SW_JOIN_INNER_TD_11649_key_rightMajor, SW_JOIN_INNER_TD_11649_payload_rightMajor> ht1;
+        int nrow1 = tbl_Filter_TD_1276_output.getNumRow();
         for (int i = 0; i < nrow1; i++) {
-            int32_t _s_store_sk378_k = tbl_Filter_TD_1295_output.getInt32(i, 0);
-            SW_JOIN_INNER_TD_11291_key_rightMajor keyA{_s_store_sk378_k};
-            int32_t _s_store_sk378 = tbl_Filter_TD_1295_output.getInt32(i, 0);
-            std::array<char, TPCDS_READ_MAX + 1> _s_store_name383_n = tbl_Filter_TD_1295_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
+            int32_t _s_store_sk378_k = tbl_Filter_TD_1276_output.getInt32(i, 0);
+            SW_JOIN_INNER_TD_11649_key_rightMajor keyA{_s_store_sk378_k};
+            int32_t _s_store_sk378 = tbl_Filter_TD_1276_output.getInt32(i, 0);
+            std::array<char, TPCDS_READ_MAX + 1> _s_store_name383_n = tbl_Filter_TD_1276_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
             std::string _s_store_name383 = std::string(_s_store_name383_n.data());
-            std::array<char, TPCDS_READ_MAX + 1> _s_company_name395_n = tbl_Filter_TD_1295_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
+            std::array<char, TPCDS_READ_MAX + 1> _s_company_name395_n = tbl_Filter_TD_1276_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
             std::string _s_company_name395 = std::string(_s_company_name395_n.data());
-            SW_JOIN_INNER_TD_11291_payload_rightMajor payloadA{_s_store_sk378, _s_store_name383, _s_company_name395};
+            SW_JOIN_INNER_TD_11649_payload_rightMajor payloadA{_s_store_sk378, _s_store_name383, _s_company_name395};
             ht1.insert(std::make_pair(keyA, payloadA));
         }
         int r = 0;
-        int nrow2 = tbl_JOIN_INNER_TD_12932_output.getNumRow();
+        int nrow2 = tbl_JOIN_INNER_TD_12952_output.getNumRow();
         for (int i = 0; i < nrow2; i++) {
-            int32_t _ss_store_sk1213_k = tbl_JOIN_INNER_TD_12932_output.getInt32(i, 2);
-            auto its = ht1.equal_range(SW_JOIN_INNER_TD_11291_key_rightMajor{_ss_store_sk1213_k});
+            int32_t _ss_store_sk1213_k = tbl_JOIN_INNER_TD_12952_output.getInt32(i, 2);
+            auto its = ht1.equal_range(SW_JOIN_INNER_TD_11649_key_rightMajor{_ss_store_sk1213_k});
             auto it = its.first;
             while (it != its.second) {
                 int32_t _s_store_sk378 = (it->second)._s_store_sk378;
@@ -799,379 +799,379 @@ void SW_JOIN_INNER_TD_11291(Table &tbl_JOIN_INNER_TD_12932_output, Table &tbl_Fi
                 std::string _s_company_name395 = (it->second)._s_company_name395;
                 std::array<char, TPCDS_READ_MAX + 1> _s_company_name395_n{};
                 memcpy(_s_company_name395_n.data(), (_s_company_name395).data(), (_s_company_name395).length());
-                std::array<char, TPCDS_READ_MAX + 1> _i_brand236_n = tbl_JOIN_INNER_TD_12932_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 0);
+                std::array<char, TPCDS_READ_MAX + 1> _i_brand236_n = tbl_JOIN_INNER_TD_12952_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 0);
                 std::string _i_brand236 = std::string(_i_brand236_n.data());
-                std::array<char, TPCDS_READ_MAX + 1> _i_category240_n = tbl_JOIN_INNER_TD_12932_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
+                std::array<char, TPCDS_READ_MAX + 1> _i_category240_n = tbl_JOIN_INNER_TD_12952_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
                 std::string _i_category240 = std::string(_i_category240_n.data());
-                int32_t _ss_store_sk1213 = tbl_JOIN_INNER_TD_12932_output.getInt32(i, 2);
-                int32_t _ss_sales_price1219 = tbl_JOIN_INNER_TD_12932_output.getInt32(i, 3);
-                int32_t _d_year126 = tbl_JOIN_INNER_TD_12932_output.getInt32(i, 4);
-                int32_t _d_moy128 = tbl_JOIN_INNER_TD_12932_output.getInt32(i, 5);
-                tbl_JOIN_INNER_TD_11291_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 5, _s_store_name383_n);
-                tbl_JOIN_INNER_TD_11291_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 6, _s_company_name395_n);
-                tbl_JOIN_INNER_TD_11291_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 0, _i_brand236_n);
-                tbl_JOIN_INNER_TD_11291_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 1, _i_category240_n);
-                tbl_JOIN_INNER_TD_11291_output.setInt32(r, 2, _ss_sales_price1219);
-                tbl_JOIN_INNER_TD_11291_output.setInt32(r, 3, _d_year126);
-                tbl_JOIN_INNER_TD_11291_output.setInt32(r, 4, _d_moy128);
+                int32_t _ss_store_sk1213 = tbl_JOIN_INNER_TD_12952_output.getInt32(i, 2);
+                int32_t _ss_sales_price1219 = tbl_JOIN_INNER_TD_12952_output.getInt32(i, 3);
+                int32_t _d_year126 = tbl_JOIN_INNER_TD_12952_output.getInt32(i, 4);
+                int32_t _d_moy128 = tbl_JOIN_INNER_TD_12952_output.getInt32(i, 5);
+                tbl_JOIN_INNER_TD_11649_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 5, _s_store_name383_n);
+                tbl_JOIN_INNER_TD_11649_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 6, _s_company_name395_n);
+                tbl_JOIN_INNER_TD_11649_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 0, _i_brand236_n);
+                tbl_JOIN_INNER_TD_11649_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 1, _i_category240_n);
+                tbl_JOIN_INNER_TD_11649_output.setInt32(r, 2, _ss_sales_price1219);
+                tbl_JOIN_INNER_TD_11649_output.setInt32(r, 3, _d_year126);
+                tbl_JOIN_INNER_TD_11649_output.setInt32(r, 4, _d_moy128);
                 it++;
                 r++;
             }
         }
-        tbl_JOIN_INNER_TD_11291_output.setNumRow(r);
+        tbl_JOIN_INNER_TD_11649_output.setNumRow(r);
     } 
-    std::cout << "tbl_JOIN_INNER_TD_11291_output #Row: " << tbl_JOIN_INNER_TD_11291_output.getNumRow() << std::endl;
+    std::cout << "tbl_JOIN_INNER_TD_11649_output #Row: " << tbl_JOIN_INNER_TD_11649_output.getNumRow() << std::endl;
 }
 
-void SW_Filter_TD_10232(Table &tbl_SerializeFromObject_TD_11607_input, Table &tbl_Filter_TD_10232_output) {
+void SW_Filter_TD_10454(Table &tbl_SerializeFromObject_TD_11478_input, Table &tbl_Filter_TD_10454_output) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: Filter
-    // Operation: ListBuffer(((((d_year#4814 = 1999) OR ((d_year#4814 = 1998) AND (d_moy#4816 = 12))) OR ((d_year#4814 = 2000) AND (d_moy#4816 = 1))) AND isnotnull(d_date_sk#4808)))
-    // Input: ListBuffer(d_date_sk#4808, d_year#4814, d_moy#4816)
-    // Output: ListBuffer(d_date_sk#4808, d_year#4814, d_moy#4816)
+    // Operation: ListBuffer(((((d_year#6188 = 1999) OR ((d_year#6188 = 1998) AND (d_moy#6190 = 12))) OR ((d_year#6188 = 2000) AND (d_moy#6190 = 1))) AND isnotnull(d_date_sk#6182)))
+    // Input: ListBuffer(d_date_sk#6182, d_year#6188, d_moy#6190)
+    // Output: ListBuffer(d_date_sk#6182, d_year#6188, d_moy#6190)
     int r = 0;
-    int nrow1 = tbl_SerializeFromObject_TD_11607_input.getNumRow();
+    int nrow1 = tbl_SerializeFromObject_TD_11478_input.getNumRow();
     for (int i = 0; i < nrow1; i++) {
-        int32_t _d_year4814 = tbl_SerializeFromObject_TD_11607_input.getInt32(i, 1);
-        int32_t _d_moy4816 = tbl_SerializeFromObject_TD_11607_input.getInt32(i, 2);
-        int32_t _d_date_sk4808 = tbl_SerializeFromObject_TD_11607_input.getInt32(i, 0);
-        if ((((_d_year4814 == 1999) || ((_d_year4814 == 1998) && (_d_moy4816 == 12))) || ((_d_year4814 == 2000) && (_d_moy4816 == 1))) && (1)) {
-            int32_t _d_date_sk4808_t = tbl_SerializeFromObject_TD_11607_input.getInt32(i, 0);
-            tbl_Filter_TD_10232_output.setInt32(r, 0, _d_date_sk4808_t);
-            int32_t _d_year4814_t = tbl_SerializeFromObject_TD_11607_input.getInt32(i, 1);
-            tbl_Filter_TD_10232_output.setInt32(r, 1, _d_year4814_t);
-            int32_t _d_moy4816_t = tbl_SerializeFromObject_TD_11607_input.getInt32(i, 2);
-            tbl_Filter_TD_10232_output.setInt32(r, 2, _d_moy4816_t);
+        int32_t _d_year6188 = tbl_SerializeFromObject_TD_11478_input.getInt32(i, 1);
+        int32_t _d_moy6190 = tbl_SerializeFromObject_TD_11478_input.getInt32(i, 2);
+        int32_t _d_date_sk6182 = tbl_SerializeFromObject_TD_11478_input.getInt32(i, 0);
+        if ((((_d_year6188 == 1999) || ((_d_year6188 == 1998) && (_d_moy6190 == 12))) || ((_d_year6188 == 2000) && (_d_moy6190 == 1))) && (_d_date_sk6182!= 0)) {
+            int32_t _d_date_sk6182_t = tbl_SerializeFromObject_TD_11478_input.getInt32(i, 0);
+            tbl_Filter_TD_10454_output.setInt32(r, 0, _d_date_sk6182_t);
+            int32_t _d_year6188_t = tbl_SerializeFromObject_TD_11478_input.getInt32(i, 1);
+            tbl_Filter_TD_10454_output.setInt32(r, 1, _d_year6188_t);
+            int32_t _d_moy6190_t = tbl_SerializeFromObject_TD_11478_input.getInt32(i, 2);
+            tbl_Filter_TD_10454_output.setInt32(r, 2, _d_moy6190_t);
             r++;
         }
     }
-    tbl_Filter_TD_10232_output.setNumRow(r);
-    std::cout << "tbl_Filter_TD_10232_output #Row: " << tbl_Filter_TD_10232_output.getNumRow() << std::endl;
+    tbl_Filter_TD_10454_output.setNumRow(r);
+    std::cout << "tbl_Filter_TD_10454_output #Row: " << tbl_Filter_TD_10454_output.getNumRow() << std::endl;
 }
 
-struct SW_JOIN_INNER_TD_10246_key_leftMajor {
-    int32_t _i_item_sk4763;
-    bool operator==(const SW_JOIN_INNER_TD_10246_key_leftMajor& other) const {
-        return ((_i_item_sk4763 == other._i_item_sk4763));
+struct SW_JOIN_INNER_TD_10168_key_leftMajor {
+    int32_t _i_item_sk6137;
+    bool operator==(const SW_JOIN_INNER_TD_10168_key_leftMajor& other) const {
+        return ((_i_item_sk6137 == other._i_item_sk6137));
     }
 };
 namespace std {
 template <>
-struct hash<SW_JOIN_INNER_TD_10246_key_leftMajor> {
-    std::size_t operator() (const SW_JOIN_INNER_TD_10246_key_leftMajor& k) const {
+struct hash<SW_JOIN_INNER_TD_10168_key_leftMajor> {
+    std::size_t operator() (const SW_JOIN_INNER_TD_10168_key_leftMajor& k) const {
         using std::size_t;
         using std::hash;
         using std::string;
-        return (hash<int32_t>()(k._i_item_sk4763));
+        return (hash<int32_t>()(k._i_item_sk6137));
     }
 };
 }
-struct SW_JOIN_INNER_TD_10246_payload_leftMajor {
-    int32_t _i_item_sk4763;
-    std::string _i_brand4771;
-    std::string _i_category4775;
+struct SW_JOIN_INNER_TD_10168_payload_leftMajor {
+    int32_t _i_item_sk6137;
+    std::string _i_brand6145;
+    std::string _i_category6149;
 };
-struct SW_JOIN_INNER_TD_10246_key_rightMajor {
-    int32_t _ss_item_sk4787;
-    bool operator==(const SW_JOIN_INNER_TD_10246_key_rightMajor& other) const {
-        return ((_ss_item_sk4787 == other._ss_item_sk4787));
+struct SW_JOIN_INNER_TD_10168_key_rightMajor {
+    int32_t _ss_item_sk6161;
+    bool operator==(const SW_JOIN_INNER_TD_10168_key_rightMajor& other) const {
+        return ((_ss_item_sk6161 == other._ss_item_sk6161));
     }
 };
 namespace std {
 template <>
-struct hash<SW_JOIN_INNER_TD_10246_key_rightMajor> {
-    std::size_t operator() (const SW_JOIN_INNER_TD_10246_key_rightMajor& k) const {
+struct hash<SW_JOIN_INNER_TD_10168_key_rightMajor> {
+    std::size_t operator() (const SW_JOIN_INNER_TD_10168_key_rightMajor& k) const {
         using std::size_t;
         using std::hash;
         using std::string;
-        return (hash<int32_t>()(k._ss_item_sk4787));
+        return (hash<int32_t>()(k._ss_item_sk6161));
     }
 };
 }
-struct SW_JOIN_INNER_TD_10246_payload_rightMajor {
-    int32_t _ss_sold_date_sk4785;
-    int32_t _ss_item_sk4787;
-    int32_t _ss_store_sk4792;
-    int32_t _ss_sales_price4798;
+struct SW_JOIN_INNER_TD_10168_payload_rightMajor {
+    int32_t _ss_sold_date_sk6159;
+    int32_t _ss_item_sk6161;
+    int32_t _ss_store_sk6166;
+    int32_t _ss_sales_price6172;
 };
-void SW_JOIN_INNER_TD_10246(Table &tbl_Filter_TD_11390_output, Table &tbl_Filter_TD_11421_output, Table &tbl_JOIN_INNER_TD_10246_output) {
+void SW_JOIN_INNER_TD_10168(Table &tbl_Filter_TD_11784_output, Table &tbl_Filter_TD_11301_output, Table &tbl_JOIN_INNER_TD_10168_output) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: JOIN_INNER
-    // Operation: ListBuffer((ss_item_sk#4787 = i_item_sk#4763))
-    // Left Table: ListBuffer(i_item_sk#4763, i_brand#4771, i_category#4775)
-    // Right Table: ListBuffer(ss_sold_date_sk#4785, ss_item_sk#4787, ss_store_sk#4792, ss_sales_price#4798)
-    // Output Table: ListBuffer(i_brand#4771, i_category#4775, ss_sold_date_sk#4785, ss_store_sk#4792, ss_sales_price#4798)
-    int left_nrow = tbl_Filter_TD_11390_output.getNumRow();
-    int right_nrow = tbl_Filter_TD_11421_output.getNumRow();
+    // Operation: ListBuffer((ss_item_sk#6161 = i_item_sk#6137))
+    // Left Table: ListBuffer(i_item_sk#6137, i_brand#6145, i_category#6149)
+    // Right Table: ListBuffer(ss_sold_date_sk#6159, ss_item_sk#6161, ss_store_sk#6166, ss_sales_price#6172)
+    // Output Table: ListBuffer(i_brand#6145, i_category#6149, ss_sold_date_sk#6159, ss_store_sk#6166, ss_sales_price#6172)
+    int left_nrow = tbl_Filter_TD_11784_output.getNumRow();
+    int right_nrow = tbl_Filter_TD_11301_output.getNumRow();
     if (left_nrow < right_nrow) { 
-        std::unordered_multimap<SW_JOIN_INNER_TD_10246_key_leftMajor, SW_JOIN_INNER_TD_10246_payload_leftMajor> ht1;
-        int nrow1 = tbl_Filter_TD_11390_output.getNumRow();
+        std::unordered_multimap<SW_JOIN_INNER_TD_10168_key_leftMajor, SW_JOIN_INNER_TD_10168_payload_leftMajor> ht1;
+        int nrow1 = tbl_Filter_TD_11784_output.getNumRow();
         for (int i = 0; i < nrow1; i++) {
-            int32_t _i_item_sk4763_k = tbl_Filter_TD_11390_output.getInt32(i, 0);
-            SW_JOIN_INNER_TD_10246_key_leftMajor keyA{_i_item_sk4763_k};
-            int32_t _i_item_sk4763 = tbl_Filter_TD_11390_output.getInt32(i, 0);
-            std::array<char, TPCDS_READ_MAX + 1> _i_brand4771_n = tbl_Filter_TD_11390_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
-            std::string _i_brand4771 = std::string(_i_brand4771_n.data());
-            std::array<char, TPCDS_READ_MAX + 1> _i_category4775_n = tbl_Filter_TD_11390_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
-            std::string _i_category4775 = std::string(_i_category4775_n.data());
-            SW_JOIN_INNER_TD_10246_payload_leftMajor payloadA{_i_item_sk4763, _i_brand4771, _i_category4775};
+            int32_t _i_item_sk6137_k = tbl_Filter_TD_11784_output.getInt32(i, 0);
+            SW_JOIN_INNER_TD_10168_key_leftMajor keyA{_i_item_sk6137_k};
+            int32_t _i_item_sk6137 = tbl_Filter_TD_11784_output.getInt32(i, 0);
+            std::array<char, TPCDS_READ_MAX + 1> _i_brand6145_n = tbl_Filter_TD_11784_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
+            std::string _i_brand6145 = std::string(_i_brand6145_n.data());
+            std::array<char, TPCDS_READ_MAX + 1> _i_category6149_n = tbl_Filter_TD_11784_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
+            std::string _i_category6149 = std::string(_i_category6149_n.data());
+            SW_JOIN_INNER_TD_10168_payload_leftMajor payloadA{_i_item_sk6137, _i_brand6145, _i_category6149};
             ht1.insert(std::make_pair(keyA, payloadA));
         }
         int r = 0;
-        int nrow2 = tbl_Filter_TD_11421_output.getNumRow();
+        int nrow2 = tbl_Filter_TD_11301_output.getNumRow();
         for (int i = 0; i < nrow2; i++) {
-            int32_t _ss_item_sk4787_k = tbl_Filter_TD_11421_output.getInt32(i, 1);
-            auto its = ht1.equal_range(SW_JOIN_INNER_TD_10246_key_leftMajor{_ss_item_sk4787_k});
+            int32_t _ss_item_sk6161_k = tbl_Filter_TD_11301_output.getInt32(i, 1);
+            auto its = ht1.equal_range(SW_JOIN_INNER_TD_10168_key_leftMajor{_ss_item_sk6161_k});
             auto it = its.first;
             while (it != its.second) {
-                int32_t _i_item_sk4763 = (it->second)._i_item_sk4763;
-                std::string _i_brand4771 = (it->second)._i_brand4771;
-                std::array<char, TPCDS_READ_MAX + 1> _i_brand4771_n{};
-                memcpy(_i_brand4771_n.data(), (_i_brand4771).data(), (_i_brand4771).length());
-                std::string _i_category4775 = (it->second)._i_category4775;
-                std::array<char, TPCDS_READ_MAX + 1> _i_category4775_n{};
-                memcpy(_i_category4775_n.data(), (_i_category4775).data(), (_i_category4775).length());
-                int32_t _ss_sold_date_sk4785 = tbl_Filter_TD_11421_output.getInt32(i, 0);
-                int32_t _ss_item_sk4787 = tbl_Filter_TD_11421_output.getInt32(i, 1);
-                int32_t _ss_store_sk4792 = tbl_Filter_TD_11421_output.getInt32(i, 2);
-                int32_t _ss_sales_price4798 = tbl_Filter_TD_11421_output.getInt32(i, 3);
-                tbl_JOIN_INNER_TD_10246_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 0, _i_brand4771_n);
-                tbl_JOIN_INNER_TD_10246_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 1, _i_category4775_n);
-                tbl_JOIN_INNER_TD_10246_output.setInt32(r, 2, _ss_sold_date_sk4785);
-                tbl_JOIN_INNER_TD_10246_output.setInt32(r, 3, _ss_store_sk4792);
-                tbl_JOIN_INNER_TD_10246_output.setInt32(r, 4, _ss_sales_price4798);
+                int32_t _i_item_sk6137 = (it->second)._i_item_sk6137;
+                std::string _i_brand6145 = (it->second)._i_brand6145;
+                std::array<char, TPCDS_READ_MAX + 1> _i_brand6145_n{};
+                memcpy(_i_brand6145_n.data(), (_i_brand6145).data(), (_i_brand6145).length());
+                std::string _i_category6149 = (it->second)._i_category6149;
+                std::array<char, TPCDS_READ_MAX + 1> _i_category6149_n{};
+                memcpy(_i_category6149_n.data(), (_i_category6149).data(), (_i_category6149).length());
+                int32_t _ss_sold_date_sk6159 = tbl_Filter_TD_11301_output.getInt32(i, 0);
+                int32_t _ss_item_sk6161 = tbl_Filter_TD_11301_output.getInt32(i, 1);
+                int32_t _ss_store_sk6166 = tbl_Filter_TD_11301_output.getInt32(i, 2);
+                int32_t _ss_sales_price6172 = tbl_Filter_TD_11301_output.getInt32(i, 3);
+                tbl_JOIN_INNER_TD_10168_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 0, _i_brand6145_n);
+                tbl_JOIN_INNER_TD_10168_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 1, _i_category6149_n);
+                tbl_JOIN_INNER_TD_10168_output.setInt32(r, 2, _ss_sold_date_sk6159);
+                tbl_JOIN_INNER_TD_10168_output.setInt32(r, 3, _ss_store_sk6166);
+                tbl_JOIN_INNER_TD_10168_output.setInt32(r, 4, _ss_sales_price6172);
                 it++;
                 r++;
             }
         }
-        tbl_JOIN_INNER_TD_10246_output.setNumRow(r);
+        tbl_JOIN_INNER_TD_10168_output.setNumRow(r);
     } else { 
-        std::unordered_multimap<SW_JOIN_INNER_TD_10246_key_rightMajor, SW_JOIN_INNER_TD_10246_payload_rightMajor> ht1;
-        int nrow1 = tbl_Filter_TD_11421_output.getNumRow();
+        std::unordered_multimap<SW_JOIN_INNER_TD_10168_key_rightMajor, SW_JOIN_INNER_TD_10168_payload_rightMajor> ht1;
+        int nrow1 = tbl_Filter_TD_11301_output.getNumRow();
         for (int i = 0; i < nrow1; i++) {
-            int32_t _ss_item_sk4787_k = tbl_Filter_TD_11421_output.getInt32(i, 1);
-            SW_JOIN_INNER_TD_10246_key_rightMajor keyA{_ss_item_sk4787_k};
-            int32_t _ss_sold_date_sk4785 = tbl_Filter_TD_11421_output.getInt32(i, 0);
-            int32_t _ss_item_sk4787 = tbl_Filter_TD_11421_output.getInt32(i, 1);
-            int32_t _ss_store_sk4792 = tbl_Filter_TD_11421_output.getInt32(i, 2);
-            int32_t _ss_sales_price4798 = tbl_Filter_TD_11421_output.getInt32(i, 3);
-            SW_JOIN_INNER_TD_10246_payload_rightMajor payloadA{_ss_sold_date_sk4785, _ss_item_sk4787, _ss_store_sk4792, _ss_sales_price4798};
+            int32_t _ss_item_sk6161_k = tbl_Filter_TD_11301_output.getInt32(i, 1);
+            SW_JOIN_INNER_TD_10168_key_rightMajor keyA{_ss_item_sk6161_k};
+            int32_t _ss_sold_date_sk6159 = tbl_Filter_TD_11301_output.getInt32(i, 0);
+            int32_t _ss_item_sk6161 = tbl_Filter_TD_11301_output.getInt32(i, 1);
+            int32_t _ss_store_sk6166 = tbl_Filter_TD_11301_output.getInt32(i, 2);
+            int32_t _ss_sales_price6172 = tbl_Filter_TD_11301_output.getInt32(i, 3);
+            SW_JOIN_INNER_TD_10168_payload_rightMajor payloadA{_ss_sold_date_sk6159, _ss_item_sk6161, _ss_store_sk6166, _ss_sales_price6172};
             ht1.insert(std::make_pair(keyA, payloadA));
         }
         int r = 0;
-        int nrow2 = tbl_Filter_TD_11390_output.getNumRow();
+        int nrow2 = tbl_Filter_TD_11784_output.getNumRow();
         for (int i = 0; i < nrow2; i++) {
-            int32_t _i_item_sk4763_k = tbl_Filter_TD_11390_output.getInt32(i, 0);
-            auto its = ht1.equal_range(SW_JOIN_INNER_TD_10246_key_rightMajor{_i_item_sk4763_k});
+            int32_t _i_item_sk6137_k = tbl_Filter_TD_11784_output.getInt32(i, 0);
+            auto its = ht1.equal_range(SW_JOIN_INNER_TD_10168_key_rightMajor{_i_item_sk6137_k});
             auto it = its.first;
             while (it != its.second) {
-                int32_t _ss_sold_date_sk4785 = (it->second)._ss_sold_date_sk4785;
-                int32_t _ss_item_sk4787 = (it->second)._ss_item_sk4787;
-                int32_t _ss_store_sk4792 = (it->second)._ss_store_sk4792;
-                int32_t _ss_sales_price4798 = (it->second)._ss_sales_price4798;
-                int32_t _i_item_sk4763 = tbl_Filter_TD_11390_output.getInt32(i, 0);
-                std::array<char, TPCDS_READ_MAX + 1> _i_brand4771_n = tbl_Filter_TD_11390_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
-                std::string _i_brand4771 = std::string(_i_brand4771_n.data());
-                std::array<char, TPCDS_READ_MAX + 1> _i_category4775_n = tbl_Filter_TD_11390_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
-                std::string _i_category4775 = std::string(_i_category4775_n.data());
-                tbl_JOIN_INNER_TD_10246_output.setInt32(r, 2, _ss_sold_date_sk4785);
-                tbl_JOIN_INNER_TD_10246_output.setInt32(r, 3, _ss_store_sk4792);
-                tbl_JOIN_INNER_TD_10246_output.setInt32(r, 4, _ss_sales_price4798);
-                tbl_JOIN_INNER_TD_10246_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 0, _i_brand4771_n);
-                tbl_JOIN_INNER_TD_10246_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 1, _i_category4775_n);
+                int32_t _ss_sold_date_sk6159 = (it->second)._ss_sold_date_sk6159;
+                int32_t _ss_item_sk6161 = (it->second)._ss_item_sk6161;
+                int32_t _ss_store_sk6166 = (it->second)._ss_store_sk6166;
+                int32_t _ss_sales_price6172 = (it->second)._ss_sales_price6172;
+                int32_t _i_item_sk6137 = tbl_Filter_TD_11784_output.getInt32(i, 0);
+                std::array<char, TPCDS_READ_MAX + 1> _i_brand6145_n = tbl_Filter_TD_11784_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
+                std::string _i_brand6145 = std::string(_i_brand6145_n.data());
+                std::array<char, TPCDS_READ_MAX + 1> _i_category6149_n = tbl_Filter_TD_11784_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
+                std::string _i_category6149 = std::string(_i_category6149_n.data());
+                tbl_JOIN_INNER_TD_10168_output.setInt32(r, 2, _ss_sold_date_sk6159);
+                tbl_JOIN_INNER_TD_10168_output.setInt32(r, 3, _ss_store_sk6166);
+                tbl_JOIN_INNER_TD_10168_output.setInt32(r, 4, _ss_sales_price6172);
+                tbl_JOIN_INNER_TD_10168_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 0, _i_brand6145_n);
+                tbl_JOIN_INNER_TD_10168_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 1, _i_category6149_n);
                 it++;
                 r++;
             }
         }
-        tbl_JOIN_INNER_TD_10246_output.setNumRow(r);
+        tbl_JOIN_INNER_TD_10168_output.setNumRow(r);
     } 
-    std::cout << "tbl_JOIN_INNER_TD_10246_output #Row: " << tbl_JOIN_INNER_TD_10246_output.getNumRow() << std::endl;
+    std::cout << "tbl_JOIN_INNER_TD_10168_output #Row: " << tbl_JOIN_INNER_TD_10168_output.getNumRow() << std::endl;
 }
 
-void SW_Filter_TD_10408(Table &tbl_SerializeFromObject_TD_11759_input, Table &tbl_Filter_TD_10408_output) {
+void SW_Filter_TD_10585(Table &tbl_SerializeFromObject_TD_11249_input, Table &tbl_Filter_TD_10585_output) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: Filter
-    // Operation: ListBuffer((isnotnull(s_store_sk#4729) AND (isnotnull(s_store_name#4734) AND isnotnull(s_company_name#4746))))
-    // Input: ListBuffer(s_store_sk#4729, s_store_name#4734, s_company_name#4746)
-    // Output: ListBuffer(s_store_sk#4729, s_store_name#4734, s_company_name#4746)
+    // Operation: ListBuffer((isnotnull(s_store_sk#6103) AND (isnotnull(s_store_name#6108) AND isnotnull(s_company_name#6120))))
+    // Input: ListBuffer(s_store_sk#6103, s_store_name#6108, s_company_name#6120)
+    // Output: ListBuffer(s_store_sk#6103, s_store_name#6108, s_company_name#6120)
     int r = 0;
-    int nrow1 = tbl_SerializeFromObject_TD_11759_input.getNumRow();
+    int nrow1 = tbl_SerializeFromObject_TD_11249_input.getNumRow();
     for (int i = 0; i < nrow1; i++) {
-        int32_t _s_store_sk4729 = tbl_SerializeFromObject_TD_11759_input.getInt32(i, 0);
-        std::array<char, TPCDS_READ_MAX + 1> _s_store_name4734 = tbl_SerializeFromObject_TD_11759_input.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
-        std::array<char, TPCDS_READ_MAX + 1> _s_company_name4746 = tbl_SerializeFromObject_TD_11759_input.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
-        if ((1) && ((1) && (1))) {
-            int32_t _s_store_sk4729_t = tbl_SerializeFromObject_TD_11759_input.getInt32(i, 0);
-            tbl_Filter_TD_10408_output.setInt32(r, 0, _s_store_sk4729_t);
-            std::array<char, TPCDS_READ_MAX + 1> _s_store_name4734_t = tbl_SerializeFromObject_TD_11759_input.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
-            tbl_Filter_TD_10408_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 1, _s_store_name4734_t);
-            std::array<char, TPCDS_READ_MAX + 1> _s_company_name4746_t = tbl_SerializeFromObject_TD_11759_input.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
-            tbl_Filter_TD_10408_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 2, _s_company_name4746_t);
+        int32_t _s_store_sk6103 = tbl_SerializeFromObject_TD_11249_input.getInt32(i, 0);
+        std::array<char, TPCDS_READ_MAX + 1> _s_store_name6108 = tbl_SerializeFromObject_TD_11249_input.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
+        std::array<char, TPCDS_READ_MAX + 1> _s_company_name6120 = tbl_SerializeFromObject_TD_11249_input.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
+        if ((_s_store_sk6103!= 0) && (（std::string(_isnotnulls_store_name6108.data()) != "NULL") && （std::string(_isnotnulls_company_name6120.data()) != "NULL"))) {
+            int32_t _s_store_sk6103_t = tbl_SerializeFromObject_TD_11249_input.getInt32(i, 0);
+            tbl_Filter_TD_10585_output.setInt32(r, 0, _s_store_sk6103_t);
+            std::array<char, TPCDS_READ_MAX + 1> _s_store_name6108_t = tbl_SerializeFromObject_TD_11249_input.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
+            tbl_Filter_TD_10585_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 1, _s_store_name6108_t);
+            std::array<char, TPCDS_READ_MAX + 1> _s_company_name6120_t = tbl_SerializeFromObject_TD_11249_input.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
+            tbl_Filter_TD_10585_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 2, _s_company_name6120_t);
             r++;
         }
     }
-    tbl_Filter_TD_10408_output.setNumRow(r);
-    std::cout << "tbl_Filter_TD_10408_output #Row: " << tbl_Filter_TD_10408_output.getNumRow() << std::endl;
+    tbl_Filter_TD_10585_output.setNumRow(r);
+    std::cout << "tbl_Filter_TD_10585_output #Row: " << tbl_Filter_TD_10585_output.getNumRow() << std::endl;
 }
 
-struct SW_JOIN_INNER_TD_10223_key_leftMajor {
-    int32_t _ss_sold_date_sk4678;
-    bool operator==(const SW_JOIN_INNER_TD_10223_key_leftMajor& other) const {
-        return ((_ss_sold_date_sk4678 == other._ss_sold_date_sk4678));
+struct SW_JOIN_INNER_TD_1059_key_leftMajor {
+    int32_t _ss_sold_date_sk6052;
+    bool operator==(const SW_JOIN_INNER_TD_1059_key_leftMajor& other) const {
+        return ((_ss_sold_date_sk6052 == other._ss_sold_date_sk6052));
     }
 };
 namespace std {
 template <>
-struct hash<SW_JOIN_INNER_TD_10223_key_leftMajor> {
-    std::size_t operator() (const SW_JOIN_INNER_TD_10223_key_leftMajor& k) const {
+struct hash<SW_JOIN_INNER_TD_1059_key_leftMajor> {
+    std::size_t operator() (const SW_JOIN_INNER_TD_1059_key_leftMajor& k) const {
         using std::size_t;
         using std::hash;
         using std::string;
-        return (hash<int32_t>()(k._ss_sold_date_sk4678));
+        return (hash<int32_t>()(k._ss_sold_date_sk6052));
     }
 };
 }
-struct SW_JOIN_INNER_TD_10223_payload_leftMajor {
-    std::string _i_brand4664;
-    std::string _i_category4668;
-    int32_t _ss_sold_date_sk4678;
-    int32_t _ss_store_sk4685;
-    int32_t _ss_sales_price4691;
+struct SW_JOIN_INNER_TD_1059_payload_leftMajor {
+    std::string _i_brand6038;
+    std::string _i_category6042;
+    int32_t _ss_sold_date_sk6052;
+    int32_t _ss_store_sk6059;
+    int32_t _ss_sales_price6065;
 };
-struct SW_JOIN_INNER_TD_10223_key_rightMajor {
-    int32_t _d_date_sk4701;
-    bool operator==(const SW_JOIN_INNER_TD_10223_key_rightMajor& other) const {
-        return ((_d_date_sk4701 == other._d_date_sk4701));
+struct SW_JOIN_INNER_TD_1059_key_rightMajor {
+    int32_t _d_date_sk6075;
+    bool operator==(const SW_JOIN_INNER_TD_1059_key_rightMajor& other) const {
+        return ((_d_date_sk6075 == other._d_date_sk6075));
     }
 };
 namespace std {
 template <>
-struct hash<SW_JOIN_INNER_TD_10223_key_rightMajor> {
-    std::size_t operator() (const SW_JOIN_INNER_TD_10223_key_rightMajor& k) const {
+struct hash<SW_JOIN_INNER_TD_1059_key_rightMajor> {
+    std::size_t operator() (const SW_JOIN_INNER_TD_1059_key_rightMajor& k) const {
         using std::size_t;
         using std::hash;
         using std::string;
-        return (hash<int32_t>()(k._d_date_sk4701));
+        return (hash<int32_t>()(k._d_date_sk6075));
     }
 };
 }
-struct SW_JOIN_INNER_TD_10223_payload_rightMajor {
-    int32_t _d_date_sk4701;
-    int32_t _d_year4707;
-    int32_t _d_moy4709;
+struct SW_JOIN_INNER_TD_1059_payload_rightMajor {
+    int32_t _d_date_sk6075;
+    int32_t _d_year6081;
+    int32_t _d_moy6083;
 };
-void SW_JOIN_INNER_TD_10223(Table &tbl_JOIN_INNER_TD_11466_output, Table &tbl_Filter_TD_11691_output, Table &tbl_JOIN_INNER_TD_10223_output) {
+void SW_JOIN_INNER_TD_1059(Table &tbl_JOIN_INNER_TD_11390_output, Table &tbl_Filter_TD_11828_output, Table &tbl_JOIN_INNER_TD_1059_output) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: JOIN_INNER
-    // Operation: ListBuffer((ss_sold_date_sk#4678 = d_date_sk#4701))
-    // Left Table: ListBuffer(i_brand#4664, i_category#4668, ss_sold_date_sk#4678, ss_store_sk#4685, ss_sales_price#4691)
-    // Right Table: ListBuffer(d_date_sk#4701, d_year#4707, d_moy#4709)
-    // Output Table: ListBuffer(i_brand#4664, i_category#4668, ss_store_sk#4685, ss_sales_price#4691, d_year#4707, d_moy#4709)
-    int left_nrow = tbl_JOIN_INNER_TD_11466_output.getNumRow();
-    int right_nrow = tbl_Filter_TD_11691_output.getNumRow();
+    // Operation: ListBuffer((ss_sold_date_sk#6052 = d_date_sk#6075))
+    // Left Table: ListBuffer(i_brand#6038, i_category#6042, ss_sold_date_sk#6052, ss_store_sk#6059, ss_sales_price#6065)
+    // Right Table: ListBuffer(d_date_sk#6075, d_year#6081, d_moy#6083)
+    // Output Table: ListBuffer(i_brand#6038, i_category#6042, ss_store_sk#6059, ss_sales_price#6065, d_year#6081, d_moy#6083)
+    int left_nrow = tbl_JOIN_INNER_TD_11390_output.getNumRow();
+    int right_nrow = tbl_Filter_TD_11828_output.getNumRow();
     if (left_nrow < right_nrow) { 
-        std::unordered_multimap<SW_JOIN_INNER_TD_10223_key_leftMajor, SW_JOIN_INNER_TD_10223_payload_leftMajor> ht1;
-        int nrow1 = tbl_JOIN_INNER_TD_11466_output.getNumRow();
+        std::unordered_multimap<SW_JOIN_INNER_TD_1059_key_leftMajor, SW_JOIN_INNER_TD_1059_payload_leftMajor> ht1;
+        int nrow1 = tbl_JOIN_INNER_TD_11390_output.getNumRow();
         for (int i = 0; i < nrow1; i++) {
-            int32_t _ss_sold_date_sk4678_k = tbl_JOIN_INNER_TD_11466_output.getInt32(i, 2);
-            SW_JOIN_INNER_TD_10223_key_leftMajor keyA{_ss_sold_date_sk4678_k};
-            std::array<char, TPCDS_READ_MAX + 1> _i_brand4664_n = tbl_JOIN_INNER_TD_11466_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 0);
-            std::string _i_brand4664 = std::string(_i_brand4664_n.data());
-            std::array<char, TPCDS_READ_MAX + 1> _i_category4668_n = tbl_JOIN_INNER_TD_11466_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
-            std::string _i_category4668 = std::string(_i_category4668_n.data());
-            int32_t _ss_sold_date_sk4678 = tbl_JOIN_INNER_TD_11466_output.getInt32(i, 2);
-            int32_t _ss_store_sk4685 = tbl_JOIN_INNER_TD_11466_output.getInt32(i, 3);
-            int32_t _ss_sales_price4691 = tbl_JOIN_INNER_TD_11466_output.getInt32(i, 4);
-            SW_JOIN_INNER_TD_10223_payload_leftMajor payloadA{_i_brand4664, _i_category4668, _ss_sold_date_sk4678, _ss_store_sk4685, _ss_sales_price4691};
+            int32_t _ss_sold_date_sk6052_k = tbl_JOIN_INNER_TD_11390_output.getInt32(i, 2);
+            SW_JOIN_INNER_TD_1059_key_leftMajor keyA{_ss_sold_date_sk6052_k};
+            std::array<char, TPCDS_READ_MAX + 1> _i_brand6038_n = tbl_JOIN_INNER_TD_11390_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 0);
+            std::string _i_brand6038 = std::string(_i_brand6038_n.data());
+            std::array<char, TPCDS_READ_MAX + 1> _i_category6042_n = tbl_JOIN_INNER_TD_11390_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
+            std::string _i_category6042 = std::string(_i_category6042_n.data());
+            int32_t _ss_sold_date_sk6052 = tbl_JOIN_INNER_TD_11390_output.getInt32(i, 2);
+            int32_t _ss_store_sk6059 = tbl_JOIN_INNER_TD_11390_output.getInt32(i, 3);
+            int32_t _ss_sales_price6065 = tbl_JOIN_INNER_TD_11390_output.getInt32(i, 4);
+            SW_JOIN_INNER_TD_1059_payload_leftMajor payloadA{_i_brand6038, _i_category6042, _ss_sold_date_sk6052, _ss_store_sk6059, _ss_sales_price6065};
             ht1.insert(std::make_pair(keyA, payloadA));
         }
         int r = 0;
-        int nrow2 = tbl_Filter_TD_11691_output.getNumRow();
+        int nrow2 = tbl_Filter_TD_11828_output.getNumRow();
         for (int i = 0; i < nrow2; i++) {
-            int32_t _d_date_sk4701_k = tbl_Filter_TD_11691_output.getInt32(i, 0);
-            auto its = ht1.equal_range(SW_JOIN_INNER_TD_10223_key_leftMajor{_d_date_sk4701_k});
+            int32_t _d_date_sk6075_k = tbl_Filter_TD_11828_output.getInt32(i, 0);
+            auto its = ht1.equal_range(SW_JOIN_INNER_TD_1059_key_leftMajor{_d_date_sk6075_k});
             auto it = its.first;
             while (it != its.second) {
-                std::string _i_brand4664 = (it->second)._i_brand4664;
-                std::array<char, TPCDS_READ_MAX + 1> _i_brand4664_n{};
-                memcpy(_i_brand4664_n.data(), (_i_brand4664).data(), (_i_brand4664).length());
-                std::string _i_category4668 = (it->second)._i_category4668;
-                std::array<char, TPCDS_READ_MAX + 1> _i_category4668_n{};
-                memcpy(_i_category4668_n.data(), (_i_category4668).data(), (_i_category4668).length());
-                int32_t _ss_sold_date_sk4678 = (it->second)._ss_sold_date_sk4678;
-                int32_t _ss_store_sk4685 = (it->second)._ss_store_sk4685;
-                int32_t _ss_sales_price4691 = (it->second)._ss_sales_price4691;
-                int32_t _d_date_sk4701 = tbl_Filter_TD_11691_output.getInt32(i, 0);
-                int32_t _d_year4707 = tbl_Filter_TD_11691_output.getInt32(i, 1);
-                int32_t _d_moy4709 = tbl_Filter_TD_11691_output.getInt32(i, 2);
-                tbl_JOIN_INNER_TD_10223_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 0, _i_brand4664_n);
-                tbl_JOIN_INNER_TD_10223_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 1, _i_category4668_n);
-                tbl_JOIN_INNER_TD_10223_output.setInt32(r, 2, _ss_store_sk4685);
-                tbl_JOIN_INNER_TD_10223_output.setInt32(r, 3, _ss_sales_price4691);
-                tbl_JOIN_INNER_TD_10223_output.setInt32(r, 4, _d_year4707);
-                tbl_JOIN_INNER_TD_10223_output.setInt32(r, 5, _d_moy4709);
+                std::string _i_brand6038 = (it->second)._i_brand6038;
+                std::array<char, TPCDS_READ_MAX + 1> _i_brand6038_n{};
+                memcpy(_i_brand6038_n.data(), (_i_brand6038).data(), (_i_brand6038).length());
+                std::string _i_category6042 = (it->second)._i_category6042;
+                std::array<char, TPCDS_READ_MAX + 1> _i_category6042_n{};
+                memcpy(_i_category6042_n.data(), (_i_category6042).data(), (_i_category6042).length());
+                int32_t _ss_sold_date_sk6052 = (it->second)._ss_sold_date_sk6052;
+                int32_t _ss_store_sk6059 = (it->second)._ss_store_sk6059;
+                int32_t _ss_sales_price6065 = (it->second)._ss_sales_price6065;
+                int32_t _d_date_sk6075 = tbl_Filter_TD_11828_output.getInt32(i, 0);
+                int32_t _d_year6081 = tbl_Filter_TD_11828_output.getInt32(i, 1);
+                int32_t _d_moy6083 = tbl_Filter_TD_11828_output.getInt32(i, 2);
+                tbl_JOIN_INNER_TD_1059_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 0, _i_brand6038_n);
+                tbl_JOIN_INNER_TD_1059_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 1, _i_category6042_n);
+                tbl_JOIN_INNER_TD_1059_output.setInt32(r, 2, _ss_store_sk6059);
+                tbl_JOIN_INNER_TD_1059_output.setInt32(r, 3, _ss_sales_price6065);
+                tbl_JOIN_INNER_TD_1059_output.setInt32(r, 4, _d_year6081);
+                tbl_JOIN_INNER_TD_1059_output.setInt32(r, 5, _d_moy6083);
                 it++;
                 r++;
             }
         }
-        tbl_JOIN_INNER_TD_10223_output.setNumRow(r);
+        tbl_JOIN_INNER_TD_1059_output.setNumRow(r);
     } else { 
-        std::unordered_multimap<SW_JOIN_INNER_TD_10223_key_rightMajor, SW_JOIN_INNER_TD_10223_payload_rightMajor> ht1;
-        int nrow1 = tbl_Filter_TD_11691_output.getNumRow();
+        std::unordered_multimap<SW_JOIN_INNER_TD_1059_key_rightMajor, SW_JOIN_INNER_TD_1059_payload_rightMajor> ht1;
+        int nrow1 = tbl_Filter_TD_11828_output.getNumRow();
         for (int i = 0; i < nrow1; i++) {
-            int32_t _d_date_sk4701_k = tbl_Filter_TD_11691_output.getInt32(i, 0);
-            SW_JOIN_INNER_TD_10223_key_rightMajor keyA{_d_date_sk4701_k};
-            int32_t _d_date_sk4701 = tbl_Filter_TD_11691_output.getInt32(i, 0);
-            int32_t _d_year4707 = tbl_Filter_TD_11691_output.getInt32(i, 1);
-            int32_t _d_moy4709 = tbl_Filter_TD_11691_output.getInt32(i, 2);
-            SW_JOIN_INNER_TD_10223_payload_rightMajor payloadA{_d_date_sk4701, _d_year4707, _d_moy4709};
+            int32_t _d_date_sk6075_k = tbl_Filter_TD_11828_output.getInt32(i, 0);
+            SW_JOIN_INNER_TD_1059_key_rightMajor keyA{_d_date_sk6075_k};
+            int32_t _d_date_sk6075 = tbl_Filter_TD_11828_output.getInt32(i, 0);
+            int32_t _d_year6081 = tbl_Filter_TD_11828_output.getInt32(i, 1);
+            int32_t _d_moy6083 = tbl_Filter_TD_11828_output.getInt32(i, 2);
+            SW_JOIN_INNER_TD_1059_payload_rightMajor payloadA{_d_date_sk6075, _d_year6081, _d_moy6083};
             ht1.insert(std::make_pair(keyA, payloadA));
         }
         int r = 0;
-        int nrow2 = tbl_JOIN_INNER_TD_11466_output.getNumRow();
+        int nrow2 = tbl_JOIN_INNER_TD_11390_output.getNumRow();
         for (int i = 0; i < nrow2; i++) {
-            int32_t _ss_sold_date_sk4678_k = tbl_JOIN_INNER_TD_11466_output.getInt32(i, 2);
-            auto its = ht1.equal_range(SW_JOIN_INNER_TD_10223_key_rightMajor{_ss_sold_date_sk4678_k});
+            int32_t _ss_sold_date_sk6052_k = tbl_JOIN_INNER_TD_11390_output.getInt32(i, 2);
+            auto its = ht1.equal_range(SW_JOIN_INNER_TD_1059_key_rightMajor{_ss_sold_date_sk6052_k});
             auto it = its.first;
             while (it != its.second) {
-                int32_t _d_date_sk4701 = (it->second)._d_date_sk4701;
-                int32_t _d_year4707 = (it->second)._d_year4707;
-                int32_t _d_moy4709 = (it->second)._d_moy4709;
-                std::array<char, TPCDS_READ_MAX + 1> _i_brand4664_n = tbl_JOIN_INNER_TD_11466_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 0);
-                std::string _i_brand4664 = std::string(_i_brand4664_n.data());
-                std::array<char, TPCDS_READ_MAX + 1> _i_category4668_n = tbl_JOIN_INNER_TD_11466_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
-                std::string _i_category4668 = std::string(_i_category4668_n.data());
-                int32_t _ss_sold_date_sk4678 = tbl_JOIN_INNER_TD_11466_output.getInt32(i, 2);
-                int32_t _ss_store_sk4685 = tbl_JOIN_INNER_TD_11466_output.getInt32(i, 3);
-                int32_t _ss_sales_price4691 = tbl_JOIN_INNER_TD_11466_output.getInt32(i, 4);
-                tbl_JOIN_INNER_TD_10223_output.setInt32(r, 4, _d_year4707);
-                tbl_JOIN_INNER_TD_10223_output.setInt32(r, 5, _d_moy4709);
-                tbl_JOIN_INNER_TD_10223_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 0, _i_brand4664_n);
-                tbl_JOIN_INNER_TD_10223_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 1, _i_category4668_n);
-                tbl_JOIN_INNER_TD_10223_output.setInt32(r, 2, _ss_store_sk4685);
-                tbl_JOIN_INNER_TD_10223_output.setInt32(r, 3, _ss_sales_price4691);
+                int32_t _d_date_sk6075 = (it->second)._d_date_sk6075;
+                int32_t _d_year6081 = (it->second)._d_year6081;
+                int32_t _d_moy6083 = (it->second)._d_moy6083;
+                std::array<char, TPCDS_READ_MAX + 1> _i_brand6038_n = tbl_JOIN_INNER_TD_11390_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 0);
+                std::string _i_brand6038 = std::string(_i_brand6038_n.data());
+                std::array<char, TPCDS_READ_MAX + 1> _i_category6042_n = tbl_JOIN_INNER_TD_11390_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
+                std::string _i_category6042 = std::string(_i_category6042_n.data());
+                int32_t _ss_sold_date_sk6052 = tbl_JOIN_INNER_TD_11390_output.getInt32(i, 2);
+                int32_t _ss_store_sk6059 = tbl_JOIN_INNER_TD_11390_output.getInt32(i, 3);
+                int32_t _ss_sales_price6065 = tbl_JOIN_INNER_TD_11390_output.getInt32(i, 4);
+                tbl_JOIN_INNER_TD_1059_output.setInt32(r, 4, _d_year6081);
+                tbl_JOIN_INNER_TD_1059_output.setInt32(r, 5, _d_moy6083);
+                tbl_JOIN_INNER_TD_1059_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 0, _i_brand6038_n);
+                tbl_JOIN_INNER_TD_1059_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 1, _i_category6042_n);
+                tbl_JOIN_INNER_TD_1059_output.setInt32(r, 2, _ss_store_sk6059);
+                tbl_JOIN_INNER_TD_1059_output.setInt32(r, 3, _ss_sales_price6065);
                 it++;
                 r++;
             }
         }
-        tbl_JOIN_INNER_TD_10223_output.setNumRow(r);
+        tbl_JOIN_INNER_TD_1059_output.setNumRow(r);
     } 
-    std::cout << "tbl_JOIN_INNER_TD_10223_output #Row: " << tbl_JOIN_INNER_TD_10223_output.getNumRow() << std::endl;
+    std::cout << "tbl_JOIN_INNER_TD_1059_output #Row: " << tbl_JOIN_INNER_TD_1059_output.getNumRow() << std::endl;
 }
 
-struct SW_Aggregate_TD_10843_key {
+struct SW_Aggregate_TD_1067_key {
     std::string _i_category240;
     std::string _i_brand236;
     std::string _s_store_name383;
     std::string _s_company_name395;
     int32_t _d_year126;
     int32_t _d_moy128;
-    bool operator==(const SW_Aggregate_TD_10843_key& other) const { return (_i_category240 == other._i_category240) && (_i_brand236 == other._i_brand236) && (_s_store_name383 == other._s_store_name383) && (_s_company_name395 == other._s_company_name395) && (_d_year126 == other._d_year126) && (_d_moy128 == other._d_moy128); }
+    bool operator==(const SW_Aggregate_TD_1067_key& other) const { return (_i_category240 == other._i_category240) && (_i_brand236 == other._i_brand236) && (_s_store_name383 == other._s_store_name383) && (_s_company_name395 == other._s_company_name395) && (_d_year126 == other._d_year126) && (_d_moy128 == other._d_moy128); }
 };
 namespace std {
 template <>
-struct hash<SW_Aggregate_TD_10843_key> {
-    std::size_t operator() (const SW_Aggregate_TD_10843_key& k) const {
+struct hash<SW_Aggregate_TD_1067_key> {
+    std::size_t operator() (const SW_Aggregate_TD_1067_key& k) const {
         using std::size_t;
         using std::hash;
         using std::string;
@@ -1179,36 +1179,36 @@ struct hash<SW_Aggregate_TD_10843_key> {
     }
 };
 }
-struct SW_Aggregate_TD_10843_payload {
-    int32_t _sum_sales3892_sum_0;
-    int32_t __w03906_sum_1;
+struct SW_Aggregate_TD_1067_payload {
+    int32_t _sum_sales5266_sum_0;
+    int32_t __w05280_sum_1;
 };
-void SW_Aggregate_TD_10843(Table &tbl_JOIN_INNER_TD_11291_output, Table &tbl_Aggregate_TD_10843_output) {
+void SW_Aggregate_TD_1067(Table &tbl_JOIN_INNER_TD_11649_output, Table &tbl_Aggregate_TD_1067_output) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: Aggregate
-    // Operation: ListBuffer(i_category#240, i_brand#236, s_store_name#383, s_company_name#395, d_year#126, d_moy#128, MakeDecimal(sum(UnscaledValue(ss_sales_price#1219)),17,2) AS sum_sales#3892, MakeDecimal(sum(UnscaledValue(ss_sales_price#1219)),17,2) AS _w0#3906)
+    // Operation: ListBuffer(i_category#240, i_brand#236, s_store_name#383, s_company_name#395, d_year#126, d_moy#128, MakeDecimal(sum(UnscaledValue(ss_sales_price#1219)),17,2) AS sum_sales#5266, MakeDecimal(sum(UnscaledValue(ss_sales_price#1219)),17,2) AS _w0#5280)
     // Input: ListBuffer(i_brand#236, i_category#240, ss_sales_price#1219, d_year#126, d_moy#128, s_store_name#383, s_company_name#395)
-    // Output: ListBuffer(i_category#240, i_brand#236, s_store_name#383, s_company_name#395, d_year#126, d_moy#128, sum_sales#3892, _w0#3906)
-    std::unordered_map<SW_Aggregate_TD_10843_key, SW_Aggregate_TD_10843_payload> ht1;
-    int nrow1 = tbl_JOIN_INNER_TD_11291_output.getNumRow();
+    // Output: ListBuffer(i_category#240, i_brand#236, s_store_name#383, s_company_name#395, d_year#126, d_moy#128, sum_sales#5266, _w0#5280)
+    std::unordered_map<SW_Aggregate_TD_1067_key, SW_Aggregate_TD_1067_payload> ht1;
+    int nrow1 = tbl_JOIN_INNER_TD_11649_output.getNumRow();
     for (int i = 0; i < nrow1; i++) {
-        std::array<char, TPCDS_READ_MAX + 1> _i_brand236 = tbl_JOIN_INNER_TD_11291_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 0);
-        std::array<char, TPCDS_READ_MAX + 1> _i_category240 = tbl_JOIN_INNER_TD_11291_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
-        int32_t _ss_sales_price1219 = tbl_JOIN_INNER_TD_11291_output.getInt32(i, 2);
-        int32_t _d_year126 = tbl_JOIN_INNER_TD_11291_output.getInt32(i, 3);
-        int32_t _d_moy128 = tbl_JOIN_INNER_TD_11291_output.getInt32(i, 4);
-        std::array<char, TPCDS_READ_MAX + 1> _s_store_name383 = tbl_JOIN_INNER_TD_11291_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 5);
-        std::array<char, TPCDS_READ_MAX + 1> _s_company_name395 = tbl_JOIN_INNER_TD_11291_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 6);
-        SW_Aggregate_TD_10843_key k{std::string(_i_category240.data()), std::string(_i_brand236.data()), std::string(_s_store_name383.data()), std::string(_s_company_name395.data()), _d_year126, _d_moy128};
-        int64_t _sum_sales3892_sum_0 = _ss_sales_price1219;
-        int64_t __w03906_sum_1 = _ss_sales_price1219;
-        SW_Aggregate_TD_10843_payload p{_sum_sales3892_sum_0, __w03906_sum_1};
+        std::array<char, TPCDS_READ_MAX + 1> _i_brand236 = tbl_JOIN_INNER_TD_11649_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 0);
+        std::array<char, TPCDS_READ_MAX + 1> _i_category240 = tbl_JOIN_INNER_TD_11649_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
+        int32_t _ss_sales_price1219 = tbl_JOIN_INNER_TD_11649_output.getInt32(i, 2);
+        int32_t _d_year126 = tbl_JOIN_INNER_TD_11649_output.getInt32(i, 3);
+        int32_t _d_moy128 = tbl_JOIN_INNER_TD_11649_output.getInt32(i, 4);
+        std::array<char, TPCDS_READ_MAX + 1> _s_store_name383 = tbl_JOIN_INNER_TD_11649_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 5);
+        std::array<char, TPCDS_READ_MAX + 1> _s_company_name395 = tbl_JOIN_INNER_TD_11649_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 6);
+        SW_Aggregate_TD_1067_key k{std::string(_i_category240.data()), std::string(_i_brand236.data()), std::string(_s_store_name383.data()), std::string(_s_company_name395.data()), _d_year126, _d_moy128};
+        int64_t _sum_sales5266_sum_0 = _ss_sales_price1219;
+        int64_t __w05280_sum_1 = _ss_sales_price1219;
+        SW_Aggregate_TD_1067_payload p{_sum_sales5266_sum_0, __w05280_sum_1};
         auto it = ht1.find(k);
         if (it != ht1.end()) {
-            int32_t sum_0 = (it->second)._sum_sales3892_sum_0 + _sum_sales3892_sum_0;
-            p._sum_sales3892_sum_0 = sum_0;
-            int32_t sum_1 = (it->second).__w03906_sum_1 + __w03906_sum_1;
-            p.__w03906_sum_1 = sum_1;
+            int32_t sum_0 = (it->second)._sum_sales5266_sum_0 + _sum_sales5266_sum_0;
+            p._sum_sales5266_sum_0 = sum_0;
+            int32_t sum_1 = (it->second).__w05280_sum_1 + __w05280_sum_1;
+            p.__w05280_sum_1 = sum_1;
             ht1[k] = p;
         } else { 
             ht1.insert(std::make_pair(k, p));
@@ -1218,401 +1218,401 @@ void SW_Aggregate_TD_10843(Table &tbl_JOIN_INNER_TD_11291_output, Table &tbl_Agg
     for (auto& it : ht1) {
         std::array<char, TPCDS_READ_MAX + 1> _i_category240{};
         memcpy(_i_category240.data(), ((it.first)._i_category240).data(), ((it.first)._i_category240).length());
-        tbl_Aggregate_TD_10843_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 0, _i_category240);
+        tbl_Aggregate_TD_1067_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 0, _i_category240);
         std::array<char, TPCDS_READ_MAX + 1> _i_brand236{};
         memcpy(_i_brand236.data(), ((it.first)._i_brand236).data(), ((it.first)._i_brand236).length());
-        tbl_Aggregate_TD_10843_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 1, _i_brand236);
+        tbl_Aggregate_TD_1067_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 1, _i_brand236);
         std::array<char, TPCDS_READ_MAX + 1> _s_store_name383{};
         memcpy(_s_store_name383.data(), ((it.first)._s_store_name383).data(), ((it.first)._s_store_name383).length());
-        tbl_Aggregate_TD_10843_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 2, _s_store_name383);
+        tbl_Aggregate_TD_1067_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 2, _s_store_name383);
         std::array<char, TPCDS_READ_MAX + 1> _s_company_name395{};
         memcpy(_s_company_name395.data(), ((it.first)._s_company_name395).data(), ((it.first)._s_company_name395).length());
-        tbl_Aggregate_TD_10843_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 3, _s_company_name395);
-        tbl_Aggregate_TD_10843_output.setInt32(r, 4, (it.first)._d_year126);
-        tbl_Aggregate_TD_10843_output.setInt32(r, 5, (it.first)._d_moy128);
-        int32_t _sum_sales3892 = (it.second)._sum_sales3892_sum_0;
-        tbl_Aggregate_TD_10843_output.setInt32(r, 6, _sum_sales3892);
-        int32_t __w03906 = (it.second).__w03906_sum_1;
-        tbl_Aggregate_TD_10843_output.setInt32(r, 7, __w03906);
+        tbl_Aggregate_TD_1067_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 3, _s_company_name395);
+        tbl_Aggregate_TD_1067_output.setInt32(r, 4, (it.first)._d_year126);
+        tbl_Aggregate_TD_1067_output.setInt32(r, 5, (it.first)._d_moy128);
+        int32_t _sum_sales5266 = (it.second)._sum_sales5266_sum_0;
+        tbl_Aggregate_TD_1067_output.setInt32(r, 6, _sum_sales5266);
+        int32_t __w05280 = (it.second).__w05280_sum_1;
+        tbl_Aggregate_TD_1067_output.setInt32(r, 7, __w05280);
         ++r;
     }
-    tbl_Aggregate_TD_10843_output.setNumRow(r);
-    std::cout << "tbl_Aggregate_TD_10843_output #Row: " << tbl_Aggregate_TD_10843_output.getNumRow() << std::endl;
+    tbl_Aggregate_TD_1067_output.setNumRow(r);
+    std::cout << "tbl_Aggregate_TD_1067_output #Row: " << tbl_Aggregate_TD_1067_output.getNumRow() << std::endl;
 }
 
-void SW_Filter_TD_9452(Table &tbl_SerializeFromObject_TD_10483_input, Table &tbl_Filter_TD_9452_output) {
+void SW_Filter_TD_9186(Table &tbl_SerializeFromObject_TD_10126_input, Table &tbl_Filter_TD_9186_output) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: Filter
-    // Operation: ListBuffer((isnotnull(s_store_sk#4836) AND (isnotnull(s_store_name#4841) AND isnotnull(s_company_name#4853))))
-    // Input: ListBuffer(s_store_sk#4836, s_store_name#4841, s_company_name#4853)
-    // Output: ListBuffer(s_store_sk#4836, s_store_name#4841, s_company_name#4853)
+    // Operation: ListBuffer((isnotnull(s_store_sk#6210) AND (isnotnull(s_store_name#6215) AND isnotnull(s_company_name#6227))))
+    // Input: ListBuffer(s_store_sk#6210, s_store_name#6215, s_company_name#6227)
+    // Output: ListBuffer(s_store_sk#6210, s_store_name#6215, s_company_name#6227)
     int r = 0;
-    int nrow1 = tbl_SerializeFromObject_TD_10483_input.getNumRow();
+    int nrow1 = tbl_SerializeFromObject_TD_10126_input.getNumRow();
     for (int i = 0; i < nrow1; i++) {
-        int32_t _s_store_sk4836 = tbl_SerializeFromObject_TD_10483_input.getInt32(i, 0);
-        std::array<char, TPCDS_READ_MAX + 1> _s_store_name4841 = tbl_SerializeFromObject_TD_10483_input.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
-        std::array<char, TPCDS_READ_MAX + 1> _s_company_name4853 = tbl_SerializeFromObject_TD_10483_input.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
-        if ((1) && ((1) && (1))) {
-            int32_t _s_store_sk4836_t = tbl_SerializeFromObject_TD_10483_input.getInt32(i, 0);
-            tbl_Filter_TD_9452_output.setInt32(r, 0, _s_store_sk4836_t);
-            std::array<char, TPCDS_READ_MAX + 1> _s_store_name4841_t = tbl_SerializeFromObject_TD_10483_input.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
-            tbl_Filter_TD_9452_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 1, _s_store_name4841_t);
-            std::array<char, TPCDS_READ_MAX + 1> _s_company_name4853_t = tbl_SerializeFromObject_TD_10483_input.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
-            tbl_Filter_TD_9452_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 2, _s_company_name4853_t);
+        int32_t _s_store_sk6210 = tbl_SerializeFromObject_TD_10126_input.getInt32(i, 0);
+        std::array<char, TPCDS_READ_MAX + 1> _s_store_name6215 = tbl_SerializeFromObject_TD_10126_input.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
+        std::array<char, TPCDS_READ_MAX + 1> _s_company_name6227 = tbl_SerializeFromObject_TD_10126_input.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
+        if ((_s_store_sk6210!= 0) && (（std::string(_isnotnulls_store_name6215.data()) != "NULL") && （std::string(_isnotnulls_company_name6227.data()) != "NULL"))) {
+            int32_t _s_store_sk6210_t = tbl_SerializeFromObject_TD_10126_input.getInt32(i, 0);
+            tbl_Filter_TD_9186_output.setInt32(r, 0, _s_store_sk6210_t);
+            std::array<char, TPCDS_READ_MAX + 1> _s_store_name6215_t = tbl_SerializeFromObject_TD_10126_input.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
+            tbl_Filter_TD_9186_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 1, _s_store_name6215_t);
+            std::array<char, TPCDS_READ_MAX + 1> _s_company_name6227_t = tbl_SerializeFromObject_TD_10126_input.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
+            tbl_Filter_TD_9186_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 2, _s_company_name6227_t);
             r++;
         }
     }
-    tbl_Filter_TD_9452_output.setNumRow(r);
-    std::cout << "tbl_Filter_TD_9452_output #Row: " << tbl_Filter_TD_9452_output.getNumRow() << std::endl;
+    tbl_Filter_TD_9186_output.setNumRow(r);
+    std::cout << "tbl_Filter_TD_9186_output #Row: " << tbl_Filter_TD_9186_output.getNumRow() << std::endl;
 }
 
-struct SW_JOIN_INNER_TD_9705_key_leftMajor {
-    int32_t _ss_sold_date_sk4785;
-    bool operator==(const SW_JOIN_INNER_TD_9705_key_leftMajor& other) const {
-        return ((_ss_sold_date_sk4785 == other._ss_sold_date_sk4785));
+struct SW_JOIN_INNER_TD_974_key_leftMajor {
+    int32_t _ss_sold_date_sk6159;
+    bool operator==(const SW_JOIN_INNER_TD_974_key_leftMajor& other) const {
+        return ((_ss_sold_date_sk6159 == other._ss_sold_date_sk6159));
     }
 };
 namespace std {
 template <>
-struct hash<SW_JOIN_INNER_TD_9705_key_leftMajor> {
-    std::size_t operator() (const SW_JOIN_INNER_TD_9705_key_leftMajor& k) const {
+struct hash<SW_JOIN_INNER_TD_974_key_leftMajor> {
+    std::size_t operator() (const SW_JOIN_INNER_TD_974_key_leftMajor& k) const {
         using std::size_t;
         using std::hash;
         using std::string;
-        return (hash<int32_t>()(k._ss_sold_date_sk4785));
+        return (hash<int32_t>()(k._ss_sold_date_sk6159));
     }
 };
 }
-struct SW_JOIN_INNER_TD_9705_payload_leftMajor {
-    std::string _i_brand4771;
-    std::string _i_category4775;
-    int32_t _ss_sold_date_sk4785;
-    int32_t _ss_store_sk4792;
-    int32_t _ss_sales_price4798;
+struct SW_JOIN_INNER_TD_974_payload_leftMajor {
+    std::string _i_brand6145;
+    std::string _i_category6149;
+    int32_t _ss_sold_date_sk6159;
+    int32_t _ss_store_sk6166;
+    int32_t _ss_sales_price6172;
 };
-struct SW_JOIN_INNER_TD_9705_key_rightMajor {
-    int32_t _d_date_sk4808;
-    bool operator==(const SW_JOIN_INNER_TD_9705_key_rightMajor& other) const {
-        return ((_d_date_sk4808 == other._d_date_sk4808));
+struct SW_JOIN_INNER_TD_974_key_rightMajor {
+    int32_t _d_date_sk6182;
+    bool operator==(const SW_JOIN_INNER_TD_974_key_rightMajor& other) const {
+        return ((_d_date_sk6182 == other._d_date_sk6182));
     }
 };
 namespace std {
 template <>
-struct hash<SW_JOIN_INNER_TD_9705_key_rightMajor> {
-    std::size_t operator() (const SW_JOIN_INNER_TD_9705_key_rightMajor& k) const {
+struct hash<SW_JOIN_INNER_TD_974_key_rightMajor> {
+    std::size_t operator() (const SW_JOIN_INNER_TD_974_key_rightMajor& k) const {
         using std::size_t;
         using std::hash;
         using std::string;
-        return (hash<int32_t>()(k._d_date_sk4808));
+        return (hash<int32_t>()(k._d_date_sk6182));
     }
 };
 }
-struct SW_JOIN_INNER_TD_9705_payload_rightMajor {
-    int32_t _d_date_sk4808;
-    int32_t _d_year4814;
-    int32_t _d_moy4816;
+struct SW_JOIN_INNER_TD_974_payload_rightMajor {
+    int32_t _d_date_sk6182;
+    int32_t _d_year6188;
+    int32_t _d_moy6190;
 };
-void SW_JOIN_INNER_TD_9705(Table &tbl_JOIN_INNER_TD_10246_output, Table &tbl_Filter_TD_10232_output, Table &tbl_JOIN_INNER_TD_9705_output) {
+void SW_JOIN_INNER_TD_974(Table &tbl_JOIN_INNER_TD_10168_output, Table &tbl_Filter_TD_10454_output, Table &tbl_JOIN_INNER_TD_974_output) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: JOIN_INNER
-    // Operation: ListBuffer((ss_sold_date_sk#4785 = d_date_sk#4808))
-    // Left Table: ListBuffer(i_brand#4771, i_category#4775, ss_sold_date_sk#4785, ss_store_sk#4792, ss_sales_price#4798)
-    // Right Table: ListBuffer(d_date_sk#4808, d_year#4814, d_moy#4816)
-    // Output Table: ListBuffer(i_brand#4771, i_category#4775, ss_store_sk#4792, ss_sales_price#4798, d_year#4814, d_moy#4816)
-    int left_nrow = tbl_JOIN_INNER_TD_10246_output.getNumRow();
-    int right_nrow = tbl_Filter_TD_10232_output.getNumRow();
+    // Operation: ListBuffer((ss_sold_date_sk#6159 = d_date_sk#6182))
+    // Left Table: ListBuffer(i_brand#6145, i_category#6149, ss_sold_date_sk#6159, ss_store_sk#6166, ss_sales_price#6172)
+    // Right Table: ListBuffer(d_date_sk#6182, d_year#6188, d_moy#6190)
+    // Output Table: ListBuffer(i_brand#6145, i_category#6149, ss_store_sk#6166, ss_sales_price#6172, d_year#6188, d_moy#6190)
+    int left_nrow = tbl_JOIN_INNER_TD_10168_output.getNumRow();
+    int right_nrow = tbl_Filter_TD_10454_output.getNumRow();
     if (left_nrow < right_nrow) { 
-        std::unordered_multimap<SW_JOIN_INNER_TD_9705_key_leftMajor, SW_JOIN_INNER_TD_9705_payload_leftMajor> ht1;
-        int nrow1 = tbl_JOIN_INNER_TD_10246_output.getNumRow();
+        std::unordered_multimap<SW_JOIN_INNER_TD_974_key_leftMajor, SW_JOIN_INNER_TD_974_payload_leftMajor> ht1;
+        int nrow1 = tbl_JOIN_INNER_TD_10168_output.getNumRow();
         for (int i = 0; i < nrow1; i++) {
-            int32_t _ss_sold_date_sk4785_k = tbl_JOIN_INNER_TD_10246_output.getInt32(i, 2);
-            SW_JOIN_INNER_TD_9705_key_leftMajor keyA{_ss_sold_date_sk4785_k};
-            std::array<char, TPCDS_READ_MAX + 1> _i_brand4771_n = tbl_JOIN_INNER_TD_10246_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 0);
-            std::string _i_brand4771 = std::string(_i_brand4771_n.data());
-            std::array<char, TPCDS_READ_MAX + 1> _i_category4775_n = tbl_JOIN_INNER_TD_10246_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
-            std::string _i_category4775 = std::string(_i_category4775_n.data());
-            int32_t _ss_sold_date_sk4785 = tbl_JOIN_INNER_TD_10246_output.getInt32(i, 2);
-            int32_t _ss_store_sk4792 = tbl_JOIN_INNER_TD_10246_output.getInt32(i, 3);
-            int32_t _ss_sales_price4798 = tbl_JOIN_INNER_TD_10246_output.getInt32(i, 4);
-            SW_JOIN_INNER_TD_9705_payload_leftMajor payloadA{_i_brand4771, _i_category4775, _ss_sold_date_sk4785, _ss_store_sk4792, _ss_sales_price4798};
+            int32_t _ss_sold_date_sk6159_k = tbl_JOIN_INNER_TD_10168_output.getInt32(i, 2);
+            SW_JOIN_INNER_TD_974_key_leftMajor keyA{_ss_sold_date_sk6159_k};
+            std::array<char, TPCDS_READ_MAX + 1> _i_brand6145_n = tbl_JOIN_INNER_TD_10168_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 0);
+            std::string _i_brand6145 = std::string(_i_brand6145_n.data());
+            std::array<char, TPCDS_READ_MAX + 1> _i_category6149_n = tbl_JOIN_INNER_TD_10168_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
+            std::string _i_category6149 = std::string(_i_category6149_n.data());
+            int32_t _ss_sold_date_sk6159 = tbl_JOIN_INNER_TD_10168_output.getInt32(i, 2);
+            int32_t _ss_store_sk6166 = tbl_JOIN_INNER_TD_10168_output.getInt32(i, 3);
+            int32_t _ss_sales_price6172 = tbl_JOIN_INNER_TD_10168_output.getInt32(i, 4);
+            SW_JOIN_INNER_TD_974_payload_leftMajor payloadA{_i_brand6145, _i_category6149, _ss_sold_date_sk6159, _ss_store_sk6166, _ss_sales_price6172};
             ht1.insert(std::make_pair(keyA, payloadA));
         }
         int r = 0;
-        int nrow2 = tbl_Filter_TD_10232_output.getNumRow();
+        int nrow2 = tbl_Filter_TD_10454_output.getNumRow();
         for (int i = 0; i < nrow2; i++) {
-            int32_t _d_date_sk4808_k = tbl_Filter_TD_10232_output.getInt32(i, 0);
-            auto its = ht1.equal_range(SW_JOIN_INNER_TD_9705_key_leftMajor{_d_date_sk4808_k});
+            int32_t _d_date_sk6182_k = tbl_Filter_TD_10454_output.getInt32(i, 0);
+            auto its = ht1.equal_range(SW_JOIN_INNER_TD_974_key_leftMajor{_d_date_sk6182_k});
             auto it = its.first;
             while (it != its.second) {
-                std::string _i_brand4771 = (it->second)._i_brand4771;
-                std::array<char, TPCDS_READ_MAX + 1> _i_brand4771_n{};
-                memcpy(_i_brand4771_n.data(), (_i_brand4771).data(), (_i_brand4771).length());
-                std::string _i_category4775 = (it->second)._i_category4775;
-                std::array<char, TPCDS_READ_MAX + 1> _i_category4775_n{};
-                memcpy(_i_category4775_n.data(), (_i_category4775).data(), (_i_category4775).length());
-                int32_t _ss_sold_date_sk4785 = (it->second)._ss_sold_date_sk4785;
-                int32_t _ss_store_sk4792 = (it->second)._ss_store_sk4792;
-                int32_t _ss_sales_price4798 = (it->second)._ss_sales_price4798;
-                int32_t _d_date_sk4808 = tbl_Filter_TD_10232_output.getInt32(i, 0);
-                int32_t _d_year4814 = tbl_Filter_TD_10232_output.getInt32(i, 1);
-                int32_t _d_moy4816 = tbl_Filter_TD_10232_output.getInt32(i, 2);
-                tbl_JOIN_INNER_TD_9705_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 0, _i_brand4771_n);
-                tbl_JOIN_INNER_TD_9705_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 1, _i_category4775_n);
-                tbl_JOIN_INNER_TD_9705_output.setInt32(r, 2, _ss_store_sk4792);
-                tbl_JOIN_INNER_TD_9705_output.setInt32(r, 3, _ss_sales_price4798);
-                tbl_JOIN_INNER_TD_9705_output.setInt32(r, 4, _d_year4814);
-                tbl_JOIN_INNER_TD_9705_output.setInt32(r, 5, _d_moy4816);
+                std::string _i_brand6145 = (it->second)._i_brand6145;
+                std::array<char, TPCDS_READ_MAX + 1> _i_brand6145_n{};
+                memcpy(_i_brand6145_n.data(), (_i_brand6145).data(), (_i_brand6145).length());
+                std::string _i_category6149 = (it->second)._i_category6149;
+                std::array<char, TPCDS_READ_MAX + 1> _i_category6149_n{};
+                memcpy(_i_category6149_n.data(), (_i_category6149).data(), (_i_category6149).length());
+                int32_t _ss_sold_date_sk6159 = (it->second)._ss_sold_date_sk6159;
+                int32_t _ss_store_sk6166 = (it->second)._ss_store_sk6166;
+                int32_t _ss_sales_price6172 = (it->second)._ss_sales_price6172;
+                int32_t _d_date_sk6182 = tbl_Filter_TD_10454_output.getInt32(i, 0);
+                int32_t _d_year6188 = tbl_Filter_TD_10454_output.getInt32(i, 1);
+                int32_t _d_moy6190 = tbl_Filter_TD_10454_output.getInt32(i, 2);
+                tbl_JOIN_INNER_TD_974_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 0, _i_brand6145_n);
+                tbl_JOIN_INNER_TD_974_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 1, _i_category6149_n);
+                tbl_JOIN_INNER_TD_974_output.setInt32(r, 2, _ss_store_sk6166);
+                tbl_JOIN_INNER_TD_974_output.setInt32(r, 3, _ss_sales_price6172);
+                tbl_JOIN_INNER_TD_974_output.setInt32(r, 4, _d_year6188);
+                tbl_JOIN_INNER_TD_974_output.setInt32(r, 5, _d_moy6190);
                 it++;
                 r++;
             }
         }
-        tbl_JOIN_INNER_TD_9705_output.setNumRow(r);
+        tbl_JOIN_INNER_TD_974_output.setNumRow(r);
     } else { 
-        std::unordered_multimap<SW_JOIN_INNER_TD_9705_key_rightMajor, SW_JOIN_INNER_TD_9705_payload_rightMajor> ht1;
-        int nrow1 = tbl_Filter_TD_10232_output.getNumRow();
+        std::unordered_multimap<SW_JOIN_INNER_TD_974_key_rightMajor, SW_JOIN_INNER_TD_974_payload_rightMajor> ht1;
+        int nrow1 = tbl_Filter_TD_10454_output.getNumRow();
         for (int i = 0; i < nrow1; i++) {
-            int32_t _d_date_sk4808_k = tbl_Filter_TD_10232_output.getInt32(i, 0);
-            SW_JOIN_INNER_TD_9705_key_rightMajor keyA{_d_date_sk4808_k};
-            int32_t _d_date_sk4808 = tbl_Filter_TD_10232_output.getInt32(i, 0);
-            int32_t _d_year4814 = tbl_Filter_TD_10232_output.getInt32(i, 1);
-            int32_t _d_moy4816 = tbl_Filter_TD_10232_output.getInt32(i, 2);
-            SW_JOIN_INNER_TD_9705_payload_rightMajor payloadA{_d_date_sk4808, _d_year4814, _d_moy4816};
+            int32_t _d_date_sk6182_k = tbl_Filter_TD_10454_output.getInt32(i, 0);
+            SW_JOIN_INNER_TD_974_key_rightMajor keyA{_d_date_sk6182_k};
+            int32_t _d_date_sk6182 = tbl_Filter_TD_10454_output.getInt32(i, 0);
+            int32_t _d_year6188 = tbl_Filter_TD_10454_output.getInt32(i, 1);
+            int32_t _d_moy6190 = tbl_Filter_TD_10454_output.getInt32(i, 2);
+            SW_JOIN_INNER_TD_974_payload_rightMajor payloadA{_d_date_sk6182, _d_year6188, _d_moy6190};
             ht1.insert(std::make_pair(keyA, payloadA));
         }
         int r = 0;
-        int nrow2 = tbl_JOIN_INNER_TD_10246_output.getNumRow();
+        int nrow2 = tbl_JOIN_INNER_TD_10168_output.getNumRow();
         for (int i = 0; i < nrow2; i++) {
-            int32_t _ss_sold_date_sk4785_k = tbl_JOIN_INNER_TD_10246_output.getInt32(i, 2);
-            auto its = ht1.equal_range(SW_JOIN_INNER_TD_9705_key_rightMajor{_ss_sold_date_sk4785_k});
+            int32_t _ss_sold_date_sk6159_k = tbl_JOIN_INNER_TD_10168_output.getInt32(i, 2);
+            auto its = ht1.equal_range(SW_JOIN_INNER_TD_974_key_rightMajor{_ss_sold_date_sk6159_k});
             auto it = its.first;
             while (it != its.second) {
-                int32_t _d_date_sk4808 = (it->second)._d_date_sk4808;
-                int32_t _d_year4814 = (it->second)._d_year4814;
-                int32_t _d_moy4816 = (it->second)._d_moy4816;
-                std::array<char, TPCDS_READ_MAX + 1> _i_brand4771_n = tbl_JOIN_INNER_TD_10246_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 0);
-                std::string _i_brand4771 = std::string(_i_brand4771_n.data());
-                std::array<char, TPCDS_READ_MAX + 1> _i_category4775_n = tbl_JOIN_INNER_TD_10246_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
-                std::string _i_category4775 = std::string(_i_category4775_n.data());
-                int32_t _ss_sold_date_sk4785 = tbl_JOIN_INNER_TD_10246_output.getInt32(i, 2);
-                int32_t _ss_store_sk4792 = tbl_JOIN_INNER_TD_10246_output.getInt32(i, 3);
-                int32_t _ss_sales_price4798 = tbl_JOIN_INNER_TD_10246_output.getInt32(i, 4);
-                tbl_JOIN_INNER_TD_9705_output.setInt32(r, 4, _d_year4814);
-                tbl_JOIN_INNER_TD_9705_output.setInt32(r, 5, _d_moy4816);
-                tbl_JOIN_INNER_TD_9705_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 0, _i_brand4771_n);
-                tbl_JOIN_INNER_TD_9705_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 1, _i_category4775_n);
-                tbl_JOIN_INNER_TD_9705_output.setInt32(r, 2, _ss_store_sk4792);
-                tbl_JOIN_INNER_TD_9705_output.setInt32(r, 3, _ss_sales_price4798);
+                int32_t _d_date_sk6182 = (it->second)._d_date_sk6182;
+                int32_t _d_year6188 = (it->second)._d_year6188;
+                int32_t _d_moy6190 = (it->second)._d_moy6190;
+                std::array<char, TPCDS_READ_MAX + 1> _i_brand6145_n = tbl_JOIN_INNER_TD_10168_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 0);
+                std::string _i_brand6145 = std::string(_i_brand6145_n.data());
+                std::array<char, TPCDS_READ_MAX + 1> _i_category6149_n = tbl_JOIN_INNER_TD_10168_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
+                std::string _i_category6149 = std::string(_i_category6149_n.data());
+                int32_t _ss_sold_date_sk6159 = tbl_JOIN_INNER_TD_10168_output.getInt32(i, 2);
+                int32_t _ss_store_sk6166 = tbl_JOIN_INNER_TD_10168_output.getInt32(i, 3);
+                int32_t _ss_sales_price6172 = tbl_JOIN_INNER_TD_10168_output.getInt32(i, 4);
+                tbl_JOIN_INNER_TD_974_output.setInt32(r, 4, _d_year6188);
+                tbl_JOIN_INNER_TD_974_output.setInt32(r, 5, _d_moy6190);
+                tbl_JOIN_INNER_TD_974_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 0, _i_brand6145_n);
+                tbl_JOIN_INNER_TD_974_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 1, _i_category6149_n);
+                tbl_JOIN_INNER_TD_974_output.setInt32(r, 2, _ss_store_sk6166);
+                tbl_JOIN_INNER_TD_974_output.setInt32(r, 3, _ss_sales_price6172);
                 it++;
                 r++;
             }
         }
-        tbl_JOIN_INNER_TD_9705_output.setNumRow(r);
+        tbl_JOIN_INNER_TD_974_output.setNumRow(r);
     } 
-    std::cout << "tbl_JOIN_INNER_TD_9705_output #Row: " << tbl_JOIN_INNER_TD_9705_output.getNumRow() << std::endl;
+    std::cout << "tbl_JOIN_INNER_TD_974_output #Row: " << tbl_JOIN_INNER_TD_974_output.getNumRow() << std::endl;
 }
 
-struct SW_JOIN_INNER_TD_9379_key_leftMajor {
-    int32_t _ss_store_sk4685;
-    bool operator==(const SW_JOIN_INNER_TD_9379_key_leftMajor& other) const {
-        return ((_ss_store_sk4685 == other._ss_store_sk4685));
+struct SW_JOIN_INNER_TD_9859_key_leftMajor {
+    int32_t _ss_store_sk6059;
+    bool operator==(const SW_JOIN_INNER_TD_9859_key_leftMajor& other) const {
+        return ((_ss_store_sk6059 == other._ss_store_sk6059));
     }
 };
 namespace std {
 template <>
-struct hash<SW_JOIN_INNER_TD_9379_key_leftMajor> {
-    std::size_t operator() (const SW_JOIN_INNER_TD_9379_key_leftMajor& k) const {
+struct hash<SW_JOIN_INNER_TD_9859_key_leftMajor> {
+    std::size_t operator() (const SW_JOIN_INNER_TD_9859_key_leftMajor& k) const {
         using std::size_t;
         using std::hash;
         using std::string;
-        return (hash<int32_t>()(k._ss_store_sk4685));
+        return (hash<int32_t>()(k._ss_store_sk6059));
     }
 };
 }
-struct SW_JOIN_INNER_TD_9379_payload_leftMajor {
-    std::string _i_brand4664;
-    std::string _i_category4668;
-    int32_t _ss_store_sk4685;
-    int32_t _ss_sales_price4691;
-    int32_t _d_year4707;
-    int32_t _d_moy4709;
+struct SW_JOIN_INNER_TD_9859_payload_leftMajor {
+    std::string _i_brand6038;
+    std::string _i_category6042;
+    int32_t _ss_store_sk6059;
+    int32_t _ss_sales_price6065;
+    int32_t _d_year6081;
+    int32_t _d_moy6083;
 };
-struct SW_JOIN_INNER_TD_9379_key_rightMajor {
-    int32_t _s_store_sk4729;
-    bool operator==(const SW_JOIN_INNER_TD_9379_key_rightMajor& other) const {
-        return ((_s_store_sk4729 == other._s_store_sk4729));
+struct SW_JOIN_INNER_TD_9859_key_rightMajor {
+    int32_t _s_store_sk6103;
+    bool operator==(const SW_JOIN_INNER_TD_9859_key_rightMajor& other) const {
+        return ((_s_store_sk6103 == other._s_store_sk6103));
     }
 };
 namespace std {
 template <>
-struct hash<SW_JOIN_INNER_TD_9379_key_rightMajor> {
-    std::size_t operator() (const SW_JOIN_INNER_TD_9379_key_rightMajor& k) const {
+struct hash<SW_JOIN_INNER_TD_9859_key_rightMajor> {
+    std::size_t operator() (const SW_JOIN_INNER_TD_9859_key_rightMajor& k) const {
         using std::size_t;
         using std::hash;
         using std::string;
-        return (hash<int32_t>()(k._s_store_sk4729));
+        return (hash<int32_t>()(k._s_store_sk6103));
     }
 };
 }
-struct SW_JOIN_INNER_TD_9379_payload_rightMajor {
-    int32_t _s_store_sk4729;
-    std::string _s_store_name4734;
-    std::string _s_company_name4746;
+struct SW_JOIN_INNER_TD_9859_payload_rightMajor {
+    int32_t _s_store_sk6103;
+    std::string _s_store_name6108;
+    std::string _s_company_name6120;
 };
-void SW_JOIN_INNER_TD_9379(Table &tbl_JOIN_INNER_TD_10223_output, Table &tbl_Filter_TD_10408_output, Table &tbl_JOIN_INNER_TD_9379_output) {
+void SW_JOIN_INNER_TD_9859(Table &tbl_JOIN_INNER_TD_1059_output, Table &tbl_Filter_TD_10585_output, Table &tbl_JOIN_INNER_TD_9859_output) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: JOIN_INNER
-    // Operation: ListBuffer((ss_store_sk#4685 = s_store_sk#4729))
-    // Left Table: ListBuffer(i_brand#4664, i_category#4668, ss_store_sk#4685, ss_sales_price#4691, d_year#4707, d_moy#4709)
-    // Right Table: ListBuffer(s_store_sk#4729, s_store_name#4734, s_company_name#4746)
-    // Output Table: ListBuffer(i_brand#4664, i_category#4668, ss_sales_price#4691, d_year#4707, d_moy#4709, s_store_name#4734, s_company_name#4746)
-    int left_nrow = tbl_JOIN_INNER_TD_10223_output.getNumRow();
-    int right_nrow = tbl_Filter_TD_10408_output.getNumRow();
+    // Operation: ListBuffer((ss_store_sk#6059 = s_store_sk#6103))
+    // Left Table: ListBuffer(i_brand#6038, i_category#6042, ss_store_sk#6059, ss_sales_price#6065, d_year#6081, d_moy#6083)
+    // Right Table: ListBuffer(s_store_sk#6103, s_store_name#6108, s_company_name#6120)
+    // Output Table: ListBuffer(i_brand#6038, i_category#6042, ss_sales_price#6065, d_year#6081, d_moy#6083, s_store_name#6108, s_company_name#6120)
+    int left_nrow = tbl_JOIN_INNER_TD_1059_output.getNumRow();
+    int right_nrow = tbl_Filter_TD_10585_output.getNumRow();
     if (left_nrow < right_nrow) { 
-        std::unordered_multimap<SW_JOIN_INNER_TD_9379_key_leftMajor, SW_JOIN_INNER_TD_9379_payload_leftMajor> ht1;
-        int nrow1 = tbl_JOIN_INNER_TD_10223_output.getNumRow();
+        std::unordered_multimap<SW_JOIN_INNER_TD_9859_key_leftMajor, SW_JOIN_INNER_TD_9859_payload_leftMajor> ht1;
+        int nrow1 = tbl_JOIN_INNER_TD_1059_output.getNumRow();
         for (int i = 0; i < nrow1; i++) {
-            int32_t _ss_store_sk4685_k = tbl_JOIN_INNER_TD_10223_output.getInt32(i, 2);
-            SW_JOIN_INNER_TD_9379_key_leftMajor keyA{_ss_store_sk4685_k};
-            std::array<char, TPCDS_READ_MAX + 1> _i_brand4664_n = tbl_JOIN_INNER_TD_10223_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 0);
-            std::string _i_brand4664 = std::string(_i_brand4664_n.data());
-            std::array<char, TPCDS_READ_MAX + 1> _i_category4668_n = tbl_JOIN_INNER_TD_10223_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
-            std::string _i_category4668 = std::string(_i_category4668_n.data());
-            int32_t _ss_store_sk4685 = tbl_JOIN_INNER_TD_10223_output.getInt32(i, 2);
-            int32_t _ss_sales_price4691 = tbl_JOIN_INNER_TD_10223_output.getInt32(i, 3);
-            int32_t _d_year4707 = tbl_JOIN_INNER_TD_10223_output.getInt32(i, 4);
-            int32_t _d_moy4709 = tbl_JOIN_INNER_TD_10223_output.getInt32(i, 5);
-            SW_JOIN_INNER_TD_9379_payload_leftMajor payloadA{_i_brand4664, _i_category4668, _ss_store_sk4685, _ss_sales_price4691, _d_year4707, _d_moy4709};
+            int32_t _ss_store_sk6059_k = tbl_JOIN_INNER_TD_1059_output.getInt32(i, 2);
+            SW_JOIN_INNER_TD_9859_key_leftMajor keyA{_ss_store_sk6059_k};
+            std::array<char, TPCDS_READ_MAX + 1> _i_brand6038_n = tbl_JOIN_INNER_TD_1059_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 0);
+            std::string _i_brand6038 = std::string(_i_brand6038_n.data());
+            std::array<char, TPCDS_READ_MAX + 1> _i_category6042_n = tbl_JOIN_INNER_TD_1059_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
+            std::string _i_category6042 = std::string(_i_category6042_n.data());
+            int32_t _ss_store_sk6059 = tbl_JOIN_INNER_TD_1059_output.getInt32(i, 2);
+            int32_t _ss_sales_price6065 = tbl_JOIN_INNER_TD_1059_output.getInt32(i, 3);
+            int32_t _d_year6081 = tbl_JOIN_INNER_TD_1059_output.getInt32(i, 4);
+            int32_t _d_moy6083 = tbl_JOIN_INNER_TD_1059_output.getInt32(i, 5);
+            SW_JOIN_INNER_TD_9859_payload_leftMajor payloadA{_i_brand6038, _i_category6042, _ss_store_sk6059, _ss_sales_price6065, _d_year6081, _d_moy6083};
             ht1.insert(std::make_pair(keyA, payloadA));
         }
         int r = 0;
-        int nrow2 = tbl_Filter_TD_10408_output.getNumRow();
+        int nrow2 = tbl_Filter_TD_10585_output.getNumRow();
         for (int i = 0; i < nrow2; i++) {
-            int32_t _s_store_sk4729_k = tbl_Filter_TD_10408_output.getInt32(i, 0);
-            auto its = ht1.equal_range(SW_JOIN_INNER_TD_9379_key_leftMajor{_s_store_sk4729_k});
+            int32_t _s_store_sk6103_k = tbl_Filter_TD_10585_output.getInt32(i, 0);
+            auto its = ht1.equal_range(SW_JOIN_INNER_TD_9859_key_leftMajor{_s_store_sk6103_k});
             auto it = its.first;
             while (it != its.second) {
-                std::string _i_brand4664 = (it->second)._i_brand4664;
-                std::array<char, TPCDS_READ_MAX + 1> _i_brand4664_n{};
-                memcpy(_i_brand4664_n.data(), (_i_brand4664).data(), (_i_brand4664).length());
-                std::string _i_category4668 = (it->second)._i_category4668;
-                std::array<char, TPCDS_READ_MAX + 1> _i_category4668_n{};
-                memcpy(_i_category4668_n.data(), (_i_category4668).data(), (_i_category4668).length());
-                int32_t _ss_store_sk4685 = (it->second)._ss_store_sk4685;
-                int32_t _ss_sales_price4691 = (it->second)._ss_sales_price4691;
-                int32_t _d_year4707 = (it->second)._d_year4707;
-                int32_t _d_moy4709 = (it->second)._d_moy4709;
-                int32_t _s_store_sk4729 = tbl_Filter_TD_10408_output.getInt32(i, 0);
-                std::array<char, TPCDS_READ_MAX + 1> _s_store_name4734_n = tbl_Filter_TD_10408_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
-                std::string _s_store_name4734 = std::string(_s_store_name4734_n.data());
-                std::array<char, TPCDS_READ_MAX + 1> _s_company_name4746_n = tbl_Filter_TD_10408_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
-                std::string _s_company_name4746 = std::string(_s_company_name4746_n.data());
-                tbl_JOIN_INNER_TD_9379_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 0, _i_brand4664_n);
-                tbl_JOIN_INNER_TD_9379_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 1, _i_category4668_n);
-                tbl_JOIN_INNER_TD_9379_output.setInt32(r, 2, _ss_sales_price4691);
-                tbl_JOIN_INNER_TD_9379_output.setInt32(r, 3, _d_year4707);
-                tbl_JOIN_INNER_TD_9379_output.setInt32(r, 4, _d_moy4709);
-                tbl_JOIN_INNER_TD_9379_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 5, _s_store_name4734_n);
-                tbl_JOIN_INNER_TD_9379_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 6, _s_company_name4746_n);
+                std::string _i_brand6038 = (it->second)._i_brand6038;
+                std::array<char, TPCDS_READ_MAX + 1> _i_brand6038_n{};
+                memcpy(_i_brand6038_n.data(), (_i_brand6038).data(), (_i_brand6038).length());
+                std::string _i_category6042 = (it->second)._i_category6042;
+                std::array<char, TPCDS_READ_MAX + 1> _i_category6042_n{};
+                memcpy(_i_category6042_n.data(), (_i_category6042).data(), (_i_category6042).length());
+                int32_t _ss_store_sk6059 = (it->second)._ss_store_sk6059;
+                int32_t _ss_sales_price6065 = (it->second)._ss_sales_price6065;
+                int32_t _d_year6081 = (it->second)._d_year6081;
+                int32_t _d_moy6083 = (it->second)._d_moy6083;
+                int32_t _s_store_sk6103 = tbl_Filter_TD_10585_output.getInt32(i, 0);
+                std::array<char, TPCDS_READ_MAX + 1> _s_store_name6108_n = tbl_Filter_TD_10585_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
+                std::string _s_store_name6108 = std::string(_s_store_name6108_n.data());
+                std::array<char, TPCDS_READ_MAX + 1> _s_company_name6120_n = tbl_Filter_TD_10585_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
+                std::string _s_company_name6120 = std::string(_s_company_name6120_n.data());
+                tbl_JOIN_INNER_TD_9859_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 0, _i_brand6038_n);
+                tbl_JOIN_INNER_TD_9859_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 1, _i_category6042_n);
+                tbl_JOIN_INNER_TD_9859_output.setInt32(r, 2, _ss_sales_price6065);
+                tbl_JOIN_INNER_TD_9859_output.setInt32(r, 3, _d_year6081);
+                tbl_JOIN_INNER_TD_9859_output.setInt32(r, 4, _d_moy6083);
+                tbl_JOIN_INNER_TD_9859_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 5, _s_store_name6108_n);
+                tbl_JOIN_INNER_TD_9859_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 6, _s_company_name6120_n);
                 it++;
                 r++;
             }
         }
-        tbl_JOIN_INNER_TD_9379_output.setNumRow(r);
+        tbl_JOIN_INNER_TD_9859_output.setNumRow(r);
     } else { 
-        std::unordered_multimap<SW_JOIN_INNER_TD_9379_key_rightMajor, SW_JOIN_INNER_TD_9379_payload_rightMajor> ht1;
-        int nrow1 = tbl_Filter_TD_10408_output.getNumRow();
+        std::unordered_multimap<SW_JOIN_INNER_TD_9859_key_rightMajor, SW_JOIN_INNER_TD_9859_payload_rightMajor> ht1;
+        int nrow1 = tbl_Filter_TD_10585_output.getNumRow();
         for (int i = 0; i < nrow1; i++) {
-            int32_t _s_store_sk4729_k = tbl_Filter_TD_10408_output.getInt32(i, 0);
-            SW_JOIN_INNER_TD_9379_key_rightMajor keyA{_s_store_sk4729_k};
-            int32_t _s_store_sk4729 = tbl_Filter_TD_10408_output.getInt32(i, 0);
-            std::array<char, TPCDS_READ_MAX + 1> _s_store_name4734_n = tbl_Filter_TD_10408_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
-            std::string _s_store_name4734 = std::string(_s_store_name4734_n.data());
-            std::array<char, TPCDS_READ_MAX + 1> _s_company_name4746_n = tbl_Filter_TD_10408_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
-            std::string _s_company_name4746 = std::string(_s_company_name4746_n.data());
-            SW_JOIN_INNER_TD_9379_payload_rightMajor payloadA{_s_store_sk4729, _s_store_name4734, _s_company_name4746};
+            int32_t _s_store_sk6103_k = tbl_Filter_TD_10585_output.getInt32(i, 0);
+            SW_JOIN_INNER_TD_9859_key_rightMajor keyA{_s_store_sk6103_k};
+            int32_t _s_store_sk6103 = tbl_Filter_TD_10585_output.getInt32(i, 0);
+            std::array<char, TPCDS_READ_MAX + 1> _s_store_name6108_n = tbl_Filter_TD_10585_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
+            std::string _s_store_name6108 = std::string(_s_store_name6108_n.data());
+            std::array<char, TPCDS_READ_MAX + 1> _s_company_name6120_n = tbl_Filter_TD_10585_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
+            std::string _s_company_name6120 = std::string(_s_company_name6120_n.data());
+            SW_JOIN_INNER_TD_9859_payload_rightMajor payloadA{_s_store_sk6103, _s_store_name6108, _s_company_name6120};
             ht1.insert(std::make_pair(keyA, payloadA));
         }
         int r = 0;
-        int nrow2 = tbl_JOIN_INNER_TD_10223_output.getNumRow();
+        int nrow2 = tbl_JOIN_INNER_TD_1059_output.getNumRow();
         for (int i = 0; i < nrow2; i++) {
-            int32_t _ss_store_sk4685_k = tbl_JOIN_INNER_TD_10223_output.getInt32(i, 2);
-            auto its = ht1.equal_range(SW_JOIN_INNER_TD_9379_key_rightMajor{_ss_store_sk4685_k});
+            int32_t _ss_store_sk6059_k = tbl_JOIN_INNER_TD_1059_output.getInt32(i, 2);
+            auto its = ht1.equal_range(SW_JOIN_INNER_TD_9859_key_rightMajor{_ss_store_sk6059_k});
             auto it = its.first;
             while (it != its.second) {
-                int32_t _s_store_sk4729 = (it->second)._s_store_sk4729;
-                std::string _s_store_name4734 = (it->second)._s_store_name4734;
-                std::array<char, TPCDS_READ_MAX + 1> _s_store_name4734_n{};
-                memcpy(_s_store_name4734_n.data(), (_s_store_name4734).data(), (_s_store_name4734).length());
-                std::string _s_company_name4746 = (it->second)._s_company_name4746;
-                std::array<char, TPCDS_READ_MAX + 1> _s_company_name4746_n{};
-                memcpy(_s_company_name4746_n.data(), (_s_company_name4746).data(), (_s_company_name4746).length());
-                std::array<char, TPCDS_READ_MAX + 1> _i_brand4664_n = tbl_JOIN_INNER_TD_10223_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 0);
-                std::string _i_brand4664 = std::string(_i_brand4664_n.data());
-                std::array<char, TPCDS_READ_MAX + 1> _i_category4668_n = tbl_JOIN_INNER_TD_10223_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
-                std::string _i_category4668 = std::string(_i_category4668_n.data());
-                int32_t _ss_store_sk4685 = tbl_JOIN_INNER_TD_10223_output.getInt32(i, 2);
-                int32_t _ss_sales_price4691 = tbl_JOIN_INNER_TD_10223_output.getInt32(i, 3);
-                int32_t _d_year4707 = tbl_JOIN_INNER_TD_10223_output.getInt32(i, 4);
-                int32_t _d_moy4709 = tbl_JOIN_INNER_TD_10223_output.getInt32(i, 5);
-                tbl_JOIN_INNER_TD_9379_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 5, _s_store_name4734_n);
-                tbl_JOIN_INNER_TD_9379_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 6, _s_company_name4746_n);
-                tbl_JOIN_INNER_TD_9379_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 0, _i_brand4664_n);
-                tbl_JOIN_INNER_TD_9379_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 1, _i_category4668_n);
-                tbl_JOIN_INNER_TD_9379_output.setInt32(r, 2, _ss_sales_price4691);
-                tbl_JOIN_INNER_TD_9379_output.setInt32(r, 3, _d_year4707);
-                tbl_JOIN_INNER_TD_9379_output.setInt32(r, 4, _d_moy4709);
+                int32_t _s_store_sk6103 = (it->second)._s_store_sk6103;
+                std::string _s_store_name6108 = (it->second)._s_store_name6108;
+                std::array<char, TPCDS_READ_MAX + 1> _s_store_name6108_n{};
+                memcpy(_s_store_name6108_n.data(), (_s_store_name6108).data(), (_s_store_name6108).length());
+                std::string _s_company_name6120 = (it->second)._s_company_name6120;
+                std::array<char, TPCDS_READ_MAX + 1> _s_company_name6120_n{};
+                memcpy(_s_company_name6120_n.data(), (_s_company_name6120).data(), (_s_company_name6120).length());
+                std::array<char, TPCDS_READ_MAX + 1> _i_brand6038_n = tbl_JOIN_INNER_TD_1059_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 0);
+                std::string _i_brand6038 = std::string(_i_brand6038_n.data());
+                std::array<char, TPCDS_READ_MAX + 1> _i_category6042_n = tbl_JOIN_INNER_TD_1059_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
+                std::string _i_category6042 = std::string(_i_category6042_n.data());
+                int32_t _ss_store_sk6059 = tbl_JOIN_INNER_TD_1059_output.getInt32(i, 2);
+                int32_t _ss_sales_price6065 = tbl_JOIN_INNER_TD_1059_output.getInt32(i, 3);
+                int32_t _d_year6081 = tbl_JOIN_INNER_TD_1059_output.getInt32(i, 4);
+                int32_t _d_moy6083 = tbl_JOIN_INNER_TD_1059_output.getInt32(i, 5);
+                tbl_JOIN_INNER_TD_9859_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 5, _s_store_name6108_n);
+                tbl_JOIN_INNER_TD_9859_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 6, _s_company_name6120_n);
+                tbl_JOIN_INNER_TD_9859_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 0, _i_brand6038_n);
+                tbl_JOIN_INNER_TD_9859_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 1, _i_category6042_n);
+                tbl_JOIN_INNER_TD_9859_output.setInt32(r, 2, _ss_sales_price6065);
+                tbl_JOIN_INNER_TD_9859_output.setInt32(r, 3, _d_year6081);
+                tbl_JOIN_INNER_TD_9859_output.setInt32(r, 4, _d_moy6083);
                 it++;
                 r++;
             }
         }
-        tbl_JOIN_INNER_TD_9379_output.setNumRow(r);
+        tbl_JOIN_INNER_TD_9859_output.setNumRow(r);
     } 
-    std::cout << "tbl_JOIN_INNER_TD_9379_output #Row: " << tbl_JOIN_INNER_TD_9379_output.getNumRow() << std::endl;
+    std::cout << "tbl_JOIN_INNER_TD_9859_output #Row: " << tbl_JOIN_INNER_TD_9859_output.getNumRow() << std::endl;
 }
 
-void SW_Window_TD_9139(Table &tbl_Aggregate_TD_10843_output, Table &tbl_Window_TD_9139_output) {
+void SW_Window_TD_9913(Table &tbl_Aggregate_TD_1067_output, Table &tbl_Window_TD_9913_output) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: Window
-    // Operation: ListBuffer(rank(d_year#126, d_moy#128) windowspecdefinition(i_category#240, i_brand#236, s_store_name#383, s_company_name#395, d_year#126 ASC NULLS FIRST, d_moy#128 ASC NULLS FIRST, specifiedwindowframe(RowFrame, unboundedpreceding$(), currentrow$())) AS rn#3894)
-    // Input: ListBuffer(i_category#240, i_brand#236, s_store_name#383, s_company_name#395, d_year#126, d_moy#128, sum_sales#3892, _w0#3906)
-    // Output: ListBuffer(i_category#240, i_brand#236, s_store_name#383, s_company_name#395, d_year#126, d_moy#128, sum_sales#3892, _w0#3906, rn#3894)
-    struct SW_Window_TD_9139Row {
+    // Operation: ListBuffer(rank(d_year#126, d_moy#128) windowspecdefinition(i_category#240, i_brand#236, s_store_name#383, s_company_name#395, d_year#126 ASC NULLS FIRST, d_moy#128 ASC NULLS FIRST, specifiedwindowframe(RowFrame, unboundedpreceding$(), currentrow$())) AS rn#5268)
+    // Input: ListBuffer(i_category#240, i_brand#236, s_store_name#383, s_company_name#395, d_year#126, d_moy#128, sum_sales#5266, _w0#5280)
+    // Output: ListBuffer(i_category#240, i_brand#236, s_store_name#383, s_company_name#395, d_year#126, d_moy#128, sum_sales#5266, _w0#5280, rn#5268)
+    struct SW_Window_TD_9913Row {
         std::string _i_category240;
         std::string _i_brand236;
         std::string _s_store_name383;
         std::string _s_company_name395;
         int32_t _d_year126;
         int32_t _d_moy128;
-        int32_t _sum_sales3892;
-        int32_t __w03906;
+        int32_t _sum_sales5266;
+        int32_t __w05280;
     }; 
 
-    int nrow = tbl_Aggregate_TD_10843_output.getNumRow();
-    std::vector<SW_Window_TD_9139Row> rows0;
+    int nrow = tbl_Aggregate_TD_1067_output.getNumRow();
+    std::vector<SW_Window_TD_9913Row> rows0;
     int r = 0;
     for (int i = 0; i < nrow; i++) {
-        std::array<char, TPCDS_READ_MAX + 1> _i_category240 = tbl_Aggregate_TD_10843_output.getcharN<char, TPCDS_READ_MAX +1>(i, 0);
-        tbl_Window_TD_9139_output.setcharN<char, TPCDS_READ_MAX +1>(r, 0, _i_category240);
-        std::array<char, TPCDS_READ_MAX + 1> _i_brand236 = tbl_Aggregate_TD_10843_output.getcharN<char, TPCDS_READ_MAX +1>(i, 1);
-        tbl_Window_TD_9139_output.setcharN<char, TPCDS_READ_MAX +1>(r, 1, _i_brand236);
-        std::array<char, TPCDS_READ_MAX + 1> _s_store_name383 = tbl_Aggregate_TD_10843_output.getcharN<char, TPCDS_READ_MAX +1>(i, 2);
-        tbl_Window_TD_9139_output.setcharN<char, TPCDS_READ_MAX +1>(r, 2, _s_store_name383);
-        std::array<char, TPCDS_READ_MAX + 1> _s_company_name395 = tbl_Aggregate_TD_10843_output.getcharN<char, TPCDS_READ_MAX +1>(i, 3);
-        tbl_Window_TD_9139_output.setcharN<char, TPCDS_READ_MAX +1>(r, 3, _s_company_name395);
-        int32_t _d_year126 = tbl_Aggregate_TD_10843_output.getInt32(i, 4);
-        tbl_Window_TD_9139_output.setInt32(r, 4,_d_year126);
-        int32_t _d_moy128 = tbl_Aggregate_TD_10843_output.getInt32(i, 5);
-        tbl_Window_TD_9139_output.setInt32(r, 5,_d_moy128);
-        int32_t _sum_sales3892 = tbl_Aggregate_TD_10843_output.getInt32(i, 6);
-        tbl_Window_TD_9139_output.setInt32(r, 6,_sum_sales3892);
-        int32_t __w03906 = tbl_Aggregate_TD_10843_output.getInt32(i, 7);
-        tbl_Window_TD_9139_output.setInt32(r, 7,__w03906);
+        std::array<char, TPCDS_READ_MAX + 1> _i_category240 = tbl_Aggregate_TD_1067_output.getcharN<char, TPCDS_READ_MAX +1>(i, 0);
+        tbl_Window_TD_9913_output.setcharN<char, TPCDS_READ_MAX +1>(r, 0, _i_category240);
+        std::array<char, TPCDS_READ_MAX + 1> _i_brand236 = tbl_Aggregate_TD_1067_output.getcharN<char, TPCDS_READ_MAX +1>(i, 1);
+        tbl_Window_TD_9913_output.setcharN<char, TPCDS_READ_MAX +1>(r, 1, _i_brand236);
+        std::array<char, TPCDS_READ_MAX + 1> _s_store_name383 = tbl_Aggregate_TD_1067_output.getcharN<char, TPCDS_READ_MAX +1>(i, 2);
+        tbl_Window_TD_9913_output.setcharN<char, TPCDS_READ_MAX +1>(r, 2, _s_store_name383);
+        std::array<char, TPCDS_READ_MAX + 1> _s_company_name395 = tbl_Aggregate_TD_1067_output.getcharN<char, TPCDS_READ_MAX +1>(i, 3);
+        tbl_Window_TD_9913_output.setcharN<char, TPCDS_READ_MAX +1>(r, 3, _s_company_name395);
+        int32_t _d_year126 = tbl_Aggregate_TD_1067_output.getInt32(i, 4);
+        tbl_Window_TD_9913_output.setInt32(r, 4,_d_year126);
+        int32_t _d_moy128 = tbl_Aggregate_TD_1067_output.getInt32(i, 5);
+        tbl_Window_TD_9913_output.setInt32(r, 5,_d_moy128);
+        int32_t _sum_sales5266 = tbl_Aggregate_TD_1067_output.getInt32(i, 6);
+        tbl_Window_TD_9913_output.setInt32(r, 6,_sum_sales5266);
+        int32_t __w05280 = tbl_Aggregate_TD_1067_output.getInt32(i, 7);
+        tbl_Window_TD_9913_output.setInt32(r, 7,__w05280);
         r++;
-        SW_Window_TD_9139Row t = {std::string(_i_category240.data()),std::string(_i_brand236.data()),std::string(_s_store_name383.data()),std::string(_s_company_name395.data()),_d_year126,_d_moy128,_sum_sales3892,__w03906};
+        SW_Window_TD_9913Row t = {std::string(_i_category240.data()),std::string(_i_brand236.data()),std::string(_s_store_name383.data()),std::string(_s_company_name395.data()),_d_year126,_d_moy128,_sum_sales5266,__w05280};
         rows0.push_back(t);
     }
     struct {
-        bool operator()(const SW_Window_TD_9139Row& a, const SW_Window_TD_9139Row& b) const { return 
+        bool operator()(const SW_Window_TD_9913Row& a, const SW_Window_TD_9913Row& b) const { return 
 (a._i_category240 < b._i_category240) || 
  ((a._i_category240 == b._i_category240) && (a._i_brand236 < b._i_brand236)) || 
  ((a._i_category240 == b._i_category240) && (a._i_brand236 == b._i_brand236) && (a._s_store_name383 < b._s_store_name383)) || 
@@ -1620,9 +1620,9 @@ void SW_Window_TD_9139(Table &tbl_Aggregate_TD_10843_output, Table &tbl_Window_T
  ((a._i_category240 == b._i_category240) && (a._i_brand236 == b._i_brand236) && (a._s_store_name383 == b._s_store_name383) && (a._s_company_name395 == b._s_company_name395) && (a._d_year126 < b._d_year126)) || 
  ((a._i_category240 == b._i_category240) && (a._i_brand236 == b._i_brand236) && (a._s_store_name383 == b._s_store_name383) && (a._s_company_name395 == b._s_company_name395) && (a._d_year126 == b._d_year126) && (a._d_moy128 < b._d_moy128)); 
 }
-    }SW_Window_TD_9139_order0; 
+    }SW_Window_TD_9913_order0; 
 
-    std::sort(rows0.begin(), rows0.end(), SW_Window_TD_9139_order0);
+    std::sort(rows0.begin(), rows0.end(), SW_Window_TD_9913_order0);
     std::vector<int32_t> ranks0(rows0.size(), 0);
     int32_t currentRank0 = 0;
     int32_t currentPartitionCount0 = 1;
@@ -1644,217 +1644,217 @@ void SW_Window_TD_9139(Table &tbl_Aggregate_TD_10843_output, Table &tbl_Window_T
         ranks0[i] = currentRank0;
     }
     for (int i = 0; i< nrow; i++) {
-        tbl_Window_TD_9139_output.setInt32(r, 8, ranks0[i]);
+        tbl_Window_TD_9913_output.setInt32(r, 8, ranks0[i]);
     }
-    tbl_Window_TD_9139_output.setNumRow(r);
-    std::cout << "tbl_Window_TD_9139_output #Row: " << tbl_Window_TD_9139_output.getNumRow() << std::endl;
+    tbl_Window_TD_9913_output.setNumRow(r);
+    std::cout << "tbl_Window_TD_9913_output #Row: " << tbl_Window_TD_9913_output.getNumRow() << std::endl;
 }
 
-struct SW_JOIN_INNER_TD_8104_key_leftMajor {
-    int32_t _ss_store_sk4792;
-    bool operator==(const SW_JOIN_INNER_TD_8104_key_leftMajor& other) const {
-        return ((_ss_store_sk4792 == other._ss_store_sk4792));
+struct SW_JOIN_INNER_TD_8425_key_leftMajor {
+    int32_t _ss_store_sk6166;
+    bool operator==(const SW_JOIN_INNER_TD_8425_key_leftMajor& other) const {
+        return ((_ss_store_sk6166 == other._ss_store_sk6166));
     }
 };
 namespace std {
 template <>
-struct hash<SW_JOIN_INNER_TD_8104_key_leftMajor> {
-    std::size_t operator() (const SW_JOIN_INNER_TD_8104_key_leftMajor& k) const {
+struct hash<SW_JOIN_INNER_TD_8425_key_leftMajor> {
+    std::size_t operator() (const SW_JOIN_INNER_TD_8425_key_leftMajor& k) const {
         using std::size_t;
         using std::hash;
         using std::string;
-        return (hash<int32_t>()(k._ss_store_sk4792));
+        return (hash<int32_t>()(k._ss_store_sk6166));
     }
 };
 }
-struct SW_JOIN_INNER_TD_8104_payload_leftMajor {
-    std::string _i_brand4771;
-    std::string _i_category4775;
-    int32_t _ss_store_sk4792;
-    int32_t _ss_sales_price4798;
-    int32_t _d_year4814;
-    int32_t _d_moy4816;
+struct SW_JOIN_INNER_TD_8425_payload_leftMajor {
+    std::string _i_brand6145;
+    std::string _i_category6149;
+    int32_t _ss_store_sk6166;
+    int32_t _ss_sales_price6172;
+    int32_t _d_year6188;
+    int32_t _d_moy6190;
 };
-struct SW_JOIN_INNER_TD_8104_key_rightMajor {
-    int32_t _s_store_sk4836;
-    bool operator==(const SW_JOIN_INNER_TD_8104_key_rightMajor& other) const {
-        return ((_s_store_sk4836 == other._s_store_sk4836));
+struct SW_JOIN_INNER_TD_8425_key_rightMajor {
+    int32_t _s_store_sk6210;
+    bool operator==(const SW_JOIN_INNER_TD_8425_key_rightMajor& other) const {
+        return ((_s_store_sk6210 == other._s_store_sk6210));
     }
 };
 namespace std {
 template <>
-struct hash<SW_JOIN_INNER_TD_8104_key_rightMajor> {
-    std::size_t operator() (const SW_JOIN_INNER_TD_8104_key_rightMajor& k) const {
+struct hash<SW_JOIN_INNER_TD_8425_key_rightMajor> {
+    std::size_t operator() (const SW_JOIN_INNER_TD_8425_key_rightMajor& k) const {
         using std::size_t;
         using std::hash;
         using std::string;
-        return (hash<int32_t>()(k._s_store_sk4836));
+        return (hash<int32_t>()(k._s_store_sk6210));
     }
 };
 }
-struct SW_JOIN_INNER_TD_8104_payload_rightMajor {
-    int32_t _s_store_sk4836;
-    std::string _s_store_name4841;
-    std::string _s_company_name4853;
+struct SW_JOIN_INNER_TD_8425_payload_rightMajor {
+    int32_t _s_store_sk6210;
+    std::string _s_store_name6215;
+    std::string _s_company_name6227;
 };
-void SW_JOIN_INNER_TD_8104(Table &tbl_JOIN_INNER_TD_9705_output, Table &tbl_Filter_TD_9452_output, Table &tbl_JOIN_INNER_TD_8104_output) {
+void SW_JOIN_INNER_TD_8425(Table &tbl_JOIN_INNER_TD_974_output, Table &tbl_Filter_TD_9186_output, Table &tbl_JOIN_INNER_TD_8425_output) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: JOIN_INNER
-    // Operation: ListBuffer((ss_store_sk#4792 = s_store_sk#4836))
-    // Left Table: ListBuffer(i_brand#4771, i_category#4775, ss_store_sk#4792, ss_sales_price#4798, d_year#4814, d_moy#4816)
-    // Right Table: ListBuffer(s_store_sk#4836, s_store_name#4841, s_company_name#4853)
-    // Output Table: ListBuffer(i_brand#4771, i_category#4775, ss_sales_price#4798, d_year#4814, d_moy#4816, s_store_name#4841, s_company_name#4853)
-    int left_nrow = tbl_JOIN_INNER_TD_9705_output.getNumRow();
-    int right_nrow = tbl_Filter_TD_9452_output.getNumRow();
+    // Operation: ListBuffer((ss_store_sk#6166 = s_store_sk#6210))
+    // Left Table: ListBuffer(i_brand#6145, i_category#6149, ss_store_sk#6166, ss_sales_price#6172, d_year#6188, d_moy#6190)
+    // Right Table: ListBuffer(s_store_sk#6210, s_store_name#6215, s_company_name#6227)
+    // Output Table: ListBuffer(i_brand#6145, i_category#6149, ss_sales_price#6172, d_year#6188, d_moy#6190, s_store_name#6215, s_company_name#6227)
+    int left_nrow = tbl_JOIN_INNER_TD_974_output.getNumRow();
+    int right_nrow = tbl_Filter_TD_9186_output.getNumRow();
     if (left_nrow < right_nrow) { 
-        std::unordered_multimap<SW_JOIN_INNER_TD_8104_key_leftMajor, SW_JOIN_INNER_TD_8104_payload_leftMajor> ht1;
-        int nrow1 = tbl_JOIN_INNER_TD_9705_output.getNumRow();
+        std::unordered_multimap<SW_JOIN_INNER_TD_8425_key_leftMajor, SW_JOIN_INNER_TD_8425_payload_leftMajor> ht1;
+        int nrow1 = tbl_JOIN_INNER_TD_974_output.getNumRow();
         for (int i = 0; i < nrow1; i++) {
-            int32_t _ss_store_sk4792_k = tbl_JOIN_INNER_TD_9705_output.getInt32(i, 2);
-            SW_JOIN_INNER_TD_8104_key_leftMajor keyA{_ss_store_sk4792_k};
-            std::array<char, TPCDS_READ_MAX + 1> _i_brand4771_n = tbl_JOIN_INNER_TD_9705_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 0);
-            std::string _i_brand4771 = std::string(_i_brand4771_n.data());
-            std::array<char, TPCDS_READ_MAX + 1> _i_category4775_n = tbl_JOIN_INNER_TD_9705_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
-            std::string _i_category4775 = std::string(_i_category4775_n.data());
-            int32_t _ss_store_sk4792 = tbl_JOIN_INNER_TD_9705_output.getInt32(i, 2);
-            int32_t _ss_sales_price4798 = tbl_JOIN_INNER_TD_9705_output.getInt32(i, 3);
-            int32_t _d_year4814 = tbl_JOIN_INNER_TD_9705_output.getInt32(i, 4);
-            int32_t _d_moy4816 = tbl_JOIN_INNER_TD_9705_output.getInt32(i, 5);
-            SW_JOIN_INNER_TD_8104_payload_leftMajor payloadA{_i_brand4771, _i_category4775, _ss_store_sk4792, _ss_sales_price4798, _d_year4814, _d_moy4816};
+            int32_t _ss_store_sk6166_k = tbl_JOIN_INNER_TD_974_output.getInt32(i, 2);
+            SW_JOIN_INNER_TD_8425_key_leftMajor keyA{_ss_store_sk6166_k};
+            std::array<char, TPCDS_READ_MAX + 1> _i_brand6145_n = tbl_JOIN_INNER_TD_974_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 0);
+            std::string _i_brand6145 = std::string(_i_brand6145_n.data());
+            std::array<char, TPCDS_READ_MAX + 1> _i_category6149_n = tbl_JOIN_INNER_TD_974_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
+            std::string _i_category6149 = std::string(_i_category6149_n.data());
+            int32_t _ss_store_sk6166 = tbl_JOIN_INNER_TD_974_output.getInt32(i, 2);
+            int32_t _ss_sales_price6172 = tbl_JOIN_INNER_TD_974_output.getInt32(i, 3);
+            int32_t _d_year6188 = tbl_JOIN_INNER_TD_974_output.getInt32(i, 4);
+            int32_t _d_moy6190 = tbl_JOIN_INNER_TD_974_output.getInt32(i, 5);
+            SW_JOIN_INNER_TD_8425_payload_leftMajor payloadA{_i_brand6145, _i_category6149, _ss_store_sk6166, _ss_sales_price6172, _d_year6188, _d_moy6190};
             ht1.insert(std::make_pair(keyA, payloadA));
         }
         int r = 0;
-        int nrow2 = tbl_Filter_TD_9452_output.getNumRow();
+        int nrow2 = tbl_Filter_TD_9186_output.getNumRow();
         for (int i = 0; i < nrow2; i++) {
-            int32_t _s_store_sk4836_k = tbl_Filter_TD_9452_output.getInt32(i, 0);
-            auto its = ht1.equal_range(SW_JOIN_INNER_TD_8104_key_leftMajor{_s_store_sk4836_k});
+            int32_t _s_store_sk6210_k = tbl_Filter_TD_9186_output.getInt32(i, 0);
+            auto its = ht1.equal_range(SW_JOIN_INNER_TD_8425_key_leftMajor{_s_store_sk6210_k});
             auto it = its.first;
             while (it != its.second) {
-                std::string _i_brand4771 = (it->second)._i_brand4771;
-                std::array<char, TPCDS_READ_MAX + 1> _i_brand4771_n{};
-                memcpy(_i_brand4771_n.data(), (_i_brand4771).data(), (_i_brand4771).length());
-                std::string _i_category4775 = (it->second)._i_category4775;
-                std::array<char, TPCDS_READ_MAX + 1> _i_category4775_n{};
-                memcpy(_i_category4775_n.data(), (_i_category4775).data(), (_i_category4775).length());
-                int32_t _ss_store_sk4792 = (it->second)._ss_store_sk4792;
-                int32_t _ss_sales_price4798 = (it->second)._ss_sales_price4798;
-                int32_t _d_year4814 = (it->second)._d_year4814;
-                int32_t _d_moy4816 = (it->second)._d_moy4816;
-                int32_t _s_store_sk4836 = tbl_Filter_TD_9452_output.getInt32(i, 0);
-                std::array<char, TPCDS_READ_MAX + 1> _s_store_name4841_n = tbl_Filter_TD_9452_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
-                std::string _s_store_name4841 = std::string(_s_store_name4841_n.data());
-                std::array<char, TPCDS_READ_MAX + 1> _s_company_name4853_n = tbl_Filter_TD_9452_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
-                std::string _s_company_name4853 = std::string(_s_company_name4853_n.data());
-                tbl_JOIN_INNER_TD_8104_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 0, _i_brand4771_n);
-                tbl_JOIN_INNER_TD_8104_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 1, _i_category4775_n);
-                tbl_JOIN_INNER_TD_8104_output.setInt32(r, 2, _ss_sales_price4798);
-                tbl_JOIN_INNER_TD_8104_output.setInt32(r, 3, _d_year4814);
-                tbl_JOIN_INNER_TD_8104_output.setInt32(r, 4, _d_moy4816);
-                tbl_JOIN_INNER_TD_8104_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 5, _s_store_name4841_n);
-                tbl_JOIN_INNER_TD_8104_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 6, _s_company_name4853_n);
+                std::string _i_brand6145 = (it->second)._i_brand6145;
+                std::array<char, TPCDS_READ_MAX + 1> _i_brand6145_n{};
+                memcpy(_i_brand6145_n.data(), (_i_brand6145).data(), (_i_brand6145).length());
+                std::string _i_category6149 = (it->second)._i_category6149;
+                std::array<char, TPCDS_READ_MAX + 1> _i_category6149_n{};
+                memcpy(_i_category6149_n.data(), (_i_category6149).data(), (_i_category6149).length());
+                int32_t _ss_store_sk6166 = (it->second)._ss_store_sk6166;
+                int32_t _ss_sales_price6172 = (it->second)._ss_sales_price6172;
+                int32_t _d_year6188 = (it->second)._d_year6188;
+                int32_t _d_moy6190 = (it->second)._d_moy6190;
+                int32_t _s_store_sk6210 = tbl_Filter_TD_9186_output.getInt32(i, 0);
+                std::array<char, TPCDS_READ_MAX + 1> _s_store_name6215_n = tbl_Filter_TD_9186_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
+                std::string _s_store_name6215 = std::string(_s_store_name6215_n.data());
+                std::array<char, TPCDS_READ_MAX + 1> _s_company_name6227_n = tbl_Filter_TD_9186_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
+                std::string _s_company_name6227 = std::string(_s_company_name6227_n.data());
+                tbl_JOIN_INNER_TD_8425_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 0, _i_brand6145_n);
+                tbl_JOIN_INNER_TD_8425_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 1, _i_category6149_n);
+                tbl_JOIN_INNER_TD_8425_output.setInt32(r, 2, _ss_sales_price6172);
+                tbl_JOIN_INNER_TD_8425_output.setInt32(r, 3, _d_year6188);
+                tbl_JOIN_INNER_TD_8425_output.setInt32(r, 4, _d_moy6190);
+                tbl_JOIN_INNER_TD_8425_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 5, _s_store_name6215_n);
+                tbl_JOIN_INNER_TD_8425_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 6, _s_company_name6227_n);
                 it++;
                 r++;
             }
         }
-        tbl_JOIN_INNER_TD_8104_output.setNumRow(r);
+        tbl_JOIN_INNER_TD_8425_output.setNumRow(r);
     } else { 
-        std::unordered_multimap<SW_JOIN_INNER_TD_8104_key_rightMajor, SW_JOIN_INNER_TD_8104_payload_rightMajor> ht1;
-        int nrow1 = tbl_Filter_TD_9452_output.getNumRow();
+        std::unordered_multimap<SW_JOIN_INNER_TD_8425_key_rightMajor, SW_JOIN_INNER_TD_8425_payload_rightMajor> ht1;
+        int nrow1 = tbl_Filter_TD_9186_output.getNumRow();
         for (int i = 0; i < nrow1; i++) {
-            int32_t _s_store_sk4836_k = tbl_Filter_TD_9452_output.getInt32(i, 0);
-            SW_JOIN_INNER_TD_8104_key_rightMajor keyA{_s_store_sk4836_k};
-            int32_t _s_store_sk4836 = tbl_Filter_TD_9452_output.getInt32(i, 0);
-            std::array<char, TPCDS_READ_MAX + 1> _s_store_name4841_n = tbl_Filter_TD_9452_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
-            std::string _s_store_name4841 = std::string(_s_store_name4841_n.data());
-            std::array<char, TPCDS_READ_MAX + 1> _s_company_name4853_n = tbl_Filter_TD_9452_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
-            std::string _s_company_name4853 = std::string(_s_company_name4853_n.data());
-            SW_JOIN_INNER_TD_8104_payload_rightMajor payloadA{_s_store_sk4836, _s_store_name4841, _s_company_name4853};
+            int32_t _s_store_sk6210_k = tbl_Filter_TD_9186_output.getInt32(i, 0);
+            SW_JOIN_INNER_TD_8425_key_rightMajor keyA{_s_store_sk6210_k};
+            int32_t _s_store_sk6210 = tbl_Filter_TD_9186_output.getInt32(i, 0);
+            std::array<char, TPCDS_READ_MAX + 1> _s_store_name6215_n = tbl_Filter_TD_9186_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
+            std::string _s_store_name6215 = std::string(_s_store_name6215_n.data());
+            std::array<char, TPCDS_READ_MAX + 1> _s_company_name6227_n = tbl_Filter_TD_9186_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
+            std::string _s_company_name6227 = std::string(_s_company_name6227_n.data());
+            SW_JOIN_INNER_TD_8425_payload_rightMajor payloadA{_s_store_sk6210, _s_store_name6215, _s_company_name6227};
             ht1.insert(std::make_pair(keyA, payloadA));
         }
         int r = 0;
-        int nrow2 = tbl_JOIN_INNER_TD_9705_output.getNumRow();
+        int nrow2 = tbl_JOIN_INNER_TD_974_output.getNumRow();
         for (int i = 0; i < nrow2; i++) {
-            int32_t _ss_store_sk4792_k = tbl_JOIN_INNER_TD_9705_output.getInt32(i, 2);
-            auto its = ht1.equal_range(SW_JOIN_INNER_TD_8104_key_rightMajor{_ss_store_sk4792_k});
+            int32_t _ss_store_sk6166_k = tbl_JOIN_INNER_TD_974_output.getInt32(i, 2);
+            auto its = ht1.equal_range(SW_JOIN_INNER_TD_8425_key_rightMajor{_ss_store_sk6166_k});
             auto it = its.first;
             while (it != its.second) {
-                int32_t _s_store_sk4836 = (it->second)._s_store_sk4836;
-                std::string _s_store_name4841 = (it->second)._s_store_name4841;
-                std::array<char, TPCDS_READ_MAX + 1> _s_store_name4841_n{};
-                memcpy(_s_store_name4841_n.data(), (_s_store_name4841).data(), (_s_store_name4841).length());
-                std::string _s_company_name4853 = (it->second)._s_company_name4853;
-                std::array<char, TPCDS_READ_MAX + 1> _s_company_name4853_n{};
-                memcpy(_s_company_name4853_n.data(), (_s_company_name4853).data(), (_s_company_name4853).length());
-                std::array<char, TPCDS_READ_MAX + 1> _i_brand4771_n = tbl_JOIN_INNER_TD_9705_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 0);
-                std::string _i_brand4771 = std::string(_i_brand4771_n.data());
-                std::array<char, TPCDS_READ_MAX + 1> _i_category4775_n = tbl_JOIN_INNER_TD_9705_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
-                std::string _i_category4775 = std::string(_i_category4775_n.data());
-                int32_t _ss_store_sk4792 = tbl_JOIN_INNER_TD_9705_output.getInt32(i, 2);
-                int32_t _ss_sales_price4798 = tbl_JOIN_INNER_TD_9705_output.getInt32(i, 3);
-                int32_t _d_year4814 = tbl_JOIN_INNER_TD_9705_output.getInt32(i, 4);
-                int32_t _d_moy4816 = tbl_JOIN_INNER_TD_9705_output.getInt32(i, 5);
-                tbl_JOIN_INNER_TD_8104_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 5, _s_store_name4841_n);
-                tbl_JOIN_INNER_TD_8104_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 6, _s_company_name4853_n);
-                tbl_JOIN_INNER_TD_8104_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 0, _i_brand4771_n);
-                tbl_JOIN_INNER_TD_8104_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 1, _i_category4775_n);
-                tbl_JOIN_INNER_TD_8104_output.setInt32(r, 2, _ss_sales_price4798);
-                tbl_JOIN_INNER_TD_8104_output.setInt32(r, 3, _d_year4814);
-                tbl_JOIN_INNER_TD_8104_output.setInt32(r, 4, _d_moy4816);
+                int32_t _s_store_sk6210 = (it->second)._s_store_sk6210;
+                std::string _s_store_name6215 = (it->second)._s_store_name6215;
+                std::array<char, TPCDS_READ_MAX + 1> _s_store_name6215_n{};
+                memcpy(_s_store_name6215_n.data(), (_s_store_name6215).data(), (_s_store_name6215).length());
+                std::string _s_company_name6227 = (it->second)._s_company_name6227;
+                std::array<char, TPCDS_READ_MAX + 1> _s_company_name6227_n{};
+                memcpy(_s_company_name6227_n.data(), (_s_company_name6227).data(), (_s_company_name6227).length());
+                std::array<char, TPCDS_READ_MAX + 1> _i_brand6145_n = tbl_JOIN_INNER_TD_974_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 0);
+                std::string _i_brand6145 = std::string(_i_brand6145_n.data());
+                std::array<char, TPCDS_READ_MAX + 1> _i_category6149_n = tbl_JOIN_INNER_TD_974_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
+                std::string _i_category6149 = std::string(_i_category6149_n.data());
+                int32_t _ss_store_sk6166 = tbl_JOIN_INNER_TD_974_output.getInt32(i, 2);
+                int32_t _ss_sales_price6172 = tbl_JOIN_INNER_TD_974_output.getInt32(i, 3);
+                int32_t _d_year6188 = tbl_JOIN_INNER_TD_974_output.getInt32(i, 4);
+                int32_t _d_moy6190 = tbl_JOIN_INNER_TD_974_output.getInt32(i, 5);
+                tbl_JOIN_INNER_TD_8425_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 5, _s_store_name6215_n);
+                tbl_JOIN_INNER_TD_8425_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 6, _s_company_name6227_n);
+                tbl_JOIN_INNER_TD_8425_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 0, _i_brand6145_n);
+                tbl_JOIN_INNER_TD_8425_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 1, _i_category6149_n);
+                tbl_JOIN_INNER_TD_8425_output.setInt32(r, 2, _ss_sales_price6172);
+                tbl_JOIN_INNER_TD_8425_output.setInt32(r, 3, _d_year6188);
+                tbl_JOIN_INNER_TD_8425_output.setInt32(r, 4, _d_moy6190);
                 it++;
                 r++;
             }
         }
-        tbl_JOIN_INNER_TD_8104_output.setNumRow(r);
+        tbl_JOIN_INNER_TD_8425_output.setNumRow(r);
     } 
-    std::cout << "tbl_JOIN_INNER_TD_8104_output #Row: " << tbl_JOIN_INNER_TD_8104_output.getNumRow() << std::endl;
+    std::cout << "tbl_JOIN_INNER_TD_8425_output #Row: " << tbl_JOIN_INNER_TD_8425_output.getNumRow() << std::endl;
 }
 
-struct SW_Aggregate_TD_8481_key {
-    std::string _i_category4668;
-    std::string _i_brand4664;
-    std::string _s_store_name4734;
-    std::string _s_company_name4746;
-    int32_t _d_year4707;
-    int32_t _d_moy4709;
-    bool operator==(const SW_Aggregate_TD_8481_key& other) const { return (_i_category4668 == other._i_category4668) && (_i_brand4664 == other._i_brand4664) && (_s_store_name4734 == other._s_store_name4734) && (_s_company_name4746 == other._s_company_name4746) && (_d_year4707 == other._d_year4707) && (_d_moy4709 == other._d_moy4709); }
+struct SW_Aggregate_TD_8312_key {
+    std::string _i_category6042;
+    std::string _i_brand6038;
+    std::string _s_store_name6108;
+    std::string _s_company_name6120;
+    int32_t _d_year6081;
+    int32_t _d_moy6083;
+    bool operator==(const SW_Aggregate_TD_8312_key& other) const { return (_i_category6042 == other._i_category6042) && (_i_brand6038 == other._i_brand6038) && (_s_store_name6108 == other._s_store_name6108) && (_s_company_name6120 == other._s_company_name6120) && (_d_year6081 == other._d_year6081) && (_d_moy6083 == other._d_moy6083); }
 };
 namespace std {
 template <>
-struct hash<SW_Aggregate_TD_8481_key> {
-    std::size_t operator() (const SW_Aggregate_TD_8481_key& k) const {
+struct hash<SW_Aggregate_TD_8312_key> {
+    std::size_t operator() (const SW_Aggregate_TD_8312_key& k) const {
         using std::size_t;
         using std::hash;
         using std::string;
-        return (hash<string>()(k._i_category4668)) + (hash<string>()(k._i_brand4664)) + (hash<string>()(k._s_store_name4734)) + (hash<string>()(k._s_company_name4746)) + (hash<int32_t>()(k._d_year4707)) + (hash<int32_t>()(k._d_moy4709));
+        return (hash<string>()(k._i_category6042)) + (hash<string>()(k._i_brand6038)) + (hash<string>()(k._s_store_name6108)) + (hash<string>()(k._s_company_name6120)) + (hash<int32_t>()(k._d_year6081)) + (hash<int32_t>()(k._d_moy6083));
     }
 };
 }
-struct SW_Aggregate_TD_8481_payload {
-    int32_t _sum_sales3892_sum_0;
+struct SW_Aggregate_TD_8312_payload {
+    int32_t _sum_sales5266_sum_0;
 };
-void SW_Aggregate_TD_8481(Table &tbl_JOIN_INNER_TD_9379_output, Table &tbl_Aggregate_TD_8481_output) {
+void SW_Aggregate_TD_8312(Table &tbl_JOIN_INNER_TD_9859_output, Table &tbl_Aggregate_TD_8312_output) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: Aggregate
-    // Operation: ListBuffer(i_category#4668, i_brand#4664, s_store_name#4734, s_company_name#4746, d_year#4707, d_moy#4709, MakeDecimal(sum(UnscaledValue(ss_sales_price#4691)),17,2) AS sum_sales#3892)
-    // Input: ListBuffer(i_brand#4664, i_category#4668, ss_sales_price#4691, d_year#4707, d_moy#4709, s_store_name#4734, s_company_name#4746)
-    // Output: ListBuffer(i_category#4668, i_brand#4664, s_store_name#4734, s_company_name#4746, d_year#4707, d_moy#4709, sum_sales#3892)
-    std::unordered_map<SW_Aggregate_TD_8481_key, SW_Aggregate_TD_8481_payload> ht1;
-    int nrow1 = tbl_JOIN_INNER_TD_9379_output.getNumRow();
+    // Operation: ListBuffer(i_category#6042, i_brand#6038, s_store_name#6108, s_company_name#6120, d_year#6081, d_moy#6083, MakeDecimal(sum(UnscaledValue(ss_sales_price#6065)),17,2) AS sum_sales#5266)
+    // Input: ListBuffer(i_brand#6038, i_category#6042, ss_sales_price#6065, d_year#6081, d_moy#6083, s_store_name#6108, s_company_name#6120)
+    // Output: ListBuffer(i_category#6042, i_brand#6038, s_store_name#6108, s_company_name#6120, d_year#6081, d_moy#6083, sum_sales#5266)
+    std::unordered_map<SW_Aggregate_TD_8312_key, SW_Aggregate_TD_8312_payload> ht1;
+    int nrow1 = tbl_JOIN_INNER_TD_9859_output.getNumRow();
     for (int i = 0; i < nrow1; i++) {
-        std::array<char, TPCDS_READ_MAX + 1> _i_brand4664 = tbl_JOIN_INNER_TD_9379_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 0);
-        std::array<char, TPCDS_READ_MAX + 1> _i_category4668 = tbl_JOIN_INNER_TD_9379_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
-        int32_t _ss_sales_price4691 = tbl_JOIN_INNER_TD_9379_output.getInt32(i, 2);
-        int32_t _d_year4707 = tbl_JOIN_INNER_TD_9379_output.getInt32(i, 3);
-        int32_t _d_moy4709 = tbl_JOIN_INNER_TD_9379_output.getInt32(i, 4);
-        std::array<char, TPCDS_READ_MAX + 1> _s_store_name4734 = tbl_JOIN_INNER_TD_9379_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 5);
-        std::array<char, TPCDS_READ_MAX + 1> _s_company_name4746 = tbl_JOIN_INNER_TD_9379_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 6);
-        SW_Aggregate_TD_8481_key k{std::string(_i_category4668.data()), std::string(_i_brand4664.data()), std::string(_s_store_name4734.data()), std::string(_s_company_name4746.data()), _d_year4707, _d_moy4709};
-        int64_t _sum_sales3892_sum_0 = _ss_sales_price4691;
-        SW_Aggregate_TD_8481_payload p{_sum_sales3892_sum_0};
+        std::array<char, TPCDS_READ_MAX + 1> _i_brand6038 = tbl_JOIN_INNER_TD_9859_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 0);
+        std::array<char, TPCDS_READ_MAX + 1> _i_category6042 = tbl_JOIN_INNER_TD_9859_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
+        int32_t _ss_sales_price6065 = tbl_JOIN_INNER_TD_9859_output.getInt32(i, 2);
+        int32_t _d_year6081 = tbl_JOIN_INNER_TD_9859_output.getInt32(i, 3);
+        int32_t _d_moy6083 = tbl_JOIN_INNER_TD_9859_output.getInt32(i, 4);
+        std::array<char, TPCDS_READ_MAX + 1> _s_store_name6108 = tbl_JOIN_INNER_TD_9859_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 5);
+        std::array<char, TPCDS_READ_MAX + 1> _s_company_name6120 = tbl_JOIN_INNER_TD_9859_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 6);
+        SW_Aggregate_TD_8312_key k{std::string(_i_category6042.data()), std::string(_i_brand6038.data()), std::string(_s_store_name6108.data()), std::string(_s_company_name6120.data()), _d_year6081, _d_moy6083};
+        int64_t _sum_sales5266_sum_0 = _ss_sales_price6065;
+        SW_Aggregate_TD_8312_payload p{_sum_sales5266_sum_0};
         auto it = ht1.find(k);
         if (it != ht1.end()) {
-            int32_t sum_0 = (it->second)._sum_sales3892_sum_0 + _sum_sales3892_sum_0;
-            p._sum_sales3892_sum_0 = sum_0;
+            int32_t sum_0 = (it->second)._sum_sales5266_sum_0 + _sum_sales5266_sum_0;
+            p._sum_sales5266_sum_0 = sum_0;
             ht1[k] = p;
         } else { 
             ht1.insert(std::make_pair(k, p));
@@ -1862,110 +1862,110 @@ void SW_Aggregate_TD_8481(Table &tbl_JOIN_INNER_TD_9379_output, Table &tbl_Aggre
     }
     int r = 0;
     for (auto& it : ht1) {
-        std::array<char, TPCDS_READ_MAX + 1> _i_category4668{};
-        memcpy(_i_category4668.data(), ((it.first)._i_category4668).data(), ((it.first)._i_category4668).length());
-        tbl_Aggregate_TD_8481_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 0, _i_category4668);
-        std::array<char, TPCDS_READ_MAX + 1> _i_brand4664{};
-        memcpy(_i_brand4664.data(), ((it.first)._i_brand4664).data(), ((it.first)._i_brand4664).length());
-        tbl_Aggregate_TD_8481_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 1, _i_brand4664);
-        std::array<char, TPCDS_READ_MAX + 1> _s_store_name4734{};
-        memcpy(_s_store_name4734.data(), ((it.first)._s_store_name4734).data(), ((it.first)._s_store_name4734).length());
-        tbl_Aggregate_TD_8481_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 2, _s_store_name4734);
-        std::array<char, TPCDS_READ_MAX + 1> _s_company_name4746{};
-        memcpy(_s_company_name4746.data(), ((it.first)._s_company_name4746).data(), ((it.first)._s_company_name4746).length());
-        tbl_Aggregate_TD_8481_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 3, _s_company_name4746);
-        tbl_Aggregate_TD_8481_output.setInt32(r, 4, (it.first)._d_year4707);
-        tbl_Aggregate_TD_8481_output.setInt32(r, 5, (it.first)._d_moy4709);
-        int32_t _sum_sales3892 = (it.second)._sum_sales3892_sum_0;
-        tbl_Aggregate_TD_8481_output.setInt32(r, 6, _sum_sales3892);
+        std::array<char, TPCDS_READ_MAX + 1> _i_category6042{};
+        memcpy(_i_category6042.data(), ((it.first)._i_category6042).data(), ((it.first)._i_category6042).length());
+        tbl_Aggregate_TD_8312_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 0, _i_category6042);
+        std::array<char, TPCDS_READ_MAX + 1> _i_brand6038{};
+        memcpy(_i_brand6038.data(), ((it.first)._i_brand6038).data(), ((it.first)._i_brand6038).length());
+        tbl_Aggregate_TD_8312_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 1, _i_brand6038);
+        std::array<char, TPCDS_READ_MAX + 1> _s_store_name6108{};
+        memcpy(_s_store_name6108.data(), ((it.first)._s_store_name6108).data(), ((it.first)._s_store_name6108).length());
+        tbl_Aggregate_TD_8312_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 2, _s_store_name6108);
+        std::array<char, TPCDS_READ_MAX + 1> _s_company_name6120{};
+        memcpy(_s_company_name6120.data(), ((it.first)._s_company_name6120).data(), ((it.first)._s_company_name6120).length());
+        tbl_Aggregate_TD_8312_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 3, _s_company_name6120);
+        tbl_Aggregate_TD_8312_output.setInt32(r, 4, (it.first)._d_year6081);
+        tbl_Aggregate_TD_8312_output.setInt32(r, 5, (it.first)._d_moy6083);
+        int32_t _sum_sales5266 = (it.second)._sum_sales5266_sum_0;
+        tbl_Aggregate_TD_8312_output.setInt32(r, 6, _sum_sales5266);
         ++r;
     }
-    tbl_Aggregate_TD_8481_output.setNumRow(r);
-    std::cout << "tbl_Aggregate_TD_8481_output #Row: " << tbl_Aggregate_TD_8481_output.getNumRow() << std::endl;
+    tbl_Aggregate_TD_8312_output.setNumRow(r);
+    std::cout << "tbl_Aggregate_TD_8312_output #Row: " << tbl_Aggregate_TD_8312_output.getNumRow() << std::endl;
 }
 
-void SW_Filter_TD_8435(Table &tbl_Window_TD_9139_output, Table &tbl_Filter_TD_8435_output) {
+void SW_Filter_TD_8853(Table &tbl_Window_TD_9913_output, Table &tbl_Filter_TD_8853_output) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: Filter
     // Operation: ListBuffer((isnotnull(d_year#126) AND (d_year#126 = 1999)))
-    // Input: ListBuffer(i_category#240, i_brand#236, s_store_name#383, s_company_name#395, d_year#126, d_moy#128, sum_sales#3892, _w0#3906, rn#3894)
-    // Output: ListBuffer(i_category#240, i_brand#236, s_store_name#383, s_company_name#395, d_year#126, d_moy#128, sum_sales#3892, _w0#3906, rn#3894)
+    // Input: ListBuffer(i_category#240, i_brand#236, s_store_name#383, s_company_name#395, d_year#126, d_moy#128, sum_sales#5266, _w0#5280, rn#5268)
+    // Output: ListBuffer(i_category#240, i_brand#236, s_store_name#383, s_company_name#395, d_year#126, d_moy#128, sum_sales#5266, _w0#5280, rn#5268)
     int r = 0;
-    int nrow1 = tbl_Window_TD_9139_output.getNumRow();
+    int nrow1 = tbl_Window_TD_9913_output.getNumRow();
     for (int i = 0; i < nrow1; i++) {
-        int32_t _d_year126 = tbl_Window_TD_9139_output.getInt32(i, 4);
-        if ((1) && (_d_year126 == 1999)) {
-            std::array<char, TPCDS_READ_MAX + 1> _i_category240_t = tbl_Window_TD_9139_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 0);
-            tbl_Filter_TD_8435_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 0, _i_category240_t);
-            std::array<char, TPCDS_READ_MAX + 1> _i_brand236_t = tbl_Window_TD_9139_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
-            tbl_Filter_TD_8435_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 1, _i_brand236_t);
-            std::array<char, TPCDS_READ_MAX + 1> _s_store_name383_t = tbl_Window_TD_9139_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
-            tbl_Filter_TD_8435_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 2, _s_store_name383_t);
-            std::array<char, TPCDS_READ_MAX + 1> _s_company_name395_t = tbl_Window_TD_9139_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 3);
-            tbl_Filter_TD_8435_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 3, _s_company_name395_t);
-            int32_t _d_year126_t = tbl_Window_TD_9139_output.getInt32(i, 4);
-            tbl_Filter_TD_8435_output.setInt32(r, 4, _d_year126_t);
-            int32_t _d_moy128_t = tbl_Window_TD_9139_output.getInt32(i, 5);
-            tbl_Filter_TD_8435_output.setInt32(r, 5, _d_moy128_t);
-            int32_t _sum_sales3892_t = tbl_Window_TD_9139_output.getInt32(i, 6);
-            tbl_Filter_TD_8435_output.setInt32(r, 6, _sum_sales3892_t);
-            int32_t __w03906_t = tbl_Window_TD_9139_output.getInt32(i, 7);
-            tbl_Filter_TD_8435_output.setInt32(r, 7, __w03906_t);
-            int32_t _rn3894_t = tbl_Window_TD_9139_output.getInt32(i, 8);
-            tbl_Filter_TD_8435_output.setInt32(r, 8, _rn3894_t);
+        int32_t _d_year126 = tbl_Window_TD_9913_output.getInt32(i, 4);
+        if ((_d_year126!= 0) && (_d_year126 == 1999)) {
+            std::array<char, TPCDS_READ_MAX + 1> _i_category240_t = tbl_Window_TD_9913_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 0);
+            tbl_Filter_TD_8853_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 0, _i_category240_t);
+            std::array<char, TPCDS_READ_MAX + 1> _i_brand236_t = tbl_Window_TD_9913_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
+            tbl_Filter_TD_8853_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 1, _i_brand236_t);
+            std::array<char, TPCDS_READ_MAX + 1> _s_store_name383_t = tbl_Window_TD_9913_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
+            tbl_Filter_TD_8853_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 2, _s_store_name383_t);
+            std::array<char, TPCDS_READ_MAX + 1> _s_company_name395_t = tbl_Window_TD_9913_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 3);
+            tbl_Filter_TD_8853_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 3, _s_company_name395_t);
+            int32_t _d_year126_t = tbl_Window_TD_9913_output.getInt32(i, 4);
+            tbl_Filter_TD_8853_output.setInt32(r, 4, _d_year126_t);
+            int32_t _d_moy128_t = tbl_Window_TD_9913_output.getInt32(i, 5);
+            tbl_Filter_TD_8853_output.setInt32(r, 5, _d_moy128_t);
+            int32_t _sum_sales5266_t = tbl_Window_TD_9913_output.getInt32(i, 6);
+            tbl_Filter_TD_8853_output.setInt32(r, 6, _sum_sales5266_t);
+            int32_t __w05280_t = tbl_Window_TD_9913_output.getInt32(i, 7);
+            tbl_Filter_TD_8853_output.setInt32(r, 7, __w05280_t);
+            int32_t _rn5268_t = tbl_Window_TD_9913_output.getInt32(i, 8);
+            tbl_Filter_TD_8853_output.setInt32(r, 8, _rn5268_t);
             r++;
         }
     }
-    tbl_Filter_TD_8435_output.setNumRow(r);
-    std::cout << "tbl_Filter_TD_8435_output #Row: " << tbl_Filter_TD_8435_output.getNumRow() << std::endl;
+    tbl_Filter_TD_8853_output.setNumRow(r);
+    std::cout << "tbl_Filter_TD_8853_output #Row: " << tbl_Filter_TD_8853_output.getNumRow() << std::endl;
 }
 
-struct SW_Aggregate_TD_7589_key {
-    std::string _i_category4775;
-    std::string _i_brand4771;
-    std::string _s_store_name4841;
-    std::string _s_company_name4853;
-    int32_t _d_year4814;
-    int32_t _d_moy4816;
-    bool operator==(const SW_Aggregate_TD_7589_key& other) const { return (_i_category4775 == other._i_category4775) && (_i_brand4771 == other._i_brand4771) && (_s_store_name4841 == other._s_store_name4841) && (_s_company_name4853 == other._s_company_name4853) && (_d_year4814 == other._d_year4814) && (_d_moy4816 == other._d_moy4816); }
+struct SW_Aggregate_TD_7942_key {
+    std::string _i_category6149;
+    std::string _i_brand6145;
+    std::string _s_store_name6215;
+    std::string _s_company_name6227;
+    int32_t _d_year6188;
+    int32_t _d_moy6190;
+    bool operator==(const SW_Aggregate_TD_7942_key& other) const { return (_i_category6149 == other._i_category6149) && (_i_brand6145 == other._i_brand6145) && (_s_store_name6215 == other._s_store_name6215) && (_s_company_name6227 == other._s_company_name6227) && (_d_year6188 == other._d_year6188) && (_d_moy6190 == other._d_moy6190); }
 };
 namespace std {
 template <>
-struct hash<SW_Aggregate_TD_7589_key> {
-    std::size_t operator() (const SW_Aggregate_TD_7589_key& k) const {
+struct hash<SW_Aggregate_TD_7942_key> {
+    std::size_t operator() (const SW_Aggregate_TD_7942_key& k) const {
         using std::size_t;
         using std::hash;
         using std::string;
-        return (hash<string>()(k._i_category4775)) + (hash<string>()(k._i_brand4771)) + (hash<string>()(k._s_store_name4841)) + (hash<string>()(k._s_company_name4853)) + (hash<int32_t>()(k._d_year4814)) + (hash<int32_t>()(k._d_moy4816));
+        return (hash<string>()(k._i_category6149)) + (hash<string>()(k._i_brand6145)) + (hash<string>()(k._s_store_name6215)) + (hash<string>()(k._s_company_name6227)) + (hash<int32_t>()(k._d_year6188)) + (hash<int32_t>()(k._d_moy6190));
     }
 };
 }
-struct SW_Aggregate_TD_7589_payload {
-    int32_t _sum_sales3892_sum_0;
+struct SW_Aggregate_TD_7942_payload {
+    int32_t _sum_sales5266_sum_0;
 };
-void SW_Aggregate_TD_7589(Table &tbl_JOIN_INNER_TD_8104_output, Table &tbl_Aggregate_TD_7589_output) {
+void SW_Aggregate_TD_7942(Table &tbl_JOIN_INNER_TD_8425_output, Table &tbl_Aggregate_TD_7942_output) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: Aggregate
-    // Operation: ListBuffer(i_category#4775, i_brand#4771, s_store_name#4841, s_company_name#4853, d_year#4814, d_moy#4816, MakeDecimal(sum(UnscaledValue(ss_sales_price#4798)),17,2) AS sum_sales#3892)
-    // Input: ListBuffer(i_brand#4771, i_category#4775, ss_sales_price#4798, d_year#4814, d_moy#4816, s_store_name#4841, s_company_name#4853)
-    // Output: ListBuffer(i_category#4775, i_brand#4771, s_store_name#4841, s_company_name#4853, d_year#4814, d_moy#4816, sum_sales#3892)
-    std::unordered_map<SW_Aggregate_TD_7589_key, SW_Aggregate_TD_7589_payload> ht1;
-    int nrow1 = tbl_JOIN_INNER_TD_8104_output.getNumRow();
+    // Operation: ListBuffer(i_category#6149, i_brand#6145, s_store_name#6215, s_company_name#6227, d_year#6188, d_moy#6190, MakeDecimal(sum(UnscaledValue(ss_sales_price#6172)),17,2) AS sum_sales#5266)
+    // Input: ListBuffer(i_brand#6145, i_category#6149, ss_sales_price#6172, d_year#6188, d_moy#6190, s_store_name#6215, s_company_name#6227)
+    // Output: ListBuffer(i_category#6149, i_brand#6145, s_store_name#6215, s_company_name#6227, d_year#6188, d_moy#6190, sum_sales#5266)
+    std::unordered_map<SW_Aggregate_TD_7942_key, SW_Aggregate_TD_7942_payload> ht1;
+    int nrow1 = tbl_JOIN_INNER_TD_8425_output.getNumRow();
     for (int i = 0; i < nrow1; i++) {
-        std::array<char, TPCDS_READ_MAX + 1> _i_brand4771 = tbl_JOIN_INNER_TD_8104_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 0);
-        std::array<char, TPCDS_READ_MAX + 1> _i_category4775 = tbl_JOIN_INNER_TD_8104_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
-        int32_t _ss_sales_price4798 = tbl_JOIN_INNER_TD_8104_output.getInt32(i, 2);
-        int32_t _d_year4814 = tbl_JOIN_INNER_TD_8104_output.getInt32(i, 3);
-        int32_t _d_moy4816 = tbl_JOIN_INNER_TD_8104_output.getInt32(i, 4);
-        std::array<char, TPCDS_READ_MAX + 1> _s_store_name4841 = tbl_JOIN_INNER_TD_8104_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 5);
-        std::array<char, TPCDS_READ_MAX + 1> _s_company_name4853 = tbl_JOIN_INNER_TD_8104_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 6);
-        SW_Aggregate_TD_7589_key k{std::string(_i_category4775.data()), std::string(_i_brand4771.data()), std::string(_s_store_name4841.data()), std::string(_s_company_name4853.data()), _d_year4814, _d_moy4816};
-        int64_t _sum_sales3892_sum_0 = _ss_sales_price4798;
-        SW_Aggregate_TD_7589_payload p{_sum_sales3892_sum_0};
+        std::array<char, TPCDS_READ_MAX + 1> _i_brand6145 = tbl_JOIN_INNER_TD_8425_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 0);
+        std::array<char, TPCDS_READ_MAX + 1> _i_category6149 = tbl_JOIN_INNER_TD_8425_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
+        int32_t _ss_sales_price6172 = tbl_JOIN_INNER_TD_8425_output.getInt32(i, 2);
+        int32_t _d_year6188 = tbl_JOIN_INNER_TD_8425_output.getInt32(i, 3);
+        int32_t _d_moy6190 = tbl_JOIN_INNER_TD_8425_output.getInt32(i, 4);
+        std::array<char, TPCDS_READ_MAX + 1> _s_store_name6215 = tbl_JOIN_INNER_TD_8425_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 5);
+        std::array<char, TPCDS_READ_MAX + 1> _s_company_name6227 = tbl_JOIN_INNER_TD_8425_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 6);
+        SW_Aggregate_TD_7942_key k{std::string(_i_category6149.data()), std::string(_i_brand6145.data()), std::string(_s_store_name6215.data()), std::string(_s_company_name6227.data()), _d_year6188, _d_moy6190};
+        int64_t _sum_sales5266_sum_0 = _ss_sales_price6172;
+        SW_Aggregate_TD_7942_payload p{_sum_sales5266_sum_0};
         auto it = ht1.find(k);
         if (it != ht1.end()) {
-            int32_t sum_0 = (it->second)._sum_sales3892_sum_0 + _sum_sales3892_sum_0;
-            p._sum_sales3892_sum_0 = sum_0;
+            int32_t sum_0 = (it->second)._sum_sales5266_sum_0 + _sum_sales5266_sum_0;
+            p._sum_sales5266_sum_0 = sum_0;
             ht1[k] = p;
         } else { 
             ht1.insert(std::make_pair(k, p));
@@ -1973,78 +1973,78 @@ void SW_Aggregate_TD_7589(Table &tbl_JOIN_INNER_TD_8104_output, Table &tbl_Aggre
     }
     int r = 0;
     for (auto& it : ht1) {
-        std::array<char, TPCDS_READ_MAX + 1> _i_category4775{};
-        memcpy(_i_category4775.data(), ((it.first)._i_category4775).data(), ((it.first)._i_category4775).length());
-        tbl_Aggregate_TD_7589_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 0, _i_category4775);
-        std::array<char, TPCDS_READ_MAX + 1> _i_brand4771{};
-        memcpy(_i_brand4771.data(), ((it.first)._i_brand4771).data(), ((it.first)._i_brand4771).length());
-        tbl_Aggregate_TD_7589_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 1, _i_brand4771);
-        std::array<char, TPCDS_READ_MAX + 1> _s_store_name4841{};
-        memcpy(_s_store_name4841.data(), ((it.first)._s_store_name4841).data(), ((it.first)._s_store_name4841).length());
-        tbl_Aggregate_TD_7589_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 2, _s_store_name4841);
-        std::array<char, TPCDS_READ_MAX + 1> _s_company_name4853{};
-        memcpy(_s_company_name4853.data(), ((it.first)._s_company_name4853).data(), ((it.first)._s_company_name4853).length());
-        tbl_Aggregate_TD_7589_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 3, _s_company_name4853);
-        tbl_Aggregate_TD_7589_output.setInt32(r, 4, (it.first)._d_year4814);
-        tbl_Aggregate_TD_7589_output.setInt32(r, 5, (it.first)._d_moy4816);
-        int32_t _sum_sales3892 = (it.second)._sum_sales3892_sum_0;
-        tbl_Aggregate_TD_7589_output.setInt32(r, 6, _sum_sales3892);
+        std::array<char, TPCDS_READ_MAX + 1> _i_category6149{};
+        memcpy(_i_category6149.data(), ((it.first)._i_category6149).data(), ((it.first)._i_category6149).length());
+        tbl_Aggregate_TD_7942_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 0, _i_category6149);
+        std::array<char, TPCDS_READ_MAX + 1> _i_brand6145{};
+        memcpy(_i_brand6145.data(), ((it.first)._i_brand6145).data(), ((it.first)._i_brand6145).length());
+        tbl_Aggregate_TD_7942_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 1, _i_brand6145);
+        std::array<char, TPCDS_READ_MAX + 1> _s_store_name6215{};
+        memcpy(_s_store_name6215.data(), ((it.first)._s_store_name6215).data(), ((it.first)._s_store_name6215).length());
+        tbl_Aggregate_TD_7942_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 2, _s_store_name6215);
+        std::array<char, TPCDS_READ_MAX + 1> _s_company_name6227{};
+        memcpy(_s_company_name6227.data(), ((it.first)._s_company_name6227).data(), ((it.first)._s_company_name6227).length());
+        tbl_Aggregate_TD_7942_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 3, _s_company_name6227);
+        tbl_Aggregate_TD_7942_output.setInt32(r, 4, (it.first)._d_year6188);
+        tbl_Aggregate_TD_7942_output.setInt32(r, 5, (it.first)._d_moy6190);
+        int32_t _sum_sales5266 = (it.second)._sum_sales5266_sum_0;
+        tbl_Aggregate_TD_7942_output.setInt32(r, 6, _sum_sales5266);
         ++r;
     }
-    tbl_Aggregate_TD_7589_output.setNumRow(r);
-    std::cout << "tbl_Aggregate_TD_7589_output #Row: " << tbl_Aggregate_TD_7589_output.getNumRow() << std::endl;
+    tbl_Aggregate_TD_7942_output.setNumRow(r);
+    std::cout << "tbl_Aggregate_TD_7942_output #Row: " << tbl_Aggregate_TD_7942_output.getNumRow() << std::endl;
 }
 
-void SW_Window_TD_7143(Table &tbl_Aggregate_TD_8481_output, Table &tbl_Window_TD_7143_output) {
+void SW_Window_TD_7922(Table &tbl_Aggregate_TD_8312_output, Table &tbl_Window_TD_7922_output) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: Window
-    // Operation: ListBuffer(rank(d_year#4707, d_moy#4709) windowspecdefinition(i_category#4668, i_brand#4664, s_store_name#4734, s_company_name#4746, d_year#4707 ASC NULLS FIRST, d_moy#4709 ASC NULLS FIRST, specifiedwindowframe(RowFrame, unboundedpreceding$(), currentrow$())) AS rn#4762)
-    // Input: ListBuffer(i_category#4668, i_brand#4664, s_store_name#4734, s_company_name#4746, d_year#4707, d_moy#4709, sum_sales#3892)
-    // Output: ListBuffer(i_category#4668, i_brand#4664, s_store_name#4734, s_company_name#4746, d_year#4707, d_moy#4709, sum_sales#3892, rn#4762)
-    struct SW_Window_TD_7143Row {
-        std::string _i_category4668;
-        std::string _i_brand4664;
-        std::string _s_store_name4734;
-        std::string _s_company_name4746;
-        int32_t _d_year4707;
-        int32_t _d_moy4709;
-        int32_t _sum_sales3892;
+    // Operation: ListBuffer(rank(d_year#6081, d_moy#6083) windowspecdefinition(i_category#6042, i_brand#6038, s_store_name#6108, s_company_name#6120, d_year#6081 ASC NULLS FIRST, d_moy#6083 ASC NULLS FIRST, specifiedwindowframe(RowFrame, unboundedpreceding$(), currentrow$())) AS rn#6136)
+    // Input: ListBuffer(i_category#6042, i_brand#6038, s_store_name#6108, s_company_name#6120, d_year#6081, d_moy#6083, sum_sales#5266)
+    // Output: ListBuffer(i_category#6042, i_brand#6038, s_store_name#6108, s_company_name#6120, d_year#6081, d_moy#6083, sum_sales#5266, rn#6136)
+    struct SW_Window_TD_7922Row {
+        std::string _i_category6042;
+        std::string _i_brand6038;
+        std::string _s_store_name6108;
+        std::string _s_company_name6120;
+        int32_t _d_year6081;
+        int32_t _d_moy6083;
+        int32_t _sum_sales5266;
     }; 
 
-    int nrow = tbl_Aggregate_TD_8481_output.getNumRow();
-    std::vector<SW_Window_TD_7143Row> rows0;
+    int nrow = tbl_Aggregate_TD_8312_output.getNumRow();
+    std::vector<SW_Window_TD_7922Row> rows0;
     int r = 0;
     for (int i = 0; i < nrow; i++) {
-        std::array<char, TPCDS_READ_MAX + 1> _i_category4668 = tbl_Aggregate_TD_8481_output.getcharN<char, TPCDS_READ_MAX +1>(i, 0);
-        tbl_Window_TD_7143_output.setcharN<char, TPCDS_READ_MAX +1>(r, 0, _i_category4668);
-        std::array<char, TPCDS_READ_MAX + 1> _i_brand4664 = tbl_Aggregate_TD_8481_output.getcharN<char, TPCDS_READ_MAX +1>(i, 1);
-        tbl_Window_TD_7143_output.setcharN<char, TPCDS_READ_MAX +1>(r, 1, _i_brand4664);
-        std::array<char, TPCDS_READ_MAX + 1> _s_store_name4734 = tbl_Aggregate_TD_8481_output.getcharN<char, TPCDS_READ_MAX +1>(i, 2);
-        tbl_Window_TD_7143_output.setcharN<char, TPCDS_READ_MAX +1>(r, 2, _s_store_name4734);
-        std::array<char, TPCDS_READ_MAX + 1> _s_company_name4746 = tbl_Aggregate_TD_8481_output.getcharN<char, TPCDS_READ_MAX +1>(i, 3);
-        tbl_Window_TD_7143_output.setcharN<char, TPCDS_READ_MAX +1>(r, 3, _s_company_name4746);
-        int32_t _d_year4707 = tbl_Aggregate_TD_8481_output.getInt32(i, 4);
-        tbl_Window_TD_7143_output.setInt32(r, 4,_d_year4707);
-        int32_t _d_moy4709 = tbl_Aggregate_TD_8481_output.getInt32(i, 5);
-        tbl_Window_TD_7143_output.setInt32(r, 5,_d_moy4709);
-        int32_t _sum_sales3892 = tbl_Aggregate_TD_8481_output.getInt32(i, 6);
-        tbl_Window_TD_7143_output.setInt32(r, 6,_sum_sales3892);
+        std::array<char, TPCDS_READ_MAX + 1> _i_category6042 = tbl_Aggregate_TD_8312_output.getcharN<char, TPCDS_READ_MAX +1>(i, 0);
+        tbl_Window_TD_7922_output.setcharN<char, TPCDS_READ_MAX +1>(r, 0, _i_category6042);
+        std::array<char, TPCDS_READ_MAX + 1> _i_brand6038 = tbl_Aggregate_TD_8312_output.getcharN<char, TPCDS_READ_MAX +1>(i, 1);
+        tbl_Window_TD_7922_output.setcharN<char, TPCDS_READ_MAX +1>(r, 1, _i_brand6038);
+        std::array<char, TPCDS_READ_MAX + 1> _s_store_name6108 = tbl_Aggregate_TD_8312_output.getcharN<char, TPCDS_READ_MAX +1>(i, 2);
+        tbl_Window_TD_7922_output.setcharN<char, TPCDS_READ_MAX +1>(r, 2, _s_store_name6108);
+        std::array<char, TPCDS_READ_MAX + 1> _s_company_name6120 = tbl_Aggregate_TD_8312_output.getcharN<char, TPCDS_READ_MAX +1>(i, 3);
+        tbl_Window_TD_7922_output.setcharN<char, TPCDS_READ_MAX +1>(r, 3, _s_company_name6120);
+        int32_t _d_year6081 = tbl_Aggregate_TD_8312_output.getInt32(i, 4);
+        tbl_Window_TD_7922_output.setInt32(r, 4,_d_year6081);
+        int32_t _d_moy6083 = tbl_Aggregate_TD_8312_output.getInt32(i, 5);
+        tbl_Window_TD_7922_output.setInt32(r, 5,_d_moy6083);
+        int32_t _sum_sales5266 = tbl_Aggregate_TD_8312_output.getInt32(i, 6);
+        tbl_Window_TD_7922_output.setInt32(r, 6,_sum_sales5266);
         r++;
-        SW_Window_TD_7143Row t = {std::string(_i_category4668.data()),std::string(_i_brand4664.data()),std::string(_s_store_name4734.data()),std::string(_s_company_name4746.data()),_d_year4707,_d_moy4709,_sum_sales3892};
+        SW_Window_TD_7922Row t = {std::string(_i_category6042.data()),std::string(_i_brand6038.data()),std::string(_s_store_name6108.data()),std::string(_s_company_name6120.data()),_d_year6081,_d_moy6083,_sum_sales5266};
         rows0.push_back(t);
     }
     struct {
-        bool operator()(const SW_Window_TD_7143Row& a, const SW_Window_TD_7143Row& b) const { return 
-(a._i_category4668 < b._i_category4668) || 
- ((a._i_category4668 == b._i_category4668) && (a._i_brand4664 < b._i_brand4664)) || 
- ((a._i_category4668 == b._i_category4668) && (a._i_brand4664 == b._i_brand4664) && (a._s_store_name4734 < b._s_store_name4734)) || 
- ((a._i_category4668 == b._i_category4668) && (a._i_brand4664 == b._i_brand4664) && (a._s_store_name4734 == b._s_store_name4734) && (a._s_company_name4746 < b._s_company_name4746)) || 
- ((a._i_category4668 == b._i_category4668) && (a._i_brand4664 == b._i_brand4664) && (a._s_store_name4734 == b._s_store_name4734) && (a._s_company_name4746 == b._s_company_name4746) && (a._d_year4707 < b._d_year4707)) || 
- ((a._i_category4668 == b._i_category4668) && (a._i_brand4664 == b._i_brand4664) && (a._s_store_name4734 == b._s_store_name4734) && (a._s_company_name4746 == b._s_company_name4746) && (a._d_year4707 == b._d_year4707) && (a._d_moy4709 < b._d_moy4709)); 
+        bool operator()(const SW_Window_TD_7922Row& a, const SW_Window_TD_7922Row& b) const { return 
+(a._i_category6042 < b._i_category6042) || 
+ ((a._i_category6042 == b._i_category6042) && (a._i_brand6038 < b._i_brand6038)) || 
+ ((a._i_category6042 == b._i_category6042) && (a._i_brand6038 == b._i_brand6038) && (a._s_store_name6108 < b._s_store_name6108)) || 
+ ((a._i_category6042 == b._i_category6042) && (a._i_brand6038 == b._i_brand6038) && (a._s_store_name6108 == b._s_store_name6108) && (a._s_company_name6120 < b._s_company_name6120)) || 
+ ((a._i_category6042 == b._i_category6042) && (a._i_brand6038 == b._i_brand6038) && (a._s_store_name6108 == b._s_store_name6108) && (a._s_company_name6120 == b._s_company_name6120) && (a._d_year6081 < b._d_year6081)) || 
+ ((a._i_category6042 == b._i_category6042) && (a._i_brand6038 == b._i_brand6038) && (a._s_store_name6108 == b._s_store_name6108) && (a._s_company_name6120 == b._s_company_name6120) && (a._d_year6081 == b._d_year6081) && (a._d_moy6083 < b._d_moy6083)); 
 }
-    }SW_Window_TD_7143_order0; 
+    }SW_Window_TD_7922_order0; 
 
-    std::sort(rows0.begin(), rows0.end(), SW_Window_TD_7143_order0);
+    std::sort(rows0.begin(), rows0.end(), SW_Window_TD_7922_order0);
     std::vector<int32_t> ranks0(rows0.size(), 0);
     int32_t currentRank0 = 0;
     int32_t currentPartitionCount0 = 1;
@@ -2054,8 +2054,8 @@ void SW_Window_TD_7143(Table &tbl_Aggregate_TD_8481_output, Table &tbl_Window_TD
       ranks0[0] = ++currentRank0;
     };
     for (int i = 1; i< rows0.size(); i++) {
-        isSamePartition0 = ( rows0[i]._i_category4668 == rows0[i-1]._i_category4668 && rows0[i]._i_brand4664 == rows0[i-1]._i_brand4664 && rows0[i]._s_store_name4734 == rows0[i-1]._s_store_name4734 && rows0[i]._s_company_name4746 == rows0[i-1]._s_company_name4746);
-        isSameOrderKey0 = ( rows0[i]._d_year4707 == rows0[i-1]._d_year4707 && rows0[i]._d_moy4709 == rows0[i-1]._d_moy4709);
+        isSamePartition0 = ( rows0[i]._i_category6042 == rows0[i-1]._i_category6042 && rows0[i]._i_brand6038 == rows0[i-1]._i_brand6038 && rows0[i]._s_store_name6108 == rows0[i-1]._s_store_name6108 && rows0[i]._s_company_name6120 == rows0[i-1]._s_company_name6120);
+        isSameOrderKey0 = ( rows0[i]._d_year6081 == rows0[i-1]._d_year6081 && rows0[i]._d_moy6083 == rows0[i-1]._d_moy6083);
         curPartitionCount0++;
         if (isSamePartition0&& !isSameOrderKey0) {
             currentRank0 = currentPartitionCount0;
@@ -2066,67 +2066,67 @@ void SW_Window_TD_7143(Table &tbl_Aggregate_TD_8481_output, Table &tbl_Window_TD
         ranks0[i] = currentRank0;
     }
     for (int i = 0; i< nrow; i++) {
-        tbl_Window_TD_7143_output.setInt32(r, 7, ranks0[i]);
+        tbl_Window_TD_7922_output.setInt32(r, 7, ranks0[i]);
     }
-    tbl_Window_TD_7143_output.setNumRow(r);
-    std::cout << "tbl_Window_TD_7143_output #Row: " << tbl_Window_TD_7143_output.getNumRow() << std::endl;
+    tbl_Window_TD_7922_output.setNumRow(r);
+    std::cout << "tbl_Window_TD_7922_output #Row: " << tbl_Window_TD_7922_output.getNumRow() << std::endl;
 }
 
-void SW_Window_TD_751(Table &tbl_Filter_TD_8435_output, Table &tbl_Window_TD_751_output) {
+void SW_Window_TD_7542(Table &tbl_Filter_TD_8853_output, Table &tbl_Window_TD_7542_output) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: Window
-    // Operation: ListBuffer(avg(_w0#3906) windowspecdefinition(i_category#240, i_brand#236, s_store_name#383, s_company_name#395, d_year#126, specifiedwindowframe(RowFrame, unboundedpreceding$(), unboundedfollowing$())) AS avg_monthly_sales#3893)
-    // Input: ListBuffer(i_category#240, i_brand#236, s_store_name#383, s_company_name#395, d_year#126, d_moy#128, sum_sales#3892, _w0#3906, rn#3894)
-    // Output: ListBuffer(i_category#240, i_brand#236, s_store_name#383, s_company_name#395, d_year#126, d_moy#128, sum_sales#3892, _w0#3906, rn#3894, avg_monthly_sales#3893)
-    struct SW_Window_TD_751Row {
+    // Operation: ListBuffer(avg(_w0#5280) windowspecdefinition(i_category#240, i_brand#236, s_store_name#383, s_company_name#395, d_year#126, specifiedwindowframe(RowFrame, unboundedpreceding$(), unboundedfollowing$())) AS avg_monthly_sales#5267)
+    // Input: ListBuffer(i_category#240, i_brand#236, s_store_name#383, s_company_name#395, d_year#126, d_moy#128, sum_sales#5266, _w0#5280, rn#5268)
+    // Output: ListBuffer(i_category#240, i_brand#236, s_store_name#383, s_company_name#395, d_year#126, d_moy#128, sum_sales#5266, _w0#5280, rn#5268, avg_monthly_sales#5267)
+    struct SW_Window_TD_7542Row {
         std::string _i_category240;
         std::string _i_brand236;
         std::string _s_store_name383;
         std::string _s_company_name395;
         int32_t _d_year126;
         int32_t _d_moy128;
-        int32_t _sum_sales3892;
-        int32_t __w03906;
-        int32_t _rn3894;
+        int32_t _sum_sales5266;
+        int32_t __w05280;
+        int32_t _rn5268;
     }; 
 
-    int nrow = tbl_Filter_TD_8435_output.getNumRow();
-    std::vector<SW_Window_TD_751Row> rows0;
+    int nrow = tbl_Filter_TD_8853_output.getNumRow();
+    std::vector<SW_Window_TD_7542Row> rows0;
     int r = 0;
     for (int i = 0; i < nrow; i++) {
-        std::array<char, TPCDS_READ_MAX + 1> _i_category240 = tbl_Filter_TD_8435_output.getcharN<char, TPCDS_READ_MAX +1>(i, 0);
-        tbl_Window_TD_751_output.setcharN<char, TPCDS_READ_MAX +1>(r, 0, _i_category240);
-        std::array<char, TPCDS_READ_MAX + 1> _i_brand236 = tbl_Filter_TD_8435_output.getcharN<char, TPCDS_READ_MAX +1>(i, 1);
-        tbl_Window_TD_751_output.setcharN<char, TPCDS_READ_MAX +1>(r, 1, _i_brand236);
-        std::array<char, TPCDS_READ_MAX + 1> _s_store_name383 = tbl_Filter_TD_8435_output.getcharN<char, TPCDS_READ_MAX +1>(i, 2);
-        tbl_Window_TD_751_output.setcharN<char, TPCDS_READ_MAX +1>(r, 2, _s_store_name383);
-        std::array<char, TPCDS_READ_MAX + 1> _s_company_name395 = tbl_Filter_TD_8435_output.getcharN<char, TPCDS_READ_MAX +1>(i, 3);
-        tbl_Window_TD_751_output.setcharN<char, TPCDS_READ_MAX +1>(r, 3, _s_company_name395);
-        int32_t _d_year126 = tbl_Filter_TD_8435_output.getInt32(i, 4);
-        tbl_Window_TD_751_output.setInt32(r, 4,_d_year126);
-        int32_t _d_moy128 = tbl_Filter_TD_8435_output.getInt32(i, 5);
-        tbl_Window_TD_751_output.setInt32(r, 5,_d_moy128);
-        int32_t _sum_sales3892 = tbl_Filter_TD_8435_output.getInt32(i, 6);
-        tbl_Window_TD_751_output.setInt32(r, 6,_sum_sales3892);
-        int32_t __w03906 = tbl_Filter_TD_8435_output.getInt32(i, 7);
-        tbl_Window_TD_751_output.setInt32(r, 7,__w03906);
-        int32_t _rn3894 = tbl_Filter_TD_8435_output.getInt32(i, 8);
-        tbl_Window_TD_751_output.setInt32(r, 8,_rn3894);
+        std::array<char, TPCDS_READ_MAX + 1> _i_category240 = tbl_Filter_TD_8853_output.getcharN<char, TPCDS_READ_MAX +1>(i, 0);
+        tbl_Window_TD_7542_output.setcharN<char, TPCDS_READ_MAX +1>(r, 0, _i_category240);
+        std::array<char, TPCDS_READ_MAX + 1> _i_brand236 = tbl_Filter_TD_8853_output.getcharN<char, TPCDS_READ_MAX +1>(i, 1);
+        tbl_Window_TD_7542_output.setcharN<char, TPCDS_READ_MAX +1>(r, 1, _i_brand236);
+        std::array<char, TPCDS_READ_MAX + 1> _s_store_name383 = tbl_Filter_TD_8853_output.getcharN<char, TPCDS_READ_MAX +1>(i, 2);
+        tbl_Window_TD_7542_output.setcharN<char, TPCDS_READ_MAX +1>(r, 2, _s_store_name383);
+        std::array<char, TPCDS_READ_MAX + 1> _s_company_name395 = tbl_Filter_TD_8853_output.getcharN<char, TPCDS_READ_MAX +1>(i, 3);
+        tbl_Window_TD_7542_output.setcharN<char, TPCDS_READ_MAX +1>(r, 3, _s_company_name395);
+        int32_t _d_year126 = tbl_Filter_TD_8853_output.getInt32(i, 4);
+        tbl_Window_TD_7542_output.setInt32(r, 4,_d_year126);
+        int32_t _d_moy128 = tbl_Filter_TD_8853_output.getInt32(i, 5);
+        tbl_Window_TD_7542_output.setInt32(r, 5,_d_moy128);
+        int32_t _sum_sales5266 = tbl_Filter_TD_8853_output.getInt32(i, 6);
+        tbl_Window_TD_7542_output.setInt32(r, 6,_sum_sales5266);
+        int32_t __w05280 = tbl_Filter_TD_8853_output.getInt32(i, 7);
+        tbl_Window_TD_7542_output.setInt32(r, 7,__w05280);
+        int32_t _rn5268 = tbl_Filter_TD_8853_output.getInt32(i, 8);
+        tbl_Window_TD_7542_output.setInt32(r, 8,_rn5268);
         r++;
-        SW_Window_TD_751Row t = {std::string(_i_category240.data()),std::string(_i_brand236.data()),std::string(_s_store_name383.data()),std::string(_s_company_name395.data()),_d_year126,_d_moy128,_sum_sales3892,__w03906,_rn3894};
+        SW_Window_TD_7542Row t = {std::string(_i_category240.data()),std::string(_i_brand236.data()),std::string(_s_store_name383.data()),std::string(_s_company_name395.data()),_d_year126,_d_moy128,_sum_sales5266,__w05280,_rn5268};
         rows0.push_back(t);
     }
     struct {
-        bool operator()(const SW_Window_TD_751Row& a, const SW_Window_TD_751Row& b) const { return 
+        bool operator()(const SW_Window_TD_7542Row& a, const SW_Window_TD_7542Row& b) const { return 
 (a._i_category240 < b._i_category240) || 
  ((a._i_category240 == b._i_category240) && (a._i_brand236 < b._i_brand236)) || 
  ((a._i_category240 == b._i_category240) && (a._i_brand236 == b._i_brand236) && (a._s_store_name383 < b._s_store_name383)) || 
  ((a._i_category240 == b._i_category240) && (a._i_brand236 == b._i_brand236) && (a._s_store_name383 == b._s_store_name383) && (a._s_company_name395 < b._s_company_name395)) || 
  ((a._i_category240 == b._i_category240) && (a._i_brand236 == b._i_brand236) && (a._s_store_name383 == b._s_store_name383) && (a._s_company_name395 == b._s_company_name395) && (a._d_year126 < b._d_year126)); 
 }
-    }SW_Window_TD_751_order0; 
+    }SW_Window_TD_7542_order0; 
 
-    std::sort(rows0.begin(), rows0.end(), SW_Window_TD_751_order0);
+    std::sort(rows0.begin(), rows0.end(), SW_Window_TD_7542_order0);
     int64_t sum0 = 0;
     int64_t currentRow0 = 0;
     std::string current_i_category2400 = "";
@@ -2144,64 +2144,64 @@ void SW_Window_TD_751(Table &tbl_Filter_TD_8435_output, Table &tbl_Window_TD_751
             current_s_company_name3950 = it._s_company_name395;
             current_d_year1260 = it._d_year126;
         }
-        sum0 += it.__w03906;
+        sum0 += it.__w05280;
         currentRow0 +=1;
-        tbl_Window_TD_751_output.setInt64(r, 9, sum0 / currentRow0 );
+        tbl_Window_TD_7542_output.setInt64(r, 9, sum0 / currentRow0 );
     }
-    tbl_Window_TD_751_output.setNumRow(r);
-    std::cout << "tbl_Window_TD_751_output #Row: " << tbl_Window_TD_751_output.getNumRow() << std::endl;
+    tbl_Window_TD_7542_output.setNumRow(r);
+    std::cout << "tbl_Window_TD_7542_output #Row: " << tbl_Window_TD_7542_output.getNumRow() << std::endl;
 }
 
-void SW_Window_TD_6841(Table &tbl_Aggregate_TD_7589_output, Table &tbl_Window_TD_6841_output) {
+void SW_Window_TD_6188(Table &tbl_Aggregate_TD_7942_output, Table &tbl_Window_TD_6188_output) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: Window
-    // Operation: ListBuffer(rank(d_year#4814, d_moy#4816) windowspecdefinition(i_category#4775, i_brand#4771, s_store_name#4841, s_company_name#4853, d_year#4814 ASC NULLS FIRST, d_moy#4816 ASC NULLS FIRST, specifiedwindowframe(RowFrame, unboundedpreceding$(), currentrow$())) AS rn#4869)
-    // Input: ListBuffer(i_category#4775, i_brand#4771, s_store_name#4841, s_company_name#4853, d_year#4814, d_moy#4816, sum_sales#3892)
-    // Output: ListBuffer(i_category#4775, i_brand#4771, s_store_name#4841, s_company_name#4853, d_year#4814, d_moy#4816, sum_sales#3892, rn#4869)
-    struct SW_Window_TD_6841Row {
-        std::string _i_category4775;
-        std::string _i_brand4771;
-        std::string _s_store_name4841;
-        std::string _s_company_name4853;
-        int32_t _d_year4814;
-        int32_t _d_moy4816;
-        int32_t _sum_sales3892;
+    // Operation: ListBuffer(rank(d_year#6188, d_moy#6190) windowspecdefinition(i_category#6149, i_brand#6145, s_store_name#6215, s_company_name#6227, d_year#6188 ASC NULLS FIRST, d_moy#6190 ASC NULLS FIRST, specifiedwindowframe(RowFrame, unboundedpreceding$(), currentrow$())) AS rn#6243)
+    // Input: ListBuffer(i_category#6149, i_brand#6145, s_store_name#6215, s_company_name#6227, d_year#6188, d_moy#6190, sum_sales#5266)
+    // Output: ListBuffer(i_category#6149, i_brand#6145, s_store_name#6215, s_company_name#6227, d_year#6188, d_moy#6190, sum_sales#5266, rn#6243)
+    struct SW_Window_TD_6188Row {
+        std::string _i_category6149;
+        std::string _i_brand6145;
+        std::string _s_store_name6215;
+        std::string _s_company_name6227;
+        int32_t _d_year6188;
+        int32_t _d_moy6190;
+        int32_t _sum_sales5266;
     }; 
 
-    int nrow = tbl_Aggregate_TD_7589_output.getNumRow();
-    std::vector<SW_Window_TD_6841Row> rows0;
+    int nrow = tbl_Aggregate_TD_7942_output.getNumRow();
+    std::vector<SW_Window_TD_6188Row> rows0;
     int r = 0;
     for (int i = 0; i < nrow; i++) {
-        std::array<char, TPCDS_READ_MAX + 1> _i_category4775 = tbl_Aggregate_TD_7589_output.getcharN<char, TPCDS_READ_MAX +1>(i, 0);
-        tbl_Window_TD_6841_output.setcharN<char, TPCDS_READ_MAX +1>(r, 0, _i_category4775);
-        std::array<char, TPCDS_READ_MAX + 1> _i_brand4771 = tbl_Aggregate_TD_7589_output.getcharN<char, TPCDS_READ_MAX +1>(i, 1);
-        tbl_Window_TD_6841_output.setcharN<char, TPCDS_READ_MAX +1>(r, 1, _i_brand4771);
-        std::array<char, TPCDS_READ_MAX + 1> _s_store_name4841 = tbl_Aggregate_TD_7589_output.getcharN<char, TPCDS_READ_MAX +1>(i, 2);
-        tbl_Window_TD_6841_output.setcharN<char, TPCDS_READ_MAX +1>(r, 2, _s_store_name4841);
-        std::array<char, TPCDS_READ_MAX + 1> _s_company_name4853 = tbl_Aggregate_TD_7589_output.getcharN<char, TPCDS_READ_MAX +1>(i, 3);
-        tbl_Window_TD_6841_output.setcharN<char, TPCDS_READ_MAX +1>(r, 3, _s_company_name4853);
-        int32_t _d_year4814 = tbl_Aggregate_TD_7589_output.getInt32(i, 4);
-        tbl_Window_TD_6841_output.setInt32(r, 4,_d_year4814);
-        int32_t _d_moy4816 = tbl_Aggregate_TD_7589_output.getInt32(i, 5);
-        tbl_Window_TD_6841_output.setInt32(r, 5,_d_moy4816);
-        int32_t _sum_sales3892 = tbl_Aggregate_TD_7589_output.getInt32(i, 6);
-        tbl_Window_TD_6841_output.setInt32(r, 6,_sum_sales3892);
+        std::array<char, TPCDS_READ_MAX + 1> _i_category6149 = tbl_Aggregate_TD_7942_output.getcharN<char, TPCDS_READ_MAX +1>(i, 0);
+        tbl_Window_TD_6188_output.setcharN<char, TPCDS_READ_MAX +1>(r, 0, _i_category6149);
+        std::array<char, TPCDS_READ_MAX + 1> _i_brand6145 = tbl_Aggregate_TD_7942_output.getcharN<char, TPCDS_READ_MAX +1>(i, 1);
+        tbl_Window_TD_6188_output.setcharN<char, TPCDS_READ_MAX +1>(r, 1, _i_brand6145);
+        std::array<char, TPCDS_READ_MAX + 1> _s_store_name6215 = tbl_Aggregate_TD_7942_output.getcharN<char, TPCDS_READ_MAX +1>(i, 2);
+        tbl_Window_TD_6188_output.setcharN<char, TPCDS_READ_MAX +1>(r, 2, _s_store_name6215);
+        std::array<char, TPCDS_READ_MAX + 1> _s_company_name6227 = tbl_Aggregate_TD_7942_output.getcharN<char, TPCDS_READ_MAX +1>(i, 3);
+        tbl_Window_TD_6188_output.setcharN<char, TPCDS_READ_MAX +1>(r, 3, _s_company_name6227);
+        int32_t _d_year6188 = tbl_Aggregate_TD_7942_output.getInt32(i, 4);
+        tbl_Window_TD_6188_output.setInt32(r, 4,_d_year6188);
+        int32_t _d_moy6190 = tbl_Aggregate_TD_7942_output.getInt32(i, 5);
+        tbl_Window_TD_6188_output.setInt32(r, 5,_d_moy6190);
+        int32_t _sum_sales5266 = tbl_Aggregate_TD_7942_output.getInt32(i, 6);
+        tbl_Window_TD_6188_output.setInt32(r, 6,_sum_sales5266);
         r++;
-        SW_Window_TD_6841Row t = {std::string(_i_category4775.data()),std::string(_i_brand4771.data()),std::string(_s_store_name4841.data()),std::string(_s_company_name4853.data()),_d_year4814,_d_moy4816,_sum_sales3892};
+        SW_Window_TD_6188Row t = {std::string(_i_category6149.data()),std::string(_i_brand6145.data()),std::string(_s_store_name6215.data()),std::string(_s_company_name6227.data()),_d_year6188,_d_moy6190,_sum_sales5266};
         rows0.push_back(t);
     }
     struct {
-        bool operator()(const SW_Window_TD_6841Row& a, const SW_Window_TD_6841Row& b) const { return 
-(a._i_category4775 < b._i_category4775) || 
- ((a._i_category4775 == b._i_category4775) && (a._i_brand4771 < b._i_brand4771)) || 
- ((a._i_category4775 == b._i_category4775) && (a._i_brand4771 == b._i_brand4771) && (a._s_store_name4841 < b._s_store_name4841)) || 
- ((a._i_category4775 == b._i_category4775) && (a._i_brand4771 == b._i_brand4771) && (a._s_store_name4841 == b._s_store_name4841) && (a._s_company_name4853 < b._s_company_name4853)) || 
- ((a._i_category4775 == b._i_category4775) && (a._i_brand4771 == b._i_brand4771) && (a._s_store_name4841 == b._s_store_name4841) && (a._s_company_name4853 == b._s_company_name4853) && (a._d_year4814 < b._d_year4814)) || 
- ((a._i_category4775 == b._i_category4775) && (a._i_brand4771 == b._i_brand4771) && (a._s_store_name4841 == b._s_store_name4841) && (a._s_company_name4853 == b._s_company_name4853) && (a._d_year4814 == b._d_year4814) && (a._d_moy4816 < b._d_moy4816)); 
+        bool operator()(const SW_Window_TD_6188Row& a, const SW_Window_TD_6188Row& b) const { return 
+(a._i_category6149 < b._i_category6149) || 
+ ((a._i_category6149 == b._i_category6149) && (a._i_brand6145 < b._i_brand6145)) || 
+ ((a._i_category6149 == b._i_category6149) && (a._i_brand6145 == b._i_brand6145) && (a._s_store_name6215 < b._s_store_name6215)) || 
+ ((a._i_category6149 == b._i_category6149) && (a._i_brand6145 == b._i_brand6145) && (a._s_store_name6215 == b._s_store_name6215) && (a._s_company_name6227 < b._s_company_name6227)) || 
+ ((a._i_category6149 == b._i_category6149) && (a._i_brand6145 == b._i_brand6145) && (a._s_store_name6215 == b._s_store_name6215) && (a._s_company_name6227 == b._s_company_name6227) && (a._d_year6188 < b._d_year6188)) || 
+ ((a._i_category6149 == b._i_category6149) && (a._i_brand6145 == b._i_brand6145) && (a._s_store_name6215 == b._s_store_name6215) && (a._s_company_name6227 == b._s_company_name6227) && (a._d_year6188 == b._d_year6188) && (a._d_moy6190 < b._d_moy6190)); 
 }
-    }SW_Window_TD_6841_order0; 
+    }SW_Window_TD_6188_order0; 
 
-    std::sort(rows0.begin(), rows0.end(), SW_Window_TD_6841_order0);
+    std::sort(rows0.begin(), rows0.end(), SW_Window_TD_6188_order0);
     std::vector<int32_t> ranks0(rows0.size(), 0);
     int32_t currentRank0 = 0;
     int32_t currentPartitionCount0 = 1;
@@ -2211,8 +2211,8 @@ void SW_Window_TD_6841(Table &tbl_Aggregate_TD_7589_output, Table &tbl_Window_TD
       ranks0[0] = ++currentRank0;
     };
     for (int i = 1; i< rows0.size(); i++) {
-        isSamePartition0 = ( rows0[i]._i_category4775 == rows0[i-1]._i_category4775 && rows0[i]._i_brand4771 == rows0[i-1]._i_brand4771 && rows0[i]._s_store_name4841 == rows0[i-1]._s_store_name4841 && rows0[i]._s_company_name4853 == rows0[i-1]._s_company_name4853);
-        isSameOrderKey0 = ( rows0[i]._d_year4814 == rows0[i-1]._d_year4814 && rows0[i]._d_moy4816 == rows0[i-1]._d_moy4816);
+        isSamePartition0 = ( rows0[i]._i_category6149 == rows0[i-1]._i_category6149 && rows0[i]._i_brand6145 == rows0[i-1]._i_brand6145 && rows0[i]._s_store_name6215 == rows0[i-1]._s_store_name6215 && rows0[i]._s_company_name6227 == rows0[i-1]._s_company_name6227);
+        isSameOrderKey0 = ( rows0[i]._d_year6188 == rows0[i-1]._d_year6188 && rows0[i]._d_moy6190 == rows0[i-1]._d_moy6190);
         curPartitionCount0++;
         if (isSamePartition0&& !isSameOrderKey0) {
             currentRank0 = currentPartitionCount0;
@@ -2223,118 +2223,118 @@ void SW_Window_TD_6841(Table &tbl_Aggregate_TD_7589_output, Table &tbl_Window_TD
         ranks0[i] = currentRank0;
     }
     for (int i = 0; i< nrow; i++) {
-        tbl_Window_TD_6841_output.setInt32(r, 7, ranks0[i]);
+        tbl_Window_TD_6188_output.setInt32(r, 7, ranks0[i]);
     }
-    tbl_Window_TD_6841_output.setNumRow(r);
-    std::cout << "tbl_Window_TD_6841_output #Row: " << tbl_Window_TD_6841_output.getNumRow() << std::endl;
+    tbl_Window_TD_6188_output.setNumRow(r);
+    std::cout << "tbl_Window_TD_6188_output #Row: " << tbl_Window_TD_6188_output.getNumRow() << std::endl;
 }
 
-void SW_Project_TD_6491(Table &tbl_Window_TD_7143_output, Table &tbl_Project_TD_6491_output) {
+void SW_Project_TD_6176(Table &tbl_Window_TD_7922_output, Table &tbl_Project_TD_6176_output) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: Project
-    // Operation: ListBuffer(sum_sales#3892 AS sum_sales#3913)
-    // Input: ListBuffer(i_category#4668, i_brand#4664, s_store_name#4734, s_company_name#4746, d_year#4707, d_moy#4709, sum_sales#3892, rn#4762)
-    // Output: ListBuffer(i_category#4668, i_brand#4664, s_store_name#4734, s_company_name#4746, sum_sales#3913, rn#4762)
-    int nrow1 = tbl_Window_TD_7143_output.getNumRow();
+    // Operation: ListBuffer(sum_sales#5266 AS sum_sales#5287)
+    // Input: ListBuffer(i_category#6042, i_brand#6038, s_store_name#6108, s_company_name#6120, d_year#6081, d_moy#6083, sum_sales#5266, rn#6136)
+    // Output: ListBuffer(i_category#6042, i_brand#6038, s_store_name#6108, s_company_name#6120, sum_sales#5287, rn#6136)
+    int nrow1 = tbl_Window_TD_7922_output.getNumRow();
     for (int i = 0; i < nrow1; i++) {
-        std::array<char, TPCDS_READ_MAX + 1> _i_category4668 = tbl_Window_TD_7143_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 0);
-        std::array<char, TPCDS_READ_MAX + 1> _i_brand4664 = tbl_Window_TD_7143_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
-        std::array<char, TPCDS_READ_MAX + 1> _s_store_name4734 = tbl_Window_TD_7143_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
-        std::array<char, TPCDS_READ_MAX + 1> _s_company_name4746 = tbl_Window_TD_7143_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 3);
-        int32_t _d_year4707 = tbl_Window_TD_7143_output.getInt32(i, 4);
-        int32_t _d_moy4709 = tbl_Window_TD_7143_output.getInt32(i, 5);
-        int32_t _sum_sales3892 = tbl_Window_TD_7143_output.getInt32(i, 6);
-        int32_t _rn4762 = tbl_Window_TD_7143_output.getInt32(i, 7);
-        int32_t _sum_sales3913 = _sum_sales3892;
-        tbl_Project_TD_6491_output.setInt32(i, 4, _sum_sales3913);
-        tbl_Project_TD_6491_output.setcharN<char, TPCDS_READ_MAX + 1>(i, 0, _i_category4668);
-        tbl_Project_TD_6491_output.setcharN<char, TPCDS_READ_MAX + 1>(i, 1, _i_brand4664);
-        tbl_Project_TD_6491_output.setcharN<char, TPCDS_READ_MAX + 1>(i, 2, _s_store_name4734);
-        tbl_Project_TD_6491_output.setcharN<char, TPCDS_READ_MAX + 1>(i, 3, _s_company_name4746);
-        tbl_Project_TD_6491_output.setInt32(i, 5, _rn4762);
+        std::array<char, TPCDS_READ_MAX + 1> _i_category6042 = tbl_Window_TD_7922_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 0);
+        std::array<char, TPCDS_READ_MAX + 1> _i_brand6038 = tbl_Window_TD_7922_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
+        std::array<char, TPCDS_READ_MAX + 1> _s_store_name6108 = tbl_Window_TD_7922_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
+        std::array<char, TPCDS_READ_MAX + 1> _s_company_name6120 = tbl_Window_TD_7922_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 3);
+        int32_t _d_year6081 = tbl_Window_TD_7922_output.getInt32(i, 4);
+        int32_t _d_moy6083 = tbl_Window_TD_7922_output.getInt32(i, 5);
+        int32_t _sum_sales5266 = tbl_Window_TD_7922_output.getInt32(i, 6);
+        int32_t _rn6136 = tbl_Window_TD_7922_output.getInt32(i, 7);
+        int32_t _sum_sales5287 = _sum_sales5266;
+        tbl_Project_TD_6176_output.setInt32(i, 4, _sum_sales5287);
+        tbl_Project_TD_6176_output.setcharN<char, TPCDS_READ_MAX + 1>(i, 0, _i_category6042);
+        tbl_Project_TD_6176_output.setcharN<char, TPCDS_READ_MAX + 1>(i, 1, _i_brand6038);
+        tbl_Project_TD_6176_output.setcharN<char, TPCDS_READ_MAX + 1>(i, 2, _s_store_name6108);
+        tbl_Project_TD_6176_output.setcharN<char, TPCDS_READ_MAX + 1>(i, 3, _s_company_name6120);
+        tbl_Project_TD_6176_output.setInt32(i, 5, _rn6136);
     }
-    tbl_Project_TD_6491_output.setNumRow(nrow1);
-    std::cout << "tbl_Project_TD_6491_output #Row: " << tbl_Project_TD_6491_output.getNumRow() << std::endl;
+    tbl_Project_TD_6176_output.setNumRow(nrow1);
+    std::cout << "tbl_Project_TD_6176_output #Row: " << tbl_Project_TD_6176_output.getNumRow() << std::endl;
 }
 
-void SW_Filter_TD_6476(Table &tbl_Window_TD_751_output, Table &tbl_Filter_TD_6476_output) {
+void SW_Filter_TD_6751(Table &tbl_Window_TD_7542_output, Table &tbl_Filter_TD_6751_output) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: Filter
-    // Operation: ListBuffer(((isnotnull(avg_monthly_sales#3893) AND (avg_monthly_sales#3893 > 0.000000)) AND (CheckOverflow((promote_precision(abs(CheckOverflow((promote_precision(cast(sum_sales#3892 as decimal(22,6))) - promote_precision(cast(avg_monthly_sales#3893 as decimal(22,6)))), DecimalType(22,6), true), false)) / promote_precision(cast(avg_monthly_sales#3893 as decimal(22,6)))), DecimalType(38,16), true) > 0.1000000000000000)))
-    // Input: ListBuffer(i_category#240, i_brand#236, s_store_name#383, s_company_name#395, d_year#126, d_moy#128, sum_sales#3892, _w0#3906, rn#3894, avg_monthly_sales#3893)
-    // Output: ListBuffer(i_category#240, i_brand#236, s_store_name#383, s_company_name#395, d_year#126, d_moy#128, sum_sales#3892, avg_monthly_sales#3893, rn#3894)
+    // Operation: ListBuffer(((isnotnull(avg_monthly_sales#5267) AND (avg_monthly_sales#5267 > 0.000000)) AND (CheckOverflow((promote_precision(abs(CheckOverflow((promote_precision(cast(sum_sales#5266 as decimal(22,6))) - promote_precision(cast(avg_monthly_sales#5267 as decimal(22,6)))), DecimalType(22,6), true), false)) / promote_precision(cast(avg_monthly_sales#5267 as decimal(22,6)))), DecimalType(38,16), true) > 0.1000000000000000)))
+    // Input: ListBuffer(i_category#240, i_brand#236, s_store_name#383, s_company_name#395, d_year#126, d_moy#128, sum_sales#5266, _w0#5280, rn#5268, avg_monthly_sales#5267)
+    // Output: ListBuffer(i_category#240, i_brand#236, s_store_name#383, s_company_name#395, d_year#126, d_moy#128, sum_sales#5266, avg_monthly_sales#5267, rn#5268)
     int r = 0;
-    int nrow1 = tbl_Window_TD_751_output.getNumRow();
+    int nrow1 = tbl_Window_TD_7542_output.getNumRow();
     for (int i = 0; i < nrow1; i++) {
-        int32_t _avg_monthly_sales3893 = tbl_Window_TD_751_output.getInt32(i, 9);
-        int32_t _sum_sales3892 = tbl_Window_TD_751_output.getInt32(i, 6);
-        if (((1) && (_avg_monthly_sales3893 > 0.000000)) && (_sum_sales3892 > 0.1000000000000000)) {
-            std::array<char, TPCDS_READ_MAX + 1> _i_category240_t = tbl_Window_TD_751_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 0);
-            tbl_Filter_TD_6476_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 0, _i_category240_t);
-            std::array<char, TPCDS_READ_MAX + 1> _i_brand236_t = tbl_Window_TD_751_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
-            tbl_Filter_TD_6476_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 1, _i_brand236_t);
-            std::array<char, TPCDS_READ_MAX + 1> _s_store_name383_t = tbl_Window_TD_751_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
-            tbl_Filter_TD_6476_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 2, _s_store_name383_t);
-            std::array<char, TPCDS_READ_MAX + 1> _s_company_name395_t = tbl_Window_TD_751_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 3);
-            tbl_Filter_TD_6476_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 3, _s_company_name395_t);
-            int32_t _d_year126_t = tbl_Window_TD_751_output.getInt32(i, 4);
-            tbl_Filter_TD_6476_output.setInt32(r, 4, _d_year126_t);
-            int32_t _d_moy128_t = tbl_Window_TD_751_output.getInt32(i, 5);
-            tbl_Filter_TD_6476_output.setInt32(r, 5, _d_moy128_t);
-            int32_t _sum_sales3892_t = tbl_Window_TD_751_output.getInt32(i, 6);
-            tbl_Filter_TD_6476_output.setInt32(r, 6, _sum_sales3892_t);
-            int32_t _avg_monthly_sales3893_t = tbl_Window_TD_751_output.getInt32(i, 9);
-            tbl_Filter_TD_6476_output.setInt32(r, 7, _avg_monthly_sales3893_t);
-            int32_t _rn3894_t = tbl_Window_TD_751_output.getInt32(i, 8);
-            tbl_Filter_TD_6476_output.setInt32(r, 8, _rn3894_t);
+        int32_t _avg_monthly_sales5267 = tbl_Window_TD_7542_output.getInt32(i, 9);
+        int32_t _sum_sales5266 = tbl_Window_TD_7542_output.getInt32(i, 6);
+        if (((_avg_monthly_sales5267!= 0) && (_avg_monthly_sales5267 > 0.000000)) && (_sum_sales5266 > 0.1000000000000000)) {
+            std::array<char, TPCDS_READ_MAX + 1> _i_category240_t = tbl_Window_TD_7542_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 0);
+            tbl_Filter_TD_6751_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 0, _i_category240_t);
+            std::array<char, TPCDS_READ_MAX + 1> _i_brand236_t = tbl_Window_TD_7542_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
+            tbl_Filter_TD_6751_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 1, _i_brand236_t);
+            std::array<char, TPCDS_READ_MAX + 1> _s_store_name383_t = tbl_Window_TD_7542_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
+            tbl_Filter_TD_6751_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 2, _s_store_name383_t);
+            std::array<char, TPCDS_READ_MAX + 1> _s_company_name395_t = tbl_Window_TD_7542_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 3);
+            tbl_Filter_TD_6751_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 3, _s_company_name395_t);
+            int32_t _d_year126_t = tbl_Window_TD_7542_output.getInt32(i, 4);
+            tbl_Filter_TD_6751_output.setInt32(r, 4, _d_year126_t);
+            int32_t _d_moy128_t = tbl_Window_TD_7542_output.getInt32(i, 5);
+            tbl_Filter_TD_6751_output.setInt32(r, 5, _d_moy128_t);
+            int32_t _sum_sales5266_t = tbl_Window_TD_7542_output.getInt32(i, 6);
+            tbl_Filter_TD_6751_output.setInt32(r, 6, _sum_sales5266_t);
+            int32_t _avg_monthly_sales5267_t = tbl_Window_TD_7542_output.getInt32(i, 9);
+            tbl_Filter_TD_6751_output.setInt32(r, 7, _avg_monthly_sales5267_t);
+            int32_t _rn5268_t = tbl_Window_TD_7542_output.getInt32(i, 8);
+            tbl_Filter_TD_6751_output.setInt32(r, 8, _rn5268_t);
             r++;
         }
     }
-    tbl_Filter_TD_6476_output.setNumRow(r);
-    std::cout << "tbl_Filter_TD_6476_output #Row: " << tbl_Filter_TD_6476_output.getNumRow() << std::endl;
+    tbl_Filter_TD_6751_output.setNumRow(r);
+    std::cout << "tbl_Filter_TD_6751_output #Row: " << tbl_Filter_TD_6751_output.getNumRow() << std::endl;
 }
 
-void SW_Project_TD_5825(Table &tbl_Window_TD_6841_output, Table &tbl_Project_TD_5825_output) {
+void SW_Project_TD_5547(Table &tbl_Window_TD_6188_output, Table &tbl_Project_TD_5547_output) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: Project
-    // Operation: ListBuffer(sum_sales#3892 AS sum_sales#3922)
-    // Input: ListBuffer(i_category#4775, i_brand#4771, s_store_name#4841, s_company_name#4853, d_year#4814, d_moy#4816, sum_sales#3892, rn#4869)
-    // Output: ListBuffer(i_category#4775, i_brand#4771, s_store_name#4841, s_company_name#4853, sum_sales#3922, rn#4869)
-    int nrow1 = tbl_Window_TD_6841_output.getNumRow();
+    // Operation: ListBuffer(sum_sales#5266 AS sum_sales#5296)
+    // Input: ListBuffer(i_category#6149, i_brand#6145, s_store_name#6215, s_company_name#6227, d_year#6188, d_moy#6190, sum_sales#5266, rn#6243)
+    // Output: ListBuffer(i_category#6149, i_brand#6145, s_store_name#6215, s_company_name#6227, sum_sales#5296, rn#6243)
+    int nrow1 = tbl_Window_TD_6188_output.getNumRow();
     for (int i = 0; i < nrow1; i++) {
-        std::array<char, TPCDS_READ_MAX + 1> _i_category4775 = tbl_Window_TD_6841_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 0);
-        std::array<char, TPCDS_READ_MAX + 1> _i_brand4771 = tbl_Window_TD_6841_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
-        std::array<char, TPCDS_READ_MAX + 1> _s_store_name4841 = tbl_Window_TD_6841_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
-        std::array<char, TPCDS_READ_MAX + 1> _s_company_name4853 = tbl_Window_TD_6841_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 3);
-        int32_t _d_year4814 = tbl_Window_TD_6841_output.getInt32(i, 4);
-        int32_t _d_moy4816 = tbl_Window_TD_6841_output.getInt32(i, 5);
-        int32_t _sum_sales3892 = tbl_Window_TD_6841_output.getInt32(i, 6);
-        int32_t _rn4869 = tbl_Window_TD_6841_output.getInt32(i, 7);
-        int32_t _sum_sales3922 = _sum_sales3892;
-        tbl_Project_TD_5825_output.setInt32(i, 4, _sum_sales3922);
-        tbl_Project_TD_5825_output.setcharN<char, TPCDS_READ_MAX + 1>(i, 0, _i_category4775);
-        tbl_Project_TD_5825_output.setcharN<char, TPCDS_READ_MAX + 1>(i, 1, _i_brand4771);
-        tbl_Project_TD_5825_output.setcharN<char, TPCDS_READ_MAX + 1>(i, 2, _s_store_name4841);
-        tbl_Project_TD_5825_output.setcharN<char, TPCDS_READ_MAX + 1>(i, 3, _s_company_name4853);
-        tbl_Project_TD_5825_output.setInt32(i, 5, _rn4869);
+        std::array<char, TPCDS_READ_MAX + 1> _i_category6149 = tbl_Window_TD_6188_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 0);
+        std::array<char, TPCDS_READ_MAX + 1> _i_brand6145 = tbl_Window_TD_6188_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
+        std::array<char, TPCDS_READ_MAX + 1> _s_store_name6215 = tbl_Window_TD_6188_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
+        std::array<char, TPCDS_READ_MAX + 1> _s_company_name6227 = tbl_Window_TD_6188_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 3);
+        int32_t _d_year6188 = tbl_Window_TD_6188_output.getInt32(i, 4);
+        int32_t _d_moy6190 = tbl_Window_TD_6188_output.getInt32(i, 5);
+        int32_t _sum_sales5266 = tbl_Window_TD_6188_output.getInt32(i, 6);
+        int32_t _rn6243 = tbl_Window_TD_6188_output.getInt32(i, 7);
+        int32_t _sum_sales5296 = _sum_sales5266;
+        tbl_Project_TD_5547_output.setInt32(i, 4, _sum_sales5296);
+        tbl_Project_TD_5547_output.setcharN<char, TPCDS_READ_MAX + 1>(i, 0, _i_category6149);
+        tbl_Project_TD_5547_output.setcharN<char, TPCDS_READ_MAX + 1>(i, 1, _i_brand6145);
+        tbl_Project_TD_5547_output.setcharN<char, TPCDS_READ_MAX + 1>(i, 2, _s_store_name6215);
+        tbl_Project_TD_5547_output.setcharN<char, TPCDS_READ_MAX + 1>(i, 3, _s_company_name6227);
+        tbl_Project_TD_5547_output.setInt32(i, 5, _rn6243);
     }
-    tbl_Project_TD_5825_output.setNumRow(nrow1);
-    std::cout << "tbl_Project_TD_5825_output #Row: " << tbl_Project_TD_5825_output.getNumRow() << std::endl;
+    tbl_Project_TD_5547_output.setNumRow(nrow1);
+    std::cout << "tbl_Project_TD_5547_output #Row: " << tbl_Project_TD_5547_output.getNumRow() << std::endl;
 }
 
-struct SW_JOIN_INNER_TD_5380_key_leftMajor {
+struct SW_JOIN_INNER_TD_5295_key_leftMajor {
     std::string _i_category240;
     std::string _i_brand236;
     std::string _s_store_name383;
     std::string _s_company_name395;
-    bool operator==(const SW_JOIN_INNER_TD_5380_key_leftMajor& other) const {
+    bool operator==(const SW_JOIN_INNER_TD_5295_key_leftMajor& other) const {
         return ((_i_category240 == other._i_category240) && (_i_brand236 == other._i_brand236) && (_s_store_name383 == other._s_store_name383) && (_s_company_name395 == other._s_company_name395));
     }
 };
 namespace std {
 template <>
-struct hash<SW_JOIN_INNER_TD_5380_key_leftMajor> {
-    std::size_t operator() (const SW_JOIN_INNER_TD_5380_key_leftMajor& k) const {
+struct hash<SW_JOIN_INNER_TD_5295_key_leftMajor> {
+    std::size_t operator() (const SW_JOIN_INNER_TD_5295_key_leftMajor& k) const {
         using std::size_t;
         using std::hash;
         using std::string;
@@ -2342,95 +2342,95 @@ struct hash<SW_JOIN_INNER_TD_5380_key_leftMajor> {
     }
 };
 }
-struct SW_JOIN_INNER_TD_5380_payload_leftMajor {
+struct SW_JOIN_INNER_TD_5295_payload_leftMajor {
     std::string _i_category240;
     std::string _i_brand236;
     std::string _s_store_name383;
     std::string _s_company_name395;
     int32_t _d_year126;
     int32_t _d_moy128;
-    int32_t _sum_sales3892;
-    int32_t _avg_monthly_sales3893;
-    int32_t _rn3894;
+    int32_t _sum_sales5266;
+    int32_t _avg_monthly_sales5267;
+    int32_t _rn5268;
 };
-struct SW_JOIN_INNER_TD_5380_key_rightMajor {
-    std::string _i_category4668;
-    std::string _i_brand4664;
-    std::string _s_store_name4734;
-    std::string _s_company_name4746;
-    bool operator==(const SW_JOIN_INNER_TD_5380_key_rightMajor& other) const {
-        return ((_i_category4668 == other._i_category4668) && (_i_brand4664 == other._i_brand4664) && (_s_store_name4734 == other._s_store_name4734) && (_s_company_name4746 == other._s_company_name4746));
+struct SW_JOIN_INNER_TD_5295_key_rightMajor {
+    std::string _i_category6042;
+    std::string _i_brand6038;
+    std::string _s_store_name6108;
+    std::string _s_company_name6120;
+    bool operator==(const SW_JOIN_INNER_TD_5295_key_rightMajor& other) const {
+        return ((_i_category6042 == other._i_category6042) && (_i_brand6038 == other._i_brand6038) && (_s_store_name6108 == other._s_store_name6108) && (_s_company_name6120 == other._s_company_name6120));
     }
 };
 namespace std {
 template <>
-struct hash<SW_JOIN_INNER_TD_5380_key_rightMajor> {
-    std::size_t operator() (const SW_JOIN_INNER_TD_5380_key_rightMajor& k) const {
+struct hash<SW_JOIN_INNER_TD_5295_key_rightMajor> {
+    std::size_t operator() (const SW_JOIN_INNER_TD_5295_key_rightMajor& k) const {
         using std::size_t;
         using std::hash;
         using std::string;
-        return (hash<string>()(k._i_category4668)) + (hash<string>()(k._i_brand4664)) + (hash<string>()(k._s_store_name4734)) + (hash<string>()(k._s_company_name4746));
+        return (hash<string>()(k._i_category6042)) + (hash<string>()(k._i_brand6038)) + (hash<string>()(k._s_store_name6108)) + (hash<string>()(k._s_company_name6120));
     }
 };
 }
-struct SW_JOIN_INNER_TD_5380_payload_rightMajor {
-    std::string _i_category4668;
-    std::string _i_brand4664;
-    std::string _s_store_name4734;
-    std::string _s_company_name4746;
-    int32_t _sum_sales3913;
-    int32_t _rn4762;
+struct SW_JOIN_INNER_TD_5295_payload_rightMajor {
+    std::string _i_category6042;
+    std::string _i_brand6038;
+    std::string _s_store_name6108;
+    std::string _s_company_name6120;
+    int32_t _sum_sales5287;
+    int32_t _rn6136;
 };
-void SW_JOIN_INNER_TD_5380(Table &tbl_Filter_TD_6476_output, Table &tbl_Project_TD_6491_output, Table &tbl_JOIN_INNER_TD_5380_output) {
+void SW_JOIN_INNER_TD_5295(Table &tbl_Filter_TD_6751_output, Table &tbl_Project_TD_6176_output, Table &tbl_JOIN_INNER_TD_5295_output) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: JOIN_INNER
-    // Operation: ListBuffer((((((i_category#240 = i_category#4668) AND (i_brand#236 = i_brand#4664)) AND (s_store_name#383 = s_store_name#4734)) AND (s_company_name#395 = s_company_name#4746)) AND (rn#3894 = (rn#4762 + 1))))
-    // Left Table: ListBuffer(i_category#240, i_brand#236, s_store_name#383, s_company_name#395, d_year#126, d_moy#128, sum_sales#3892, avg_monthly_sales#3893, rn#3894)
-    // Right Table: ListBuffer(i_category#4668, i_brand#4664, s_store_name#4734, s_company_name#4746, sum_sales#3913, rn#4762)
-    // Output Table: ListBuffer(i_category#240, i_brand#236, s_store_name#383, s_company_name#395, d_year#126, d_moy#128, sum_sales#3892, avg_monthly_sales#3893, rn#3894, sum_sales#3913)
-    int left_nrow = tbl_Filter_TD_6476_output.getNumRow();
-    int right_nrow = tbl_Project_TD_6491_output.getNumRow();
+    // Operation: ListBuffer((((((i_category#240 = i_category#6042) AND (i_brand#236 = i_brand#6038)) AND (s_store_name#383 = s_store_name#6108)) AND (s_company_name#395 = s_company_name#6120)) AND (rn#5268 = (rn#6136 + 1))))
+    // Left Table: ListBuffer(i_category#240, i_brand#236, s_store_name#383, s_company_name#395, d_year#126, d_moy#128, sum_sales#5266, avg_monthly_sales#5267, rn#5268)
+    // Right Table: ListBuffer(i_category#6042, i_brand#6038, s_store_name#6108, s_company_name#6120, sum_sales#5287, rn#6136)
+    // Output Table: ListBuffer(i_category#240, i_brand#236, s_store_name#383, s_company_name#395, d_year#126, d_moy#128, sum_sales#5266, avg_monthly_sales#5267, rn#5268, sum_sales#5287)
+    int left_nrow = tbl_Filter_TD_6751_output.getNumRow();
+    int right_nrow = tbl_Project_TD_6176_output.getNumRow();
     if (left_nrow < right_nrow) { 
-        std::unordered_multimap<SW_JOIN_INNER_TD_5380_key_leftMajor, SW_JOIN_INNER_TD_5380_payload_leftMajor> ht1;
-        int nrow1 = tbl_Filter_TD_6476_output.getNumRow();
+        std::unordered_multimap<SW_JOIN_INNER_TD_5295_key_leftMajor, SW_JOIN_INNER_TD_5295_payload_leftMajor> ht1;
+        int nrow1 = tbl_Filter_TD_6751_output.getNumRow();
         for (int i = 0; i < nrow1; i++) {
-            std::array<char, TPCDS_READ_MAX + 1> _i_category240_k_n = tbl_Filter_TD_6476_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 0);
+            std::array<char, TPCDS_READ_MAX + 1> _i_category240_k_n = tbl_Filter_TD_6751_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 0);
             std::string _i_category240_k = std::string(_i_category240_k_n.data());
-            std::array<char, TPCDS_READ_MAX + 1> _i_brand236_k_n = tbl_Filter_TD_6476_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
+            std::array<char, TPCDS_READ_MAX + 1> _i_brand236_k_n = tbl_Filter_TD_6751_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
             std::string _i_brand236_k = std::string(_i_brand236_k_n.data());
-            std::array<char, TPCDS_READ_MAX + 1> _s_store_name383_k_n = tbl_Filter_TD_6476_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
+            std::array<char, TPCDS_READ_MAX + 1> _s_store_name383_k_n = tbl_Filter_TD_6751_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
             std::string _s_store_name383_k = std::string(_s_store_name383_k_n.data());
-            std::array<char, TPCDS_READ_MAX + 1> _s_company_name395_k_n = tbl_Filter_TD_6476_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 3);
+            std::array<char, TPCDS_READ_MAX + 1> _s_company_name395_k_n = tbl_Filter_TD_6751_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 3);
             std::string _s_company_name395_k = std::string(_s_company_name395_k_n.data());
-            SW_JOIN_INNER_TD_5380_key_leftMajor keyA{_i_category240_k, _i_brand236_k, _s_store_name383_k, _s_company_name395_k};
-            std::array<char, TPCDS_READ_MAX + 1> _i_category240_n = tbl_Filter_TD_6476_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 0);
+            SW_JOIN_INNER_TD_5295_key_leftMajor keyA{_i_category240_k, _i_brand236_k, _s_store_name383_k, _s_company_name395_k};
+            std::array<char, TPCDS_READ_MAX + 1> _i_category240_n = tbl_Filter_TD_6751_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 0);
             std::string _i_category240 = std::string(_i_category240_n.data());
-            std::array<char, TPCDS_READ_MAX + 1> _i_brand236_n = tbl_Filter_TD_6476_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
+            std::array<char, TPCDS_READ_MAX + 1> _i_brand236_n = tbl_Filter_TD_6751_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
             std::string _i_brand236 = std::string(_i_brand236_n.data());
-            std::array<char, TPCDS_READ_MAX + 1> _s_store_name383_n = tbl_Filter_TD_6476_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
+            std::array<char, TPCDS_READ_MAX + 1> _s_store_name383_n = tbl_Filter_TD_6751_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
             std::string _s_store_name383 = std::string(_s_store_name383_n.data());
-            std::array<char, TPCDS_READ_MAX + 1> _s_company_name395_n = tbl_Filter_TD_6476_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 3);
+            std::array<char, TPCDS_READ_MAX + 1> _s_company_name395_n = tbl_Filter_TD_6751_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 3);
             std::string _s_company_name395 = std::string(_s_company_name395_n.data());
-            int32_t _d_year126 = tbl_Filter_TD_6476_output.getInt32(i, 4);
-            int32_t _d_moy128 = tbl_Filter_TD_6476_output.getInt32(i, 5);
-            int32_t _sum_sales3892 = tbl_Filter_TD_6476_output.getInt32(i, 6);
-            int32_t _avg_monthly_sales3893 = tbl_Filter_TD_6476_output.getInt32(i, 7);
-            int32_t _rn3894 = tbl_Filter_TD_6476_output.getInt32(i, 8);
-            SW_JOIN_INNER_TD_5380_payload_leftMajor payloadA{_i_category240, _i_brand236, _s_store_name383, _s_company_name395, _d_year126, _d_moy128, _sum_sales3892, _avg_monthly_sales3893, _rn3894};
+            int32_t _d_year126 = tbl_Filter_TD_6751_output.getInt32(i, 4);
+            int32_t _d_moy128 = tbl_Filter_TD_6751_output.getInt32(i, 5);
+            int32_t _sum_sales5266 = tbl_Filter_TD_6751_output.getInt32(i, 6);
+            int32_t _avg_monthly_sales5267 = tbl_Filter_TD_6751_output.getInt32(i, 7);
+            int32_t _rn5268 = tbl_Filter_TD_6751_output.getInt32(i, 8);
+            SW_JOIN_INNER_TD_5295_payload_leftMajor payloadA{_i_category240, _i_brand236, _s_store_name383, _s_company_name395, _d_year126, _d_moy128, _sum_sales5266, _avg_monthly_sales5267, _rn5268};
             ht1.insert(std::make_pair(keyA, payloadA));
         }
         int r = 0;
-        int nrow2 = tbl_Project_TD_6491_output.getNumRow();
+        int nrow2 = tbl_Project_TD_6176_output.getNumRow();
         for (int i = 0; i < nrow2; i++) {
-            std::array<char, TPCDS_READ_MAX + 1> _i_category4668_k_n = tbl_Project_TD_6491_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 0);
-            std::string _i_category4668_k = std::string(_i_category4668_k_n.data());
-            std::array<char, TPCDS_READ_MAX + 1> _i_brand4664_k_n = tbl_Project_TD_6491_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
-            std::string _i_brand4664_k = std::string(_i_brand4664_k_n.data());
-            std::array<char, TPCDS_READ_MAX + 1> _s_store_name4734_k_n = tbl_Project_TD_6491_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
-            std::string _s_store_name4734_k = std::string(_s_store_name4734_k_n.data());
-            std::array<char, TPCDS_READ_MAX + 1> _s_company_name4746_k_n = tbl_Project_TD_6491_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 3);
-            std::string _s_company_name4746_k = std::string(_s_company_name4746_k_n.data());
-            auto its = ht1.equal_range(SW_JOIN_INNER_TD_5380_key_leftMajor{_i_category4668_k, _i_brand4664_k, _s_store_name4734_k, _s_company_name4746_k});
+            std::array<char, TPCDS_READ_MAX + 1> _i_category6042_k_n = tbl_Project_TD_6176_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 0);
+            std::string _i_category6042_k = std::string(_i_category6042_k_n.data());
+            std::array<char, TPCDS_READ_MAX + 1> _i_brand6038_k_n = tbl_Project_TD_6176_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
+            std::string _i_brand6038_k = std::string(_i_brand6038_k_n.data());
+            std::array<char, TPCDS_READ_MAX + 1> _s_store_name6108_k_n = tbl_Project_TD_6176_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
+            std::string _s_store_name6108_k = std::string(_s_store_name6108_k_n.data());
+            std::array<char, TPCDS_READ_MAX + 1> _s_company_name6120_k_n = tbl_Project_TD_6176_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 3);
+            std::string _s_company_name6120_k = std::string(_s_company_name6120_k_n.data());
+            auto its = ht1.equal_range(SW_JOIN_INNER_TD_5295_key_leftMajor{_i_category6042_k, _i_brand6038_k, _s_store_name6108_k, _s_company_name6120_k});
             auto it = its.first;
             while (it != its.second) {
                 std::string _i_category240 = (it->second)._i_category240;
@@ -2447,239 +2447,239 @@ void SW_JOIN_INNER_TD_5380(Table &tbl_Filter_TD_6476_output, Table &tbl_Project_
                 memcpy(_s_company_name395_n.data(), (_s_company_name395).data(), (_s_company_name395).length());
                 int32_t _d_year126 = (it->second)._d_year126;
                 int32_t _d_moy128 = (it->second)._d_moy128;
-                int32_t _sum_sales3892 = (it->second)._sum_sales3892;
-                int32_t _avg_monthly_sales3893 = (it->second)._avg_monthly_sales3893;
-                int32_t _rn3894 = (it->second)._rn3894;
-                std::array<char, TPCDS_READ_MAX + 1> _i_category4668_n = tbl_Project_TD_6491_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 0);
-                std::string _i_category4668 = std::string(_i_category4668_n.data());
-                std::array<char, TPCDS_READ_MAX + 1> _i_brand4664_n = tbl_Project_TD_6491_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
-                std::string _i_brand4664 = std::string(_i_brand4664_n.data());
-                std::array<char, TPCDS_READ_MAX + 1> _s_store_name4734_n = tbl_Project_TD_6491_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
-                std::string _s_store_name4734 = std::string(_s_store_name4734_n.data());
-                std::array<char, TPCDS_READ_MAX + 1> _s_company_name4746_n = tbl_Project_TD_6491_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 3);
-                std::string _s_company_name4746 = std::string(_s_company_name4746_n.data());
-                int32_t _sum_sales3913 = tbl_Project_TD_6491_output.getInt32(i, 4);
-                int32_t _rn4762 = tbl_Project_TD_6491_output.getInt32(i, 5);
-                if (_rn3894 == NULL) {
-                    tbl_JOIN_INNER_TD_5380_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 0, _i_category240_n);
-                    tbl_JOIN_INNER_TD_5380_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 1, _i_brand236_n);
-                    tbl_JOIN_INNER_TD_5380_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 2, _s_store_name383_n);
-                    tbl_JOIN_INNER_TD_5380_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 3, _s_company_name395_n);
-                    tbl_JOIN_INNER_TD_5380_output.setInt32(r, 4, _d_year126);
-                    tbl_JOIN_INNER_TD_5380_output.setInt32(r, 5, _d_moy128);
-                    tbl_JOIN_INNER_TD_5380_output.setInt32(r, 6, _sum_sales3892);
-                    tbl_JOIN_INNER_TD_5380_output.setInt32(r, 7, _avg_monthly_sales3893);
-                    tbl_JOIN_INNER_TD_5380_output.setInt32(r, 8, _rn3894);
-                    tbl_JOIN_INNER_TD_5380_output.setInt32(r, 9, _sum_sales3913);
+                int32_t _sum_sales5266 = (it->second)._sum_sales5266;
+                int32_t _avg_monthly_sales5267 = (it->second)._avg_monthly_sales5267;
+                int32_t _rn5268 = (it->second)._rn5268;
+                std::array<char, TPCDS_READ_MAX + 1> _i_category6042_n = tbl_Project_TD_6176_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 0);
+                std::string _i_category6042 = std::string(_i_category6042_n.data());
+                std::array<char, TPCDS_READ_MAX + 1> _i_brand6038_n = tbl_Project_TD_6176_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
+                std::string _i_brand6038 = std::string(_i_brand6038_n.data());
+                std::array<char, TPCDS_READ_MAX + 1> _s_store_name6108_n = tbl_Project_TD_6176_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
+                std::string _s_store_name6108 = std::string(_s_store_name6108_n.data());
+                std::array<char, TPCDS_READ_MAX + 1> _s_company_name6120_n = tbl_Project_TD_6176_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 3);
+                std::string _s_company_name6120 = std::string(_s_company_name6120_n.data());
+                int32_t _sum_sales5287 = tbl_Project_TD_6176_output.getInt32(i, 4);
+                int32_t _rn6136 = tbl_Project_TD_6176_output.getInt32(i, 5);
+                if (_rn5268 == NULL) {
+                    tbl_JOIN_INNER_TD_5295_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 0, _i_category240_n);
+                    tbl_JOIN_INNER_TD_5295_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 1, _i_brand236_n);
+                    tbl_JOIN_INNER_TD_5295_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 2, _s_store_name383_n);
+                    tbl_JOIN_INNER_TD_5295_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 3, _s_company_name395_n);
+                    tbl_JOIN_INNER_TD_5295_output.setInt32(r, 4, _d_year126);
+                    tbl_JOIN_INNER_TD_5295_output.setInt32(r, 5, _d_moy128);
+                    tbl_JOIN_INNER_TD_5295_output.setInt32(r, 6, _sum_sales5266);
+                    tbl_JOIN_INNER_TD_5295_output.setInt32(r, 7, _avg_monthly_sales5267);
+                    tbl_JOIN_INNER_TD_5295_output.setInt32(r, 8, _rn5268);
+                    tbl_JOIN_INNER_TD_5295_output.setInt32(r, 9, _sum_sales5287);
                     r++;
                 }
                 it++;
             }
         }
-        tbl_JOIN_INNER_TD_5380_output.setNumRow(r);
+        tbl_JOIN_INNER_TD_5295_output.setNumRow(r);
     } else { 
-        std::unordered_multimap<SW_JOIN_INNER_TD_5380_key_rightMajor, SW_JOIN_INNER_TD_5380_payload_rightMajor> ht1;
-        int nrow1 = tbl_Project_TD_6491_output.getNumRow();
+        std::unordered_multimap<SW_JOIN_INNER_TD_5295_key_rightMajor, SW_JOIN_INNER_TD_5295_payload_rightMajor> ht1;
+        int nrow1 = tbl_Project_TD_6176_output.getNumRow();
         for (int i = 0; i < nrow1; i++) {
-            std::array<char, TPCDS_READ_MAX + 1> _i_category4668_k_n = tbl_Project_TD_6491_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 0);
-            std::string _i_category4668_k = std::string(_i_category4668_k_n.data());
-            std::array<char, TPCDS_READ_MAX + 1> _i_brand4664_k_n = tbl_Project_TD_6491_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
-            std::string _i_brand4664_k = std::string(_i_brand4664_k_n.data());
-            std::array<char, TPCDS_READ_MAX + 1> _s_store_name4734_k_n = tbl_Project_TD_6491_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
-            std::string _s_store_name4734_k = std::string(_s_store_name4734_k_n.data());
-            std::array<char, TPCDS_READ_MAX + 1> _s_company_name4746_k_n = tbl_Project_TD_6491_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 3);
-            std::string _s_company_name4746_k = std::string(_s_company_name4746_k_n.data());
-            SW_JOIN_INNER_TD_5380_key_rightMajor keyA{_i_category4668_k, _i_brand4664_k, _s_store_name4734_k, _s_company_name4746_k};
-            std::array<char, TPCDS_READ_MAX + 1> _i_category4668_n = tbl_Project_TD_6491_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 0);
-            std::string _i_category4668 = std::string(_i_category4668_n.data());
-            std::array<char, TPCDS_READ_MAX + 1> _i_brand4664_n = tbl_Project_TD_6491_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
-            std::string _i_brand4664 = std::string(_i_brand4664_n.data());
-            std::array<char, TPCDS_READ_MAX + 1> _s_store_name4734_n = tbl_Project_TD_6491_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
-            std::string _s_store_name4734 = std::string(_s_store_name4734_n.data());
-            std::array<char, TPCDS_READ_MAX + 1> _s_company_name4746_n = tbl_Project_TD_6491_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 3);
-            std::string _s_company_name4746 = std::string(_s_company_name4746_n.data());
-            int32_t _sum_sales3913 = tbl_Project_TD_6491_output.getInt32(i, 4);
-            int32_t _rn4762 = tbl_Project_TD_6491_output.getInt32(i, 5);
-            SW_JOIN_INNER_TD_5380_payload_rightMajor payloadA{_i_category4668, _i_brand4664, _s_store_name4734, _s_company_name4746, _sum_sales3913, _rn4762};
+            std::array<char, TPCDS_READ_MAX + 1> _i_category6042_k_n = tbl_Project_TD_6176_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 0);
+            std::string _i_category6042_k = std::string(_i_category6042_k_n.data());
+            std::array<char, TPCDS_READ_MAX + 1> _i_brand6038_k_n = tbl_Project_TD_6176_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
+            std::string _i_brand6038_k = std::string(_i_brand6038_k_n.data());
+            std::array<char, TPCDS_READ_MAX + 1> _s_store_name6108_k_n = tbl_Project_TD_6176_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
+            std::string _s_store_name6108_k = std::string(_s_store_name6108_k_n.data());
+            std::array<char, TPCDS_READ_MAX + 1> _s_company_name6120_k_n = tbl_Project_TD_6176_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 3);
+            std::string _s_company_name6120_k = std::string(_s_company_name6120_k_n.data());
+            SW_JOIN_INNER_TD_5295_key_rightMajor keyA{_i_category6042_k, _i_brand6038_k, _s_store_name6108_k, _s_company_name6120_k};
+            std::array<char, TPCDS_READ_MAX + 1> _i_category6042_n = tbl_Project_TD_6176_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 0);
+            std::string _i_category6042 = std::string(_i_category6042_n.data());
+            std::array<char, TPCDS_READ_MAX + 1> _i_brand6038_n = tbl_Project_TD_6176_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
+            std::string _i_brand6038 = std::string(_i_brand6038_n.data());
+            std::array<char, TPCDS_READ_MAX + 1> _s_store_name6108_n = tbl_Project_TD_6176_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
+            std::string _s_store_name6108 = std::string(_s_store_name6108_n.data());
+            std::array<char, TPCDS_READ_MAX + 1> _s_company_name6120_n = tbl_Project_TD_6176_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 3);
+            std::string _s_company_name6120 = std::string(_s_company_name6120_n.data());
+            int32_t _sum_sales5287 = tbl_Project_TD_6176_output.getInt32(i, 4);
+            int32_t _rn6136 = tbl_Project_TD_6176_output.getInt32(i, 5);
+            SW_JOIN_INNER_TD_5295_payload_rightMajor payloadA{_i_category6042, _i_brand6038, _s_store_name6108, _s_company_name6120, _sum_sales5287, _rn6136};
             ht1.insert(std::make_pair(keyA, payloadA));
         }
         int r = 0;
-        int nrow2 = tbl_Filter_TD_6476_output.getNumRow();
+        int nrow2 = tbl_Filter_TD_6751_output.getNumRow();
         for (int i = 0; i < nrow2; i++) {
-            std::array<char, TPCDS_READ_MAX + 1> _i_category240_k_n = tbl_Filter_TD_6476_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 0);
+            std::array<char, TPCDS_READ_MAX + 1> _i_category240_k_n = tbl_Filter_TD_6751_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 0);
             std::string _i_category240_k = std::string(_i_category240_k_n.data());
-            std::array<char, TPCDS_READ_MAX + 1> _i_brand236_k_n = tbl_Filter_TD_6476_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
+            std::array<char, TPCDS_READ_MAX + 1> _i_brand236_k_n = tbl_Filter_TD_6751_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
             std::string _i_brand236_k = std::string(_i_brand236_k_n.data());
-            std::array<char, TPCDS_READ_MAX + 1> _s_store_name383_k_n = tbl_Filter_TD_6476_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
+            std::array<char, TPCDS_READ_MAX + 1> _s_store_name383_k_n = tbl_Filter_TD_6751_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
             std::string _s_store_name383_k = std::string(_s_store_name383_k_n.data());
-            std::array<char, TPCDS_READ_MAX + 1> _s_company_name395_k_n = tbl_Filter_TD_6476_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 3);
+            std::array<char, TPCDS_READ_MAX + 1> _s_company_name395_k_n = tbl_Filter_TD_6751_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 3);
             std::string _s_company_name395_k = std::string(_s_company_name395_k_n.data());
-            auto its = ht1.equal_range(SW_JOIN_INNER_TD_5380_key_rightMajor{_i_category240_k, _i_brand236_k, _s_store_name383_k, _s_company_name395_k});
+            auto its = ht1.equal_range(SW_JOIN_INNER_TD_5295_key_rightMajor{_i_category240_k, _i_brand236_k, _s_store_name383_k, _s_company_name395_k});
             auto it = its.first;
             while (it != its.second) {
-                std::string _i_category4668 = (it->second)._i_category4668;
-                std::array<char, TPCDS_READ_MAX + 1> _i_category4668_n{};
-                memcpy(_i_category4668_n.data(), (_i_category4668).data(), (_i_category4668).length());
-                std::string _i_brand4664 = (it->second)._i_brand4664;
-                std::array<char, TPCDS_READ_MAX + 1> _i_brand4664_n{};
-                memcpy(_i_brand4664_n.data(), (_i_brand4664).data(), (_i_brand4664).length());
-                std::string _s_store_name4734 = (it->second)._s_store_name4734;
-                std::array<char, TPCDS_READ_MAX + 1> _s_store_name4734_n{};
-                memcpy(_s_store_name4734_n.data(), (_s_store_name4734).data(), (_s_store_name4734).length());
-                std::string _s_company_name4746 = (it->second)._s_company_name4746;
-                std::array<char, TPCDS_READ_MAX + 1> _s_company_name4746_n{};
-                memcpy(_s_company_name4746_n.data(), (_s_company_name4746).data(), (_s_company_name4746).length());
-                int32_t _sum_sales3913 = (it->second)._sum_sales3913;
-                int32_t _rn4762 = (it->second)._rn4762;
-                std::array<char, TPCDS_READ_MAX + 1> _i_category240_n = tbl_Filter_TD_6476_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 0);
+                std::string _i_category6042 = (it->second)._i_category6042;
+                std::array<char, TPCDS_READ_MAX + 1> _i_category6042_n{};
+                memcpy(_i_category6042_n.data(), (_i_category6042).data(), (_i_category6042).length());
+                std::string _i_brand6038 = (it->second)._i_brand6038;
+                std::array<char, TPCDS_READ_MAX + 1> _i_brand6038_n{};
+                memcpy(_i_brand6038_n.data(), (_i_brand6038).data(), (_i_brand6038).length());
+                std::string _s_store_name6108 = (it->second)._s_store_name6108;
+                std::array<char, TPCDS_READ_MAX + 1> _s_store_name6108_n{};
+                memcpy(_s_store_name6108_n.data(), (_s_store_name6108).data(), (_s_store_name6108).length());
+                std::string _s_company_name6120 = (it->second)._s_company_name6120;
+                std::array<char, TPCDS_READ_MAX + 1> _s_company_name6120_n{};
+                memcpy(_s_company_name6120_n.data(), (_s_company_name6120).data(), (_s_company_name6120).length());
+                int32_t _sum_sales5287 = (it->second)._sum_sales5287;
+                int32_t _rn6136 = (it->second)._rn6136;
+                std::array<char, TPCDS_READ_MAX + 1> _i_category240_n = tbl_Filter_TD_6751_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 0);
                 std::string _i_category240 = std::string(_i_category240_n.data());
-                std::array<char, TPCDS_READ_MAX + 1> _i_brand236_n = tbl_Filter_TD_6476_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
+                std::array<char, TPCDS_READ_MAX + 1> _i_brand236_n = tbl_Filter_TD_6751_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
                 std::string _i_brand236 = std::string(_i_brand236_n.data());
-                std::array<char, TPCDS_READ_MAX + 1> _s_store_name383_n = tbl_Filter_TD_6476_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
+                std::array<char, TPCDS_READ_MAX + 1> _s_store_name383_n = tbl_Filter_TD_6751_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
                 std::string _s_store_name383 = std::string(_s_store_name383_n.data());
-                std::array<char, TPCDS_READ_MAX + 1> _s_company_name395_n = tbl_Filter_TD_6476_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 3);
+                std::array<char, TPCDS_READ_MAX + 1> _s_company_name395_n = tbl_Filter_TD_6751_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 3);
                 std::string _s_company_name395 = std::string(_s_company_name395_n.data());
-                int32_t _d_year126 = tbl_Filter_TD_6476_output.getInt32(i, 4);
-                int32_t _d_moy128 = tbl_Filter_TD_6476_output.getInt32(i, 5);
-                int32_t _sum_sales3892 = tbl_Filter_TD_6476_output.getInt32(i, 6);
-                int32_t _avg_monthly_sales3893 = tbl_Filter_TD_6476_output.getInt32(i, 7);
-                int32_t _rn3894 = tbl_Filter_TD_6476_output.getInt32(i, 8);
-                if (_rn3894 == NULL) {
-                    tbl_JOIN_INNER_TD_5380_output.setInt32(r, 9, _sum_sales3913);
-                    tbl_JOIN_INNER_TD_5380_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 0, _i_category240_n);
-                    tbl_JOIN_INNER_TD_5380_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 1, _i_brand236_n);
-                    tbl_JOIN_INNER_TD_5380_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 2, _s_store_name383_n);
-                    tbl_JOIN_INNER_TD_5380_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 3, _s_company_name395_n);
-                    tbl_JOIN_INNER_TD_5380_output.setInt32(r, 4, _d_year126);
-                    tbl_JOIN_INNER_TD_5380_output.setInt32(r, 5, _d_moy128);
-                    tbl_JOIN_INNER_TD_5380_output.setInt32(r, 6, _sum_sales3892);
-                    tbl_JOIN_INNER_TD_5380_output.setInt32(r, 7, _avg_monthly_sales3893);
-                    tbl_JOIN_INNER_TD_5380_output.setInt32(r, 8, _rn3894);
+                int32_t _d_year126 = tbl_Filter_TD_6751_output.getInt32(i, 4);
+                int32_t _d_moy128 = tbl_Filter_TD_6751_output.getInt32(i, 5);
+                int32_t _sum_sales5266 = tbl_Filter_TD_6751_output.getInt32(i, 6);
+                int32_t _avg_monthly_sales5267 = tbl_Filter_TD_6751_output.getInt32(i, 7);
+                int32_t _rn5268 = tbl_Filter_TD_6751_output.getInt32(i, 8);
+                if (_rn5268 == NULL) {
+                    tbl_JOIN_INNER_TD_5295_output.setInt32(r, 9, _sum_sales5287);
+                    tbl_JOIN_INNER_TD_5295_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 0, _i_category240_n);
+                    tbl_JOIN_INNER_TD_5295_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 1, _i_brand236_n);
+                    tbl_JOIN_INNER_TD_5295_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 2, _s_store_name383_n);
+                    tbl_JOIN_INNER_TD_5295_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 3, _s_company_name395_n);
+                    tbl_JOIN_INNER_TD_5295_output.setInt32(r, 4, _d_year126);
+                    tbl_JOIN_INNER_TD_5295_output.setInt32(r, 5, _d_moy128);
+                    tbl_JOIN_INNER_TD_5295_output.setInt32(r, 6, _sum_sales5266);
+                    tbl_JOIN_INNER_TD_5295_output.setInt32(r, 7, _avg_monthly_sales5267);
+                    tbl_JOIN_INNER_TD_5295_output.setInt32(r, 8, _rn5268);
                     r++;
                 }
                 it++;
             }
         }
-        tbl_JOIN_INNER_TD_5380_output.setNumRow(r);
+        tbl_JOIN_INNER_TD_5295_output.setNumRow(r);
     } 
-    std::cout << "tbl_JOIN_INNER_TD_5380_output #Row: " << tbl_JOIN_INNER_TD_5380_output.getNumRow() << std::endl;
+    std::cout << "tbl_JOIN_INNER_TD_5295_output #Row: " << tbl_JOIN_INNER_TD_5295_output.getNumRow() << std::endl;
 }
 
-struct SW_JOIN_INNER_TD_4587_key_leftMajor {
+struct SW_JOIN_INNER_TD_4203_key_leftMajor {
     std::string _i_category240;
     std::string _i_brand236;
     std::string _s_store_name383;
     std::string _s_company_name395;
-    int32_t _rn3894;
-    bool operator==(const SW_JOIN_INNER_TD_4587_key_leftMajor& other) const {
-        return ((_i_category240 == other._i_category240) && (_i_brand236 == other._i_brand236) && (_s_store_name383 == other._s_store_name383) && (_s_company_name395 == other._s_company_name395) && (_rn3894 == other._rn3894));
+    int32_t _rn5268;
+    bool operator==(const SW_JOIN_INNER_TD_4203_key_leftMajor& other) const {
+        return ((_i_category240 == other._i_category240) && (_i_brand236 == other._i_brand236) && (_s_store_name383 == other._s_store_name383) && (_s_company_name395 == other._s_company_name395) && (_rn5268 == other._rn5268));
     }
 };
 namespace std {
 template <>
-struct hash<SW_JOIN_INNER_TD_4587_key_leftMajor> {
-    std::size_t operator() (const SW_JOIN_INNER_TD_4587_key_leftMajor& k) const {
+struct hash<SW_JOIN_INNER_TD_4203_key_leftMajor> {
+    std::size_t operator() (const SW_JOIN_INNER_TD_4203_key_leftMajor& k) const {
         using std::size_t;
         using std::hash;
         using std::string;
-        return (hash<string>()(k._i_category240)) + (hash<string>()(k._i_brand236)) + (hash<string>()(k._s_store_name383)) + (hash<string>()(k._s_company_name395)) + (hash<int32_t>()(k._rn3894));
+        return (hash<string>()(k._i_category240)) + (hash<string>()(k._i_brand236)) + (hash<string>()(k._s_store_name383)) + (hash<string>()(k._s_company_name395)) + (hash<int32_t>()(k._rn5268));
     }
 };
 }
-struct SW_JOIN_INNER_TD_4587_payload_leftMajor {
+struct SW_JOIN_INNER_TD_4203_payload_leftMajor {
     std::string _i_category240;
     std::string _i_brand236;
     std::string _s_store_name383;
     std::string _s_company_name395;
     int32_t _d_year126;
     int32_t _d_moy128;
-    int32_t _sum_sales3892;
-    int32_t _avg_monthly_sales3893;
-    int32_t _rn3894;
-    int32_t _sum_sales3913;
+    int32_t _sum_sales5266;
+    int32_t _avg_monthly_sales5267;
+    int32_t _rn5268;
+    int32_t _sum_sales5287;
 };
-struct SW_JOIN_INNER_TD_4587_key_rightMajor {
-    std::string _i_category4775;
-    std::string _i_brand4771;
-    std::string _s_store_name4841;
-    std::string _s_company_name4853;
-    int32_t _rn4869;
-    bool operator==(const SW_JOIN_INNER_TD_4587_key_rightMajor& other) const {
-        return ((_i_category4775 == other._i_category4775) && (_i_brand4771 == other._i_brand4771) && (_s_store_name4841 == other._s_store_name4841) && (_s_company_name4853 == other._s_company_name4853) && (_rn4869 == other._rn4869));
+struct SW_JOIN_INNER_TD_4203_key_rightMajor {
+    std::string _i_category6149;
+    std::string _i_brand6145;
+    std::string _s_store_name6215;
+    std::string _s_company_name6227;
+    int32_t _rn6243;
+    bool operator==(const SW_JOIN_INNER_TD_4203_key_rightMajor& other) const {
+        return ((_i_category6149 == other._i_category6149) && (_i_brand6145 == other._i_brand6145) && (_s_store_name6215 == other._s_store_name6215) && (_s_company_name6227 == other._s_company_name6227) && (_rn6243 == other._rn6243));
     }
 };
 namespace std {
 template <>
-struct hash<SW_JOIN_INNER_TD_4587_key_rightMajor> {
-    std::size_t operator() (const SW_JOIN_INNER_TD_4587_key_rightMajor& k) const {
+struct hash<SW_JOIN_INNER_TD_4203_key_rightMajor> {
+    std::size_t operator() (const SW_JOIN_INNER_TD_4203_key_rightMajor& k) const {
         using std::size_t;
         using std::hash;
         using std::string;
-        return (hash<string>()(k._i_category4775)) + (hash<string>()(k._i_brand4771)) + (hash<string>()(k._s_store_name4841)) + (hash<string>()(k._s_company_name4853)) + (hash<int32_t>()(k._rn4869));
+        return (hash<string>()(k._i_category6149)) + (hash<string>()(k._i_brand6145)) + (hash<string>()(k._s_store_name6215)) + (hash<string>()(k._s_company_name6227)) + (hash<int32_t>()(k._rn6243));
     }
 };
 }
-struct SW_JOIN_INNER_TD_4587_payload_rightMajor {
-    std::string _i_category4775;
-    std::string _i_brand4771;
-    std::string _s_store_name4841;
-    std::string _s_company_name4853;
-    int32_t _sum_sales3922;
-    int32_t _rn4869;
+struct SW_JOIN_INNER_TD_4203_payload_rightMajor {
+    std::string _i_category6149;
+    std::string _i_brand6145;
+    std::string _s_store_name6215;
+    std::string _s_company_name6227;
+    int32_t _sum_sales5296;
+    int32_t _rn6243;
 };
-void SW_JOIN_INNER_TD_4587(Table &tbl_JOIN_INNER_TD_5380_output, Table &tbl_Project_TD_5825_output, Table &tbl_JOIN_INNER_TD_4587_output) {
+void SW_JOIN_INNER_TD_4203(Table &tbl_JOIN_INNER_TD_5295_output, Table &tbl_Project_TD_5547_output, Table &tbl_JOIN_INNER_TD_4203_output) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: JOIN_INNER
-    // Operation: ListBuffer((((((i_category#240 = i_category#4775) AND (i_brand#236 = i_brand#4771)) AND (s_store_name#383 = s_store_name#4841)) AND (s_company_name#395 = s_company_name#4853)) AND (rn#3894 = (rn#4869 - 1))))
-    // Left Table: ListBuffer(i_category#240, i_brand#236, s_store_name#383, s_company_name#395, d_year#126, d_moy#128, sum_sales#3892, avg_monthly_sales#3893, rn#3894, sum_sales#3913)
-    // Right Table: ListBuffer(i_category#4775, i_brand#4771, s_store_name#4841, s_company_name#4853, sum_sales#3922, rn#4869)
-    // Output Table: ListBuffer(i_category#240, i_brand#236, s_store_name#383, s_company_name#395, d_year#126, d_moy#128, avg_monthly_sales#3893, sum_sales#3892, sum_sales#3913, sum_sales#3922)
-    int left_nrow = tbl_JOIN_INNER_TD_5380_output.getNumRow();
-    int right_nrow = tbl_Project_TD_5825_output.getNumRow();
+    // Operation: ListBuffer((((((i_category#240 = i_category#6149) AND (i_brand#236 = i_brand#6145)) AND (s_store_name#383 = s_store_name#6215)) AND (s_company_name#395 = s_company_name#6227)) AND (rn#5268 = (rn#6243 - 1))))
+    // Left Table: ListBuffer(i_category#240, i_brand#236, s_store_name#383, s_company_name#395, d_year#126, d_moy#128, sum_sales#5266, avg_monthly_sales#5267, rn#5268, sum_sales#5287)
+    // Right Table: ListBuffer(i_category#6149, i_brand#6145, s_store_name#6215, s_company_name#6227, sum_sales#5296, rn#6243)
+    // Output Table: ListBuffer(i_category#240, i_brand#236, s_store_name#383, s_company_name#395, d_year#126, d_moy#128, avg_monthly_sales#5267, sum_sales#5266, sum_sales#5287, sum_sales#5296)
+    int left_nrow = tbl_JOIN_INNER_TD_5295_output.getNumRow();
+    int right_nrow = tbl_Project_TD_5547_output.getNumRow();
     if (left_nrow < right_nrow) { 
-        std::unordered_multimap<SW_JOIN_INNER_TD_4587_key_leftMajor, SW_JOIN_INNER_TD_4587_payload_leftMajor> ht1;
-        int nrow1 = tbl_JOIN_INNER_TD_5380_output.getNumRow();
+        std::unordered_multimap<SW_JOIN_INNER_TD_4203_key_leftMajor, SW_JOIN_INNER_TD_4203_payload_leftMajor> ht1;
+        int nrow1 = tbl_JOIN_INNER_TD_5295_output.getNumRow();
         for (int i = 0; i < nrow1; i++) {
-            std::array<char, TPCDS_READ_MAX + 1> _i_category240_k_n = tbl_JOIN_INNER_TD_5380_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 0);
+            std::array<char, TPCDS_READ_MAX + 1> _i_category240_k_n = tbl_JOIN_INNER_TD_5295_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 0);
             std::string _i_category240_k = std::string(_i_category240_k_n.data());
-            std::array<char, TPCDS_READ_MAX + 1> _i_brand236_k_n = tbl_JOIN_INNER_TD_5380_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
+            std::array<char, TPCDS_READ_MAX + 1> _i_brand236_k_n = tbl_JOIN_INNER_TD_5295_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
             std::string _i_brand236_k = std::string(_i_brand236_k_n.data());
-            std::array<char, TPCDS_READ_MAX + 1> _s_store_name383_k_n = tbl_JOIN_INNER_TD_5380_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
+            std::array<char, TPCDS_READ_MAX + 1> _s_store_name383_k_n = tbl_JOIN_INNER_TD_5295_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
             std::string _s_store_name383_k = std::string(_s_store_name383_k_n.data());
-            std::array<char, TPCDS_READ_MAX + 1> _s_company_name395_k_n = tbl_JOIN_INNER_TD_5380_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 3);
+            std::array<char, TPCDS_READ_MAX + 1> _s_company_name395_k_n = tbl_JOIN_INNER_TD_5295_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 3);
             std::string _s_company_name395_k = std::string(_s_company_name395_k_n.data());
-            int32_t _rn3894_k = tbl_JOIN_INNER_TD_5380_output.getInt32(i, 8);
-            SW_JOIN_INNER_TD_4587_key_leftMajor keyA{_i_category240_k, _i_brand236_k, _s_store_name383_k, _s_company_name395_k, _rn3894_k};
-            std::array<char, TPCDS_READ_MAX + 1> _i_category240_n = tbl_JOIN_INNER_TD_5380_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 0);
+            int32_t _rn5268_k = tbl_JOIN_INNER_TD_5295_output.getInt32(i, 8);
+            SW_JOIN_INNER_TD_4203_key_leftMajor keyA{_i_category240_k, _i_brand236_k, _s_store_name383_k, _s_company_name395_k, _rn5268_k};
+            std::array<char, TPCDS_READ_MAX + 1> _i_category240_n = tbl_JOIN_INNER_TD_5295_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 0);
             std::string _i_category240 = std::string(_i_category240_n.data());
-            std::array<char, TPCDS_READ_MAX + 1> _i_brand236_n = tbl_JOIN_INNER_TD_5380_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
+            std::array<char, TPCDS_READ_MAX + 1> _i_brand236_n = tbl_JOIN_INNER_TD_5295_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
             std::string _i_brand236 = std::string(_i_brand236_n.data());
-            std::array<char, TPCDS_READ_MAX + 1> _s_store_name383_n = tbl_JOIN_INNER_TD_5380_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
+            std::array<char, TPCDS_READ_MAX + 1> _s_store_name383_n = tbl_JOIN_INNER_TD_5295_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
             std::string _s_store_name383 = std::string(_s_store_name383_n.data());
-            std::array<char, TPCDS_READ_MAX + 1> _s_company_name395_n = tbl_JOIN_INNER_TD_5380_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 3);
+            std::array<char, TPCDS_READ_MAX + 1> _s_company_name395_n = tbl_JOIN_INNER_TD_5295_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 3);
             std::string _s_company_name395 = std::string(_s_company_name395_n.data());
-            int32_t _d_year126 = tbl_JOIN_INNER_TD_5380_output.getInt32(i, 4);
-            int32_t _d_moy128 = tbl_JOIN_INNER_TD_5380_output.getInt32(i, 5);
-            int32_t _sum_sales3892 = tbl_JOIN_INNER_TD_5380_output.getInt32(i, 6);
-            int32_t _avg_monthly_sales3893 = tbl_JOIN_INNER_TD_5380_output.getInt32(i, 7);
-            int32_t _rn3894 = tbl_JOIN_INNER_TD_5380_output.getInt32(i, 8);
-            int32_t _sum_sales3913 = tbl_JOIN_INNER_TD_5380_output.getInt32(i, 9);
-            SW_JOIN_INNER_TD_4587_payload_leftMajor payloadA{_i_category240, _i_brand236, _s_store_name383, _s_company_name395, _d_year126, _d_moy128, _sum_sales3892, _avg_monthly_sales3893, _rn3894, _sum_sales3913};
+            int32_t _d_year126 = tbl_JOIN_INNER_TD_5295_output.getInt32(i, 4);
+            int32_t _d_moy128 = tbl_JOIN_INNER_TD_5295_output.getInt32(i, 5);
+            int32_t _sum_sales5266 = tbl_JOIN_INNER_TD_5295_output.getInt32(i, 6);
+            int32_t _avg_monthly_sales5267 = tbl_JOIN_INNER_TD_5295_output.getInt32(i, 7);
+            int32_t _rn5268 = tbl_JOIN_INNER_TD_5295_output.getInt32(i, 8);
+            int32_t _sum_sales5287 = tbl_JOIN_INNER_TD_5295_output.getInt32(i, 9);
+            SW_JOIN_INNER_TD_4203_payload_leftMajor payloadA{_i_category240, _i_brand236, _s_store_name383, _s_company_name395, _d_year126, _d_moy128, _sum_sales5266, _avg_monthly_sales5267, _rn5268, _sum_sales5287};
             ht1.insert(std::make_pair(keyA, payloadA));
         }
         int r = 0;
-        int nrow2 = tbl_Project_TD_5825_output.getNumRow();
+        int nrow2 = tbl_Project_TD_5547_output.getNumRow();
         for (int i = 0; i < nrow2; i++) {
-            std::array<char, TPCDS_READ_MAX + 1> _i_category4775_k_n = tbl_Project_TD_5825_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 0);
-            std::string _i_category4775_k = std::string(_i_category4775_k_n.data());
-            std::array<char, TPCDS_READ_MAX + 1> _i_brand4771_k_n = tbl_Project_TD_5825_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
-            std::string _i_brand4771_k = std::string(_i_brand4771_k_n.data());
-            std::array<char, TPCDS_READ_MAX + 1> _s_store_name4841_k_n = tbl_Project_TD_5825_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
-            std::string _s_store_name4841_k = std::string(_s_store_name4841_k_n.data());
-            std::array<char, TPCDS_READ_MAX + 1> _s_company_name4853_k_n = tbl_Project_TD_5825_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 3);
-            std::string _s_company_name4853_k = std::string(_s_company_name4853_k_n.data());
-            int32_t _rn4869_k = tbl_Project_TD_5825_output.getInt32(i, 5);
-            auto its = ht1.equal_range(SW_JOIN_INNER_TD_4587_key_leftMajor{_i_category4775_k, _i_brand4771_k, _s_store_name4841_k, _s_company_name4853_k, _rn4869_k});
+            std::array<char, TPCDS_READ_MAX + 1> _i_category6149_k_n = tbl_Project_TD_5547_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 0);
+            std::string _i_category6149_k = std::string(_i_category6149_k_n.data());
+            std::array<char, TPCDS_READ_MAX + 1> _i_brand6145_k_n = tbl_Project_TD_5547_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
+            std::string _i_brand6145_k = std::string(_i_brand6145_k_n.data());
+            std::array<char, TPCDS_READ_MAX + 1> _s_store_name6215_k_n = tbl_Project_TD_5547_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
+            std::string _s_store_name6215_k = std::string(_s_store_name6215_k_n.data());
+            std::array<char, TPCDS_READ_MAX + 1> _s_company_name6227_k_n = tbl_Project_TD_5547_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 3);
+            std::string _s_company_name6227_k = std::string(_s_company_name6227_k_n.data());
+            int32_t _rn6243_k = tbl_Project_TD_5547_output.getInt32(i, 5);
+            auto its = ht1.equal_range(SW_JOIN_INNER_TD_4203_key_leftMajor{_i_category6149_k, _i_brand6145_k, _s_store_name6215_k, _s_company_name6227_k, _rn6243_k});
             auto it = its.first;
             while (it != its.second) {
                 std::string _i_category240 = (it->second)._i_category240;
@@ -2696,229 +2696,287 @@ void SW_JOIN_INNER_TD_4587(Table &tbl_JOIN_INNER_TD_5380_output, Table &tbl_Proj
                 memcpy(_s_company_name395_n.data(), (_s_company_name395).data(), (_s_company_name395).length());
                 int32_t _d_year126 = (it->second)._d_year126;
                 int32_t _d_moy128 = (it->second)._d_moy128;
-                int32_t _sum_sales3892 = (it->second)._sum_sales3892;
-                int32_t _avg_monthly_sales3893 = (it->second)._avg_monthly_sales3893;
-                int32_t _rn3894 = (it->second)._rn3894;
-                int32_t _sum_sales3913 = (it->second)._sum_sales3913;
-                std::array<char, TPCDS_READ_MAX + 1> _i_category4775_n = tbl_Project_TD_5825_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 0);
-                std::string _i_category4775 = std::string(_i_category4775_n.data());
-                std::array<char, TPCDS_READ_MAX + 1> _i_brand4771_n = tbl_Project_TD_5825_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
-                std::string _i_brand4771 = std::string(_i_brand4771_n.data());
-                std::array<char, TPCDS_READ_MAX + 1> _s_store_name4841_n = tbl_Project_TD_5825_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
-                std::string _s_store_name4841 = std::string(_s_store_name4841_n.data());
-                std::array<char, TPCDS_READ_MAX + 1> _s_company_name4853_n = tbl_Project_TD_5825_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 3);
-                std::string _s_company_name4853 = std::string(_s_company_name4853_n.data());
-                int32_t _sum_sales3922 = tbl_Project_TD_5825_output.getInt32(i, 4);
-                int32_t _rn4869 = tbl_Project_TD_5825_output.getInt32(i, 5);
-                if (_rn3894 == (_rn4869 - 1)) {
-                    tbl_JOIN_INNER_TD_4587_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 0, _i_category240_n);
-                    tbl_JOIN_INNER_TD_4587_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 1, _i_brand236_n);
-                    tbl_JOIN_INNER_TD_4587_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 2, _s_store_name383_n);
-                    tbl_JOIN_INNER_TD_4587_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 3, _s_company_name395_n);
-                    tbl_JOIN_INNER_TD_4587_output.setInt32(r, 4, _d_year126);
-                    tbl_JOIN_INNER_TD_4587_output.setInt32(r, 5, _d_moy128);
-                    tbl_JOIN_INNER_TD_4587_output.setInt32(r, 7, _sum_sales3892);
-                    tbl_JOIN_INNER_TD_4587_output.setInt32(r, 6, _avg_monthly_sales3893);
-                    tbl_JOIN_INNER_TD_4587_output.setInt32(r, 8, _sum_sales3913);
-                    tbl_JOIN_INNER_TD_4587_output.setInt32(r, 9, _sum_sales3922);
+                int32_t _sum_sales5266 = (it->second)._sum_sales5266;
+                int32_t _avg_monthly_sales5267 = (it->second)._avg_monthly_sales5267;
+                int32_t _rn5268 = (it->second)._rn5268;
+                int32_t _sum_sales5287 = (it->second)._sum_sales5287;
+                std::array<char, TPCDS_READ_MAX + 1> _i_category6149_n = tbl_Project_TD_5547_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 0);
+                std::string _i_category6149 = std::string(_i_category6149_n.data());
+                std::array<char, TPCDS_READ_MAX + 1> _i_brand6145_n = tbl_Project_TD_5547_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
+                std::string _i_brand6145 = std::string(_i_brand6145_n.data());
+                std::array<char, TPCDS_READ_MAX + 1> _s_store_name6215_n = tbl_Project_TD_5547_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
+                std::string _s_store_name6215 = std::string(_s_store_name6215_n.data());
+                std::array<char, TPCDS_READ_MAX + 1> _s_company_name6227_n = tbl_Project_TD_5547_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 3);
+                std::string _s_company_name6227 = std::string(_s_company_name6227_n.data());
+                int32_t _sum_sales5296 = tbl_Project_TD_5547_output.getInt32(i, 4);
+                int32_t _rn6243 = tbl_Project_TD_5547_output.getInt32(i, 5);
+                if (_rn5268 == (_rn6243 - 1)) {
+                    tbl_JOIN_INNER_TD_4203_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 0, _i_category240_n);
+                    tbl_JOIN_INNER_TD_4203_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 1, _i_brand236_n);
+                    tbl_JOIN_INNER_TD_4203_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 2, _s_store_name383_n);
+                    tbl_JOIN_INNER_TD_4203_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 3, _s_company_name395_n);
+                    tbl_JOIN_INNER_TD_4203_output.setInt32(r, 4, _d_year126);
+                    tbl_JOIN_INNER_TD_4203_output.setInt32(r, 5, _d_moy128);
+                    tbl_JOIN_INNER_TD_4203_output.setInt32(r, 7, _sum_sales5266);
+                    tbl_JOIN_INNER_TD_4203_output.setInt32(r, 6, _avg_monthly_sales5267);
+                    tbl_JOIN_INNER_TD_4203_output.setInt32(r, 8, _sum_sales5287);
+                    tbl_JOIN_INNER_TD_4203_output.setInt32(r, 9, _sum_sales5296);
                     r++;
                 }
                 it++;
             }
         }
-        tbl_JOIN_INNER_TD_4587_output.setNumRow(r);
+        tbl_JOIN_INNER_TD_4203_output.setNumRow(r);
     } else { 
-        std::unordered_multimap<SW_JOIN_INNER_TD_4587_key_rightMajor, SW_JOIN_INNER_TD_4587_payload_rightMajor> ht1;
-        int nrow1 = tbl_Project_TD_5825_output.getNumRow();
+        std::unordered_multimap<SW_JOIN_INNER_TD_4203_key_rightMajor, SW_JOIN_INNER_TD_4203_payload_rightMajor> ht1;
+        int nrow1 = tbl_Project_TD_5547_output.getNumRow();
         for (int i = 0; i < nrow1; i++) {
-            std::array<char, TPCDS_READ_MAX + 1> _i_category4775_k_n = tbl_Project_TD_5825_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 0);
-            std::string _i_category4775_k = std::string(_i_category4775_k_n.data());
-            std::array<char, TPCDS_READ_MAX + 1> _i_brand4771_k_n = tbl_Project_TD_5825_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
-            std::string _i_brand4771_k = std::string(_i_brand4771_k_n.data());
-            std::array<char, TPCDS_READ_MAX + 1> _s_store_name4841_k_n = tbl_Project_TD_5825_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
-            std::string _s_store_name4841_k = std::string(_s_store_name4841_k_n.data());
-            std::array<char, TPCDS_READ_MAX + 1> _s_company_name4853_k_n = tbl_Project_TD_5825_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 3);
-            std::string _s_company_name4853_k = std::string(_s_company_name4853_k_n.data());
-            int32_t _rn4869_k = tbl_Project_TD_5825_output.getInt32(i, 5);
-            SW_JOIN_INNER_TD_4587_key_rightMajor keyA{_i_category4775_k, _i_brand4771_k, _s_store_name4841_k, _s_company_name4853_k, _rn4869_k};
-            std::array<char, TPCDS_READ_MAX + 1> _i_category4775_n = tbl_Project_TD_5825_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 0);
-            std::string _i_category4775 = std::string(_i_category4775_n.data());
-            std::array<char, TPCDS_READ_MAX + 1> _i_brand4771_n = tbl_Project_TD_5825_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
-            std::string _i_brand4771 = std::string(_i_brand4771_n.data());
-            std::array<char, TPCDS_READ_MAX + 1> _s_store_name4841_n = tbl_Project_TD_5825_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
-            std::string _s_store_name4841 = std::string(_s_store_name4841_n.data());
-            std::array<char, TPCDS_READ_MAX + 1> _s_company_name4853_n = tbl_Project_TD_5825_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 3);
-            std::string _s_company_name4853 = std::string(_s_company_name4853_n.data());
-            int32_t _sum_sales3922 = tbl_Project_TD_5825_output.getInt32(i, 4);
-            int32_t _rn4869 = tbl_Project_TD_5825_output.getInt32(i, 5);
-            SW_JOIN_INNER_TD_4587_payload_rightMajor payloadA{_i_category4775, _i_brand4771, _s_store_name4841, _s_company_name4853, _sum_sales3922, _rn4869};
+            std::array<char, TPCDS_READ_MAX + 1> _i_category6149_k_n = tbl_Project_TD_5547_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 0);
+            std::string _i_category6149_k = std::string(_i_category6149_k_n.data());
+            std::array<char, TPCDS_READ_MAX + 1> _i_brand6145_k_n = tbl_Project_TD_5547_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
+            std::string _i_brand6145_k = std::string(_i_brand6145_k_n.data());
+            std::array<char, TPCDS_READ_MAX + 1> _s_store_name6215_k_n = tbl_Project_TD_5547_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
+            std::string _s_store_name6215_k = std::string(_s_store_name6215_k_n.data());
+            std::array<char, TPCDS_READ_MAX + 1> _s_company_name6227_k_n = tbl_Project_TD_5547_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 3);
+            std::string _s_company_name6227_k = std::string(_s_company_name6227_k_n.data());
+            int32_t _rn6243_k = tbl_Project_TD_5547_output.getInt32(i, 5);
+            SW_JOIN_INNER_TD_4203_key_rightMajor keyA{_i_category6149_k, _i_brand6145_k, _s_store_name6215_k, _s_company_name6227_k, _rn6243_k};
+            std::array<char, TPCDS_READ_MAX + 1> _i_category6149_n = tbl_Project_TD_5547_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 0);
+            std::string _i_category6149 = std::string(_i_category6149_n.data());
+            std::array<char, TPCDS_READ_MAX + 1> _i_brand6145_n = tbl_Project_TD_5547_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
+            std::string _i_brand6145 = std::string(_i_brand6145_n.data());
+            std::array<char, TPCDS_READ_MAX + 1> _s_store_name6215_n = tbl_Project_TD_5547_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
+            std::string _s_store_name6215 = std::string(_s_store_name6215_n.data());
+            std::array<char, TPCDS_READ_MAX + 1> _s_company_name6227_n = tbl_Project_TD_5547_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 3);
+            std::string _s_company_name6227 = std::string(_s_company_name6227_n.data());
+            int32_t _sum_sales5296 = tbl_Project_TD_5547_output.getInt32(i, 4);
+            int32_t _rn6243 = tbl_Project_TD_5547_output.getInt32(i, 5);
+            SW_JOIN_INNER_TD_4203_payload_rightMajor payloadA{_i_category6149, _i_brand6145, _s_store_name6215, _s_company_name6227, _sum_sales5296, _rn6243};
             ht1.insert(std::make_pair(keyA, payloadA));
         }
         int r = 0;
-        int nrow2 = tbl_JOIN_INNER_TD_5380_output.getNumRow();
+        int nrow2 = tbl_JOIN_INNER_TD_5295_output.getNumRow();
         for (int i = 0; i < nrow2; i++) {
-            std::array<char, TPCDS_READ_MAX + 1> _i_category240_k_n = tbl_JOIN_INNER_TD_5380_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 0);
+            std::array<char, TPCDS_READ_MAX + 1> _i_category240_k_n = tbl_JOIN_INNER_TD_5295_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 0);
             std::string _i_category240_k = std::string(_i_category240_k_n.data());
-            std::array<char, TPCDS_READ_MAX + 1> _i_brand236_k_n = tbl_JOIN_INNER_TD_5380_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
+            std::array<char, TPCDS_READ_MAX + 1> _i_brand236_k_n = tbl_JOIN_INNER_TD_5295_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
             std::string _i_brand236_k = std::string(_i_brand236_k_n.data());
-            std::array<char, TPCDS_READ_MAX + 1> _s_store_name383_k_n = tbl_JOIN_INNER_TD_5380_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
+            std::array<char, TPCDS_READ_MAX + 1> _s_store_name383_k_n = tbl_JOIN_INNER_TD_5295_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
             std::string _s_store_name383_k = std::string(_s_store_name383_k_n.data());
-            std::array<char, TPCDS_READ_MAX + 1> _s_company_name395_k_n = tbl_JOIN_INNER_TD_5380_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 3);
+            std::array<char, TPCDS_READ_MAX + 1> _s_company_name395_k_n = tbl_JOIN_INNER_TD_5295_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 3);
             std::string _s_company_name395_k = std::string(_s_company_name395_k_n.data());
-            int32_t _rn3894_k = tbl_JOIN_INNER_TD_5380_output.getInt32(i, 8);
-            auto its = ht1.equal_range(SW_JOIN_INNER_TD_4587_key_rightMajor{_i_category240_k, _i_brand236_k, _s_store_name383_k, _s_company_name395_k, _rn3894_k});
+            int32_t _rn5268_k = tbl_JOIN_INNER_TD_5295_output.getInt32(i, 8);
+            auto its = ht1.equal_range(SW_JOIN_INNER_TD_4203_key_rightMajor{_i_category240_k, _i_brand236_k, _s_store_name383_k, _s_company_name395_k, _rn5268_k});
             auto it = its.first;
             while (it != its.second) {
-                std::string _i_category4775 = (it->second)._i_category4775;
-                std::array<char, TPCDS_READ_MAX + 1> _i_category4775_n{};
-                memcpy(_i_category4775_n.data(), (_i_category4775).data(), (_i_category4775).length());
-                std::string _i_brand4771 = (it->second)._i_brand4771;
-                std::array<char, TPCDS_READ_MAX + 1> _i_brand4771_n{};
-                memcpy(_i_brand4771_n.data(), (_i_brand4771).data(), (_i_brand4771).length());
-                std::string _s_store_name4841 = (it->second)._s_store_name4841;
-                std::array<char, TPCDS_READ_MAX + 1> _s_store_name4841_n{};
-                memcpy(_s_store_name4841_n.data(), (_s_store_name4841).data(), (_s_store_name4841).length());
-                std::string _s_company_name4853 = (it->second)._s_company_name4853;
-                std::array<char, TPCDS_READ_MAX + 1> _s_company_name4853_n{};
-                memcpy(_s_company_name4853_n.data(), (_s_company_name4853).data(), (_s_company_name4853).length());
-                int32_t _sum_sales3922 = (it->second)._sum_sales3922;
-                int32_t _rn4869 = (it->second)._rn4869;
-                std::array<char, TPCDS_READ_MAX + 1> _i_category240_n = tbl_JOIN_INNER_TD_5380_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 0);
+                std::string _i_category6149 = (it->second)._i_category6149;
+                std::array<char, TPCDS_READ_MAX + 1> _i_category6149_n{};
+                memcpy(_i_category6149_n.data(), (_i_category6149).data(), (_i_category6149).length());
+                std::string _i_brand6145 = (it->second)._i_brand6145;
+                std::array<char, TPCDS_READ_MAX + 1> _i_brand6145_n{};
+                memcpy(_i_brand6145_n.data(), (_i_brand6145).data(), (_i_brand6145).length());
+                std::string _s_store_name6215 = (it->second)._s_store_name6215;
+                std::array<char, TPCDS_READ_MAX + 1> _s_store_name6215_n{};
+                memcpy(_s_store_name6215_n.data(), (_s_store_name6215).data(), (_s_store_name6215).length());
+                std::string _s_company_name6227 = (it->second)._s_company_name6227;
+                std::array<char, TPCDS_READ_MAX + 1> _s_company_name6227_n{};
+                memcpy(_s_company_name6227_n.data(), (_s_company_name6227).data(), (_s_company_name6227).length());
+                int32_t _sum_sales5296 = (it->second)._sum_sales5296;
+                int32_t _rn6243 = (it->second)._rn6243;
+                std::array<char, TPCDS_READ_MAX + 1> _i_category240_n = tbl_JOIN_INNER_TD_5295_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 0);
                 std::string _i_category240 = std::string(_i_category240_n.data());
-                std::array<char, TPCDS_READ_MAX + 1> _i_brand236_n = tbl_JOIN_INNER_TD_5380_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
+                std::array<char, TPCDS_READ_MAX + 1> _i_brand236_n = tbl_JOIN_INNER_TD_5295_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
                 std::string _i_brand236 = std::string(_i_brand236_n.data());
-                std::array<char, TPCDS_READ_MAX + 1> _s_store_name383_n = tbl_JOIN_INNER_TD_5380_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
+                std::array<char, TPCDS_READ_MAX + 1> _s_store_name383_n = tbl_JOIN_INNER_TD_5295_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
                 std::string _s_store_name383 = std::string(_s_store_name383_n.data());
-                std::array<char, TPCDS_READ_MAX + 1> _s_company_name395_n = tbl_JOIN_INNER_TD_5380_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 3);
+                std::array<char, TPCDS_READ_MAX + 1> _s_company_name395_n = tbl_JOIN_INNER_TD_5295_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 3);
                 std::string _s_company_name395 = std::string(_s_company_name395_n.data());
-                int32_t _d_year126 = tbl_JOIN_INNER_TD_5380_output.getInt32(i, 4);
-                int32_t _d_moy128 = tbl_JOIN_INNER_TD_5380_output.getInt32(i, 5);
-                int32_t _sum_sales3892 = tbl_JOIN_INNER_TD_5380_output.getInt32(i, 6);
-                int32_t _avg_monthly_sales3893 = tbl_JOIN_INNER_TD_5380_output.getInt32(i, 7);
-                int32_t _rn3894 = tbl_JOIN_INNER_TD_5380_output.getInt32(i, 8);
-                int32_t _sum_sales3913 = tbl_JOIN_INNER_TD_5380_output.getInt32(i, 9);
-                if (_rn3894 == (_rn4869 - 1)) {
-                    tbl_JOIN_INNER_TD_4587_output.setInt32(r, 9, _sum_sales3922);
-                    tbl_JOIN_INNER_TD_4587_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 0, _i_category240_n);
-                    tbl_JOIN_INNER_TD_4587_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 1, _i_brand236_n);
-                    tbl_JOIN_INNER_TD_4587_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 2, _s_store_name383_n);
-                    tbl_JOIN_INNER_TD_4587_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 3, _s_company_name395_n);
-                    tbl_JOIN_INNER_TD_4587_output.setInt32(r, 4, _d_year126);
-                    tbl_JOIN_INNER_TD_4587_output.setInt32(r, 5, _d_moy128);
-                    tbl_JOIN_INNER_TD_4587_output.setInt32(r, 7, _sum_sales3892);
-                    tbl_JOIN_INNER_TD_4587_output.setInt32(r, 6, _avg_monthly_sales3893);
-                    tbl_JOIN_INNER_TD_4587_output.setInt32(r, 8, _sum_sales3913);
+                int32_t _d_year126 = tbl_JOIN_INNER_TD_5295_output.getInt32(i, 4);
+                int32_t _d_moy128 = tbl_JOIN_INNER_TD_5295_output.getInt32(i, 5);
+                int32_t _sum_sales5266 = tbl_JOIN_INNER_TD_5295_output.getInt32(i, 6);
+                int32_t _avg_monthly_sales5267 = tbl_JOIN_INNER_TD_5295_output.getInt32(i, 7);
+                int32_t _rn5268 = tbl_JOIN_INNER_TD_5295_output.getInt32(i, 8);
+                int32_t _sum_sales5287 = tbl_JOIN_INNER_TD_5295_output.getInt32(i, 9);
+                if (_rn5268 == (_rn6243 - 1)) {
+                    tbl_JOIN_INNER_TD_4203_output.setInt32(r, 9, _sum_sales5296);
+                    tbl_JOIN_INNER_TD_4203_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 0, _i_category240_n);
+                    tbl_JOIN_INNER_TD_4203_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 1, _i_brand236_n);
+                    tbl_JOIN_INNER_TD_4203_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 2, _s_store_name383_n);
+                    tbl_JOIN_INNER_TD_4203_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 3, _s_company_name395_n);
+                    tbl_JOIN_INNER_TD_4203_output.setInt32(r, 4, _d_year126);
+                    tbl_JOIN_INNER_TD_4203_output.setInt32(r, 5, _d_moy128);
+                    tbl_JOIN_INNER_TD_4203_output.setInt32(r, 7, _sum_sales5266);
+                    tbl_JOIN_INNER_TD_4203_output.setInt32(r, 6, _avg_monthly_sales5267);
+                    tbl_JOIN_INNER_TD_4203_output.setInt32(r, 8, _sum_sales5287);
                     r++;
                 }
                 it++;
             }
         }
-        tbl_JOIN_INNER_TD_4587_output.setNumRow(r);
+        tbl_JOIN_INNER_TD_4203_output.setNumRow(r);
     } 
-    std::cout << "tbl_JOIN_INNER_TD_4587_output #Row: " << tbl_JOIN_INNER_TD_4587_output.getNumRow() << std::endl;
+    std::cout << "tbl_JOIN_INNER_TD_4203_output #Row: " << tbl_JOIN_INNER_TD_4203_output.getNumRow() << std::endl;
 }
 
-void SW_Project_TD_3545(Table &tbl_JOIN_INNER_TD_4587_output, Table &tbl_Project_TD_3545_output) {
+void SW_Project_TD_3198(Table &tbl_JOIN_INNER_TD_4203_output, Table &tbl_Project_TD_3198_output) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: Project
-    // Operation: ListBuffer(sum_sales#3913 AS psum#3895, sum_sales#3922 AS nsum#3896)
-    // Input: ListBuffer(i_category#240, i_brand#236, s_store_name#383, s_company_name#395, d_year#126, d_moy#128, avg_monthly_sales#3893, sum_sales#3892, sum_sales#3913, sum_sales#3922)
-    // Output: ListBuffer(i_category#240, i_brand#236, s_store_name#383, s_company_name#395, d_year#126, d_moy#128, avg_monthly_sales#3893, sum_sales#3892, psum#3895, nsum#3896)
-    int nrow1 = tbl_JOIN_INNER_TD_4587_output.getNumRow();
+    // Operation: ListBuffer(sum_sales#5287 AS psum#5269, sum_sales#5296 AS nsum#5270)
+    // Input: ListBuffer(i_category#240, i_brand#236, s_store_name#383, s_company_name#395, d_year#126, d_moy#128, avg_monthly_sales#5267, sum_sales#5266, sum_sales#5287, sum_sales#5296)
+    // Output: ListBuffer(i_category#240, i_brand#236, s_store_name#383, s_company_name#395, d_year#126, d_moy#128, avg_monthly_sales#5267, sum_sales#5266, psum#5269, nsum#5270)
+    int nrow1 = tbl_JOIN_INNER_TD_4203_output.getNumRow();
     for (int i = 0; i < nrow1; i++) {
-        std::array<char, TPCDS_READ_MAX + 1> _i_category240 = tbl_JOIN_INNER_TD_4587_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 0);
-        std::array<char, TPCDS_READ_MAX + 1> _i_brand236 = tbl_JOIN_INNER_TD_4587_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
-        std::array<char, TPCDS_READ_MAX + 1> _s_store_name383 = tbl_JOIN_INNER_TD_4587_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
-        std::array<char, TPCDS_READ_MAX + 1> _s_company_name395 = tbl_JOIN_INNER_TD_4587_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 3);
-        int32_t _d_year126 = tbl_JOIN_INNER_TD_4587_output.getInt32(i, 4);
-        int32_t _d_moy128 = tbl_JOIN_INNER_TD_4587_output.getInt32(i, 5);
-        int32_t _avg_monthly_sales3893 = tbl_JOIN_INNER_TD_4587_output.getInt32(i, 6);
-        int32_t _sum_sales3892 = tbl_JOIN_INNER_TD_4587_output.getInt32(i, 7);
-        int32_t _sum_sales3913 = tbl_JOIN_INNER_TD_4587_output.getInt32(i, 8);
-        int32_t _sum_sales3922 = tbl_JOIN_INNER_TD_4587_output.getInt32(i, 9);
-        int32_t _psum3895 = _sum_sales3913;
-        tbl_Project_TD_3545_output.setInt32(i, 8, _psum3895);
-        int32_t _nsum3896 = _sum_sales3922;
-        tbl_Project_TD_3545_output.setInt32(i, 9, _nsum3896);
-        tbl_Project_TD_3545_output.setcharN<char, TPCDS_READ_MAX + 1>(i, 0, _i_category240);
-        tbl_Project_TD_3545_output.setcharN<char, TPCDS_READ_MAX + 1>(i, 1, _i_brand236);
-        tbl_Project_TD_3545_output.setcharN<char, TPCDS_READ_MAX + 1>(i, 2, _s_store_name383);
-        tbl_Project_TD_3545_output.setcharN<char, TPCDS_READ_MAX + 1>(i, 3, _s_company_name395);
-        tbl_Project_TD_3545_output.setInt32(i, 4, _d_year126);
-        tbl_Project_TD_3545_output.setInt32(i, 5, _d_moy128);
-        tbl_Project_TD_3545_output.setInt32(i, 6, _avg_monthly_sales3893);
-        tbl_Project_TD_3545_output.setInt32(i, 7, _sum_sales3892);
+        std::array<char, TPCDS_READ_MAX + 1> _i_category240 = tbl_JOIN_INNER_TD_4203_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 0);
+        std::array<char, TPCDS_READ_MAX + 1> _i_brand236 = tbl_JOIN_INNER_TD_4203_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
+        std::array<char, TPCDS_READ_MAX + 1> _s_store_name383 = tbl_JOIN_INNER_TD_4203_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
+        std::array<char, TPCDS_READ_MAX + 1> _s_company_name395 = tbl_JOIN_INNER_TD_4203_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 3);
+        int32_t _d_year126 = tbl_JOIN_INNER_TD_4203_output.getInt32(i, 4);
+        int32_t _d_moy128 = tbl_JOIN_INNER_TD_4203_output.getInt32(i, 5);
+        int32_t _avg_monthly_sales5267 = tbl_JOIN_INNER_TD_4203_output.getInt32(i, 6);
+        int32_t _sum_sales5266 = tbl_JOIN_INNER_TD_4203_output.getInt32(i, 7);
+        int32_t _sum_sales5287 = tbl_JOIN_INNER_TD_4203_output.getInt32(i, 8);
+        int32_t _sum_sales5296 = tbl_JOIN_INNER_TD_4203_output.getInt32(i, 9);
+        int32_t _psum5269 = _sum_sales5287;
+        tbl_Project_TD_3198_output.setInt32(i, 8, _psum5269);
+        int32_t _nsum5270 = _sum_sales5296;
+        tbl_Project_TD_3198_output.setInt32(i, 9, _nsum5270);
+        tbl_Project_TD_3198_output.setcharN<char, TPCDS_READ_MAX + 1>(i, 0, _i_category240);
+        tbl_Project_TD_3198_output.setcharN<char, TPCDS_READ_MAX + 1>(i, 1, _i_brand236);
+        tbl_Project_TD_3198_output.setcharN<char, TPCDS_READ_MAX + 1>(i, 2, _s_store_name383);
+        tbl_Project_TD_3198_output.setcharN<char, TPCDS_READ_MAX + 1>(i, 3, _s_company_name395);
+        tbl_Project_TD_3198_output.setInt32(i, 4, _d_year126);
+        tbl_Project_TD_3198_output.setInt32(i, 5, _d_moy128);
+        tbl_Project_TD_3198_output.setInt32(i, 6, _avg_monthly_sales5267);
+        tbl_Project_TD_3198_output.setInt32(i, 7, _sum_sales5266);
     }
-    tbl_Project_TD_3545_output.setNumRow(nrow1);
-    std::cout << "tbl_Project_TD_3545_output #Row: " << tbl_Project_TD_3545_output.getNumRow() << std::endl;
+    tbl_Project_TD_3198_output.setNumRow(nrow1);
+    std::cout << "tbl_Project_TD_3198_output #Row: " << tbl_Project_TD_3198_output.getNumRow() << std::endl;
 }
 
-void SW_Sort_TD_2644(Table &tbl_Project_TD_3545_output, Table &tbl_Sort_TD_2644_output) {
+void SW_Sort_TD_2392(Table &tbl_Project_TD_3198_output, Table &tbl_Sort_TD_2392_output) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: Sort
-    // Operation: ListBuffer(CheckOverflow((promote_precision(cast(sum_sales#3892 as decimal(22,6))) - promote_precision(cast(avg_monthly_sales#3893 as decimal(22,6)))), DecimalType(22,6), true) ASC NULLS FIRST, s_store_name#383 ASC NULLS FIRST)
-    // Input: ListBuffer(i_category#240, i_brand#236, s_store_name#383, s_company_name#395, d_year#126, d_moy#128, avg_monthly_sales#3893, sum_sales#3892, psum#3895, nsum#3896)
-    // Output: ListBuffer(i_category#240, i_brand#236, s_store_name#383, s_company_name#395, d_year#126, d_moy#128, avg_monthly_sales#3893, sum_sales#3892, psum#3895, nsum#3896)
-    struct SW_Sort_TD_2644Row {
+    // Operation: ListBuffer(CheckOverflow((promote_precision(cast(sum_sales#5266 as decimal(22,6))) - promote_precision(cast(avg_monthly_sales#5267 as decimal(22,6)))), DecimalType(22,6), true) ASC NULLS FIRST, s_store_name#383 ASC NULLS FIRST)
+    // Input: ListBuffer(i_category#240, i_brand#236, s_store_name#383, s_company_name#395, d_year#126, d_moy#128, avg_monthly_sales#5267, sum_sales#5266, psum#5269, nsum#5270)
+    // Output: ListBuffer(i_category#240, i_brand#236, s_store_name#383, s_company_name#395, d_year#126, d_moy#128, avg_monthly_sales#5267, sum_sales#5266, psum#5269, nsum#5270)
+    struct SW_Sort_TD_2392Row {
         std::string _i_category240;
         std::string _i_brand236;
         std::string _s_store_name383;
         std::string _s_company_name395;
         int32_t _d_year126;
         int32_t _d_moy128;
-        int32_t _avg_monthly_sales3893;
-        int32_t _sum_sales3892;
-        int32_t _psum3895;
-        int32_t _nsum3896;
+        int32_t _avg_monthly_sales5267;
+        int32_t _sum_sales5266;
+        int32_t _psum5269;
+        int32_t _nsum5270;
     }; 
 
     struct {
-        bool operator()(const SW_Sort_TD_2644Row& a, const SW_Sort_TD_2644Row& b) const { return 
+        bool operator()(const SW_Sort_TD_2392Row& a, const SW_Sort_TD_2392Row& b) const { return 
  || 
  ((a._true == b._true) && (a._s_store_name383 < b._s_store_name383)); 
 }
-    }SW_Sort_TD_2644_order; 
+    }SW_Sort_TD_2392_order; 
 
-    int nrow1 = tbl_Project_TD_3545_output.getNumRow();
-    std::vector<SW_Sort_TD_2644Row> rows;
+    int nrow1 = tbl_Project_TD_3198_output.getNumRow();
+    std::vector<SW_Sort_TD_2392Row> rows;
     for (int i = 0; i < nrow1; i++) {
-        std::array<char, TPCDS_READ_MAX + 1> _i_category240 = tbl_Project_TD_3545_output.getcharN<char, TPCDS_READ_MAX +1>(i, 0);
-        std::array<char, TPCDS_READ_MAX + 1> _i_brand236 = tbl_Project_TD_3545_output.getcharN<char, TPCDS_READ_MAX +1>(i, 1);
-        std::array<char, TPCDS_READ_MAX + 1> _s_store_name383 = tbl_Project_TD_3545_output.getcharN<char, TPCDS_READ_MAX +1>(i, 2);
-        std::array<char, TPCDS_READ_MAX + 1> _s_company_name395 = tbl_Project_TD_3545_output.getcharN<char, TPCDS_READ_MAX +1>(i, 3);
-        int32_t _d_year126 = tbl_Project_TD_3545_output.getInt32(i, 4);
-        int32_t _d_moy128 = tbl_Project_TD_3545_output.getInt32(i, 5);
-        int32_t _avg_monthly_sales3893 = tbl_Project_TD_3545_output.getInt32(i, 6);
-        int32_t _sum_sales3892 = tbl_Project_TD_3545_output.getInt32(i, 7);
-        int32_t _psum3895 = tbl_Project_TD_3545_output.getInt32(i, 8);
-        int32_t _nsum3896 = tbl_Project_TD_3545_output.getInt32(i, 9);
-        SW_Sort_TD_2644Row t = {std::string(_i_category240.data()),std::string(_i_brand236.data()),std::string(_s_store_name383.data()),std::string(_s_company_name395.data()),_d_year126,_d_moy128,_avg_monthly_sales3893,_sum_sales3892,_psum3895,_nsum3896};
+        std::array<char, TPCDS_READ_MAX + 1> _i_category240 = tbl_Project_TD_3198_output.getcharN<char, TPCDS_READ_MAX +1>(i, 0);
+        std::array<char, TPCDS_READ_MAX + 1> _i_brand236 = tbl_Project_TD_3198_output.getcharN<char, TPCDS_READ_MAX +1>(i, 1);
+        std::array<char, TPCDS_READ_MAX + 1> _s_store_name383 = tbl_Project_TD_3198_output.getcharN<char, TPCDS_READ_MAX +1>(i, 2);
+        std::array<char, TPCDS_READ_MAX + 1> _s_company_name395 = tbl_Project_TD_3198_output.getcharN<char, TPCDS_READ_MAX +1>(i, 3);
+        int32_t _d_year126 = tbl_Project_TD_3198_output.getInt32(i, 4);
+        int32_t _d_moy128 = tbl_Project_TD_3198_output.getInt32(i, 5);
+        int32_t _avg_monthly_sales5267 = tbl_Project_TD_3198_output.getInt32(i, 6);
+        int32_t _sum_sales5266 = tbl_Project_TD_3198_output.getInt32(i, 7);
+        int32_t _psum5269 = tbl_Project_TD_3198_output.getInt32(i, 8);
+        int32_t _nsum5270 = tbl_Project_TD_3198_output.getInt32(i, 9);
+        SW_Sort_TD_2392Row t = {std::string(_i_category240.data()),std::string(_i_brand236.data()),std::string(_s_store_name383.data()),std::string(_s_company_name395.data()),_d_year126,_d_moy128,_avg_monthly_sales5267,_sum_sales5266,_psum5269,_nsum5270};
         rows.push_back(t);
     }
-    std::sort(rows.begin(), rows.end(), SW_Sort_TD_2644_order);
+    std::sort(rows.begin(), rows.end(), SW_Sort_TD_2392_order);
     int r = 0;
     for (auto& it : rows) {
         std::array<char, TPCDS_READ_MAX + 1> _i_category240{};
         memcpy(_i_category240.data(), (it._i_category240).data(), (it._i_category240).length());
-        tbl_Sort_TD_2644_output.setcharN<char, TPCDS_READ_MAX +1>(r, 0, _i_category240);
+        tbl_Sort_TD_2392_output.setcharN<char, TPCDS_READ_MAX +1>(r, 0, _i_category240);
         std::array<char, TPCDS_READ_MAX + 1> _i_brand236{};
         memcpy(_i_brand236.data(), (it._i_brand236).data(), (it._i_brand236).length());
-        tbl_Sort_TD_2644_output.setcharN<char, TPCDS_READ_MAX +1>(r, 1, _i_brand236);
+        tbl_Sort_TD_2392_output.setcharN<char, TPCDS_READ_MAX +1>(r, 1, _i_brand236);
         std::array<char, TPCDS_READ_MAX + 1> _s_store_name383{};
         memcpy(_s_store_name383.data(), (it._s_store_name383).data(), (it._s_store_name383).length());
-        tbl_Sort_TD_2644_output.setcharN<char, TPCDS_READ_MAX +1>(r, 2, _s_store_name383);
+        tbl_Sort_TD_2392_output.setcharN<char, TPCDS_READ_MAX +1>(r, 2, _s_store_name383);
         std::array<char, TPCDS_READ_MAX + 1> _s_company_name395{};
         memcpy(_s_company_name395.data(), (it._s_company_name395).data(), (it._s_company_name395).length());
-        tbl_Sort_TD_2644_output.setcharN<char, TPCDS_READ_MAX +1>(r, 3, _s_company_name395);
-        tbl_Sort_TD_2644_output.setInt32(r, 4, it._d_year126);
-        tbl_Sort_TD_2644_output.setInt32(r, 5, it._d_moy128);
-        tbl_Sort_TD_2644_output.setInt32(r, 6, it._avg_monthly_sales3893);
-        tbl_Sort_TD_2644_output.setInt32(r, 7, it._sum_sales3892);
-        tbl_Sort_TD_2644_output.setInt32(r, 8, it._psum3895);
-        tbl_Sort_TD_2644_output.setInt32(r, 9, it._nsum3896);
+        tbl_Sort_TD_2392_output.setcharN<char, TPCDS_READ_MAX +1>(r, 3, _s_company_name395);
+        tbl_Sort_TD_2392_output.setInt32(r, 4, it._d_year126);
+        tbl_Sort_TD_2392_output.setInt32(r, 5, it._d_moy128);
+        tbl_Sort_TD_2392_output.setInt32(r, 6, it._avg_monthly_sales5267);
+        tbl_Sort_TD_2392_output.setInt32(r, 7, it._sum_sales5266);
+        tbl_Sort_TD_2392_output.setInt32(r, 8, it._psum5269);
+        tbl_Sort_TD_2392_output.setInt32(r, 9, it._nsum5270);
         ++r;
     }
-    tbl_Sort_TD_2644_output.setNumRow(r);
-    std::cout << "tbl_Sort_TD_2644_output #Row: " << tbl_Sort_TD_2644_output.getNumRow() << std::endl;
+    tbl_Sort_TD_2392_output.setNumRow(r);
+    std::cout << "tbl_Sort_TD_2392_output #Row: " << tbl_Sort_TD_2392_output.getNumRow() << std::endl;
+}
+
+void SW_LocalLimit_TD_1604(Table &tbl_Sort_TD_2392_output, Table &tbl_LocalLimit_TD_1604_output) {
+    // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
+    // Supported operation: LocalLimit
+    // Operation: ListBuffer(locallimit)
+    // Input: ListBuffer(i_category#240, i_brand#236, s_store_name#383, s_company_name#395, d_year#126, d_moy#128, avg_monthly_sales#5267, sum_sales#5266, psum#5269, nsum#5270)
+    // Output: ListBuffer(i_category#240, i_brand#236, s_store_name#383, s_company_name#395, d_year#126, d_moy#128, avg_monthly_sales#5267, sum_sales#5266, psum#5269, nsum#5270)
+    int r = 0;
+    int nrow = 100;
+    for (int i = 0; i < nrow; i++) {
+        std::array<char, TPCDS_READ_MAX + 1> _i_category240_n = tbl_Sort_TD_2392_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 0);
+        tbl_LocalLimit_TD_1604_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 0, _i_category240_n);
+        std::array<char, TPCDS_READ_MAX + 1> _i_brand236_n = tbl_Sort_TD_2392_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
+        tbl_LocalLimit_TD_1604_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 1, _i_brand236_n);
+        std::array<char, TPCDS_READ_MAX + 1> _s_store_name383_n = tbl_Sort_TD_2392_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
+        tbl_LocalLimit_TD_1604_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 2, _s_store_name383_n);
+        std::array<char, TPCDS_READ_MAX + 1> _s_company_name395_n = tbl_Sort_TD_2392_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 3);
+        tbl_LocalLimit_TD_1604_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 3, _s_company_name395_n);
+        tbl_LocalLimit_TD_1604_output.setInt32(r, 4, tbl_Sort_TD_2392_output.getInt32(i, 4));
+        tbl_LocalLimit_TD_1604_output.setInt32(r, 5, tbl_Sort_TD_2392_output.getInt32(i, 5));
+        tbl_LocalLimit_TD_1604_output.setInt32(r, 6, tbl_Sort_TD_2392_output.getInt32(i, 6));
+        tbl_LocalLimit_TD_1604_output.setInt32(r, 7, tbl_Sort_TD_2392_output.getInt32(i, 7));
+        tbl_LocalLimit_TD_1604_output.setInt32(r, 8, tbl_Sort_TD_2392_output.getInt32(i, 8));
+        tbl_LocalLimit_TD_1604_output.setInt32(r, 9, tbl_Sort_TD_2392_output.getInt32(i, 9));
+        r++;
+    }
+    tbl_LocalLimit_TD_1604_output.setNumRow(r);
+    std::cout << "tbl_LocalLimit_TD_1604_output #Row: " << tbl_LocalLimit_TD_1604_output.getNumRow() << std::endl;
+}
+
+void SW_GlobalLimit_TD_0910(Table &tbl_LocalLimit_TD_1604_output, Table &tbl_GlobalLimit_TD_0910_output) {
+    // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
+    // Supported operation: GlobalLimit
+    // Operation: ListBuffer(globallimit)
+    // Input: ListBuffer(i_category#240, i_brand#236, s_store_name#383, s_company_name#395, d_year#126, d_moy#128, avg_monthly_sales#5267, sum_sales#5266, psum#5269, nsum#5270)
+    // Output: ListBuffer(i_category#240, i_brand#236, s_store_name#383, s_company_name#395, d_year#126, d_moy#128, avg_monthly_sales#5267, sum_sales#5266, psum#5269, nsum#5270)
+    int r = 0;
+    int nrow = 100;
+    for (int i = 0; i < nrow; i++) {
+        std::array<char, TPCDS_READ_MAX + 1> _i_category240_n = tbl_LocalLimit_TD_1604_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 0);
+        tbl_GlobalLimit_TD_0910_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 0, _i_category240_n);
+        std::array<char, TPCDS_READ_MAX + 1> _i_brand236_n = tbl_LocalLimit_TD_1604_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
+        tbl_GlobalLimit_TD_0910_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 1, _i_brand236_n);
+        std::array<char, TPCDS_READ_MAX + 1> _s_store_name383_n = tbl_LocalLimit_TD_1604_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
+        tbl_GlobalLimit_TD_0910_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 2, _s_store_name383_n);
+        std::array<char, TPCDS_READ_MAX + 1> _s_company_name395_n = tbl_LocalLimit_TD_1604_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 3);
+        tbl_GlobalLimit_TD_0910_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 3, _s_company_name395_n);
+        tbl_GlobalLimit_TD_0910_output.setInt32(r, 4, tbl_LocalLimit_TD_1604_output.getInt32(i, 4));
+        tbl_GlobalLimit_TD_0910_output.setInt32(r, 5, tbl_LocalLimit_TD_1604_output.getInt32(i, 5));
+        tbl_GlobalLimit_TD_0910_output.setInt32(r, 6, tbl_LocalLimit_TD_1604_output.getInt32(i, 6));
+        tbl_GlobalLimit_TD_0910_output.setInt32(r, 7, tbl_LocalLimit_TD_1604_output.getInt32(i, 7));
+        tbl_GlobalLimit_TD_0910_output.setInt32(r, 8, tbl_LocalLimit_TD_1604_output.getInt32(i, 8));
+        tbl_GlobalLimit_TD_0910_output.setInt32(r, 9, tbl_LocalLimit_TD_1604_output.getInt32(i, 9));
+        r++;
+    }
+    tbl_GlobalLimit_TD_0910_output.setNumRow(r);
+    std::cout << "tbl_GlobalLimit_TD_0910_output #Row: " << tbl_GlobalLimit_TD_0910_output.getNumRow() << std::endl;
 }
 

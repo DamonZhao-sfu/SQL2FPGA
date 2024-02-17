@@ -1,983 +1,983 @@
 #include <regex> 
 #include <stdint.h> 
 
-void SW_Filter_TD_2651(Table &tbl_SerializeFromObject_TD_3511_input, Table &tbl_Filter_TD_2651_output) {
+void SW_Filter_TD_2501(Table &tbl_SerializeFromObject_TD_3423_input, Table &tbl_Filter_TD_2501_output) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: Filter
-    // Operation: ListBuffer((isnotnull(ss_quantity#9737) AND ((ss_quantity#9737 >= 81) AND (ss_quantity#9737 <= 100))))
-    // Input: ListBuffer(ss_net_paid#9747, ss_quantity#9737)
-    // Output: ListBuffer(ss_net_paid#9747)
+    // Operation: ListBuffer((isnotnull(ss_quantity#9758) AND ((ss_quantity#9758 >= 81) AND (ss_quantity#9758 <= 100))))
+    // Input: ListBuffer(ss_net_paid#9768, ss_quantity#9758)
+    // Output: ListBuffer(ss_net_paid#9768)
     int r = 0;
-    int nrow1 = tbl_SerializeFromObject_TD_3511_input.getNumRow();
+    int nrow1 = tbl_SerializeFromObject_TD_3423_input.getNumRow();
     for (int i = 0; i < nrow1; i++) {
-        int32_t _ss_quantity9737 = tbl_SerializeFromObject_TD_3511_input.getInt32(i, 1);
-        if ((1) && ((_ss_quantity9737 >= 81) && (_ss_quantity9737 <= 100))) {
-            int32_t _ss_net_paid9747_t = tbl_SerializeFromObject_TD_3511_input.getInt32(i, 0);
-            tbl_Filter_TD_2651_output.setInt32(r, 0, _ss_net_paid9747_t);
+        int32_t _ss_quantity9758 = tbl_SerializeFromObject_TD_3423_input.getInt32(i, 1);
+        if ((_ss_quantity9758!= 0) && ((_ss_quantity9758 >= 81) && (_ss_quantity9758 <= 100))) {
+            int32_t _ss_net_paid9768_t = tbl_SerializeFromObject_TD_3423_input.getInt32(i, 0);
+            tbl_Filter_TD_2501_output.setInt32(r, 0, _ss_net_paid9768_t);
             r++;
         }
     }
-    tbl_Filter_TD_2651_output.setNumRow(r);
-    std::cout << "tbl_Filter_TD_2651_output #Row: " << tbl_Filter_TD_2651_output.getNumRow() << std::endl;
+    tbl_Filter_TD_2501_output.setNumRow(r);
+    std::cout << "tbl_Filter_TD_2501_output #Row: " << tbl_Filter_TD_2501_output.getNumRow() << std::endl;
 }
 
-void SW_Filter_TD_2962(Table &tbl_SerializeFromObject_TD_3208_input, Table &tbl_Filter_TD_2962_output) {
+void SW_Filter_TD_2983(Table &tbl_SerializeFromObject_TD_3117_input, Table &tbl_Filter_TD_2983_output) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: Filter
-    // Operation: ListBuffer((isnotnull(ss_quantity#9714) AND ((ss_quantity#9714 >= 81) AND (ss_quantity#9714 <= 100))))
-    // Input: ListBuffer(ss_ext_discount_amt#9718, ss_quantity#9714)
-    // Output: ListBuffer(ss_ext_discount_amt#9718)
+    // Operation: ListBuffer((isnotnull(ss_quantity#9735) AND ((ss_quantity#9735 >= 81) AND (ss_quantity#9735 <= 100))))
+    // Input: ListBuffer(ss_ext_discount_amt#9739, ss_quantity#9735)
+    // Output: ListBuffer(ss_ext_discount_amt#9739)
     int r = 0;
-    int nrow1 = tbl_SerializeFromObject_TD_3208_input.getNumRow();
+    int nrow1 = tbl_SerializeFromObject_TD_3117_input.getNumRow();
     for (int i = 0; i < nrow1; i++) {
-        int32_t _ss_quantity9714 = tbl_SerializeFromObject_TD_3208_input.getInt32(i, 1);
-        if ((1) && ((_ss_quantity9714 >= 81) && (_ss_quantity9714 <= 100))) {
-            int32_t _ss_ext_discount_amt9718_t = tbl_SerializeFromObject_TD_3208_input.getInt32(i, 0);
-            tbl_Filter_TD_2962_output.setInt32(r, 0, _ss_ext_discount_amt9718_t);
+        int32_t _ss_quantity9735 = tbl_SerializeFromObject_TD_3117_input.getInt32(i, 1);
+        if ((_ss_quantity9735!= 0) && ((_ss_quantity9735 >= 81) && (_ss_quantity9735 <= 100))) {
+            int32_t _ss_ext_discount_amt9739_t = tbl_SerializeFromObject_TD_3117_input.getInt32(i, 0);
+            tbl_Filter_TD_2983_output.setInt32(r, 0, _ss_ext_discount_amt9739_t);
             r++;
         }
     }
-    tbl_Filter_TD_2962_output.setNumRow(r);
-    std::cout << "tbl_Filter_TD_2962_output #Row: " << tbl_Filter_TD_2962_output.getNumRow() << std::endl;
+    tbl_Filter_TD_2983_output.setNumRow(r);
+    std::cout << "tbl_Filter_TD_2983_output #Row: " << tbl_Filter_TD_2983_output.getNumRow() << std::endl;
 }
 
-void SW_Filter_TD_2642(Table &tbl_SerializeFromObject_TD_3170_input, Table &tbl_Filter_TD_2642_output) {
+void SW_Filter_TD_2501(Table &tbl_SerializeFromObject_TD_328_input, Table &tbl_Filter_TD_2501_output) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: Filter
-    // Operation: ListBuffer((isnotnull(ss_quantity#9691) AND ((ss_quantity#9691 >= 81) AND (ss_quantity#9691 <= 100))))
-    // Input: ListBuffer(ss_sold_date_sk#9681, ss_sold_time_sk#9682, ss_item_sk#9683, ss_customer_sk#9684, ss_cdemo_sk#9685, ss_hdemo_sk#9686, ss_addr_sk#9687, ss_store_sk#9688, ss_promo_sk#9689, ss_ticket_number#9690L, ss_quantity#9691, ss_wholesale_cost#9692, ss_list_price#9693, ss_sales_price#9694, ss_ext_discount_amt#9695, ss_ext_sales_price#9696, ss_ext_wholesale_cost#9697, ss_ext_list_price#9698, ss_ext_tax#9699, ss_coupon_amt#9700, ss_net_paid#9701, ss_net_paid_inc_tax#9702, ss_net_profit#9703)
-    // Output: ListBuffer(ss_sold_date_sk#9681, ss_sold_time_sk#9682, ss_item_sk#9683, ss_customer_sk#9684, ss_cdemo_sk#9685, ss_hdemo_sk#9686, ss_addr_sk#9687, ss_store_sk#9688, ss_promo_sk#9689, ss_ticket_number#9690L, ss_quantity#9691, ss_wholesale_cost#9692, ss_list_price#9693, ss_sales_price#9694, ss_ext_discount_amt#9695, ss_ext_sales_price#9696, ss_ext_wholesale_cost#9697, ss_ext_list_price#9698, ss_ext_tax#9699, ss_coupon_amt#9700, ss_net_paid#9701, ss_net_paid_inc_tax#9702, ss_net_profit#9703)
+    // Operation: ListBuffer((isnotnull(ss_quantity#9712) AND ((ss_quantity#9712 >= 81) AND (ss_quantity#9712 <= 100))))
+    // Input: ListBuffer(ss_sold_date_sk#9702, ss_sold_time_sk#9703, ss_item_sk#9704, ss_customer_sk#9705, ss_cdemo_sk#9706, ss_hdemo_sk#9707, ss_addr_sk#9708, ss_store_sk#9709, ss_promo_sk#9710, ss_ticket_number#9711L, ss_quantity#9712, ss_wholesale_cost#9713, ss_list_price#9714, ss_sales_price#9715, ss_ext_discount_amt#9716, ss_ext_sales_price#9717, ss_ext_wholesale_cost#9718, ss_ext_list_price#9719, ss_ext_tax#9720, ss_coupon_amt#9721, ss_net_paid#9722, ss_net_paid_inc_tax#9723, ss_net_profit#9724)
+    // Output: ListBuffer(ss_sold_date_sk#9702, ss_sold_time_sk#9703, ss_item_sk#9704, ss_customer_sk#9705, ss_cdemo_sk#9706, ss_hdemo_sk#9707, ss_addr_sk#9708, ss_store_sk#9709, ss_promo_sk#9710, ss_ticket_number#9711L, ss_quantity#9712, ss_wholesale_cost#9713, ss_list_price#9714, ss_sales_price#9715, ss_ext_discount_amt#9716, ss_ext_sales_price#9717, ss_ext_wholesale_cost#9718, ss_ext_list_price#9719, ss_ext_tax#9720, ss_coupon_amt#9721, ss_net_paid#9722, ss_net_paid_inc_tax#9723, ss_net_profit#9724)
     int r = 0;
-    int nrow1 = tbl_SerializeFromObject_TD_3170_input.getNumRow();
+    int nrow1 = tbl_SerializeFromObject_TD_328_input.getNumRow();
     for (int i = 0; i < nrow1; i++) {
-        int32_t _ss_quantity9691 = tbl_SerializeFromObject_TD_3170_input.getInt32(i, 10);
-        if ((1) && ((_ss_quantity9691 >= 81) && (_ss_quantity9691 <= 100))) {
-            int32_t _ss_sold_date_sk9681_t = tbl_SerializeFromObject_TD_3170_input.getInt32(i, 0);
-            tbl_Filter_TD_2642_output.setInt32(r, 0, _ss_sold_date_sk9681_t);
-            int32_t _ss_sold_time_sk9682_t = tbl_SerializeFromObject_TD_3170_input.getInt32(i, 1);
-            tbl_Filter_TD_2642_output.setInt32(r, 1, _ss_sold_time_sk9682_t);
-            int32_t _ss_item_sk9683_t = tbl_SerializeFromObject_TD_3170_input.getInt32(i, 2);
-            tbl_Filter_TD_2642_output.setInt32(r, 2, _ss_item_sk9683_t);
-            int32_t _ss_customer_sk9684_t = tbl_SerializeFromObject_TD_3170_input.getInt32(i, 3);
-            tbl_Filter_TD_2642_output.setInt32(r, 3, _ss_customer_sk9684_t);
-            int32_t _ss_cdemo_sk9685_t = tbl_SerializeFromObject_TD_3170_input.getInt32(i, 4);
-            tbl_Filter_TD_2642_output.setInt32(r, 4, _ss_cdemo_sk9685_t);
-            int32_t _ss_hdemo_sk9686_t = tbl_SerializeFromObject_TD_3170_input.getInt32(i, 5);
-            tbl_Filter_TD_2642_output.setInt32(r, 5, _ss_hdemo_sk9686_t);
-            int32_t _ss_addr_sk9687_t = tbl_SerializeFromObject_TD_3170_input.getInt32(i, 6);
-            tbl_Filter_TD_2642_output.setInt32(r, 6, _ss_addr_sk9687_t);
-            int32_t _ss_store_sk9688_t = tbl_SerializeFromObject_TD_3170_input.getInt32(i, 7);
-            tbl_Filter_TD_2642_output.setInt32(r, 7, _ss_store_sk9688_t);
-            int32_t _ss_promo_sk9689_t = tbl_SerializeFromObject_TD_3170_input.getInt32(i, 8);
-            tbl_Filter_TD_2642_output.setInt32(r, 8, _ss_promo_sk9689_t);
-            int64_t _ss_ticket_number9690L_t = tbl_SerializeFromObject_TD_3170_input.getInt64(i, 9);
-            tbl_Filter_TD_2642_output.setInt64(r, 9, _ss_ticket_number9690L_t);
-            int32_t _ss_quantity9691_t = tbl_SerializeFromObject_TD_3170_input.getInt32(i, 10);
-            tbl_Filter_TD_2642_output.setInt32(r, 10, _ss_quantity9691_t);
-            int32_t _ss_wholesale_cost9692_t = tbl_SerializeFromObject_TD_3170_input.getInt32(i, 11);
-            tbl_Filter_TD_2642_output.setInt32(r, 11, _ss_wholesale_cost9692_t);
-            int32_t _ss_list_price9693_t = tbl_SerializeFromObject_TD_3170_input.getInt32(i, 12);
-            tbl_Filter_TD_2642_output.setInt32(r, 12, _ss_list_price9693_t);
-            int32_t _ss_sales_price9694_t = tbl_SerializeFromObject_TD_3170_input.getInt32(i, 13);
-            tbl_Filter_TD_2642_output.setInt32(r, 13, _ss_sales_price9694_t);
-            int32_t _ss_ext_discount_amt9695_t = tbl_SerializeFromObject_TD_3170_input.getInt32(i, 14);
-            tbl_Filter_TD_2642_output.setInt32(r, 14, _ss_ext_discount_amt9695_t);
-            int32_t _ss_ext_sales_price9696_t = tbl_SerializeFromObject_TD_3170_input.getInt32(i, 15);
-            tbl_Filter_TD_2642_output.setInt32(r, 15, _ss_ext_sales_price9696_t);
-            int32_t _ss_ext_wholesale_cost9697_t = tbl_SerializeFromObject_TD_3170_input.getInt32(i, 16);
-            tbl_Filter_TD_2642_output.setInt32(r, 16, _ss_ext_wholesale_cost9697_t);
-            int32_t _ss_ext_list_price9698_t = tbl_SerializeFromObject_TD_3170_input.getInt32(i, 17);
-            tbl_Filter_TD_2642_output.setInt32(r, 17, _ss_ext_list_price9698_t);
-            int32_t _ss_ext_tax9699_t = tbl_SerializeFromObject_TD_3170_input.getInt32(i, 18);
-            tbl_Filter_TD_2642_output.setInt32(r, 18, _ss_ext_tax9699_t);
-            int32_t _ss_coupon_amt9700_t = tbl_SerializeFromObject_TD_3170_input.getInt32(i, 19);
-            tbl_Filter_TD_2642_output.setInt32(r, 19, _ss_coupon_amt9700_t);
-            int32_t _ss_net_paid9701_t = tbl_SerializeFromObject_TD_3170_input.getInt32(i, 20);
-            tbl_Filter_TD_2642_output.setInt32(r, 20, _ss_net_paid9701_t);
-            int32_t _ss_net_paid_inc_tax9702_t = tbl_SerializeFromObject_TD_3170_input.getInt32(i, 21);
-            tbl_Filter_TD_2642_output.setInt32(r, 21, _ss_net_paid_inc_tax9702_t);
-            int32_t _ss_net_profit9703_t = tbl_SerializeFromObject_TD_3170_input.getInt32(i, 22);
-            tbl_Filter_TD_2642_output.setInt32(r, 22, _ss_net_profit9703_t);
+        int32_t _ss_quantity9712 = tbl_SerializeFromObject_TD_328_input.getInt32(i, 10);
+        if ((_ss_quantity9712!= 0) && ((_ss_quantity9712 >= 81) && (_ss_quantity9712 <= 100))) {
+            int32_t _ss_sold_date_sk9702_t = tbl_SerializeFromObject_TD_328_input.getInt32(i, 0);
+            tbl_Filter_TD_2501_output.setInt32(r, 0, _ss_sold_date_sk9702_t);
+            int32_t _ss_sold_time_sk9703_t = tbl_SerializeFromObject_TD_328_input.getInt32(i, 1);
+            tbl_Filter_TD_2501_output.setInt32(r, 1, _ss_sold_time_sk9703_t);
+            int32_t _ss_item_sk9704_t = tbl_SerializeFromObject_TD_328_input.getInt32(i, 2);
+            tbl_Filter_TD_2501_output.setInt32(r, 2, _ss_item_sk9704_t);
+            int32_t _ss_customer_sk9705_t = tbl_SerializeFromObject_TD_328_input.getInt32(i, 3);
+            tbl_Filter_TD_2501_output.setInt32(r, 3, _ss_customer_sk9705_t);
+            int32_t _ss_cdemo_sk9706_t = tbl_SerializeFromObject_TD_328_input.getInt32(i, 4);
+            tbl_Filter_TD_2501_output.setInt32(r, 4, _ss_cdemo_sk9706_t);
+            int32_t _ss_hdemo_sk9707_t = tbl_SerializeFromObject_TD_328_input.getInt32(i, 5);
+            tbl_Filter_TD_2501_output.setInt32(r, 5, _ss_hdemo_sk9707_t);
+            int32_t _ss_addr_sk9708_t = tbl_SerializeFromObject_TD_328_input.getInt32(i, 6);
+            tbl_Filter_TD_2501_output.setInt32(r, 6, _ss_addr_sk9708_t);
+            int32_t _ss_store_sk9709_t = tbl_SerializeFromObject_TD_328_input.getInt32(i, 7);
+            tbl_Filter_TD_2501_output.setInt32(r, 7, _ss_store_sk9709_t);
+            int32_t _ss_promo_sk9710_t = tbl_SerializeFromObject_TD_328_input.getInt32(i, 8);
+            tbl_Filter_TD_2501_output.setInt32(r, 8, _ss_promo_sk9710_t);
+            int64_t _ss_ticket_number9711L_t = tbl_SerializeFromObject_TD_328_input.getInt64(i, 9);
+            tbl_Filter_TD_2501_output.setInt64(r, 9, _ss_ticket_number9711L_t);
+            int32_t _ss_quantity9712_t = tbl_SerializeFromObject_TD_328_input.getInt32(i, 10);
+            tbl_Filter_TD_2501_output.setInt32(r, 10, _ss_quantity9712_t);
+            int32_t _ss_wholesale_cost9713_t = tbl_SerializeFromObject_TD_328_input.getInt32(i, 11);
+            tbl_Filter_TD_2501_output.setInt32(r, 11, _ss_wholesale_cost9713_t);
+            int32_t _ss_list_price9714_t = tbl_SerializeFromObject_TD_328_input.getInt32(i, 12);
+            tbl_Filter_TD_2501_output.setInt32(r, 12, _ss_list_price9714_t);
+            int32_t _ss_sales_price9715_t = tbl_SerializeFromObject_TD_328_input.getInt32(i, 13);
+            tbl_Filter_TD_2501_output.setInt32(r, 13, _ss_sales_price9715_t);
+            int32_t _ss_ext_discount_amt9716_t = tbl_SerializeFromObject_TD_328_input.getInt32(i, 14);
+            tbl_Filter_TD_2501_output.setInt32(r, 14, _ss_ext_discount_amt9716_t);
+            int32_t _ss_ext_sales_price9717_t = tbl_SerializeFromObject_TD_328_input.getInt32(i, 15);
+            tbl_Filter_TD_2501_output.setInt32(r, 15, _ss_ext_sales_price9717_t);
+            int32_t _ss_ext_wholesale_cost9718_t = tbl_SerializeFromObject_TD_328_input.getInt32(i, 16);
+            tbl_Filter_TD_2501_output.setInt32(r, 16, _ss_ext_wholesale_cost9718_t);
+            int32_t _ss_ext_list_price9719_t = tbl_SerializeFromObject_TD_328_input.getInt32(i, 17);
+            tbl_Filter_TD_2501_output.setInt32(r, 17, _ss_ext_list_price9719_t);
+            int32_t _ss_ext_tax9720_t = tbl_SerializeFromObject_TD_328_input.getInt32(i, 18);
+            tbl_Filter_TD_2501_output.setInt32(r, 18, _ss_ext_tax9720_t);
+            int32_t _ss_coupon_amt9721_t = tbl_SerializeFromObject_TD_328_input.getInt32(i, 19);
+            tbl_Filter_TD_2501_output.setInt32(r, 19, _ss_coupon_amt9721_t);
+            int32_t _ss_net_paid9722_t = tbl_SerializeFromObject_TD_328_input.getInt32(i, 20);
+            tbl_Filter_TD_2501_output.setInt32(r, 20, _ss_net_paid9722_t);
+            int32_t _ss_net_paid_inc_tax9723_t = tbl_SerializeFromObject_TD_328_input.getInt32(i, 21);
+            tbl_Filter_TD_2501_output.setInt32(r, 21, _ss_net_paid_inc_tax9723_t);
+            int32_t _ss_net_profit9724_t = tbl_SerializeFromObject_TD_328_input.getInt32(i, 22);
+            tbl_Filter_TD_2501_output.setInt32(r, 22, _ss_net_profit9724_t);
             r++;
         }
     }
-    tbl_Filter_TD_2642_output.setNumRow(r);
-    std::cout << "tbl_Filter_TD_2642_output #Row: " << tbl_Filter_TD_2642_output.getNumRow() << std::endl;
+    tbl_Filter_TD_2501_output.setNumRow(r);
+    std::cout << "tbl_Filter_TD_2501_output #Row: " << tbl_Filter_TD_2501_output.getNumRow() << std::endl;
 }
 
-void SW_Filter_TD_2613(Table &tbl_SerializeFromObject_TD_3257_input, Table &tbl_Filter_TD_2613_output) {
+void SW_Filter_TD_2430(Table &tbl_SerializeFromObject_TD_3333_input, Table &tbl_Filter_TD_2430_output) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: Filter
-    // Operation: ListBuffer((isnotnull(ss_quantity#9668) AND ((ss_quantity#9668 >= 61) AND (ss_quantity#9668 <= 80))))
-    // Input: ListBuffer(ss_net_paid#9678, ss_quantity#9668)
-    // Output: ListBuffer(ss_net_paid#9678)
+    // Operation: ListBuffer((isnotnull(ss_quantity#9689) AND ((ss_quantity#9689 >= 61) AND (ss_quantity#9689 <= 80))))
+    // Input: ListBuffer(ss_net_paid#9699, ss_quantity#9689)
+    // Output: ListBuffer(ss_net_paid#9699)
     int r = 0;
-    int nrow1 = tbl_SerializeFromObject_TD_3257_input.getNumRow();
+    int nrow1 = tbl_SerializeFromObject_TD_3333_input.getNumRow();
     for (int i = 0; i < nrow1; i++) {
-        int32_t _ss_quantity9668 = tbl_SerializeFromObject_TD_3257_input.getInt32(i, 1);
-        if ((1) && ((_ss_quantity9668 >= 61) && (_ss_quantity9668 <= 80))) {
-            int32_t _ss_net_paid9678_t = tbl_SerializeFromObject_TD_3257_input.getInt32(i, 0);
-            tbl_Filter_TD_2613_output.setInt32(r, 0, _ss_net_paid9678_t);
+        int32_t _ss_quantity9689 = tbl_SerializeFromObject_TD_3333_input.getInt32(i, 1);
+        if ((_ss_quantity9689!= 0) && ((_ss_quantity9689 >= 61) && (_ss_quantity9689 <= 80))) {
+            int32_t _ss_net_paid9699_t = tbl_SerializeFromObject_TD_3333_input.getInt32(i, 0);
+            tbl_Filter_TD_2430_output.setInt32(r, 0, _ss_net_paid9699_t);
             r++;
         }
     }
-    tbl_Filter_TD_2613_output.setNumRow(r);
-    std::cout << "tbl_Filter_TD_2613_output #Row: " << tbl_Filter_TD_2613_output.getNumRow() << std::endl;
+    tbl_Filter_TD_2430_output.setNumRow(r);
+    std::cout << "tbl_Filter_TD_2430_output #Row: " << tbl_Filter_TD_2430_output.getNumRow() << std::endl;
 }
 
-void SW_Filter_TD_225(Table &tbl_SerializeFromObject_TD_389_input, Table &tbl_Filter_TD_225_output) {
+void SW_Filter_TD_2662(Table &tbl_SerializeFromObject_TD_3545_input, Table &tbl_Filter_TD_2662_output) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: Filter
-    // Operation: ListBuffer((isnotnull(ss_quantity#9645) AND ((ss_quantity#9645 >= 61) AND (ss_quantity#9645 <= 80))))
-    // Input: ListBuffer(ss_ext_discount_amt#9649, ss_quantity#9645)
-    // Output: ListBuffer(ss_ext_discount_amt#9649)
+    // Operation: ListBuffer((isnotnull(ss_quantity#9666) AND ((ss_quantity#9666 >= 61) AND (ss_quantity#9666 <= 80))))
+    // Input: ListBuffer(ss_ext_discount_amt#9670, ss_quantity#9666)
+    // Output: ListBuffer(ss_ext_discount_amt#9670)
     int r = 0;
-    int nrow1 = tbl_SerializeFromObject_TD_389_input.getNumRow();
+    int nrow1 = tbl_SerializeFromObject_TD_3545_input.getNumRow();
     for (int i = 0; i < nrow1; i++) {
-        int32_t _ss_quantity9645 = tbl_SerializeFromObject_TD_389_input.getInt32(i, 1);
-        if ((1) && ((_ss_quantity9645 >= 61) && (_ss_quantity9645 <= 80))) {
-            int32_t _ss_ext_discount_amt9649_t = tbl_SerializeFromObject_TD_389_input.getInt32(i, 0);
-            tbl_Filter_TD_225_output.setInt32(r, 0, _ss_ext_discount_amt9649_t);
+        int32_t _ss_quantity9666 = tbl_SerializeFromObject_TD_3545_input.getInt32(i, 1);
+        if ((_ss_quantity9666!= 0) && ((_ss_quantity9666 >= 61) && (_ss_quantity9666 <= 80))) {
+            int32_t _ss_ext_discount_amt9670_t = tbl_SerializeFromObject_TD_3545_input.getInt32(i, 0);
+            tbl_Filter_TD_2662_output.setInt32(r, 0, _ss_ext_discount_amt9670_t);
             r++;
         }
     }
-    tbl_Filter_TD_225_output.setNumRow(r);
-    std::cout << "tbl_Filter_TD_225_output #Row: " << tbl_Filter_TD_225_output.getNumRow() << std::endl;
+    tbl_Filter_TD_2662_output.setNumRow(r);
+    std::cout << "tbl_Filter_TD_2662_output #Row: " << tbl_Filter_TD_2662_output.getNumRow() << std::endl;
 }
 
-void SW_Filter_TD_2396(Table &tbl_SerializeFromObject_TD_361_input, Table &tbl_Filter_TD_2396_output) {
+void SW_Filter_TD_2269(Table &tbl_SerializeFromObject_TD_3396_input, Table &tbl_Filter_TD_2269_output) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: Filter
-    // Operation: ListBuffer((isnotnull(ss_quantity#9622) AND ((ss_quantity#9622 >= 61) AND (ss_quantity#9622 <= 80))))
-    // Input: ListBuffer(ss_sold_date_sk#9612, ss_sold_time_sk#9613, ss_item_sk#9614, ss_customer_sk#9615, ss_cdemo_sk#9616, ss_hdemo_sk#9617, ss_addr_sk#9618, ss_store_sk#9619, ss_promo_sk#9620, ss_ticket_number#9621L, ss_quantity#9622, ss_wholesale_cost#9623, ss_list_price#9624, ss_sales_price#9625, ss_ext_discount_amt#9626, ss_ext_sales_price#9627, ss_ext_wholesale_cost#9628, ss_ext_list_price#9629, ss_ext_tax#9630, ss_coupon_amt#9631, ss_net_paid#9632, ss_net_paid_inc_tax#9633, ss_net_profit#9634)
-    // Output: ListBuffer(ss_sold_date_sk#9612, ss_sold_time_sk#9613, ss_item_sk#9614, ss_customer_sk#9615, ss_cdemo_sk#9616, ss_hdemo_sk#9617, ss_addr_sk#9618, ss_store_sk#9619, ss_promo_sk#9620, ss_ticket_number#9621L, ss_quantity#9622, ss_wholesale_cost#9623, ss_list_price#9624, ss_sales_price#9625, ss_ext_discount_amt#9626, ss_ext_sales_price#9627, ss_ext_wholesale_cost#9628, ss_ext_list_price#9629, ss_ext_tax#9630, ss_coupon_amt#9631, ss_net_paid#9632, ss_net_paid_inc_tax#9633, ss_net_profit#9634)
+    // Operation: ListBuffer((isnotnull(ss_quantity#9643) AND ((ss_quantity#9643 >= 61) AND (ss_quantity#9643 <= 80))))
+    // Input: ListBuffer(ss_sold_date_sk#9633, ss_sold_time_sk#9634, ss_item_sk#9635, ss_customer_sk#9636, ss_cdemo_sk#9637, ss_hdemo_sk#9638, ss_addr_sk#9639, ss_store_sk#9640, ss_promo_sk#9641, ss_ticket_number#9642L, ss_quantity#9643, ss_wholesale_cost#9644, ss_list_price#9645, ss_sales_price#9646, ss_ext_discount_amt#9647, ss_ext_sales_price#9648, ss_ext_wholesale_cost#9649, ss_ext_list_price#9650, ss_ext_tax#9651, ss_coupon_amt#9652, ss_net_paid#9653, ss_net_paid_inc_tax#9654, ss_net_profit#9655)
+    // Output: ListBuffer(ss_sold_date_sk#9633, ss_sold_time_sk#9634, ss_item_sk#9635, ss_customer_sk#9636, ss_cdemo_sk#9637, ss_hdemo_sk#9638, ss_addr_sk#9639, ss_store_sk#9640, ss_promo_sk#9641, ss_ticket_number#9642L, ss_quantity#9643, ss_wholesale_cost#9644, ss_list_price#9645, ss_sales_price#9646, ss_ext_discount_amt#9647, ss_ext_sales_price#9648, ss_ext_wholesale_cost#9649, ss_ext_list_price#9650, ss_ext_tax#9651, ss_coupon_amt#9652, ss_net_paid#9653, ss_net_paid_inc_tax#9654, ss_net_profit#9655)
     int r = 0;
-    int nrow1 = tbl_SerializeFromObject_TD_361_input.getNumRow();
+    int nrow1 = tbl_SerializeFromObject_TD_3396_input.getNumRow();
     for (int i = 0; i < nrow1; i++) {
-        int32_t _ss_quantity9622 = tbl_SerializeFromObject_TD_361_input.getInt32(i, 10);
-        if ((1) && ((_ss_quantity9622 >= 61) && (_ss_quantity9622 <= 80))) {
-            int32_t _ss_sold_date_sk9612_t = tbl_SerializeFromObject_TD_361_input.getInt32(i, 0);
-            tbl_Filter_TD_2396_output.setInt32(r, 0, _ss_sold_date_sk9612_t);
-            int32_t _ss_sold_time_sk9613_t = tbl_SerializeFromObject_TD_361_input.getInt32(i, 1);
-            tbl_Filter_TD_2396_output.setInt32(r, 1, _ss_sold_time_sk9613_t);
-            int32_t _ss_item_sk9614_t = tbl_SerializeFromObject_TD_361_input.getInt32(i, 2);
-            tbl_Filter_TD_2396_output.setInt32(r, 2, _ss_item_sk9614_t);
-            int32_t _ss_customer_sk9615_t = tbl_SerializeFromObject_TD_361_input.getInt32(i, 3);
-            tbl_Filter_TD_2396_output.setInt32(r, 3, _ss_customer_sk9615_t);
-            int32_t _ss_cdemo_sk9616_t = tbl_SerializeFromObject_TD_361_input.getInt32(i, 4);
-            tbl_Filter_TD_2396_output.setInt32(r, 4, _ss_cdemo_sk9616_t);
-            int32_t _ss_hdemo_sk9617_t = tbl_SerializeFromObject_TD_361_input.getInt32(i, 5);
-            tbl_Filter_TD_2396_output.setInt32(r, 5, _ss_hdemo_sk9617_t);
-            int32_t _ss_addr_sk9618_t = tbl_SerializeFromObject_TD_361_input.getInt32(i, 6);
-            tbl_Filter_TD_2396_output.setInt32(r, 6, _ss_addr_sk9618_t);
-            int32_t _ss_store_sk9619_t = tbl_SerializeFromObject_TD_361_input.getInt32(i, 7);
-            tbl_Filter_TD_2396_output.setInt32(r, 7, _ss_store_sk9619_t);
-            int32_t _ss_promo_sk9620_t = tbl_SerializeFromObject_TD_361_input.getInt32(i, 8);
-            tbl_Filter_TD_2396_output.setInt32(r, 8, _ss_promo_sk9620_t);
-            int64_t _ss_ticket_number9621L_t = tbl_SerializeFromObject_TD_361_input.getInt64(i, 9);
-            tbl_Filter_TD_2396_output.setInt64(r, 9, _ss_ticket_number9621L_t);
-            int32_t _ss_quantity9622_t = tbl_SerializeFromObject_TD_361_input.getInt32(i, 10);
-            tbl_Filter_TD_2396_output.setInt32(r, 10, _ss_quantity9622_t);
-            int32_t _ss_wholesale_cost9623_t = tbl_SerializeFromObject_TD_361_input.getInt32(i, 11);
-            tbl_Filter_TD_2396_output.setInt32(r, 11, _ss_wholesale_cost9623_t);
-            int32_t _ss_list_price9624_t = tbl_SerializeFromObject_TD_361_input.getInt32(i, 12);
-            tbl_Filter_TD_2396_output.setInt32(r, 12, _ss_list_price9624_t);
-            int32_t _ss_sales_price9625_t = tbl_SerializeFromObject_TD_361_input.getInt32(i, 13);
-            tbl_Filter_TD_2396_output.setInt32(r, 13, _ss_sales_price9625_t);
-            int32_t _ss_ext_discount_amt9626_t = tbl_SerializeFromObject_TD_361_input.getInt32(i, 14);
-            tbl_Filter_TD_2396_output.setInt32(r, 14, _ss_ext_discount_amt9626_t);
-            int32_t _ss_ext_sales_price9627_t = tbl_SerializeFromObject_TD_361_input.getInt32(i, 15);
-            tbl_Filter_TD_2396_output.setInt32(r, 15, _ss_ext_sales_price9627_t);
-            int32_t _ss_ext_wholesale_cost9628_t = tbl_SerializeFromObject_TD_361_input.getInt32(i, 16);
-            tbl_Filter_TD_2396_output.setInt32(r, 16, _ss_ext_wholesale_cost9628_t);
-            int32_t _ss_ext_list_price9629_t = tbl_SerializeFromObject_TD_361_input.getInt32(i, 17);
-            tbl_Filter_TD_2396_output.setInt32(r, 17, _ss_ext_list_price9629_t);
-            int32_t _ss_ext_tax9630_t = tbl_SerializeFromObject_TD_361_input.getInt32(i, 18);
-            tbl_Filter_TD_2396_output.setInt32(r, 18, _ss_ext_tax9630_t);
-            int32_t _ss_coupon_amt9631_t = tbl_SerializeFromObject_TD_361_input.getInt32(i, 19);
-            tbl_Filter_TD_2396_output.setInt32(r, 19, _ss_coupon_amt9631_t);
-            int32_t _ss_net_paid9632_t = tbl_SerializeFromObject_TD_361_input.getInt32(i, 20);
-            tbl_Filter_TD_2396_output.setInt32(r, 20, _ss_net_paid9632_t);
-            int32_t _ss_net_paid_inc_tax9633_t = tbl_SerializeFromObject_TD_361_input.getInt32(i, 21);
-            tbl_Filter_TD_2396_output.setInt32(r, 21, _ss_net_paid_inc_tax9633_t);
-            int32_t _ss_net_profit9634_t = tbl_SerializeFromObject_TD_361_input.getInt32(i, 22);
-            tbl_Filter_TD_2396_output.setInt32(r, 22, _ss_net_profit9634_t);
+        int32_t _ss_quantity9643 = tbl_SerializeFromObject_TD_3396_input.getInt32(i, 10);
+        if ((_ss_quantity9643!= 0) && ((_ss_quantity9643 >= 61) && (_ss_quantity9643 <= 80))) {
+            int32_t _ss_sold_date_sk9633_t = tbl_SerializeFromObject_TD_3396_input.getInt32(i, 0);
+            tbl_Filter_TD_2269_output.setInt32(r, 0, _ss_sold_date_sk9633_t);
+            int32_t _ss_sold_time_sk9634_t = tbl_SerializeFromObject_TD_3396_input.getInt32(i, 1);
+            tbl_Filter_TD_2269_output.setInt32(r, 1, _ss_sold_time_sk9634_t);
+            int32_t _ss_item_sk9635_t = tbl_SerializeFromObject_TD_3396_input.getInt32(i, 2);
+            tbl_Filter_TD_2269_output.setInt32(r, 2, _ss_item_sk9635_t);
+            int32_t _ss_customer_sk9636_t = tbl_SerializeFromObject_TD_3396_input.getInt32(i, 3);
+            tbl_Filter_TD_2269_output.setInt32(r, 3, _ss_customer_sk9636_t);
+            int32_t _ss_cdemo_sk9637_t = tbl_SerializeFromObject_TD_3396_input.getInt32(i, 4);
+            tbl_Filter_TD_2269_output.setInt32(r, 4, _ss_cdemo_sk9637_t);
+            int32_t _ss_hdemo_sk9638_t = tbl_SerializeFromObject_TD_3396_input.getInt32(i, 5);
+            tbl_Filter_TD_2269_output.setInt32(r, 5, _ss_hdemo_sk9638_t);
+            int32_t _ss_addr_sk9639_t = tbl_SerializeFromObject_TD_3396_input.getInt32(i, 6);
+            tbl_Filter_TD_2269_output.setInt32(r, 6, _ss_addr_sk9639_t);
+            int32_t _ss_store_sk9640_t = tbl_SerializeFromObject_TD_3396_input.getInt32(i, 7);
+            tbl_Filter_TD_2269_output.setInt32(r, 7, _ss_store_sk9640_t);
+            int32_t _ss_promo_sk9641_t = tbl_SerializeFromObject_TD_3396_input.getInt32(i, 8);
+            tbl_Filter_TD_2269_output.setInt32(r, 8, _ss_promo_sk9641_t);
+            int64_t _ss_ticket_number9642L_t = tbl_SerializeFromObject_TD_3396_input.getInt64(i, 9);
+            tbl_Filter_TD_2269_output.setInt64(r, 9, _ss_ticket_number9642L_t);
+            int32_t _ss_quantity9643_t = tbl_SerializeFromObject_TD_3396_input.getInt32(i, 10);
+            tbl_Filter_TD_2269_output.setInt32(r, 10, _ss_quantity9643_t);
+            int32_t _ss_wholesale_cost9644_t = tbl_SerializeFromObject_TD_3396_input.getInt32(i, 11);
+            tbl_Filter_TD_2269_output.setInt32(r, 11, _ss_wholesale_cost9644_t);
+            int32_t _ss_list_price9645_t = tbl_SerializeFromObject_TD_3396_input.getInt32(i, 12);
+            tbl_Filter_TD_2269_output.setInt32(r, 12, _ss_list_price9645_t);
+            int32_t _ss_sales_price9646_t = tbl_SerializeFromObject_TD_3396_input.getInt32(i, 13);
+            tbl_Filter_TD_2269_output.setInt32(r, 13, _ss_sales_price9646_t);
+            int32_t _ss_ext_discount_amt9647_t = tbl_SerializeFromObject_TD_3396_input.getInt32(i, 14);
+            tbl_Filter_TD_2269_output.setInt32(r, 14, _ss_ext_discount_amt9647_t);
+            int32_t _ss_ext_sales_price9648_t = tbl_SerializeFromObject_TD_3396_input.getInt32(i, 15);
+            tbl_Filter_TD_2269_output.setInt32(r, 15, _ss_ext_sales_price9648_t);
+            int32_t _ss_ext_wholesale_cost9649_t = tbl_SerializeFromObject_TD_3396_input.getInt32(i, 16);
+            tbl_Filter_TD_2269_output.setInt32(r, 16, _ss_ext_wholesale_cost9649_t);
+            int32_t _ss_ext_list_price9650_t = tbl_SerializeFromObject_TD_3396_input.getInt32(i, 17);
+            tbl_Filter_TD_2269_output.setInt32(r, 17, _ss_ext_list_price9650_t);
+            int32_t _ss_ext_tax9651_t = tbl_SerializeFromObject_TD_3396_input.getInt32(i, 18);
+            tbl_Filter_TD_2269_output.setInt32(r, 18, _ss_ext_tax9651_t);
+            int32_t _ss_coupon_amt9652_t = tbl_SerializeFromObject_TD_3396_input.getInt32(i, 19);
+            tbl_Filter_TD_2269_output.setInt32(r, 19, _ss_coupon_amt9652_t);
+            int32_t _ss_net_paid9653_t = tbl_SerializeFromObject_TD_3396_input.getInt32(i, 20);
+            tbl_Filter_TD_2269_output.setInt32(r, 20, _ss_net_paid9653_t);
+            int32_t _ss_net_paid_inc_tax9654_t = tbl_SerializeFromObject_TD_3396_input.getInt32(i, 21);
+            tbl_Filter_TD_2269_output.setInt32(r, 21, _ss_net_paid_inc_tax9654_t);
+            int32_t _ss_net_profit9655_t = tbl_SerializeFromObject_TD_3396_input.getInt32(i, 22);
+            tbl_Filter_TD_2269_output.setInt32(r, 22, _ss_net_profit9655_t);
             r++;
         }
     }
-    tbl_Filter_TD_2396_output.setNumRow(r);
-    std::cout << "tbl_Filter_TD_2396_output #Row: " << tbl_Filter_TD_2396_output.getNumRow() << std::endl;
+    tbl_Filter_TD_2269_output.setNumRow(r);
+    std::cout << "tbl_Filter_TD_2269_output #Row: " << tbl_Filter_TD_2269_output.getNumRow() << std::endl;
 }
 
-void SW_Filter_TD_2785(Table &tbl_SerializeFromObject_TD_3517_input, Table &tbl_Filter_TD_2785_output) {
+void SW_Filter_TD_2927(Table &tbl_SerializeFromObject_TD_3924_input, Table &tbl_Filter_TD_2927_output) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: Filter
-    // Operation: ListBuffer((isnotnull(ss_quantity#9599) AND ((ss_quantity#9599 >= 41) AND (ss_quantity#9599 <= 60))))
-    // Input: ListBuffer(ss_net_paid#9609, ss_quantity#9599)
-    // Output: ListBuffer(ss_net_paid#9609)
+    // Operation: ListBuffer((isnotnull(ss_quantity#9620) AND ((ss_quantity#9620 >= 41) AND (ss_quantity#9620 <= 60))))
+    // Input: ListBuffer(ss_net_paid#9630, ss_quantity#9620)
+    // Output: ListBuffer(ss_net_paid#9630)
     int r = 0;
-    int nrow1 = tbl_SerializeFromObject_TD_3517_input.getNumRow();
+    int nrow1 = tbl_SerializeFromObject_TD_3924_input.getNumRow();
     for (int i = 0; i < nrow1; i++) {
-        int32_t _ss_quantity9599 = tbl_SerializeFromObject_TD_3517_input.getInt32(i, 1);
-        if ((1) && ((_ss_quantity9599 >= 41) && (_ss_quantity9599 <= 60))) {
-            int32_t _ss_net_paid9609_t = tbl_SerializeFromObject_TD_3517_input.getInt32(i, 0);
-            tbl_Filter_TD_2785_output.setInt32(r, 0, _ss_net_paid9609_t);
+        int32_t _ss_quantity9620 = tbl_SerializeFromObject_TD_3924_input.getInt32(i, 1);
+        if ((_ss_quantity9620!= 0) && ((_ss_quantity9620 >= 41) && (_ss_quantity9620 <= 60))) {
+            int32_t _ss_net_paid9630_t = tbl_SerializeFromObject_TD_3924_input.getInt32(i, 0);
+            tbl_Filter_TD_2927_output.setInt32(r, 0, _ss_net_paid9630_t);
             r++;
         }
     }
-    tbl_Filter_TD_2785_output.setNumRow(r);
-    std::cout << "tbl_Filter_TD_2785_output #Row: " << tbl_Filter_TD_2785_output.getNumRow() << std::endl;
+    tbl_Filter_TD_2927_output.setNumRow(r);
+    std::cout << "tbl_Filter_TD_2927_output #Row: " << tbl_Filter_TD_2927_output.getNumRow() << std::endl;
 }
 
-void SW_Filter_TD_2677(Table &tbl_SerializeFromObject_TD_3724_input, Table &tbl_Filter_TD_2677_output) {
+void SW_Filter_TD_2627(Table &tbl_SerializeFromObject_TD_368_input, Table &tbl_Filter_TD_2627_output) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: Filter
-    // Operation: ListBuffer((isnotnull(ss_quantity#9576) AND ((ss_quantity#9576 >= 41) AND (ss_quantity#9576 <= 60))))
-    // Input: ListBuffer(ss_ext_discount_amt#9580, ss_quantity#9576)
-    // Output: ListBuffer(ss_ext_discount_amt#9580)
+    // Operation: ListBuffer((isnotnull(ss_quantity#9597) AND ((ss_quantity#9597 >= 41) AND (ss_quantity#9597 <= 60))))
+    // Input: ListBuffer(ss_ext_discount_amt#9601, ss_quantity#9597)
+    // Output: ListBuffer(ss_ext_discount_amt#9601)
     int r = 0;
-    int nrow1 = tbl_SerializeFromObject_TD_3724_input.getNumRow();
+    int nrow1 = tbl_SerializeFromObject_TD_368_input.getNumRow();
     for (int i = 0; i < nrow1; i++) {
-        int32_t _ss_quantity9576 = tbl_SerializeFromObject_TD_3724_input.getInt32(i, 1);
-        if ((1) && ((_ss_quantity9576 >= 41) && (_ss_quantity9576 <= 60))) {
-            int32_t _ss_ext_discount_amt9580_t = tbl_SerializeFromObject_TD_3724_input.getInt32(i, 0);
-            tbl_Filter_TD_2677_output.setInt32(r, 0, _ss_ext_discount_amt9580_t);
+        int32_t _ss_quantity9597 = tbl_SerializeFromObject_TD_368_input.getInt32(i, 1);
+        if ((_ss_quantity9597!= 0) && ((_ss_quantity9597 >= 41) && (_ss_quantity9597 <= 60))) {
+            int32_t _ss_ext_discount_amt9601_t = tbl_SerializeFromObject_TD_368_input.getInt32(i, 0);
+            tbl_Filter_TD_2627_output.setInt32(r, 0, _ss_ext_discount_amt9601_t);
             r++;
         }
     }
-    tbl_Filter_TD_2677_output.setNumRow(r);
-    std::cout << "tbl_Filter_TD_2677_output #Row: " << tbl_Filter_TD_2677_output.getNumRow() << std::endl;
+    tbl_Filter_TD_2627_output.setNumRow(r);
+    std::cout << "tbl_Filter_TD_2627_output #Row: " << tbl_Filter_TD_2627_output.getNumRow() << std::endl;
 }
 
-void SW_Filter_TD_234(Table &tbl_SerializeFromObject_TD_3785_input, Table &tbl_Filter_TD_234_output) {
+void SW_Filter_TD_2957(Table &tbl_SerializeFromObject_TD_326_input, Table &tbl_Filter_TD_2957_output) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: Filter
-    // Operation: ListBuffer((isnotnull(ss_quantity#9553) AND ((ss_quantity#9553 >= 41) AND (ss_quantity#9553 <= 60))))
-    // Input: ListBuffer(ss_sold_date_sk#9543, ss_sold_time_sk#9544, ss_item_sk#9545, ss_customer_sk#9546, ss_cdemo_sk#9547, ss_hdemo_sk#9548, ss_addr_sk#9549, ss_store_sk#9550, ss_promo_sk#9551, ss_ticket_number#9552L, ss_quantity#9553, ss_wholesale_cost#9554, ss_list_price#9555, ss_sales_price#9556, ss_ext_discount_amt#9557, ss_ext_sales_price#9558, ss_ext_wholesale_cost#9559, ss_ext_list_price#9560, ss_ext_tax#9561, ss_coupon_amt#9562, ss_net_paid#9563, ss_net_paid_inc_tax#9564, ss_net_profit#9565)
-    // Output: ListBuffer(ss_sold_date_sk#9543, ss_sold_time_sk#9544, ss_item_sk#9545, ss_customer_sk#9546, ss_cdemo_sk#9547, ss_hdemo_sk#9548, ss_addr_sk#9549, ss_store_sk#9550, ss_promo_sk#9551, ss_ticket_number#9552L, ss_quantity#9553, ss_wholesale_cost#9554, ss_list_price#9555, ss_sales_price#9556, ss_ext_discount_amt#9557, ss_ext_sales_price#9558, ss_ext_wholesale_cost#9559, ss_ext_list_price#9560, ss_ext_tax#9561, ss_coupon_amt#9562, ss_net_paid#9563, ss_net_paid_inc_tax#9564, ss_net_profit#9565)
+    // Operation: ListBuffer((isnotnull(ss_quantity#9574) AND ((ss_quantity#9574 >= 41) AND (ss_quantity#9574 <= 60))))
+    // Input: ListBuffer(ss_sold_date_sk#9564, ss_sold_time_sk#9565, ss_item_sk#9566, ss_customer_sk#9567, ss_cdemo_sk#9568, ss_hdemo_sk#9569, ss_addr_sk#9570, ss_store_sk#9571, ss_promo_sk#9572, ss_ticket_number#9573L, ss_quantity#9574, ss_wholesale_cost#9575, ss_list_price#9576, ss_sales_price#9577, ss_ext_discount_amt#9578, ss_ext_sales_price#9579, ss_ext_wholesale_cost#9580, ss_ext_list_price#9581, ss_ext_tax#9582, ss_coupon_amt#9583, ss_net_paid#9584, ss_net_paid_inc_tax#9585, ss_net_profit#9586)
+    // Output: ListBuffer(ss_sold_date_sk#9564, ss_sold_time_sk#9565, ss_item_sk#9566, ss_customer_sk#9567, ss_cdemo_sk#9568, ss_hdemo_sk#9569, ss_addr_sk#9570, ss_store_sk#9571, ss_promo_sk#9572, ss_ticket_number#9573L, ss_quantity#9574, ss_wholesale_cost#9575, ss_list_price#9576, ss_sales_price#9577, ss_ext_discount_amt#9578, ss_ext_sales_price#9579, ss_ext_wholesale_cost#9580, ss_ext_list_price#9581, ss_ext_tax#9582, ss_coupon_amt#9583, ss_net_paid#9584, ss_net_paid_inc_tax#9585, ss_net_profit#9586)
     int r = 0;
-    int nrow1 = tbl_SerializeFromObject_TD_3785_input.getNumRow();
+    int nrow1 = tbl_SerializeFromObject_TD_326_input.getNumRow();
     for (int i = 0; i < nrow1; i++) {
-        int32_t _ss_quantity9553 = tbl_SerializeFromObject_TD_3785_input.getInt32(i, 10);
-        if ((1) && ((_ss_quantity9553 >= 41) && (_ss_quantity9553 <= 60))) {
-            int32_t _ss_sold_date_sk9543_t = tbl_SerializeFromObject_TD_3785_input.getInt32(i, 0);
-            tbl_Filter_TD_234_output.setInt32(r, 0, _ss_sold_date_sk9543_t);
-            int32_t _ss_sold_time_sk9544_t = tbl_SerializeFromObject_TD_3785_input.getInt32(i, 1);
-            tbl_Filter_TD_234_output.setInt32(r, 1, _ss_sold_time_sk9544_t);
-            int32_t _ss_item_sk9545_t = tbl_SerializeFromObject_TD_3785_input.getInt32(i, 2);
-            tbl_Filter_TD_234_output.setInt32(r, 2, _ss_item_sk9545_t);
-            int32_t _ss_customer_sk9546_t = tbl_SerializeFromObject_TD_3785_input.getInt32(i, 3);
-            tbl_Filter_TD_234_output.setInt32(r, 3, _ss_customer_sk9546_t);
-            int32_t _ss_cdemo_sk9547_t = tbl_SerializeFromObject_TD_3785_input.getInt32(i, 4);
-            tbl_Filter_TD_234_output.setInt32(r, 4, _ss_cdemo_sk9547_t);
-            int32_t _ss_hdemo_sk9548_t = tbl_SerializeFromObject_TD_3785_input.getInt32(i, 5);
-            tbl_Filter_TD_234_output.setInt32(r, 5, _ss_hdemo_sk9548_t);
-            int32_t _ss_addr_sk9549_t = tbl_SerializeFromObject_TD_3785_input.getInt32(i, 6);
-            tbl_Filter_TD_234_output.setInt32(r, 6, _ss_addr_sk9549_t);
-            int32_t _ss_store_sk9550_t = tbl_SerializeFromObject_TD_3785_input.getInt32(i, 7);
-            tbl_Filter_TD_234_output.setInt32(r, 7, _ss_store_sk9550_t);
-            int32_t _ss_promo_sk9551_t = tbl_SerializeFromObject_TD_3785_input.getInt32(i, 8);
-            tbl_Filter_TD_234_output.setInt32(r, 8, _ss_promo_sk9551_t);
-            int64_t _ss_ticket_number9552L_t = tbl_SerializeFromObject_TD_3785_input.getInt64(i, 9);
-            tbl_Filter_TD_234_output.setInt64(r, 9, _ss_ticket_number9552L_t);
-            int32_t _ss_quantity9553_t = tbl_SerializeFromObject_TD_3785_input.getInt32(i, 10);
-            tbl_Filter_TD_234_output.setInt32(r, 10, _ss_quantity9553_t);
-            int32_t _ss_wholesale_cost9554_t = tbl_SerializeFromObject_TD_3785_input.getInt32(i, 11);
-            tbl_Filter_TD_234_output.setInt32(r, 11, _ss_wholesale_cost9554_t);
-            int32_t _ss_list_price9555_t = tbl_SerializeFromObject_TD_3785_input.getInt32(i, 12);
-            tbl_Filter_TD_234_output.setInt32(r, 12, _ss_list_price9555_t);
-            int32_t _ss_sales_price9556_t = tbl_SerializeFromObject_TD_3785_input.getInt32(i, 13);
-            tbl_Filter_TD_234_output.setInt32(r, 13, _ss_sales_price9556_t);
-            int32_t _ss_ext_discount_amt9557_t = tbl_SerializeFromObject_TD_3785_input.getInt32(i, 14);
-            tbl_Filter_TD_234_output.setInt32(r, 14, _ss_ext_discount_amt9557_t);
-            int32_t _ss_ext_sales_price9558_t = tbl_SerializeFromObject_TD_3785_input.getInt32(i, 15);
-            tbl_Filter_TD_234_output.setInt32(r, 15, _ss_ext_sales_price9558_t);
-            int32_t _ss_ext_wholesale_cost9559_t = tbl_SerializeFromObject_TD_3785_input.getInt32(i, 16);
-            tbl_Filter_TD_234_output.setInt32(r, 16, _ss_ext_wholesale_cost9559_t);
-            int32_t _ss_ext_list_price9560_t = tbl_SerializeFromObject_TD_3785_input.getInt32(i, 17);
-            tbl_Filter_TD_234_output.setInt32(r, 17, _ss_ext_list_price9560_t);
-            int32_t _ss_ext_tax9561_t = tbl_SerializeFromObject_TD_3785_input.getInt32(i, 18);
-            tbl_Filter_TD_234_output.setInt32(r, 18, _ss_ext_tax9561_t);
-            int32_t _ss_coupon_amt9562_t = tbl_SerializeFromObject_TD_3785_input.getInt32(i, 19);
-            tbl_Filter_TD_234_output.setInt32(r, 19, _ss_coupon_amt9562_t);
-            int32_t _ss_net_paid9563_t = tbl_SerializeFromObject_TD_3785_input.getInt32(i, 20);
-            tbl_Filter_TD_234_output.setInt32(r, 20, _ss_net_paid9563_t);
-            int32_t _ss_net_paid_inc_tax9564_t = tbl_SerializeFromObject_TD_3785_input.getInt32(i, 21);
-            tbl_Filter_TD_234_output.setInt32(r, 21, _ss_net_paid_inc_tax9564_t);
-            int32_t _ss_net_profit9565_t = tbl_SerializeFromObject_TD_3785_input.getInt32(i, 22);
-            tbl_Filter_TD_234_output.setInt32(r, 22, _ss_net_profit9565_t);
+        int32_t _ss_quantity9574 = tbl_SerializeFromObject_TD_326_input.getInt32(i, 10);
+        if ((_ss_quantity9574!= 0) && ((_ss_quantity9574 >= 41) && (_ss_quantity9574 <= 60))) {
+            int32_t _ss_sold_date_sk9564_t = tbl_SerializeFromObject_TD_326_input.getInt32(i, 0);
+            tbl_Filter_TD_2957_output.setInt32(r, 0, _ss_sold_date_sk9564_t);
+            int32_t _ss_sold_time_sk9565_t = tbl_SerializeFromObject_TD_326_input.getInt32(i, 1);
+            tbl_Filter_TD_2957_output.setInt32(r, 1, _ss_sold_time_sk9565_t);
+            int32_t _ss_item_sk9566_t = tbl_SerializeFromObject_TD_326_input.getInt32(i, 2);
+            tbl_Filter_TD_2957_output.setInt32(r, 2, _ss_item_sk9566_t);
+            int32_t _ss_customer_sk9567_t = tbl_SerializeFromObject_TD_326_input.getInt32(i, 3);
+            tbl_Filter_TD_2957_output.setInt32(r, 3, _ss_customer_sk9567_t);
+            int32_t _ss_cdemo_sk9568_t = tbl_SerializeFromObject_TD_326_input.getInt32(i, 4);
+            tbl_Filter_TD_2957_output.setInt32(r, 4, _ss_cdemo_sk9568_t);
+            int32_t _ss_hdemo_sk9569_t = tbl_SerializeFromObject_TD_326_input.getInt32(i, 5);
+            tbl_Filter_TD_2957_output.setInt32(r, 5, _ss_hdemo_sk9569_t);
+            int32_t _ss_addr_sk9570_t = tbl_SerializeFromObject_TD_326_input.getInt32(i, 6);
+            tbl_Filter_TD_2957_output.setInt32(r, 6, _ss_addr_sk9570_t);
+            int32_t _ss_store_sk9571_t = tbl_SerializeFromObject_TD_326_input.getInt32(i, 7);
+            tbl_Filter_TD_2957_output.setInt32(r, 7, _ss_store_sk9571_t);
+            int32_t _ss_promo_sk9572_t = tbl_SerializeFromObject_TD_326_input.getInt32(i, 8);
+            tbl_Filter_TD_2957_output.setInt32(r, 8, _ss_promo_sk9572_t);
+            int64_t _ss_ticket_number9573L_t = tbl_SerializeFromObject_TD_326_input.getInt64(i, 9);
+            tbl_Filter_TD_2957_output.setInt64(r, 9, _ss_ticket_number9573L_t);
+            int32_t _ss_quantity9574_t = tbl_SerializeFromObject_TD_326_input.getInt32(i, 10);
+            tbl_Filter_TD_2957_output.setInt32(r, 10, _ss_quantity9574_t);
+            int32_t _ss_wholesale_cost9575_t = tbl_SerializeFromObject_TD_326_input.getInt32(i, 11);
+            tbl_Filter_TD_2957_output.setInt32(r, 11, _ss_wholesale_cost9575_t);
+            int32_t _ss_list_price9576_t = tbl_SerializeFromObject_TD_326_input.getInt32(i, 12);
+            tbl_Filter_TD_2957_output.setInt32(r, 12, _ss_list_price9576_t);
+            int32_t _ss_sales_price9577_t = tbl_SerializeFromObject_TD_326_input.getInt32(i, 13);
+            tbl_Filter_TD_2957_output.setInt32(r, 13, _ss_sales_price9577_t);
+            int32_t _ss_ext_discount_amt9578_t = tbl_SerializeFromObject_TD_326_input.getInt32(i, 14);
+            tbl_Filter_TD_2957_output.setInt32(r, 14, _ss_ext_discount_amt9578_t);
+            int32_t _ss_ext_sales_price9579_t = tbl_SerializeFromObject_TD_326_input.getInt32(i, 15);
+            tbl_Filter_TD_2957_output.setInt32(r, 15, _ss_ext_sales_price9579_t);
+            int32_t _ss_ext_wholesale_cost9580_t = tbl_SerializeFromObject_TD_326_input.getInt32(i, 16);
+            tbl_Filter_TD_2957_output.setInt32(r, 16, _ss_ext_wholesale_cost9580_t);
+            int32_t _ss_ext_list_price9581_t = tbl_SerializeFromObject_TD_326_input.getInt32(i, 17);
+            tbl_Filter_TD_2957_output.setInt32(r, 17, _ss_ext_list_price9581_t);
+            int32_t _ss_ext_tax9582_t = tbl_SerializeFromObject_TD_326_input.getInt32(i, 18);
+            tbl_Filter_TD_2957_output.setInt32(r, 18, _ss_ext_tax9582_t);
+            int32_t _ss_coupon_amt9583_t = tbl_SerializeFromObject_TD_326_input.getInt32(i, 19);
+            tbl_Filter_TD_2957_output.setInt32(r, 19, _ss_coupon_amt9583_t);
+            int32_t _ss_net_paid9584_t = tbl_SerializeFromObject_TD_326_input.getInt32(i, 20);
+            tbl_Filter_TD_2957_output.setInt32(r, 20, _ss_net_paid9584_t);
+            int32_t _ss_net_paid_inc_tax9585_t = tbl_SerializeFromObject_TD_326_input.getInt32(i, 21);
+            tbl_Filter_TD_2957_output.setInt32(r, 21, _ss_net_paid_inc_tax9585_t);
+            int32_t _ss_net_profit9586_t = tbl_SerializeFromObject_TD_326_input.getInt32(i, 22);
+            tbl_Filter_TD_2957_output.setInt32(r, 22, _ss_net_profit9586_t);
             r++;
         }
     }
-    tbl_Filter_TD_234_output.setNumRow(r);
-    std::cout << "tbl_Filter_TD_234_output #Row: " << tbl_Filter_TD_234_output.getNumRow() << std::endl;
+    tbl_Filter_TD_2957_output.setNumRow(r);
+    std::cout << "tbl_Filter_TD_2957_output #Row: " << tbl_Filter_TD_2957_output.getNumRow() << std::endl;
 }
 
-void SW_Filter_TD_289(Table &tbl_SerializeFromObject_TD_3418_input, Table &tbl_Filter_TD_289_output) {
+void SW_Filter_TD_2382(Table &tbl_SerializeFromObject_TD_3762_input, Table &tbl_Filter_TD_2382_output) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: Filter
-    // Operation: ListBuffer((isnotnull(ss_quantity#9530) AND ((ss_quantity#9530 >= 21) AND (ss_quantity#9530 <= 40))))
-    // Input: ListBuffer(ss_net_paid#9540, ss_quantity#9530)
-    // Output: ListBuffer(ss_net_paid#9540)
+    // Operation: ListBuffer((isnotnull(ss_quantity#9551) AND ((ss_quantity#9551 >= 21) AND (ss_quantity#9551 <= 40))))
+    // Input: ListBuffer(ss_net_paid#9561, ss_quantity#9551)
+    // Output: ListBuffer(ss_net_paid#9561)
     int r = 0;
-    int nrow1 = tbl_SerializeFromObject_TD_3418_input.getNumRow();
+    int nrow1 = tbl_SerializeFromObject_TD_3762_input.getNumRow();
     for (int i = 0; i < nrow1; i++) {
-        int32_t _ss_quantity9530 = tbl_SerializeFromObject_TD_3418_input.getInt32(i, 1);
-        if ((1) && ((_ss_quantity9530 >= 21) && (_ss_quantity9530 <= 40))) {
-            int32_t _ss_net_paid9540_t = tbl_SerializeFromObject_TD_3418_input.getInt32(i, 0);
-            tbl_Filter_TD_289_output.setInt32(r, 0, _ss_net_paid9540_t);
+        int32_t _ss_quantity9551 = tbl_SerializeFromObject_TD_3762_input.getInt32(i, 1);
+        if ((_ss_quantity9551!= 0) && ((_ss_quantity9551 >= 21) && (_ss_quantity9551 <= 40))) {
+            int32_t _ss_net_paid9561_t = tbl_SerializeFromObject_TD_3762_input.getInt32(i, 0);
+            tbl_Filter_TD_2382_output.setInt32(r, 0, _ss_net_paid9561_t);
             r++;
         }
     }
-    tbl_Filter_TD_289_output.setNumRow(r);
-    std::cout << "tbl_Filter_TD_289_output #Row: " << tbl_Filter_TD_289_output.getNumRow() << std::endl;
+    tbl_Filter_TD_2382_output.setNumRow(r);
+    std::cout << "tbl_Filter_TD_2382_output #Row: " << tbl_Filter_TD_2382_output.getNumRow() << std::endl;
 }
 
-void SW_Filter_TD_2280(Table &tbl_SerializeFromObject_TD_3284_input, Table &tbl_Filter_TD_2280_output) {
+void SW_Filter_TD_2222(Table &tbl_SerializeFromObject_TD_3916_input, Table &tbl_Filter_TD_2222_output) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: Filter
-    // Operation: ListBuffer((isnotnull(ss_quantity#9507) AND ((ss_quantity#9507 >= 21) AND (ss_quantity#9507 <= 40))))
-    // Input: ListBuffer(ss_ext_discount_amt#9511, ss_quantity#9507)
-    // Output: ListBuffer(ss_ext_discount_amt#9511)
+    // Operation: ListBuffer((isnotnull(ss_quantity#9528) AND ((ss_quantity#9528 >= 21) AND (ss_quantity#9528 <= 40))))
+    // Input: ListBuffer(ss_ext_discount_amt#9532, ss_quantity#9528)
+    // Output: ListBuffer(ss_ext_discount_amt#9532)
     int r = 0;
-    int nrow1 = tbl_SerializeFromObject_TD_3284_input.getNumRow();
+    int nrow1 = tbl_SerializeFromObject_TD_3916_input.getNumRow();
     for (int i = 0; i < nrow1; i++) {
-        int32_t _ss_quantity9507 = tbl_SerializeFromObject_TD_3284_input.getInt32(i, 1);
-        if ((1) && ((_ss_quantity9507 >= 21) && (_ss_quantity9507 <= 40))) {
-            int32_t _ss_ext_discount_amt9511_t = tbl_SerializeFromObject_TD_3284_input.getInt32(i, 0);
-            tbl_Filter_TD_2280_output.setInt32(r, 0, _ss_ext_discount_amt9511_t);
+        int32_t _ss_quantity9528 = tbl_SerializeFromObject_TD_3916_input.getInt32(i, 1);
+        if ((_ss_quantity9528!= 0) && ((_ss_quantity9528 >= 21) && (_ss_quantity9528 <= 40))) {
+            int32_t _ss_ext_discount_amt9532_t = tbl_SerializeFromObject_TD_3916_input.getInt32(i, 0);
+            tbl_Filter_TD_2222_output.setInt32(r, 0, _ss_ext_discount_amt9532_t);
             r++;
         }
     }
-    tbl_Filter_TD_2280_output.setNumRow(r);
-    std::cout << "tbl_Filter_TD_2280_output #Row: " << tbl_Filter_TD_2280_output.getNumRow() << std::endl;
+    tbl_Filter_TD_2222_output.setNumRow(r);
+    std::cout << "tbl_Filter_TD_2222_output #Row: " << tbl_Filter_TD_2222_output.getNumRow() << std::endl;
 }
 
-void SW_Filter_TD_2396(Table &tbl_SerializeFromObject_TD_3305_input, Table &tbl_Filter_TD_2396_output) {
+void SW_Filter_TD_242(Table &tbl_SerializeFromObject_TD_3481_input, Table &tbl_Filter_TD_242_output) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: Filter
-    // Operation: ListBuffer((isnotnull(ss_quantity#9484) AND ((ss_quantity#9484 >= 21) AND (ss_quantity#9484 <= 40))))
-    // Input: ListBuffer(ss_sold_date_sk#9474, ss_sold_time_sk#9475, ss_item_sk#9476, ss_customer_sk#9477, ss_cdemo_sk#9478, ss_hdemo_sk#9479, ss_addr_sk#9480, ss_store_sk#9481, ss_promo_sk#9482, ss_ticket_number#9483L, ss_quantity#9484, ss_wholesale_cost#9485, ss_list_price#9486, ss_sales_price#9487, ss_ext_discount_amt#9488, ss_ext_sales_price#9489, ss_ext_wholesale_cost#9490, ss_ext_list_price#9491, ss_ext_tax#9492, ss_coupon_amt#9493, ss_net_paid#9494, ss_net_paid_inc_tax#9495, ss_net_profit#9496)
-    // Output: ListBuffer(ss_sold_date_sk#9474, ss_sold_time_sk#9475, ss_item_sk#9476, ss_customer_sk#9477, ss_cdemo_sk#9478, ss_hdemo_sk#9479, ss_addr_sk#9480, ss_store_sk#9481, ss_promo_sk#9482, ss_ticket_number#9483L, ss_quantity#9484, ss_wholesale_cost#9485, ss_list_price#9486, ss_sales_price#9487, ss_ext_discount_amt#9488, ss_ext_sales_price#9489, ss_ext_wholesale_cost#9490, ss_ext_list_price#9491, ss_ext_tax#9492, ss_coupon_amt#9493, ss_net_paid#9494, ss_net_paid_inc_tax#9495, ss_net_profit#9496)
+    // Operation: ListBuffer((isnotnull(ss_quantity#9505) AND ((ss_quantity#9505 >= 21) AND (ss_quantity#9505 <= 40))))
+    // Input: ListBuffer(ss_sold_date_sk#9495, ss_sold_time_sk#9496, ss_item_sk#9497, ss_customer_sk#9498, ss_cdemo_sk#9499, ss_hdemo_sk#9500, ss_addr_sk#9501, ss_store_sk#9502, ss_promo_sk#9503, ss_ticket_number#9504L, ss_quantity#9505, ss_wholesale_cost#9506, ss_list_price#9507, ss_sales_price#9508, ss_ext_discount_amt#9509, ss_ext_sales_price#9510, ss_ext_wholesale_cost#9511, ss_ext_list_price#9512, ss_ext_tax#9513, ss_coupon_amt#9514, ss_net_paid#9515, ss_net_paid_inc_tax#9516, ss_net_profit#9517)
+    // Output: ListBuffer(ss_sold_date_sk#9495, ss_sold_time_sk#9496, ss_item_sk#9497, ss_customer_sk#9498, ss_cdemo_sk#9499, ss_hdemo_sk#9500, ss_addr_sk#9501, ss_store_sk#9502, ss_promo_sk#9503, ss_ticket_number#9504L, ss_quantity#9505, ss_wholesale_cost#9506, ss_list_price#9507, ss_sales_price#9508, ss_ext_discount_amt#9509, ss_ext_sales_price#9510, ss_ext_wholesale_cost#9511, ss_ext_list_price#9512, ss_ext_tax#9513, ss_coupon_amt#9514, ss_net_paid#9515, ss_net_paid_inc_tax#9516, ss_net_profit#9517)
     int r = 0;
-    int nrow1 = tbl_SerializeFromObject_TD_3305_input.getNumRow();
+    int nrow1 = tbl_SerializeFromObject_TD_3481_input.getNumRow();
     for (int i = 0; i < nrow1; i++) {
-        int32_t _ss_quantity9484 = tbl_SerializeFromObject_TD_3305_input.getInt32(i, 10);
-        if ((1) && ((_ss_quantity9484 >= 21) && (_ss_quantity9484 <= 40))) {
-            int32_t _ss_sold_date_sk9474_t = tbl_SerializeFromObject_TD_3305_input.getInt32(i, 0);
-            tbl_Filter_TD_2396_output.setInt32(r, 0, _ss_sold_date_sk9474_t);
-            int32_t _ss_sold_time_sk9475_t = tbl_SerializeFromObject_TD_3305_input.getInt32(i, 1);
-            tbl_Filter_TD_2396_output.setInt32(r, 1, _ss_sold_time_sk9475_t);
-            int32_t _ss_item_sk9476_t = tbl_SerializeFromObject_TD_3305_input.getInt32(i, 2);
-            tbl_Filter_TD_2396_output.setInt32(r, 2, _ss_item_sk9476_t);
-            int32_t _ss_customer_sk9477_t = tbl_SerializeFromObject_TD_3305_input.getInt32(i, 3);
-            tbl_Filter_TD_2396_output.setInt32(r, 3, _ss_customer_sk9477_t);
-            int32_t _ss_cdemo_sk9478_t = tbl_SerializeFromObject_TD_3305_input.getInt32(i, 4);
-            tbl_Filter_TD_2396_output.setInt32(r, 4, _ss_cdemo_sk9478_t);
-            int32_t _ss_hdemo_sk9479_t = tbl_SerializeFromObject_TD_3305_input.getInt32(i, 5);
-            tbl_Filter_TD_2396_output.setInt32(r, 5, _ss_hdemo_sk9479_t);
-            int32_t _ss_addr_sk9480_t = tbl_SerializeFromObject_TD_3305_input.getInt32(i, 6);
-            tbl_Filter_TD_2396_output.setInt32(r, 6, _ss_addr_sk9480_t);
-            int32_t _ss_store_sk9481_t = tbl_SerializeFromObject_TD_3305_input.getInt32(i, 7);
-            tbl_Filter_TD_2396_output.setInt32(r, 7, _ss_store_sk9481_t);
-            int32_t _ss_promo_sk9482_t = tbl_SerializeFromObject_TD_3305_input.getInt32(i, 8);
-            tbl_Filter_TD_2396_output.setInt32(r, 8, _ss_promo_sk9482_t);
-            int64_t _ss_ticket_number9483L_t = tbl_SerializeFromObject_TD_3305_input.getInt64(i, 9);
-            tbl_Filter_TD_2396_output.setInt64(r, 9, _ss_ticket_number9483L_t);
-            int32_t _ss_quantity9484_t = tbl_SerializeFromObject_TD_3305_input.getInt32(i, 10);
-            tbl_Filter_TD_2396_output.setInt32(r, 10, _ss_quantity9484_t);
-            int32_t _ss_wholesale_cost9485_t = tbl_SerializeFromObject_TD_3305_input.getInt32(i, 11);
-            tbl_Filter_TD_2396_output.setInt32(r, 11, _ss_wholesale_cost9485_t);
-            int32_t _ss_list_price9486_t = tbl_SerializeFromObject_TD_3305_input.getInt32(i, 12);
-            tbl_Filter_TD_2396_output.setInt32(r, 12, _ss_list_price9486_t);
-            int32_t _ss_sales_price9487_t = tbl_SerializeFromObject_TD_3305_input.getInt32(i, 13);
-            tbl_Filter_TD_2396_output.setInt32(r, 13, _ss_sales_price9487_t);
-            int32_t _ss_ext_discount_amt9488_t = tbl_SerializeFromObject_TD_3305_input.getInt32(i, 14);
-            tbl_Filter_TD_2396_output.setInt32(r, 14, _ss_ext_discount_amt9488_t);
-            int32_t _ss_ext_sales_price9489_t = tbl_SerializeFromObject_TD_3305_input.getInt32(i, 15);
-            tbl_Filter_TD_2396_output.setInt32(r, 15, _ss_ext_sales_price9489_t);
-            int32_t _ss_ext_wholesale_cost9490_t = tbl_SerializeFromObject_TD_3305_input.getInt32(i, 16);
-            tbl_Filter_TD_2396_output.setInt32(r, 16, _ss_ext_wholesale_cost9490_t);
-            int32_t _ss_ext_list_price9491_t = tbl_SerializeFromObject_TD_3305_input.getInt32(i, 17);
-            tbl_Filter_TD_2396_output.setInt32(r, 17, _ss_ext_list_price9491_t);
-            int32_t _ss_ext_tax9492_t = tbl_SerializeFromObject_TD_3305_input.getInt32(i, 18);
-            tbl_Filter_TD_2396_output.setInt32(r, 18, _ss_ext_tax9492_t);
-            int32_t _ss_coupon_amt9493_t = tbl_SerializeFromObject_TD_3305_input.getInt32(i, 19);
-            tbl_Filter_TD_2396_output.setInt32(r, 19, _ss_coupon_amt9493_t);
-            int32_t _ss_net_paid9494_t = tbl_SerializeFromObject_TD_3305_input.getInt32(i, 20);
-            tbl_Filter_TD_2396_output.setInt32(r, 20, _ss_net_paid9494_t);
-            int32_t _ss_net_paid_inc_tax9495_t = tbl_SerializeFromObject_TD_3305_input.getInt32(i, 21);
-            tbl_Filter_TD_2396_output.setInt32(r, 21, _ss_net_paid_inc_tax9495_t);
-            int32_t _ss_net_profit9496_t = tbl_SerializeFromObject_TD_3305_input.getInt32(i, 22);
-            tbl_Filter_TD_2396_output.setInt32(r, 22, _ss_net_profit9496_t);
+        int32_t _ss_quantity9505 = tbl_SerializeFromObject_TD_3481_input.getInt32(i, 10);
+        if ((_ss_quantity9505!= 0) && ((_ss_quantity9505 >= 21) && (_ss_quantity9505 <= 40))) {
+            int32_t _ss_sold_date_sk9495_t = tbl_SerializeFromObject_TD_3481_input.getInt32(i, 0);
+            tbl_Filter_TD_242_output.setInt32(r, 0, _ss_sold_date_sk9495_t);
+            int32_t _ss_sold_time_sk9496_t = tbl_SerializeFromObject_TD_3481_input.getInt32(i, 1);
+            tbl_Filter_TD_242_output.setInt32(r, 1, _ss_sold_time_sk9496_t);
+            int32_t _ss_item_sk9497_t = tbl_SerializeFromObject_TD_3481_input.getInt32(i, 2);
+            tbl_Filter_TD_242_output.setInt32(r, 2, _ss_item_sk9497_t);
+            int32_t _ss_customer_sk9498_t = tbl_SerializeFromObject_TD_3481_input.getInt32(i, 3);
+            tbl_Filter_TD_242_output.setInt32(r, 3, _ss_customer_sk9498_t);
+            int32_t _ss_cdemo_sk9499_t = tbl_SerializeFromObject_TD_3481_input.getInt32(i, 4);
+            tbl_Filter_TD_242_output.setInt32(r, 4, _ss_cdemo_sk9499_t);
+            int32_t _ss_hdemo_sk9500_t = tbl_SerializeFromObject_TD_3481_input.getInt32(i, 5);
+            tbl_Filter_TD_242_output.setInt32(r, 5, _ss_hdemo_sk9500_t);
+            int32_t _ss_addr_sk9501_t = tbl_SerializeFromObject_TD_3481_input.getInt32(i, 6);
+            tbl_Filter_TD_242_output.setInt32(r, 6, _ss_addr_sk9501_t);
+            int32_t _ss_store_sk9502_t = tbl_SerializeFromObject_TD_3481_input.getInt32(i, 7);
+            tbl_Filter_TD_242_output.setInt32(r, 7, _ss_store_sk9502_t);
+            int32_t _ss_promo_sk9503_t = tbl_SerializeFromObject_TD_3481_input.getInt32(i, 8);
+            tbl_Filter_TD_242_output.setInt32(r, 8, _ss_promo_sk9503_t);
+            int64_t _ss_ticket_number9504L_t = tbl_SerializeFromObject_TD_3481_input.getInt64(i, 9);
+            tbl_Filter_TD_242_output.setInt64(r, 9, _ss_ticket_number9504L_t);
+            int32_t _ss_quantity9505_t = tbl_SerializeFromObject_TD_3481_input.getInt32(i, 10);
+            tbl_Filter_TD_242_output.setInt32(r, 10, _ss_quantity9505_t);
+            int32_t _ss_wholesale_cost9506_t = tbl_SerializeFromObject_TD_3481_input.getInt32(i, 11);
+            tbl_Filter_TD_242_output.setInt32(r, 11, _ss_wholesale_cost9506_t);
+            int32_t _ss_list_price9507_t = tbl_SerializeFromObject_TD_3481_input.getInt32(i, 12);
+            tbl_Filter_TD_242_output.setInt32(r, 12, _ss_list_price9507_t);
+            int32_t _ss_sales_price9508_t = tbl_SerializeFromObject_TD_3481_input.getInt32(i, 13);
+            tbl_Filter_TD_242_output.setInt32(r, 13, _ss_sales_price9508_t);
+            int32_t _ss_ext_discount_amt9509_t = tbl_SerializeFromObject_TD_3481_input.getInt32(i, 14);
+            tbl_Filter_TD_242_output.setInt32(r, 14, _ss_ext_discount_amt9509_t);
+            int32_t _ss_ext_sales_price9510_t = tbl_SerializeFromObject_TD_3481_input.getInt32(i, 15);
+            tbl_Filter_TD_242_output.setInt32(r, 15, _ss_ext_sales_price9510_t);
+            int32_t _ss_ext_wholesale_cost9511_t = tbl_SerializeFromObject_TD_3481_input.getInt32(i, 16);
+            tbl_Filter_TD_242_output.setInt32(r, 16, _ss_ext_wholesale_cost9511_t);
+            int32_t _ss_ext_list_price9512_t = tbl_SerializeFromObject_TD_3481_input.getInt32(i, 17);
+            tbl_Filter_TD_242_output.setInt32(r, 17, _ss_ext_list_price9512_t);
+            int32_t _ss_ext_tax9513_t = tbl_SerializeFromObject_TD_3481_input.getInt32(i, 18);
+            tbl_Filter_TD_242_output.setInt32(r, 18, _ss_ext_tax9513_t);
+            int32_t _ss_coupon_amt9514_t = tbl_SerializeFromObject_TD_3481_input.getInt32(i, 19);
+            tbl_Filter_TD_242_output.setInt32(r, 19, _ss_coupon_amt9514_t);
+            int32_t _ss_net_paid9515_t = tbl_SerializeFromObject_TD_3481_input.getInt32(i, 20);
+            tbl_Filter_TD_242_output.setInt32(r, 20, _ss_net_paid9515_t);
+            int32_t _ss_net_paid_inc_tax9516_t = tbl_SerializeFromObject_TD_3481_input.getInt32(i, 21);
+            tbl_Filter_TD_242_output.setInt32(r, 21, _ss_net_paid_inc_tax9516_t);
+            int32_t _ss_net_profit9517_t = tbl_SerializeFromObject_TD_3481_input.getInt32(i, 22);
+            tbl_Filter_TD_242_output.setInt32(r, 22, _ss_net_profit9517_t);
             r++;
         }
     }
-    tbl_Filter_TD_2396_output.setNumRow(r);
-    std::cout << "tbl_Filter_TD_2396_output #Row: " << tbl_Filter_TD_2396_output.getNumRow() << std::endl;
+    tbl_Filter_TD_242_output.setNumRow(r);
+    std::cout << "tbl_Filter_TD_242_output #Row: " << tbl_Filter_TD_242_output.getNumRow() << std::endl;
 }
 
-void SW_Filter_TD_2390(Table &tbl_SerializeFromObject_TD_3110_input, Table &tbl_Filter_TD_2390_output) {
+void SW_Filter_TD_2958(Table &tbl_SerializeFromObject_TD_3616_input, Table &tbl_Filter_TD_2958_output) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: Filter
-    // Operation: ListBuffer((isnotnull(ss_quantity#9461) AND ((ss_quantity#9461 >= 1) AND (ss_quantity#9461 <= 20))))
-    // Input: ListBuffer(ss_net_paid#9471, ss_quantity#9461)
-    // Output: ListBuffer(ss_net_paid#9471)
+    // Operation: ListBuffer((isnotnull(ss_quantity#9482) AND ((ss_quantity#9482 >= 1) AND (ss_quantity#9482 <= 20))))
+    // Input: ListBuffer(ss_net_paid#9492, ss_quantity#9482)
+    // Output: ListBuffer(ss_net_paid#9492)
     int r = 0;
-    int nrow1 = tbl_SerializeFromObject_TD_3110_input.getNumRow();
+    int nrow1 = tbl_SerializeFromObject_TD_3616_input.getNumRow();
     for (int i = 0; i < nrow1; i++) {
-        int32_t _ss_quantity9461 = tbl_SerializeFromObject_TD_3110_input.getInt32(i, 1);
-        if ((1) && ((_ss_quantity9461 >= 1) && (_ss_quantity9461 <= 20))) {
-            int32_t _ss_net_paid9471_t = tbl_SerializeFromObject_TD_3110_input.getInt32(i, 0);
-            tbl_Filter_TD_2390_output.setInt32(r, 0, _ss_net_paid9471_t);
+        int32_t _ss_quantity9482 = tbl_SerializeFromObject_TD_3616_input.getInt32(i, 1);
+        if ((_ss_quantity9482!= 0) && ((_ss_quantity9482 >= 1) && (_ss_quantity9482 <= 20))) {
+            int32_t _ss_net_paid9492_t = tbl_SerializeFromObject_TD_3616_input.getInt32(i, 0);
+            tbl_Filter_TD_2958_output.setInt32(r, 0, _ss_net_paid9492_t);
             r++;
         }
     }
-    tbl_Filter_TD_2390_output.setNumRow(r);
-    std::cout << "tbl_Filter_TD_2390_output #Row: " << tbl_Filter_TD_2390_output.getNumRow() << std::endl;
+    tbl_Filter_TD_2958_output.setNumRow(r);
+    std::cout << "tbl_Filter_TD_2958_output #Row: " << tbl_Filter_TD_2958_output.getNumRow() << std::endl;
 }
 
-void SW_Filter_TD_2783(Table &tbl_SerializeFromObject_TD_3927_input, Table &tbl_Filter_TD_2783_output) {
+void SW_Filter_TD_2821(Table &tbl_SerializeFromObject_TD_3393_input, Table &tbl_Filter_TD_2821_output) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: Filter
-    // Operation: ListBuffer((isnotnull(ss_quantity#9438) AND ((ss_quantity#9438 >= 1) AND (ss_quantity#9438 <= 20))))
-    // Input: ListBuffer(ss_ext_discount_amt#9442, ss_quantity#9438)
-    // Output: ListBuffer(ss_ext_discount_amt#9442)
+    // Operation: ListBuffer((isnotnull(ss_quantity#9459) AND ((ss_quantity#9459 >= 1) AND (ss_quantity#9459 <= 20))))
+    // Input: ListBuffer(ss_ext_discount_amt#9463, ss_quantity#9459)
+    // Output: ListBuffer(ss_ext_discount_amt#9463)
     int r = 0;
-    int nrow1 = tbl_SerializeFromObject_TD_3927_input.getNumRow();
+    int nrow1 = tbl_SerializeFromObject_TD_3393_input.getNumRow();
     for (int i = 0; i < nrow1; i++) {
-        int32_t _ss_quantity9438 = tbl_SerializeFromObject_TD_3927_input.getInt32(i, 1);
-        if ((1) && ((_ss_quantity9438 >= 1) && (_ss_quantity9438 <= 20))) {
-            int32_t _ss_ext_discount_amt9442_t = tbl_SerializeFromObject_TD_3927_input.getInt32(i, 0);
-            tbl_Filter_TD_2783_output.setInt32(r, 0, _ss_ext_discount_amt9442_t);
+        int32_t _ss_quantity9459 = tbl_SerializeFromObject_TD_3393_input.getInt32(i, 1);
+        if ((_ss_quantity9459!= 0) && ((_ss_quantity9459 >= 1) && (_ss_quantity9459 <= 20))) {
+            int32_t _ss_ext_discount_amt9463_t = tbl_SerializeFromObject_TD_3393_input.getInt32(i, 0);
+            tbl_Filter_TD_2821_output.setInt32(r, 0, _ss_ext_discount_amt9463_t);
             r++;
         }
     }
-    tbl_Filter_TD_2783_output.setNumRow(r);
-    std::cout << "tbl_Filter_TD_2783_output #Row: " << tbl_Filter_TD_2783_output.getNumRow() << std::endl;
+    tbl_Filter_TD_2821_output.setNumRow(r);
+    std::cout << "tbl_Filter_TD_2821_output #Row: " << tbl_Filter_TD_2821_output.getNumRow() << std::endl;
 }
 
-void SW_Filter_TD_2496(Table &tbl_SerializeFromObject_TD_343_input, Table &tbl_Filter_TD_2496_output) {
+void SW_Filter_TD_2316(Table &tbl_SerializeFromObject_TD_3782_input, Table &tbl_Filter_TD_2316_output) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: Filter
     // Operation: ListBuffer((isnotnull(ss_quantity#1216) AND ((ss_quantity#1216 >= 1) AND (ss_quantity#1216 <= 20))))
     // Input: ListBuffer(ss_sold_date_sk#1206, ss_sold_time_sk#1207, ss_item_sk#1208, ss_customer_sk#1209, ss_cdemo_sk#1210, ss_hdemo_sk#1211, ss_addr_sk#1212, ss_store_sk#1213, ss_promo_sk#1214, ss_ticket_number#1215L, ss_quantity#1216, ss_wholesale_cost#1217, ss_list_price#1218, ss_sales_price#1219, ss_ext_discount_amt#1220, ss_ext_sales_price#1221, ss_ext_wholesale_cost#1222, ss_ext_list_price#1223, ss_ext_tax#1224, ss_coupon_amt#1225, ss_net_paid#1226, ss_net_paid_inc_tax#1227, ss_net_profit#1228)
     // Output: ListBuffer(ss_sold_date_sk#1206, ss_sold_time_sk#1207, ss_item_sk#1208, ss_customer_sk#1209, ss_cdemo_sk#1210, ss_hdemo_sk#1211, ss_addr_sk#1212, ss_store_sk#1213, ss_promo_sk#1214, ss_ticket_number#1215L, ss_quantity#1216, ss_wholesale_cost#1217, ss_list_price#1218, ss_sales_price#1219, ss_ext_discount_amt#1220, ss_ext_sales_price#1221, ss_ext_wholesale_cost#1222, ss_ext_list_price#1223, ss_ext_tax#1224, ss_coupon_amt#1225, ss_net_paid#1226, ss_net_paid_inc_tax#1227, ss_net_profit#1228)
     int r = 0;
-    int nrow1 = tbl_SerializeFromObject_TD_343_input.getNumRow();
+    int nrow1 = tbl_SerializeFromObject_TD_3782_input.getNumRow();
     for (int i = 0; i < nrow1; i++) {
-        int32_t _ss_quantity1216 = tbl_SerializeFromObject_TD_343_input.getInt32(i, 10);
-        if ((1) && ((_ss_quantity1216 >= 1) && (_ss_quantity1216 <= 20))) {
-            int32_t _ss_sold_date_sk1206_t = tbl_SerializeFromObject_TD_343_input.getInt32(i, 0);
-            tbl_Filter_TD_2496_output.setInt32(r, 0, _ss_sold_date_sk1206_t);
-            int32_t _ss_sold_time_sk1207_t = tbl_SerializeFromObject_TD_343_input.getInt32(i, 1);
-            tbl_Filter_TD_2496_output.setInt32(r, 1, _ss_sold_time_sk1207_t);
-            int32_t _ss_item_sk1208_t = tbl_SerializeFromObject_TD_343_input.getInt32(i, 2);
-            tbl_Filter_TD_2496_output.setInt32(r, 2, _ss_item_sk1208_t);
-            int32_t _ss_customer_sk1209_t = tbl_SerializeFromObject_TD_343_input.getInt32(i, 3);
-            tbl_Filter_TD_2496_output.setInt32(r, 3, _ss_customer_sk1209_t);
-            int32_t _ss_cdemo_sk1210_t = tbl_SerializeFromObject_TD_343_input.getInt32(i, 4);
-            tbl_Filter_TD_2496_output.setInt32(r, 4, _ss_cdemo_sk1210_t);
-            int32_t _ss_hdemo_sk1211_t = tbl_SerializeFromObject_TD_343_input.getInt32(i, 5);
-            tbl_Filter_TD_2496_output.setInt32(r, 5, _ss_hdemo_sk1211_t);
-            int32_t _ss_addr_sk1212_t = tbl_SerializeFromObject_TD_343_input.getInt32(i, 6);
-            tbl_Filter_TD_2496_output.setInt32(r, 6, _ss_addr_sk1212_t);
-            int32_t _ss_store_sk1213_t = tbl_SerializeFromObject_TD_343_input.getInt32(i, 7);
-            tbl_Filter_TD_2496_output.setInt32(r, 7, _ss_store_sk1213_t);
-            int32_t _ss_promo_sk1214_t = tbl_SerializeFromObject_TD_343_input.getInt32(i, 8);
-            tbl_Filter_TD_2496_output.setInt32(r, 8, _ss_promo_sk1214_t);
-            int64_t _ss_ticket_number1215L_t = tbl_SerializeFromObject_TD_343_input.getInt64(i, 9);
-            tbl_Filter_TD_2496_output.setInt64(r, 9, _ss_ticket_number1215L_t);
-            int32_t _ss_quantity1216_t = tbl_SerializeFromObject_TD_343_input.getInt32(i, 10);
-            tbl_Filter_TD_2496_output.setInt32(r, 10, _ss_quantity1216_t);
-            int32_t _ss_wholesale_cost1217_t = tbl_SerializeFromObject_TD_343_input.getInt32(i, 11);
-            tbl_Filter_TD_2496_output.setInt32(r, 11, _ss_wholesale_cost1217_t);
-            int32_t _ss_list_price1218_t = tbl_SerializeFromObject_TD_343_input.getInt32(i, 12);
-            tbl_Filter_TD_2496_output.setInt32(r, 12, _ss_list_price1218_t);
-            int32_t _ss_sales_price1219_t = tbl_SerializeFromObject_TD_343_input.getInt32(i, 13);
-            tbl_Filter_TD_2496_output.setInt32(r, 13, _ss_sales_price1219_t);
-            int32_t _ss_ext_discount_amt1220_t = tbl_SerializeFromObject_TD_343_input.getInt32(i, 14);
-            tbl_Filter_TD_2496_output.setInt32(r, 14, _ss_ext_discount_amt1220_t);
-            int32_t _ss_ext_sales_price1221_t = tbl_SerializeFromObject_TD_343_input.getInt32(i, 15);
-            tbl_Filter_TD_2496_output.setInt32(r, 15, _ss_ext_sales_price1221_t);
-            int32_t _ss_ext_wholesale_cost1222_t = tbl_SerializeFromObject_TD_343_input.getInt32(i, 16);
-            tbl_Filter_TD_2496_output.setInt32(r, 16, _ss_ext_wholesale_cost1222_t);
-            int32_t _ss_ext_list_price1223_t = tbl_SerializeFromObject_TD_343_input.getInt32(i, 17);
-            tbl_Filter_TD_2496_output.setInt32(r, 17, _ss_ext_list_price1223_t);
-            int32_t _ss_ext_tax1224_t = tbl_SerializeFromObject_TD_343_input.getInt32(i, 18);
-            tbl_Filter_TD_2496_output.setInt32(r, 18, _ss_ext_tax1224_t);
-            int32_t _ss_coupon_amt1225_t = tbl_SerializeFromObject_TD_343_input.getInt32(i, 19);
-            tbl_Filter_TD_2496_output.setInt32(r, 19, _ss_coupon_amt1225_t);
-            int32_t _ss_net_paid1226_t = tbl_SerializeFromObject_TD_343_input.getInt32(i, 20);
-            tbl_Filter_TD_2496_output.setInt32(r, 20, _ss_net_paid1226_t);
-            int32_t _ss_net_paid_inc_tax1227_t = tbl_SerializeFromObject_TD_343_input.getInt32(i, 21);
-            tbl_Filter_TD_2496_output.setInt32(r, 21, _ss_net_paid_inc_tax1227_t);
-            int32_t _ss_net_profit1228_t = tbl_SerializeFromObject_TD_343_input.getInt32(i, 22);
-            tbl_Filter_TD_2496_output.setInt32(r, 22, _ss_net_profit1228_t);
+        int32_t _ss_quantity1216 = tbl_SerializeFromObject_TD_3782_input.getInt32(i, 10);
+        if ((_ss_quantity1216!= 0) && ((_ss_quantity1216 >= 1) && (_ss_quantity1216 <= 20))) {
+            int32_t _ss_sold_date_sk1206_t = tbl_SerializeFromObject_TD_3782_input.getInt32(i, 0);
+            tbl_Filter_TD_2316_output.setInt32(r, 0, _ss_sold_date_sk1206_t);
+            int32_t _ss_sold_time_sk1207_t = tbl_SerializeFromObject_TD_3782_input.getInt32(i, 1);
+            tbl_Filter_TD_2316_output.setInt32(r, 1, _ss_sold_time_sk1207_t);
+            int32_t _ss_item_sk1208_t = tbl_SerializeFromObject_TD_3782_input.getInt32(i, 2);
+            tbl_Filter_TD_2316_output.setInt32(r, 2, _ss_item_sk1208_t);
+            int32_t _ss_customer_sk1209_t = tbl_SerializeFromObject_TD_3782_input.getInt32(i, 3);
+            tbl_Filter_TD_2316_output.setInt32(r, 3, _ss_customer_sk1209_t);
+            int32_t _ss_cdemo_sk1210_t = tbl_SerializeFromObject_TD_3782_input.getInt32(i, 4);
+            tbl_Filter_TD_2316_output.setInt32(r, 4, _ss_cdemo_sk1210_t);
+            int32_t _ss_hdemo_sk1211_t = tbl_SerializeFromObject_TD_3782_input.getInt32(i, 5);
+            tbl_Filter_TD_2316_output.setInt32(r, 5, _ss_hdemo_sk1211_t);
+            int32_t _ss_addr_sk1212_t = tbl_SerializeFromObject_TD_3782_input.getInt32(i, 6);
+            tbl_Filter_TD_2316_output.setInt32(r, 6, _ss_addr_sk1212_t);
+            int32_t _ss_store_sk1213_t = tbl_SerializeFromObject_TD_3782_input.getInt32(i, 7);
+            tbl_Filter_TD_2316_output.setInt32(r, 7, _ss_store_sk1213_t);
+            int32_t _ss_promo_sk1214_t = tbl_SerializeFromObject_TD_3782_input.getInt32(i, 8);
+            tbl_Filter_TD_2316_output.setInt32(r, 8, _ss_promo_sk1214_t);
+            int64_t _ss_ticket_number1215L_t = tbl_SerializeFromObject_TD_3782_input.getInt64(i, 9);
+            tbl_Filter_TD_2316_output.setInt64(r, 9, _ss_ticket_number1215L_t);
+            int32_t _ss_quantity1216_t = tbl_SerializeFromObject_TD_3782_input.getInt32(i, 10);
+            tbl_Filter_TD_2316_output.setInt32(r, 10, _ss_quantity1216_t);
+            int32_t _ss_wholesale_cost1217_t = tbl_SerializeFromObject_TD_3782_input.getInt32(i, 11);
+            tbl_Filter_TD_2316_output.setInt32(r, 11, _ss_wholesale_cost1217_t);
+            int32_t _ss_list_price1218_t = tbl_SerializeFromObject_TD_3782_input.getInt32(i, 12);
+            tbl_Filter_TD_2316_output.setInt32(r, 12, _ss_list_price1218_t);
+            int32_t _ss_sales_price1219_t = tbl_SerializeFromObject_TD_3782_input.getInt32(i, 13);
+            tbl_Filter_TD_2316_output.setInt32(r, 13, _ss_sales_price1219_t);
+            int32_t _ss_ext_discount_amt1220_t = tbl_SerializeFromObject_TD_3782_input.getInt32(i, 14);
+            tbl_Filter_TD_2316_output.setInt32(r, 14, _ss_ext_discount_amt1220_t);
+            int32_t _ss_ext_sales_price1221_t = tbl_SerializeFromObject_TD_3782_input.getInt32(i, 15);
+            tbl_Filter_TD_2316_output.setInt32(r, 15, _ss_ext_sales_price1221_t);
+            int32_t _ss_ext_wholesale_cost1222_t = tbl_SerializeFromObject_TD_3782_input.getInt32(i, 16);
+            tbl_Filter_TD_2316_output.setInt32(r, 16, _ss_ext_wholesale_cost1222_t);
+            int32_t _ss_ext_list_price1223_t = tbl_SerializeFromObject_TD_3782_input.getInt32(i, 17);
+            tbl_Filter_TD_2316_output.setInt32(r, 17, _ss_ext_list_price1223_t);
+            int32_t _ss_ext_tax1224_t = tbl_SerializeFromObject_TD_3782_input.getInt32(i, 18);
+            tbl_Filter_TD_2316_output.setInt32(r, 18, _ss_ext_tax1224_t);
+            int32_t _ss_coupon_amt1225_t = tbl_SerializeFromObject_TD_3782_input.getInt32(i, 19);
+            tbl_Filter_TD_2316_output.setInt32(r, 19, _ss_coupon_amt1225_t);
+            int32_t _ss_net_paid1226_t = tbl_SerializeFromObject_TD_3782_input.getInt32(i, 20);
+            tbl_Filter_TD_2316_output.setInt32(r, 20, _ss_net_paid1226_t);
+            int32_t _ss_net_paid_inc_tax1227_t = tbl_SerializeFromObject_TD_3782_input.getInt32(i, 21);
+            tbl_Filter_TD_2316_output.setInt32(r, 21, _ss_net_paid_inc_tax1227_t);
+            int32_t _ss_net_profit1228_t = tbl_SerializeFromObject_TD_3782_input.getInt32(i, 22);
+            tbl_Filter_TD_2316_output.setInt32(r, 22, _ss_net_profit1228_t);
             r++;
         }
     }
-    tbl_Filter_TD_2496_output.setNumRow(r);
-    std::cout << "tbl_Filter_TD_2496_output #Row: " << tbl_Filter_TD_2496_output.getNumRow() << std::endl;
+    tbl_Filter_TD_2316_output.setNumRow(r);
+    std::cout << "tbl_Filter_TD_2316_output #Row: " << tbl_Filter_TD_2316_output.getNumRow() << std::endl;
 }
 
-void SW_Aggregate_TD_1222(Table &tbl_Filter_TD_2651_output, Table &tbl_Aggregate_TD_1222_output) {
+void SW_Aggregate_TD_1958(Table &tbl_Filter_TD_2501_output, Table &tbl_Aggregate_TD_1958_output) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: Aggregate
-    // Operation: ListBuffer(cast((avg(UnscaledValue(ss_net_paid#9747)) / 100.0) as decimal(11,6)) AS avg(ss_net_paid)#9427)
-    // Input: ListBuffer(ss_net_paid#9747)
-    // Output: ListBuffer(avg(ss_net_paid)#9427)
+    // Operation: ListBuffer(cast((avg(UnscaledValue(ss_net_paid#9768)) / 100.0) as decimal(11,6)) AS avg(ss_net_paid)#9448)
+    // Input: ListBuffer(ss_net_paid#9768)
+    // Output: ListBuffer(avg(ss_net_paid)#9448)
     int64_t avg_0 = 0;
-    int nrow1 = tbl_Filter_TD_2651_output.getNumRow();
+    int nrow1 = tbl_Filter_TD_2501_output.getNumRow();
     for (int i = 0; i < nrow1; i++) {
-        int32_t _ss_net_paid9747 = tbl_Filter_TD_2651_output.getInt32(i, 0);
-        int64_t _avgss_net_paid9427_avg_0 = _ss_net_paid9747;
-        avg_0 = (avg_0 + _avgss_net_paid9427_avg_0);
+        int32_t _ss_net_paid9768 = tbl_Filter_TD_2501_output.getInt32(i, 0);
+        int64_t _avgss_net_paid9448_avg_0 = _ss_net_paid9768;
+        avg_0 = (avg_0 + _avgss_net_paid9448_avg_0);
     }
     int r = 0;
-    int32_t _avgss_net_paid9427 = (avg_0 / nrow1 / 100.0);
-    tbl_Aggregate_TD_1222_output.setInt32(r++, 0, _avgss_net_paid9427);
-    tbl_Aggregate_TD_1222_output.setNumRow(r);
-    std::cout << "tbl_Aggregate_TD_1222_output #Row: " << tbl_Aggregate_TD_1222_output.getNumRow() << std::endl;
+    int32_t _avgss_net_paid9448 = (avg_0 / nrow1 / 100.0);
+    tbl_Aggregate_TD_1958_output.setInt32(r++, 0, _avgss_net_paid9448);
+    tbl_Aggregate_TD_1958_output.setNumRow(r);
+    std::cout << "tbl_Aggregate_TD_1958_output #Row: " << tbl_Aggregate_TD_1958_output.getNumRow() << std::endl;
 }
 
-void SW_Aggregate_TD_145(Table &tbl_Filter_TD_2962_output, Table &tbl_Aggregate_TD_145_output) {
+void SW_Aggregate_TD_1286(Table &tbl_Filter_TD_2983_output, Table &tbl_Aggregate_TD_1286_output) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: Aggregate
-    // Operation: ListBuffer(cast((avg(UnscaledValue(ss_ext_discount_amt#9718)) / 100.0) as decimal(11,6)) AS avg(ss_ext_discount_amt)#9425)
-    // Input: ListBuffer(ss_ext_discount_amt#9718)
-    // Output: ListBuffer(avg(ss_ext_discount_amt)#9425)
+    // Operation: ListBuffer(cast((avg(UnscaledValue(ss_ext_discount_amt#9739)) / 100.0) as decimal(11,6)) AS avg(ss_ext_discount_amt)#9446)
+    // Input: ListBuffer(ss_ext_discount_amt#9739)
+    // Output: ListBuffer(avg(ss_ext_discount_amt)#9446)
     int64_t avg_0 = 0;
-    int nrow1 = tbl_Filter_TD_2962_output.getNumRow();
+    int nrow1 = tbl_Filter_TD_2983_output.getNumRow();
     for (int i = 0; i < nrow1; i++) {
-        int32_t _ss_ext_discount_amt9718 = tbl_Filter_TD_2962_output.getInt32(i, 0);
-        int64_t _avgss_ext_discount_amt9425_avg_0 = _ss_ext_discount_amt9718;
-        avg_0 = (avg_0 + _avgss_ext_discount_amt9425_avg_0);
+        int32_t _ss_ext_discount_amt9739 = tbl_Filter_TD_2983_output.getInt32(i, 0);
+        int64_t _avgss_ext_discount_amt9446_avg_0 = _ss_ext_discount_amt9739;
+        avg_0 = (avg_0 + _avgss_ext_discount_amt9446_avg_0);
     }
     int r = 0;
-    int32_t _avgss_ext_discount_amt9425 = (avg_0 / nrow1 / 100.0);
-    tbl_Aggregate_TD_145_output.setInt32(r++, 0, _avgss_ext_discount_amt9425);
-    tbl_Aggregate_TD_145_output.setNumRow(r);
-    std::cout << "tbl_Aggregate_TD_145_output #Row: " << tbl_Aggregate_TD_145_output.getNumRow() << std::endl;
+    int32_t _avgss_ext_discount_amt9446 = (avg_0 / nrow1 / 100.0);
+    tbl_Aggregate_TD_1286_output.setInt32(r++, 0, _avgss_ext_discount_amt9446);
+    tbl_Aggregate_TD_1286_output.setNumRow(r);
+    std::cout << "tbl_Aggregate_TD_1286_output #Row: " << tbl_Aggregate_TD_1286_output.getNumRow() << std::endl;
 }
 
-void SW_Aggregate_TD_1143(Table &tbl_Filter_TD_2642_output, Table &tbl_Aggregate_TD_1143_output) {
+void SW_Aggregate_TD_1841(Table &tbl_Filter_TD_2501_output, Table &tbl_Aggregate_TD_1841_output) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: Aggregate
-    // Operation: ListBuffer(count(1) AS count(1)#9423L)
-    // Input: ListBuffer(ss_sold_date_sk#9681, ss_sold_time_sk#9682, ss_item_sk#9683, ss_customer_sk#9684, ss_cdemo_sk#9685, ss_hdemo_sk#9686, ss_addr_sk#9687, ss_store_sk#9688, ss_promo_sk#9689, ss_ticket_number#9690L, ss_quantity#9691, ss_wholesale_cost#9692, ss_list_price#9693, ss_sales_price#9694, ss_ext_discount_amt#9695, ss_ext_sales_price#9696, ss_ext_wholesale_cost#9697, ss_ext_list_price#9698, ss_ext_tax#9699, ss_coupon_amt#9700, ss_net_paid#9701, ss_net_paid_inc_tax#9702, ss_net_profit#9703)
-    // Output: ListBuffer(count(1)#9423L)
+    // Operation: ListBuffer(count(1) AS count(1)#9444L)
+    // Input: ListBuffer(ss_sold_date_sk#9702, ss_sold_time_sk#9703, ss_item_sk#9704, ss_customer_sk#9705, ss_cdemo_sk#9706, ss_hdemo_sk#9707, ss_addr_sk#9708, ss_store_sk#9709, ss_promo_sk#9710, ss_ticket_number#9711L, ss_quantity#9712, ss_wholesale_cost#9713, ss_list_price#9714, ss_sales_price#9715, ss_ext_discount_amt#9716, ss_ext_sales_price#9717, ss_ext_wholesale_cost#9718, ss_ext_list_price#9719, ss_ext_tax#9720, ss_coupon_amt#9721, ss_net_paid#9722, ss_net_paid_inc_tax#9723, ss_net_profit#9724)
+    // Output: ListBuffer(count(1)#9444L)
     int64_t count_0 = 0;
-    int nrow1 = tbl_Filter_TD_2642_output.getNumRow();
+    int nrow1 = tbl_Filter_TD_2501_output.getNumRow();
     for (int i = 0; i < nrow1; i++) {
-        int32_t _ss_sold_date_sk9681 = tbl_Filter_TD_2642_output.getInt32(i, 0);
-        int32_t _ss_sold_time_sk9682 = tbl_Filter_TD_2642_output.getInt32(i, 1);
-        int32_t _ss_item_sk9683 = tbl_Filter_TD_2642_output.getInt32(i, 2);
-        int32_t _ss_customer_sk9684 = tbl_Filter_TD_2642_output.getInt32(i, 3);
-        int32_t _ss_cdemo_sk9685 = tbl_Filter_TD_2642_output.getInt32(i, 4);
-        int32_t _ss_hdemo_sk9686 = tbl_Filter_TD_2642_output.getInt32(i, 5);
-        int32_t _ss_addr_sk9687 = tbl_Filter_TD_2642_output.getInt32(i, 6);
-        int32_t _ss_store_sk9688 = tbl_Filter_TD_2642_output.getInt32(i, 7);
-        int32_t _ss_promo_sk9689 = tbl_Filter_TD_2642_output.getInt32(i, 8);
-        int64_t _ss_ticket_number9690L = tbl_Filter_TD_2642_output.getInt64(i, 9);
-        int32_t _ss_quantity9691 = tbl_Filter_TD_2642_output.getInt32(i, 10);
-        int32_t _ss_wholesale_cost9692 = tbl_Filter_TD_2642_output.getInt32(i, 11);
-        int32_t _ss_list_price9693 = tbl_Filter_TD_2642_output.getInt32(i, 12);
-        int32_t _ss_sales_price9694 = tbl_Filter_TD_2642_output.getInt32(i, 13);
-        int32_t _ss_ext_discount_amt9695 = tbl_Filter_TD_2642_output.getInt32(i, 14);
-        int32_t _ss_ext_sales_price9696 = tbl_Filter_TD_2642_output.getInt32(i, 15);
-        int32_t _ss_ext_wholesale_cost9697 = tbl_Filter_TD_2642_output.getInt32(i, 16);
-        int32_t _ss_ext_list_price9698 = tbl_Filter_TD_2642_output.getInt32(i, 17);
-        int32_t _ss_ext_tax9699 = tbl_Filter_TD_2642_output.getInt32(i, 18);
-        int32_t _ss_coupon_amt9700 = tbl_Filter_TD_2642_output.getInt32(i, 19);
-        int32_t _ss_net_paid9701 = tbl_Filter_TD_2642_output.getInt32(i, 20);
-        int32_t _ss_net_paid_inc_tax9702 = tbl_Filter_TD_2642_output.getInt32(i, 21);
-        int32_t _ss_net_profit9703 = tbl_Filter_TD_2642_output.getInt32(i, 22);
-        int64_t _count19423L_count_0 = 1;
-        count_0 += _count19423L_count_0;
+        int32_t _ss_sold_date_sk9702 = tbl_Filter_TD_2501_output.getInt32(i, 0);
+        int32_t _ss_sold_time_sk9703 = tbl_Filter_TD_2501_output.getInt32(i, 1);
+        int32_t _ss_item_sk9704 = tbl_Filter_TD_2501_output.getInt32(i, 2);
+        int32_t _ss_customer_sk9705 = tbl_Filter_TD_2501_output.getInt32(i, 3);
+        int32_t _ss_cdemo_sk9706 = tbl_Filter_TD_2501_output.getInt32(i, 4);
+        int32_t _ss_hdemo_sk9707 = tbl_Filter_TD_2501_output.getInt32(i, 5);
+        int32_t _ss_addr_sk9708 = tbl_Filter_TD_2501_output.getInt32(i, 6);
+        int32_t _ss_store_sk9709 = tbl_Filter_TD_2501_output.getInt32(i, 7);
+        int32_t _ss_promo_sk9710 = tbl_Filter_TD_2501_output.getInt32(i, 8);
+        int64_t _ss_ticket_number9711L = tbl_Filter_TD_2501_output.getInt64(i, 9);
+        int32_t _ss_quantity9712 = tbl_Filter_TD_2501_output.getInt32(i, 10);
+        int32_t _ss_wholesale_cost9713 = tbl_Filter_TD_2501_output.getInt32(i, 11);
+        int32_t _ss_list_price9714 = tbl_Filter_TD_2501_output.getInt32(i, 12);
+        int32_t _ss_sales_price9715 = tbl_Filter_TD_2501_output.getInt32(i, 13);
+        int32_t _ss_ext_discount_amt9716 = tbl_Filter_TD_2501_output.getInt32(i, 14);
+        int32_t _ss_ext_sales_price9717 = tbl_Filter_TD_2501_output.getInt32(i, 15);
+        int32_t _ss_ext_wholesale_cost9718 = tbl_Filter_TD_2501_output.getInt32(i, 16);
+        int32_t _ss_ext_list_price9719 = tbl_Filter_TD_2501_output.getInt32(i, 17);
+        int32_t _ss_ext_tax9720 = tbl_Filter_TD_2501_output.getInt32(i, 18);
+        int32_t _ss_coupon_amt9721 = tbl_Filter_TD_2501_output.getInt32(i, 19);
+        int32_t _ss_net_paid9722 = tbl_Filter_TD_2501_output.getInt32(i, 20);
+        int32_t _ss_net_paid_inc_tax9723 = tbl_Filter_TD_2501_output.getInt32(i, 21);
+        int32_t _ss_net_profit9724 = tbl_Filter_TD_2501_output.getInt32(i, 22);
+        int64_t _count19444L_count_0 = 1;
+        count_0 += _count19444L_count_0;
     }
     int r = 0;
-    int64_t _count19423L = count_0;
-    tbl_Aggregate_TD_1143_output.setInt64(r++, 0, _count19423L);
-    tbl_Aggregate_TD_1143_output.setNumRow(r);
-    std::cout << "tbl_Aggregate_TD_1143_output #Row: " << tbl_Aggregate_TD_1143_output.getNumRow() << std::endl;
+    int64_t _count19444L = count_0;
+    tbl_Aggregate_TD_1841_output.setInt64(r++, 0, _count19444L);
+    tbl_Aggregate_TD_1841_output.setNumRow(r);
+    std::cout << "tbl_Aggregate_TD_1841_output #Row: " << tbl_Aggregate_TD_1841_output.getNumRow() << std::endl;
 }
 
-void SW_Aggregate_TD_1163(Table &tbl_Filter_TD_2613_output, Table &tbl_Aggregate_TD_1163_output) {
+void SW_Aggregate_TD_1164(Table &tbl_Filter_TD_2430_output, Table &tbl_Aggregate_TD_1164_output) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: Aggregate
-    // Operation: ListBuffer(cast((avg(UnscaledValue(ss_net_paid#9678)) / 100.0) as decimal(11,6)) AS avg(ss_net_paid)#9421)
-    // Input: ListBuffer(ss_net_paid#9678)
-    // Output: ListBuffer(avg(ss_net_paid)#9421)
+    // Operation: ListBuffer(cast((avg(UnscaledValue(ss_net_paid#9699)) / 100.0) as decimal(11,6)) AS avg(ss_net_paid)#9442)
+    // Input: ListBuffer(ss_net_paid#9699)
+    // Output: ListBuffer(avg(ss_net_paid)#9442)
     int64_t avg_0 = 0;
-    int nrow1 = tbl_Filter_TD_2613_output.getNumRow();
+    int nrow1 = tbl_Filter_TD_2430_output.getNumRow();
     for (int i = 0; i < nrow1; i++) {
-        int32_t _ss_net_paid9678 = tbl_Filter_TD_2613_output.getInt32(i, 0);
-        int64_t _avgss_net_paid9421_avg_0 = _ss_net_paid9678;
-        avg_0 = (avg_0 + _avgss_net_paid9421_avg_0);
+        int32_t _ss_net_paid9699 = tbl_Filter_TD_2430_output.getInt32(i, 0);
+        int64_t _avgss_net_paid9442_avg_0 = _ss_net_paid9699;
+        avg_0 = (avg_0 + _avgss_net_paid9442_avg_0);
     }
     int r = 0;
-    int32_t _avgss_net_paid9421 = (avg_0 / nrow1 / 100.0);
-    tbl_Aggregate_TD_1163_output.setInt32(r++, 0, _avgss_net_paid9421);
-    tbl_Aggregate_TD_1163_output.setNumRow(r);
-    std::cout << "tbl_Aggregate_TD_1163_output #Row: " << tbl_Aggregate_TD_1163_output.getNumRow() << std::endl;
+    int32_t _avgss_net_paid9442 = (avg_0 / nrow1 / 100.0);
+    tbl_Aggregate_TD_1164_output.setInt32(r++, 0, _avgss_net_paid9442);
+    tbl_Aggregate_TD_1164_output.setNumRow(r);
+    std::cout << "tbl_Aggregate_TD_1164_output #Row: " << tbl_Aggregate_TD_1164_output.getNumRow() << std::endl;
 }
 
-void SW_Aggregate_TD_1593(Table &tbl_Filter_TD_225_output, Table &tbl_Aggregate_TD_1593_output) {
+void SW_Aggregate_TD_113(Table &tbl_Filter_TD_2662_output, Table &tbl_Aggregate_TD_113_output) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: Aggregate
-    // Operation: ListBuffer(cast((avg(UnscaledValue(ss_ext_discount_amt#9649)) / 100.0) as decimal(11,6)) AS avg(ss_ext_discount_amt)#9419)
-    // Input: ListBuffer(ss_ext_discount_amt#9649)
-    // Output: ListBuffer(avg(ss_ext_discount_amt)#9419)
+    // Operation: ListBuffer(cast((avg(UnscaledValue(ss_ext_discount_amt#9670)) / 100.0) as decimal(11,6)) AS avg(ss_ext_discount_amt)#9440)
+    // Input: ListBuffer(ss_ext_discount_amt#9670)
+    // Output: ListBuffer(avg(ss_ext_discount_amt)#9440)
     int64_t avg_0 = 0;
-    int nrow1 = tbl_Filter_TD_225_output.getNumRow();
+    int nrow1 = tbl_Filter_TD_2662_output.getNumRow();
     for (int i = 0; i < nrow1; i++) {
-        int32_t _ss_ext_discount_amt9649 = tbl_Filter_TD_225_output.getInt32(i, 0);
-        int64_t _avgss_ext_discount_amt9419_avg_0 = _ss_ext_discount_amt9649;
-        avg_0 = (avg_0 + _avgss_ext_discount_amt9419_avg_0);
+        int32_t _ss_ext_discount_amt9670 = tbl_Filter_TD_2662_output.getInt32(i, 0);
+        int64_t _avgss_ext_discount_amt9440_avg_0 = _ss_ext_discount_amt9670;
+        avg_0 = (avg_0 + _avgss_ext_discount_amt9440_avg_0);
     }
     int r = 0;
-    int32_t _avgss_ext_discount_amt9419 = (avg_0 / nrow1 / 100.0);
-    tbl_Aggregate_TD_1593_output.setInt32(r++, 0, _avgss_ext_discount_amt9419);
-    tbl_Aggregate_TD_1593_output.setNumRow(r);
-    std::cout << "tbl_Aggregate_TD_1593_output #Row: " << tbl_Aggregate_TD_1593_output.getNumRow() << std::endl;
+    int32_t _avgss_ext_discount_amt9440 = (avg_0 / nrow1 / 100.0);
+    tbl_Aggregate_TD_113_output.setInt32(r++, 0, _avgss_ext_discount_amt9440);
+    tbl_Aggregate_TD_113_output.setNumRow(r);
+    std::cout << "tbl_Aggregate_TD_113_output #Row: " << tbl_Aggregate_TD_113_output.getNumRow() << std::endl;
 }
 
-void SW_Aggregate_TD_143(Table &tbl_Filter_TD_2396_output, Table &tbl_Aggregate_TD_143_output) {
+void SW_Aggregate_TD_1237(Table &tbl_Filter_TD_2269_output, Table &tbl_Aggregate_TD_1237_output) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: Aggregate
-    // Operation: ListBuffer(count(1) AS count(1)#9417L)
-    // Input: ListBuffer(ss_sold_date_sk#9612, ss_sold_time_sk#9613, ss_item_sk#9614, ss_customer_sk#9615, ss_cdemo_sk#9616, ss_hdemo_sk#9617, ss_addr_sk#9618, ss_store_sk#9619, ss_promo_sk#9620, ss_ticket_number#9621L, ss_quantity#9622, ss_wholesale_cost#9623, ss_list_price#9624, ss_sales_price#9625, ss_ext_discount_amt#9626, ss_ext_sales_price#9627, ss_ext_wholesale_cost#9628, ss_ext_list_price#9629, ss_ext_tax#9630, ss_coupon_amt#9631, ss_net_paid#9632, ss_net_paid_inc_tax#9633, ss_net_profit#9634)
-    // Output: ListBuffer(count(1)#9417L)
+    // Operation: ListBuffer(count(1) AS count(1)#9438L)
+    // Input: ListBuffer(ss_sold_date_sk#9633, ss_sold_time_sk#9634, ss_item_sk#9635, ss_customer_sk#9636, ss_cdemo_sk#9637, ss_hdemo_sk#9638, ss_addr_sk#9639, ss_store_sk#9640, ss_promo_sk#9641, ss_ticket_number#9642L, ss_quantity#9643, ss_wholesale_cost#9644, ss_list_price#9645, ss_sales_price#9646, ss_ext_discount_amt#9647, ss_ext_sales_price#9648, ss_ext_wholesale_cost#9649, ss_ext_list_price#9650, ss_ext_tax#9651, ss_coupon_amt#9652, ss_net_paid#9653, ss_net_paid_inc_tax#9654, ss_net_profit#9655)
+    // Output: ListBuffer(count(1)#9438L)
     int64_t count_0 = 0;
-    int nrow1 = tbl_Filter_TD_2396_output.getNumRow();
+    int nrow1 = tbl_Filter_TD_2269_output.getNumRow();
     for (int i = 0; i < nrow1; i++) {
-        int32_t _ss_sold_date_sk9612 = tbl_Filter_TD_2396_output.getInt32(i, 0);
-        int32_t _ss_sold_time_sk9613 = tbl_Filter_TD_2396_output.getInt32(i, 1);
-        int32_t _ss_item_sk9614 = tbl_Filter_TD_2396_output.getInt32(i, 2);
-        int32_t _ss_customer_sk9615 = tbl_Filter_TD_2396_output.getInt32(i, 3);
-        int32_t _ss_cdemo_sk9616 = tbl_Filter_TD_2396_output.getInt32(i, 4);
-        int32_t _ss_hdemo_sk9617 = tbl_Filter_TD_2396_output.getInt32(i, 5);
-        int32_t _ss_addr_sk9618 = tbl_Filter_TD_2396_output.getInt32(i, 6);
-        int32_t _ss_store_sk9619 = tbl_Filter_TD_2396_output.getInt32(i, 7);
-        int32_t _ss_promo_sk9620 = tbl_Filter_TD_2396_output.getInt32(i, 8);
-        int64_t _ss_ticket_number9621L = tbl_Filter_TD_2396_output.getInt64(i, 9);
-        int32_t _ss_quantity9622 = tbl_Filter_TD_2396_output.getInt32(i, 10);
-        int32_t _ss_wholesale_cost9623 = tbl_Filter_TD_2396_output.getInt32(i, 11);
-        int32_t _ss_list_price9624 = tbl_Filter_TD_2396_output.getInt32(i, 12);
-        int32_t _ss_sales_price9625 = tbl_Filter_TD_2396_output.getInt32(i, 13);
-        int32_t _ss_ext_discount_amt9626 = tbl_Filter_TD_2396_output.getInt32(i, 14);
-        int32_t _ss_ext_sales_price9627 = tbl_Filter_TD_2396_output.getInt32(i, 15);
-        int32_t _ss_ext_wholesale_cost9628 = tbl_Filter_TD_2396_output.getInt32(i, 16);
-        int32_t _ss_ext_list_price9629 = tbl_Filter_TD_2396_output.getInt32(i, 17);
-        int32_t _ss_ext_tax9630 = tbl_Filter_TD_2396_output.getInt32(i, 18);
-        int32_t _ss_coupon_amt9631 = tbl_Filter_TD_2396_output.getInt32(i, 19);
-        int32_t _ss_net_paid9632 = tbl_Filter_TD_2396_output.getInt32(i, 20);
-        int32_t _ss_net_paid_inc_tax9633 = tbl_Filter_TD_2396_output.getInt32(i, 21);
-        int32_t _ss_net_profit9634 = tbl_Filter_TD_2396_output.getInt32(i, 22);
-        int64_t _count19417L_count_0 = 1;
-        count_0 += _count19417L_count_0;
+        int32_t _ss_sold_date_sk9633 = tbl_Filter_TD_2269_output.getInt32(i, 0);
+        int32_t _ss_sold_time_sk9634 = tbl_Filter_TD_2269_output.getInt32(i, 1);
+        int32_t _ss_item_sk9635 = tbl_Filter_TD_2269_output.getInt32(i, 2);
+        int32_t _ss_customer_sk9636 = tbl_Filter_TD_2269_output.getInt32(i, 3);
+        int32_t _ss_cdemo_sk9637 = tbl_Filter_TD_2269_output.getInt32(i, 4);
+        int32_t _ss_hdemo_sk9638 = tbl_Filter_TD_2269_output.getInt32(i, 5);
+        int32_t _ss_addr_sk9639 = tbl_Filter_TD_2269_output.getInt32(i, 6);
+        int32_t _ss_store_sk9640 = tbl_Filter_TD_2269_output.getInt32(i, 7);
+        int32_t _ss_promo_sk9641 = tbl_Filter_TD_2269_output.getInt32(i, 8);
+        int64_t _ss_ticket_number9642L = tbl_Filter_TD_2269_output.getInt64(i, 9);
+        int32_t _ss_quantity9643 = tbl_Filter_TD_2269_output.getInt32(i, 10);
+        int32_t _ss_wholesale_cost9644 = tbl_Filter_TD_2269_output.getInt32(i, 11);
+        int32_t _ss_list_price9645 = tbl_Filter_TD_2269_output.getInt32(i, 12);
+        int32_t _ss_sales_price9646 = tbl_Filter_TD_2269_output.getInt32(i, 13);
+        int32_t _ss_ext_discount_amt9647 = tbl_Filter_TD_2269_output.getInt32(i, 14);
+        int32_t _ss_ext_sales_price9648 = tbl_Filter_TD_2269_output.getInt32(i, 15);
+        int32_t _ss_ext_wholesale_cost9649 = tbl_Filter_TD_2269_output.getInt32(i, 16);
+        int32_t _ss_ext_list_price9650 = tbl_Filter_TD_2269_output.getInt32(i, 17);
+        int32_t _ss_ext_tax9651 = tbl_Filter_TD_2269_output.getInt32(i, 18);
+        int32_t _ss_coupon_amt9652 = tbl_Filter_TD_2269_output.getInt32(i, 19);
+        int32_t _ss_net_paid9653 = tbl_Filter_TD_2269_output.getInt32(i, 20);
+        int32_t _ss_net_paid_inc_tax9654 = tbl_Filter_TD_2269_output.getInt32(i, 21);
+        int32_t _ss_net_profit9655 = tbl_Filter_TD_2269_output.getInt32(i, 22);
+        int64_t _count19438L_count_0 = 1;
+        count_0 += _count19438L_count_0;
     }
     int r = 0;
-    int64_t _count19417L = count_0;
-    tbl_Aggregate_TD_143_output.setInt64(r++, 0, _count19417L);
-    tbl_Aggregate_TD_143_output.setNumRow(r);
-    std::cout << "tbl_Aggregate_TD_143_output #Row: " << tbl_Aggregate_TD_143_output.getNumRow() << std::endl;
+    int64_t _count19438L = count_0;
+    tbl_Aggregate_TD_1237_output.setInt64(r++, 0, _count19438L);
+    tbl_Aggregate_TD_1237_output.setNumRow(r);
+    std::cout << "tbl_Aggregate_TD_1237_output #Row: " << tbl_Aggregate_TD_1237_output.getNumRow() << std::endl;
 }
 
-void SW_Aggregate_TD_1655(Table &tbl_Filter_TD_2785_output, Table &tbl_Aggregate_TD_1655_output) {
+void SW_Aggregate_TD_1945(Table &tbl_Filter_TD_2927_output, Table &tbl_Aggregate_TD_1945_output) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: Aggregate
-    // Operation: ListBuffer(cast((avg(UnscaledValue(ss_net_paid#9609)) / 100.0) as decimal(11,6)) AS avg(ss_net_paid)#9415)
-    // Input: ListBuffer(ss_net_paid#9609)
-    // Output: ListBuffer(avg(ss_net_paid)#9415)
+    // Operation: ListBuffer(cast((avg(UnscaledValue(ss_net_paid#9630)) / 100.0) as decimal(11,6)) AS avg(ss_net_paid)#9436)
+    // Input: ListBuffer(ss_net_paid#9630)
+    // Output: ListBuffer(avg(ss_net_paid)#9436)
     int64_t avg_0 = 0;
-    int nrow1 = tbl_Filter_TD_2785_output.getNumRow();
+    int nrow1 = tbl_Filter_TD_2927_output.getNumRow();
     for (int i = 0; i < nrow1; i++) {
-        int32_t _ss_net_paid9609 = tbl_Filter_TD_2785_output.getInt32(i, 0);
-        int64_t _avgss_net_paid9415_avg_0 = _ss_net_paid9609;
-        avg_0 = (avg_0 + _avgss_net_paid9415_avg_0);
+        int32_t _ss_net_paid9630 = tbl_Filter_TD_2927_output.getInt32(i, 0);
+        int64_t _avgss_net_paid9436_avg_0 = _ss_net_paid9630;
+        avg_0 = (avg_0 + _avgss_net_paid9436_avg_0);
     }
     int r = 0;
-    int32_t _avgss_net_paid9415 = (avg_0 / nrow1 / 100.0);
-    tbl_Aggregate_TD_1655_output.setInt32(r++, 0, _avgss_net_paid9415);
-    tbl_Aggregate_TD_1655_output.setNumRow(r);
-    std::cout << "tbl_Aggregate_TD_1655_output #Row: " << tbl_Aggregate_TD_1655_output.getNumRow() << std::endl;
+    int32_t _avgss_net_paid9436 = (avg_0 / nrow1 / 100.0);
+    tbl_Aggregate_TD_1945_output.setInt32(r++, 0, _avgss_net_paid9436);
+    tbl_Aggregate_TD_1945_output.setNumRow(r);
+    std::cout << "tbl_Aggregate_TD_1945_output #Row: " << tbl_Aggregate_TD_1945_output.getNumRow() << std::endl;
 }
 
-void SW_Aggregate_TD_1525(Table &tbl_Filter_TD_2677_output, Table &tbl_Aggregate_TD_1525_output) {
+void SW_Aggregate_TD_1278(Table &tbl_Filter_TD_2627_output, Table &tbl_Aggregate_TD_1278_output) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: Aggregate
-    // Operation: ListBuffer(cast((avg(UnscaledValue(ss_ext_discount_amt#9580)) / 100.0) as decimal(11,6)) AS avg(ss_ext_discount_amt)#9413)
-    // Input: ListBuffer(ss_ext_discount_amt#9580)
-    // Output: ListBuffer(avg(ss_ext_discount_amt)#9413)
+    // Operation: ListBuffer(cast((avg(UnscaledValue(ss_ext_discount_amt#9601)) / 100.0) as decimal(11,6)) AS avg(ss_ext_discount_amt)#9434)
+    // Input: ListBuffer(ss_ext_discount_amt#9601)
+    // Output: ListBuffer(avg(ss_ext_discount_amt)#9434)
     int64_t avg_0 = 0;
-    int nrow1 = tbl_Filter_TD_2677_output.getNumRow();
+    int nrow1 = tbl_Filter_TD_2627_output.getNumRow();
     for (int i = 0; i < nrow1; i++) {
-        int32_t _ss_ext_discount_amt9580 = tbl_Filter_TD_2677_output.getInt32(i, 0);
-        int64_t _avgss_ext_discount_amt9413_avg_0 = _ss_ext_discount_amt9580;
-        avg_0 = (avg_0 + _avgss_ext_discount_amt9413_avg_0);
+        int32_t _ss_ext_discount_amt9601 = tbl_Filter_TD_2627_output.getInt32(i, 0);
+        int64_t _avgss_ext_discount_amt9434_avg_0 = _ss_ext_discount_amt9601;
+        avg_0 = (avg_0 + _avgss_ext_discount_amt9434_avg_0);
     }
     int r = 0;
-    int32_t _avgss_ext_discount_amt9413 = (avg_0 / nrow1 / 100.0);
-    tbl_Aggregate_TD_1525_output.setInt32(r++, 0, _avgss_ext_discount_amt9413);
-    tbl_Aggregate_TD_1525_output.setNumRow(r);
-    std::cout << "tbl_Aggregate_TD_1525_output #Row: " << tbl_Aggregate_TD_1525_output.getNumRow() << std::endl;
+    int32_t _avgss_ext_discount_amt9434 = (avg_0 / nrow1 / 100.0);
+    tbl_Aggregate_TD_1278_output.setInt32(r++, 0, _avgss_ext_discount_amt9434);
+    tbl_Aggregate_TD_1278_output.setNumRow(r);
+    std::cout << "tbl_Aggregate_TD_1278_output #Row: " << tbl_Aggregate_TD_1278_output.getNumRow() << std::endl;
 }
 
-void SW_Aggregate_TD_1694(Table &tbl_Filter_TD_234_output, Table &tbl_Aggregate_TD_1694_output) {
+void SW_Aggregate_TD_1723(Table &tbl_Filter_TD_2957_output, Table &tbl_Aggregate_TD_1723_output) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: Aggregate
-    // Operation: ListBuffer(count(1) AS count(1)#9411L)
-    // Input: ListBuffer(ss_sold_date_sk#9543, ss_sold_time_sk#9544, ss_item_sk#9545, ss_customer_sk#9546, ss_cdemo_sk#9547, ss_hdemo_sk#9548, ss_addr_sk#9549, ss_store_sk#9550, ss_promo_sk#9551, ss_ticket_number#9552L, ss_quantity#9553, ss_wholesale_cost#9554, ss_list_price#9555, ss_sales_price#9556, ss_ext_discount_amt#9557, ss_ext_sales_price#9558, ss_ext_wholesale_cost#9559, ss_ext_list_price#9560, ss_ext_tax#9561, ss_coupon_amt#9562, ss_net_paid#9563, ss_net_paid_inc_tax#9564, ss_net_profit#9565)
-    // Output: ListBuffer(count(1)#9411L)
+    // Operation: ListBuffer(count(1) AS count(1)#9432L)
+    // Input: ListBuffer(ss_sold_date_sk#9564, ss_sold_time_sk#9565, ss_item_sk#9566, ss_customer_sk#9567, ss_cdemo_sk#9568, ss_hdemo_sk#9569, ss_addr_sk#9570, ss_store_sk#9571, ss_promo_sk#9572, ss_ticket_number#9573L, ss_quantity#9574, ss_wholesale_cost#9575, ss_list_price#9576, ss_sales_price#9577, ss_ext_discount_amt#9578, ss_ext_sales_price#9579, ss_ext_wholesale_cost#9580, ss_ext_list_price#9581, ss_ext_tax#9582, ss_coupon_amt#9583, ss_net_paid#9584, ss_net_paid_inc_tax#9585, ss_net_profit#9586)
+    // Output: ListBuffer(count(1)#9432L)
     int64_t count_0 = 0;
-    int nrow1 = tbl_Filter_TD_234_output.getNumRow();
+    int nrow1 = tbl_Filter_TD_2957_output.getNumRow();
     for (int i = 0; i < nrow1; i++) {
-        int32_t _ss_sold_date_sk9543 = tbl_Filter_TD_234_output.getInt32(i, 0);
-        int32_t _ss_sold_time_sk9544 = tbl_Filter_TD_234_output.getInt32(i, 1);
-        int32_t _ss_item_sk9545 = tbl_Filter_TD_234_output.getInt32(i, 2);
-        int32_t _ss_customer_sk9546 = tbl_Filter_TD_234_output.getInt32(i, 3);
-        int32_t _ss_cdemo_sk9547 = tbl_Filter_TD_234_output.getInt32(i, 4);
-        int32_t _ss_hdemo_sk9548 = tbl_Filter_TD_234_output.getInt32(i, 5);
-        int32_t _ss_addr_sk9549 = tbl_Filter_TD_234_output.getInt32(i, 6);
-        int32_t _ss_store_sk9550 = tbl_Filter_TD_234_output.getInt32(i, 7);
-        int32_t _ss_promo_sk9551 = tbl_Filter_TD_234_output.getInt32(i, 8);
-        int64_t _ss_ticket_number9552L = tbl_Filter_TD_234_output.getInt64(i, 9);
-        int32_t _ss_quantity9553 = tbl_Filter_TD_234_output.getInt32(i, 10);
-        int32_t _ss_wholesale_cost9554 = tbl_Filter_TD_234_output.getInt32(i, 11);
-        int32_t _ss_list_price9555 = tbl_Filter_TD_234_output.getInt32(i, 12);
-        int32_t _ss_sales_price9556 = tbl_Filter_TD_234_output.getInt32(i, 13);
-        int32_t _ss_ext_discount_amt9557 = tbl_Filter_TD_234_output.getInt32(i, 14);
-        int32_t _ss_ext_sales_price9558 = tbl_Filter_TD_234_output.getInt32(i, 15);
-        int32_t _ss_ext_wholesale_cost9559 = tbl_Filter_TD_234_output.getInt32(i, 16);
-        int32_t _ss_ext_list_price9560 = tbl_Filter_TD_234_output.getInt32(i, 17);
-        int32_t _ss_ext_tax9561 = tbl_Filter_TD_234_output.getInt32(i, 18);
-        int32_t _ss_coupon_amt9562 = tbl_Filter_TD_234_output.getInt32(i, 19);
-        int32_t _ss_net_paid9563 = tbl_Filter_TD_234_output.getInt32(i, 20);
-        int32_t _ss_net_paid_inc_tax9564 = tbl_Filter_TD_234_output.getInt32(i, 21);
-        int32_t _ss_net_profit9565 = tbl_Filter_TD_234_output.getInt32(i, 22);
-        int64_t _count19411L_count_0 = 1;
-        count_0 += _count19411L_count_0;
+        int32_t _ss_sold_date_sk9564 = tbl_Filter_TD_2957_output.getInt32(i, 0);
+        int32_t _ss_sold_time_sk9565 = tbl_Filter_TD_2957_output.getInt32(i, 1);
+        int32_t _ss_item_sk9566 = tbl_Filter_TD_2957_output.getInt32(i, 2);
+        int32_t _ss_customer_sk9567 = tbl_Filter_TD_2957_output.getInt32(i, 3);
+        int32_t _ss_cdemo_sk9568 = tbl_Filter_TD_2957_output.getInt32(i, 4);
+        int32_t _ss_hdemo_sk9569 = tbl_Filter_TD_2957_output.getInt32(i, 5);
+        int32_t _ss_addr_sk9570 = tbl_Filter_TD_2957_output.getInt32(i, 6);
+        int32_t _ss_store_sk9571 = tbl_Filter_TD_2957_output.getInt32(i, 7);
+        int32_t _ss_promo_sk9572 = tbl_Filter_TD_2957_output.getInt32(i, 8);
+        int64_t _ss_ticket_number9573L = tbl_Filter_TD_2957_output.getInt64(i, 9);
+        int32_t _ss_quantity9574 = tbl_Filter_TD_2957_output.getInt32(i, 10);
+        int32_t _ss_wholesale_cost9575 = tbl_Filter_TD_2957_output.getInt32(i, 11);
+        int32_t _ss_list_price9576 = tbl_Filter_TD_2957_output.getInt32(i, 12);
+        int32_t _ss_sales_price9577 = tbl_Filter_TD_2957_output.getInt32(i, 13);
+        int32_t _ss_ext_discount_amt9578 = tbl_Filter_TD_2957_output.getInt32(i, 14);
+        int32_t _ss_ext_sales_price9579 = tbl_Filter_TD_2957_output.getInt32(i, 15);
+        int32_t _ss_ext_wholesale_cost9580 = tbl_Filter_TD_2957_output.getInt32(i, 16);
+        int32_t _ss_ext_list_price9581 = tbl_Filter_TD_2957_output.getInt32(i, 17);
+        int32_t _ss_ext_tax9582 = tbl_Filter_TD_2957_output.getInt32(i, 18);
+        int32_t _ss_coupon_amt9583 = tbl_Filter_TD_2957_output.getInt32(i, 19);
+        int32_t _ss_net_paid9584 = tbl_Filter_TD_2957_output.getInt32(i, 20);
+        int32_t _ss_net_paid_inc_tax9585 = tbl_Filter_TD_2957_output.getInt32(i, 21);
+        int32_t _ss_net_profit9586 = tbl_Filter_TD_2957_output.getInt32(i, 22);
+        int64_t _count19432L_count_0 = 1;
+        count_0 += _count19432L_count_0;
     }
     int r = 0;
-    int64_t _count19411L = count_0;
-    tbl_Aggregate_TD_1694_output.setInt64(r++, 0, _count19411L);
-    tbl_Aggregate_TD_1694_output.setNumRow(r);
-    std::cout << "tbl_Aggregate_TD_1694_output #Row: " << tbl_Aggregate_TD_1694_output.getNumRow() << std::endl;
+    int64_t _count19432L = count_0;
+    tbl_Aggregate_TD_1723_output.setInt64(r++, 0, _count19432L);
+    tbl_Aggregate_TD_1723_output.setNumRow(r);
+    std::cout << "tbl_Aggregate_TD_1723_output #Row: " << tbl_Aggregate_TD_1723_output.getNumRow() << std::endl;
 }
 
-void SW_Aggregate_TD_1737(Table &tbl_Filter_TD_289_output, Table &tbl_Aggregate_TD_1737_output) {
+void SW_Aggregate_TD_1874(Table &tbl_Filter_TD_2382_output, Table &tbl_Aggregate_TD_1874_output) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: Aggregate
-    // Operation: ListBuffer(cast((avg(UnscaledValue(ss_net_paid#9540)) / 100.0) as decimal(11,6)) AS avg(ss_net_paid)#9409)
-    // Input: ListBuffer(ss_net_paid#9540)
-    // Output: ListBuffer(avg(ss_net_paid)#9409)
+    // Operation: ListBuffer(cast((avg(UnscaledValue(ss_net_paid#9561)) / 100.0) as decimal(11,6)) AS avg(ss_net_paid)#9430)
+    // Input: ListBuffer(ss_net_paid#9561)
+    // Output: ListBuffer(avg(ss_net_paid)#9430)
     int64_t avg_0 = 0;
-    int nrow1 = tbl_Filter_TD_289_output.getNumRow();
+    int nrow1 = tbl_Filter_TD_2382_output.getNumRow();
     for (int i = 0; i < nrow1; i++) {
-        int32_t _ss_net_paid9540 = tbl_Filter_TD_289_output.getInt32(i, 0);
-        int64_t _avgss_net_paid9409_avg_0 = _ss_net_paid9540;
-        avg_0 = (avg_0 + _avgss_net_paid9409_avg_0);
+        int32_t _ss_net_paid9561 = tbl_Filter_TD_2382_output.getInt32(i, 0);
+        int64_t _avgss_net_paid9430_avg_0 = _ss_net_paid9561;
+        avg_0 = (avg_0 + _avgss_net_paid9430_avg_0);
     }
     int r = 0;
-    int32_t _avgss_net_paid9409 = (avg_0 / nrow1 / 100.0);
-    tbl_Aggregate_TD_1737_output.setInt32(r++, 0, _avgss_net_paid9409);
-    tbl_Aggregate_TD_1737_output.setNumRow(r);
-    std::cout << "tbl_Aggregate_TD_1737_output #Row: " << tbl_Aggregate_TD_1737_output.getNumRow() << std::endl;
+    int32_t _avgss_net_paid9430 = (avg_0 / nrow1 / 100.0);
+    tbl_Aggregate_TD_1874_output.setInt32(r++, 0, _avgss_net_paid9430);
+    tbl_Aggregate_TD_1874_output.setNumRow(r);
+    std::cout << "tbl_Aggregate_TD_1874_output #Row: " << tbl_Aggregate_TD_1874_output.getNumRow() << std::endl;
 }
 
-void SW_Aggregate_TD_1569(Table &tbl_Filter_TD_2280_output, Table &tbl_Aggregate_TD_1569_output) {
+void SW_Aggregate_TD_1433(Table &tbl_Filter_TD_2222_output, Table &tbl_Aggregate_TD_1433_output) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: Aggregate
-    // Operation: ListBuffer(cast((avg(UnscaledValue(ss_ext_discount_amt#9511)) / 100.0) as decimal(11,6)) AS avg(ss_ext_discount_amt)#9407)
-    // Input: ListBuffer(ss_ext_discount_amt#9511)
-    // Output: ListBuffer(avg(ss_ext_discount_amt)#9407)
+    // Operation: ListBuffer(cast((avg(UnscaledValue(ss_ext_discount_amt#9532)) / 100.0) as decimal(11,6)) AS avg(ss_ext_discount_amt)#9428)
+    // Input: ListBuffer(ss_ext_discount_amt#9532)
+    // Output: ListBuffer(avg(ss_ext_discount_amt)#9428)
     int64_t avg_0 = 0;
-    int nrow1 = tbl_Filter_TD_2280_output.getNumRow();
+    int nrow1 = tbl_Filter_TD_2222_output.getNumRow();
     for (int i = 0; i < nrow1; i++) {
-        int32_t _ss_ext_discount_amt9511 = tbl_Filter_TD_2280_output.getInt32(i, 0);
-        int64_t _avgss_ext_discount_amt9407_avg_0 = _ss_ext_discount_amt9511;
-        avg_0 = (avg_0 + _avgss_ext_discount_amt9407_avg_0);
+        int32_t _ss_ext_discount_amt9532 = tbl_Filter_TD_2222_output.getInt32(i, 0);
+        int64_t _avgss_ext_discount_amt9428_avg_0 = _ss_ext_discount_amt9532;
+        avg_0 = (avg_0 + _avgss_ext_discount_amt9428_avg_0);
     }
     int r = 0;
-    int32_t _avgss_ext_discount_amt9407 = (avg_0 / nrow1 / 100.0);
-    tbl_Aggregate_TD_1569_output.setInt32(r++, 0, _avgss_ext_discount_amt9407);
-    tbl_Aggregate_TD_1569_output.setNumRow(r);
-    std::cout << "tbl_Aggregate_TD_1569_output #Row: " << tbl_Aggregate_TD_1569_output.getNumRow() << std::endl;
+    int32_t _avgss_ext_discount_amt9428 = (avg_0 / nrow1 / 100.0);
+    tbl_Aggregate_TD_1433_output.setInt32(r++, 0, _avgss_ext_discount_amt9428);
+    tbl_Aggregate_TD_1433_output.setNumRow(r);
+    std::cout << "tbl_Aggregate_TD_1433_output #Row: " << tbl_Aggregate_TD_1433_output.getNumRow() << std::endl;
 }
 
-void SW_Aggregate_TD_1227(Table &tbl_Filter_TD_2396_output, Table &tbl_Aggregate_TD_1227_output) {
+void SW_Aggregate_TD_1278(Table &tbl_Filter_TD_242_output, Table &tbl_Aggregate_TD_1278_output) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: Aggregate
-    // Operation: ListBuffer(count(1) AS count(1)#9405L)
-    // Input: ListBuffer(ss_sold_date_sk#9474, ss_sold_time_sk#9475, ss_item_sk#9476, ss_customer_sk#9477, ss_cdemo_sk#9478, ss_hdemo_sk#9479, ss_addr_sk#9480, ss_store_sk#9481, ss_promo_sk#9482, ss_ticket_number#9483L, ss_quantity#9484, ss_wholesale_cost#9485, ss_list_price#9486, ss_sales_price#9487, ss_ext_discount_amt#9488, ss_ext_sales_price#9489, ss_ext_wholesale_cost#9490, ss_ext_list_price#9491, ss_ext_tax#9492, ss_coupon_amt#9493, ss_net_paid#9494, ss_net_paid_inc_tax#9495, ss_net_profit#9496)
-    // Output: ListBuffer(count(1)#9405L)
+    // Operation: ListBuffer(count(1) AS count(1)#9426L)
+    // Input: ListBuffer(ss_sold_date_sk#9495, ss_sold_time_sk#9496, ss_item_sk#9497, ss_customer_sk#9498, ss_cdemo_sk#9499, ss_hdemo_sk#9500, ss_addr_sk#9501, ss_store_sk#9502, ss_promo_sk#9503, ss_ticket_number#9504L, ss_quantity#9505, ss_wholesale_cost#9506, ss_list_price#9507, ss_sales_price#9508, ss_ext_discount_amt#9509, ss_ext_sales_price#9510, ss_ext_wholesale_cost#9511, ss_ext_list_price#9512, ss_ext_tax#9513, ss_coupon_amt#9514, ss_net_paid#9515, ss_net_paid_inc_tax#9516, ss_net_profit#9517)
+    // Output: ListBuffer(count(1)#9426L)
     int64_t count_0 = 0;
-    int nrow1 = tbl_Filter_TD_2396_output.getNumRow();
+    int nrow1 = tbl_Filter_TD_242_output.getNumRow();
     for (int i = 0; i < nrow1; i++) {
-        int32_t _ss_sold_date_sk9474 = tbl_Filter_TD_2396_output.getInt32(i, 0);
-        int32_t _ss_sold_time_sk9475 = tbl_Filter_TD_2396_output.getInt32(i, 1);
-        int32_t _ss_item_sk9476 = tbl_Filter_TD_2396_output.getInt32(i, 2);
-        int32_t _ss_customer_sk9477 = tbl_Filter_TD_2396_output.getInt32(i, 3);
-        int32_t _ss_cdemo_sk9478 = tbl_Filter_TD_2396_output.getInt32(i, 4);
-        int32_t _ss_hdemo_sk9479 = tbl_Filter_TD_2396_output.getInt32(i, 5);
-        int32_t _ss_addr_sk9480 = tbl_Filter_TD_2396_output.getInt32(i, 6);
-        int32_t _ss_store_sk9481 = tbl_Filter_TD_2396_output.getInt32(i, 7);
-        int32_t _ss_promo_sk9482 = tbl_Filter_TD_2396_output.getInt32(i, 8);
-        int64_t _ss_ticket_number9483L = tbl_Filter_TD_2396_output.getInt64(i, 9);
-        int32_t _ss_quantity9484 = tbl_Filter_TD_2396_output.getInt32(i, 10);
-        int32_t _ss_wholesale_cost9485 = tbl_Filter_TD_2396_output.getInt32(i, 11);
-        int32_t _ss_list_price9486 = tbl_Filter_TD_2396_output.getInt32(i, 12);
-        int32_t _ss_sales_price9487 = tbl_Filter_TD_2396_output.getInt32(i, 13);
-        int32_t _ss_ext_discount_amt9488 = tbl_Filter_TD_2396_output.getInt32(i, 14);
-        int32_t _ss_ext_sales_price9489 = tbl_Filter_TD_2396_output.getInt32(i, 15);
-        int32_t _ss_ext_wholesale_cost9490 = tbl_Filter_TD_2396_output.getInt32(i, 16);
-        int32_t _ss_ext_list_price9491 = tbl_Filter_TD_2396_output.getInt32(i, 17);
-        int32_t _ss_ext_tax9492 = tbl_Filter_TD_2396_output.getInt32(i, 18);
-        int32_t _ss_coupon_amt9493 = tbl_Filter_TD_2396_output.getInt32(i, 19);
-        int32_t _ss_net_paid9494 = tbl_Filter_TD_2396_output.getInt32(i, 20);
-        int32_t _ss_net_paid_inc_tax9495 = tbl_Filter_TD_2396_output.getInt32(i, 21);
-        int32_t _ss_net_profit9496 = tbl_Filter_TD_2396_output.getInt32(i, 22);
-        int64_t _count19405L_count_0 = 1;
-        count_0 += _count19405L_count_0;
+        int32_t _ss_sold_date_sk9495 = tbl_Filter_TD_242_output.getInt32(i, 0);
+        int32_t _ss_sold_time_sk9496 = tbl_Filter_TD_242_output.getInt32(i, 1);
+        int32_t _ss_item_sk9497 = tbl_Filter_TD_242_output.getInt32(i, 2);
+        int32_t _ss_customer_sk9498 = tbl_Filter_TD_242_output.getInt32(i, 3);
+        int32_t _ss_cdemo_sk9499 = tbl_Filter_TD_242_output.getInt32(i, 4);
+        int32_t _ss_hdemo_sk9500 = tbl_Filter_TD_242_output.getInt32(i, 5);
+        int32_t _ss_addr_sk9501 = tbl_Filter_TD_242_output.getInt32(i, 6);
+        int32_t _ss_store_sk9502 = tbl_Filter_TD_242_output.getInt32(i, 7);
+        int32_t _ss_promo_sk9503 = tbl_Filter_TD_242_output.getInt32(i, 8);
+        int64_t _ss_ticket_number9504L = tbl_Filter_TD_242_output.getInt64(i, 9);
+        int32_t _ss_quantity9505 = tbl_Filter_TD_242_output.getInt32(i, 10);
+        int32_t _ss_wholesale_cost9506 = tbl_Filter_TD_242_output.getInt32(i, 11);
+        int32_t _ss_list_price9507 = tbl_Filter_TD_242_output.getInt32(i, 12);
+        int32_t _ss_sales_price9508 = tbl_Filter_TD_242_output.getInt32(i, 13);
+        int32_t _ss_ext_discount_amt9509 = tbl_Filter_TD_242_output.getInt32(i, 14);
+        int32_t _ss_ext_sales_price9510 = tbl_Filter_TD_242_output.getInt32(i, 15);
+        int32_t _ss_ext_wholesale_cost9511 = tbl_Filter_TD_242_output.getInt32(i, 16);
+        int32_t _ss_ext_list_price9512 = tbl_Filter_TD_242_output.getInt32(i, 17);
+        int32_t _ss_ext_tax9513 = tbl_Filter_TD_242_output.getInt32(i, 18);
+        int32_t _ss_coupon_amt9514 = tbl_Filter_TD_242_output.getInt32(i, 19);
+        int32_t _ss_net_paid9515 = tbl_Filter_TD_242_output.getInt32(i, 20);
+        int32_t _ss_net_paid_inc_tax9516 = tbl_Filter_TD_242_output.getInt32(i, 21);
+        int32_t _ss_net_profit9517 = tbl_Filter_TD_242_output.getInt32(i, 22);
+        int64_t _count19426L_count_0 = 1;
+        count_0 += _count19426L_count_0;
     }
     int r = 0;
-    int64_t _count19405L = count_0;
-    tbl_Aggregate_TD_1227_output.setInt64(r++, 0, _count19405L);
-    tbl_Aggregate_TD_1227_output.setNumRow(r);
-    std::cout << "tbl_Aggregate_TD_1227_output #Row: " << tbl_Aggregate_TD_1227_output.getNumRow() << std::endl;
+    int64_t _count19426L = count_0;
+    tbl_Aggregate_TD_1278_output.setInt64(r++, 0, _count19426L);
+    tbl_Aggregate_TD_1278_output.setNumRow(r);
+    std::cout << "tbl_Aggregate_TD_1278_output #Row: " << tbl_Aggregate_TD_1278_output.getNumRow() << std::endl;
 }
 
-void SW_Aggregate_TD_1899(Table &tbl_Filter_TD_2390_output, Table &tbl_Aggregate_TD_1899_output) {
+void SW_Aggregate_TD_1450(Table &tbl_Filter_TD_2958_output, Table &tbl_Aggregate_TD_1450_output) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: Aggregate
-    // Operation: ListBuffer(cast((avg(UnscaledValue(ss_net_paid#9471)) / 100.0) as decimal(11,6)) AS avg(ss_net_paid)#9403)
-    // Input: ListBuffer(ss_net_paid#9471)
-    // Output: ListBuffer(avg(ss_net_paid)#9403)
+    // Operation: ListBuffer(cast((avg(UnscaledValue(ss_net_paid#9492)) / 100.0) as decimal(11,6)) AS avg(ss_net_paid)#9424)
+    // Input: ListBuffer(ss_net_paid#9492)
+    // Output: ListBuffer(avg(ss_net_paid)#9424)
     int64_t avg_0 = 0;
-    int nrow1 = tbl_Filter_TD_2390_output.getNumRow();
+    int nrow1 = tbl_Filter_TD_2958_output.getNumRow();
     for (int i = 0; i < nrow1; i++) {
-        int32_t _ss_net_paid9471 = tbl_Filter_TD_2390_output.getInt32(i, 0);
-        int64_t _avgss_net_paid9403_avg_0 = _ss_net_paid9471;
-        avg_0 = (avg_0 + _avgss_net_paid9403_avg_0);
+        int32_t _ss_net_paid9492 = tbl_Filter_TD_2958_output.getInt32(i, 0);
+        int64_t _avgss_net_paid9424_avg_0 = _ss_net_paid9492;
+        avg_0 = (avg_0 + _avgss_net_paid9424_avg_0);
     }
     int r = 0;
-    int32_t _avgss_net_paid9403 = (avg_0 / nrow1 / 100.0);
-    tbl_Aggregate_TD_1899_output.setInt32(r++, 0, _avgss_net_paid9403);
-    tbl_Aggregate_TD_1899_output.setNumRow(r);
-    std::cout << "tbl_Aggregate_TD_1899_output #Row: " << tbl_Aggregate_TD_1899_output.getNumRow() << std::endl;
+    int32_t _avgss_net_paid9424 = (avg_0 / nrow1 / 100.0);
+    tbl_Aggregate_TD_1450_output.setInt32(r++, 0, _avgss_net_paid9424);
+    tbl_Aggregate_TD_1450_output.setNumRow(r);
+    std::cout << "tbl_Aggregate_TD_1450_output #Row: " << tbl_Aggregate_TD_1450_output.getNumRow() << std::endl;
 }
 
-void SW_Aggregate_TD_1362(Table &tbl_Filter_TD_2783_output, Table &tbl_Aggregate_TD_1362_output) {
+void SW_Aggregate_TD_1280(Table &tbl_Filter_TD_2821_output, Table &tbl_Aggregate_TD_1280_output) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: Aggregate
-    // Operation: ListBuffer(cast((avg(UnscaledValue(ss_ext_discount_amt#9442)) / 100.0) as decimal(11,6)) AS avg(ss_ext_discount_amt)#9401)
-    // Input: ListBuffer(ss_ext_discount_amt#9442)
-    // Output: ListBuffer(avg(ss_ext_discount_amt)#9401)
+    // Operation: ListBuffer(cast((avg(UnscaledValue(ss_ext_discount_amt#9463)) / 100.0) as decimal(11,6)) AS avg(ss_ext_discount_amt)#9422)
+    // Input: ListBuffer(ss_ext_discount_amt#9463)
+    // Output: ListBuffer(avg(ss_ext_discount_amt)#9422)
     int64_t avg_0 = 0;
-    int nrow1 = tbl_Filter_TD_2783_output.getNumRow();
+    int nrow1 = tbl_Filter_TD_2821_output.getNumRow();
     for (int i = 0; i < nrow1; i++) {
-        int32_t _ss_ext_discount_amt9442 = tbl_Filter_TD_2783_output.getInt32(i, 0);
-        int64_t _avgss_ext_discount_amt9401_avg_0 = _ss_ext_discount_amt9442;
-        avg_0 = (avg_0 + _avgss_ext_discount_amt9401_avg_0);
+        int32_t _ss_ext_discount_amt9463 = tbl_Filter_TD_2821_output.getInt32(i, 0);
+        int64_t _avgss_ext_discount_amt9422_avg_0 = _ss_ext_discount_amt9463;
+        avg_0 = (avg_0 + _avgss_ext_discount_amt9422_avg_0);
     }
     int r = 0;
-    int32_t _avgss_ext_discount_amt9401 = (avg_0 / nrow1 / 100.0);
-    tbl_Aggregate_TD_1362_output.setInt32(r++, 0, _avgss_ext_discount_amt9401);
-    tbl_Aggregate_TD_1362_output.setNumRow(r);
-    std::cout << "tbl_Aggregate_TD_1362_output #Row: " << tbl_Aggregate_TD_1362_output.getNumRow() << std::endl;
+    int32_t _avgss_ext_discount_amt9422 = (avg_0 / nrow1 / 100.0);
+    tbl_Aggregate_TD_1280_output.setInt32(r++, 0, _avgss_ext_discount_amt9422);
+    tbl_Aggregate_TD_1280_output.setNumRow(r);
+    std::cout << "tbl_Aggregate_TD_1280_output #Row: " << tbl_Aggregate_TD_1280_output.getNumRow() << std::endl;
 }
 
-void SW_Aggregate_TD_1434(Table &tbl_Filter_TD_2496_output, Table &tbl_Aggregate_TD_1434_output) {
+void SW_Aggregate_TD_1152(Table &tbl_Filter_TD_2316_output, Table &tbl_Aggregate_TD_1152_output) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: Aggregate
-    // Operation: ListBuffer(count(1) AS count(1)#9399L)
+    // Operation: ListBuffer(count(1) AS count(1)#9420L)
     // Input: ListBuffer(ss_sold_date_sk#1206, ss_sold_time_sk#1207, ss_item_sk#1208, ss_customer_sk#1209, ss_cdemo_sk#1210, ss_hdemo_sk#1211, ss_addr_sk#1212, ss_store_sk#1213, ss_promo_sk#1214, ss_ticket_number#1215L, ss_quantity#1216, ss_wholesale_cost#1217, ss_list_price#1218, ss_sales_price#1219, ss_ext_discount_amt#1220, ss_ext_sales_price#1221, ss_ext_wholesale_cost#1222, ss_ext_list_price#1223, ss_ext_tax#1224, ss_coupon_amt#1225, ss_net_paid#1226, ss_net_paid_inc_tax#1227, ss_net_profit#1228)
-    // Output: ListBuffer(count(1)#9399L)
+    // Output: ListBuffer(count(1)#9420L)
     int64_t count_0 = 0;
-    int nrow1 = tbl_Filter_TD_2496_output.getNumRow();
+    int nrow1 = tbl_Filter_TD_2316_output.getNumRow();
     for (int i = 0; i < nrow1; i++) {
-        int32_t _ss_sold_date_sk1206 = tbl_Filter_TD_2496_output.getInt32(i, 0);
-        int32_t _ss_sold_time_sk1207 = tbl_Filter_TD_2496_output.getInt32(i, 1);
-        int32_t _ss_item_sk1208 = tbl_Filter_TD_2496_output.getInt32(i, 2);
-        int32_t _ss_customer_sk1209 = tbl_Filter_TD_2496_output.getInt32(i, 3);
-        int32_t _ss_cdemo_sk1210 = tbl_Filter_TD_2496_output.getInt32(i, 4);
-        int32_t _ss_hdemo_sk1211 = tbl_Filter_TD_2496_output.getInt32(i, 5);
-        int32_t _ss_addr_sk1212 = tbl_Filter_TD_2496_output.getInt32(i, 6);
-        int32_t _ss_store_sk1213 = tbl_Filter_TD_2496_output.getInt32(i, 7);
-        int32_t _ss_promo_sk1214 = tbl_Filter_TD_2496_output.getInt32(i, 8);
-        int64_t _ss_ticket_number1215L = tbl_Filter_TD_2496_output.getInt64(i, 9);
-        int32_t _ss_quantity1216 = tbl_Filter_TD_2496_output.getInt32(i, 10);
-        int32_t _ss_wholesale_cost1217 = tbl_Filter_TD_2496_output.getInt32(i, 11);
-        int32_t _ss_list_price1218 = tbl_Filter_TD_2496_output.getInt32(i, 12);
-        int32_t _ss_sales_price1219 = tbl_Filter_TD_2496_output.getInt32(i, 13);
-        int32_t _ss_ext_discount_amt1220 = tbl_Filter_TD_2496_output.getInt32(i, 14);
-        int32_t _ss_ext_sales_price1221 = tbl_Filter_TD_2496_output.getInt32(i, 15);
-        int32_t _ss_ext_wholesale_cost1222 = tbl_Filter_TD_2496_output.getInt32(i, 16);
-        int32_t _ss_ext_list_price1223 = tbl_Filter_TD_2496_output.getInt32(i, 17);
-        int32_t _ss_ext_tax1224 = tbl_Filter_TD_2496_output.getInt32(i, 18);
-        int32_t _ss_coupon_amt1225 = tbl_Filter_TD_2496_output.getInt32(i, 19);
-        int32_t _ss_net_paid1226 = tbl_Filter_TD_2496_output.getInt32(i, 20);
-        int32_t _ss_net_paid_inc_tax1227 = tbl_Filter_TD_2496_output.getInt32(i, 21);
-        int32_t _ss_net_profit1228 = tbl_Filter_TD_2496_output.getInt32(i, 22);
-        int64_t _count19399L_count_0 = 1;
-        count_0 += _count19399L_count_0;
+        int32_t _ss_sold_date_sk1206 = tbl_Filter_TD_2316_output.getInt32(i, 0);
+        int32_t _ss_sold_time_sk1207 = tbl_Filter_TD_2316_output.getInt32(i, 1);
+        int32_t _ss_item_sk1208 = tbl_Filter_TD_2316_output.getInt32(i, 2);
+        int32_t _ss_customer_sk1209 = tbl_Filter_TD_2316_output.getInt32(i, 3);
+        int32_t _ss_cdemo_sk1210 = tbl_Filter_TD_2316_output.getInt32(i, 4);
+        int32_t _ss_hdemo_sk1211 = tbl_Filter_TD_2316_output.getInt32(i, 5);
+        int32_t _ss_addr_sk1212 = tbl_Filter_TD_2316_output.getInt32(i, 6);
+        int32_t _ss_store_sk1213 = tbl_Filter_TD_2316_output.getInt32(i, 7);
+        int32_t _ss_promo_sk1214 = tbl_Filter_TD_2316_output.getInt32(i, 8);
+        int64_t _ss_ticket_number1215L = tbl_Filter_TD_2316_output.getInt64(i, 9);
+        int32_t _ss_quantity1216 = tbl_Filter_TD_2316_output.getInt32(i, 10);
+        int32_t _ss_wholesale_cost1217 = tbl_Filter_TD_2316_output.getInt32(i, 11);
+        int32_t _ss_list_price1218 = tbl_Filter_TD_2316_output.getInt32(i, 12);
+        int32_t _ss_sales_price1219 = tbl_Filter_TD_2316_output.getInt32(i, 13);
+        int32_t _ss_ext_discount_amt1220 = tbl_Filter_TD_2316_output.getInt32(i, 14);
+        int32_t _ss_ext_sales_price1221 = tbl_Filter_TD_2316_output.getInt32(i, 15);
+        int32_t _ss_ext_wholesale_cost1222 = tbl_Filter_TD_2316_output.getInt32(i, 16);
+        int32_t _ss_ext_list_price1223 = tbl_Filter_TD_2316_output.getInt32(i, 17);
+        int32_t _ss_ext_tax1224 = tbl_Filter_TD_2316_output.getInt32(i, 18);
+        int32_t _ss_coupon_amt1225 = tbl_Filter_TD_2316_output.getInt32(i, 19);
+        int32_t _ss_net_paid1226 = tbl_Filter_TD_2316_output.getInt32(i, 20);
+        int32_t _ss_net_paid_inc_tax1227 = tbl_Filter_TD_2316_output.getInt32(i, 21);
+        int32_t _ss_net_profit1228 = tbl_Filter_TD_2316_output.getInt32(i, 22);
+        int64_t _count19420L_count_0 = 1;
+        count_0 += _count19420L_count_0;
     }
     int r = 0;
-    int64_t _count19399L = count_0;
-    tbl_Aggregate_TD_1434_output.setInt64(r++, 0, _count19399L);
-    tbl_Aggregate_TD_1434_output.setNumRow(r);
-    std::cout << "tbl_Aggregate_TD_1434_output #Row: " << tbl_Aggregate_TD_1434_output.getNumRow() << std::endl;
+    int64_t _count19420L = count_0;
+    tbl_Aggregate_TD_1152_output.setInt64(r++, 0, _count19420L);
+    tbl_Aggregate_TD_1152_output.setNumRow(r);
+    std::cout << "tbl_Aggregate_TD_1152_output #Row: " << tbl_Aggregate_TD_1152_output.getNumRow() << std::endl;
 }
 
-void SW_Filter_TD_1821(Table &tbl_SerializeFromObject_TD_2543_input, Table &tbl_Filter_TD_1821_output) {
+void SW_Filter_TD_1201(Table &tbl_SerializeFromObject_TD_229_input, Table &tbl_Filter_TD_1201_output) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: Filter
     // Operation: ListBuffer((isnotnull(r_reason_sk#351) AND (r_reason_sk#351 = 1)))
     // Input: ListBuffer(r_reason_sk#351, r_reason_id#352, r_reason_desc#353)
     // Output: ListBuffer(r_reason_sk#351, r_reason_id#352, r_reason_desc#353)
     int r = 0;
-    int nrow1 = tbl_SerializeFromObject_TD_2543_input.getNumRow();
+    int nrow1 = tbl_SerializeFromObject_TD_229_input.getNumRow();
     for (int i = 0; i < nrow1; i++) {
-        int32_t _r_reason_sk351 = tbl_SerializeFromObject_TD_2543_input.getInt32(i, 0);
-        if ((1) && (_r_reason_sk351 == 1)) {
-            int32_t _r_reason_sk351_t = tbl_SerializeFromObject_TD_2543_input.getInt32(i, 0);
-            tbl_Filter_TD_1821_output.setInt32(r, 0, _r_reason_sk351_t);
-            std::array<char, TPCDS_READ_MAX + 1> _r_reason_id352_t = tbl_SerializeFromObject_TD_2543_input.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
-            tbl_Filter_TD_1821_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 1, _r_reason_id352_t);
-            std::array<char, TPCDS_READ_MAX + 1> _r_reason_desc353_t = tbl_SerializeFromObject_TD_2543_input.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
-            tbl_Filter_TD_1821_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 2, _r_reason_desc353_t);
+        int32_t _r_reason_sk351 = tbl_SerializeFromObject_TD_229_input.getInt32(i, 0);
+        if ((_r_reason_sk351!= 0) && (_r_reason_sk351 == 1)) {
+            int32_t _r_reason_sk351_t = tbl_SerializeFromObject_TD_229_input.getInt32(i, 0);
+            tbl_Filter_TD_1201_output.setInt32(r, 0, _r_reason_sk351_t);
+            std::array<char, TPCDS_READ_MAX + 1> _r_reason_id352_t = tbl_SerializeFromObject_TD_229_input.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
+            tbl_Filter_TD_1201_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 1, _r_reason_id352_t);
+            std::array<char, TPCDS_READ_MAX + 1> _r_reason_desc353_t = tbl_SerializeFromObject_TD_229_input.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
+            tbl_Filter_TD_1201_output.setcharN<char, TPCDS_READ_MAX + 1>(r, 2, _r_reason_desc353_t);
             r++;
         }
     }
-    tbl_Filter_TD_1821_output.setNumRow(r);
-    std::cout << "tbl_Filter_TD_1821_output #Row: " << tbl_Filter_TD_1821_output.getNumRow() << std::endl;
+    tbl_Filter_TD_1201_output.setNumRow(r);
+    std::cout << "tbl_Filter_TD_1201_output #Row: " << tbl_Filter_TD_1201_output.getNumRow() << std::endl;
 }
 
-void SW_Project_TD_082(Table &tbl_Filter_TD_1821_output, Table &tbl_Aggregate_TD_1434_output, Table &tbl_Aggregate_TD_1362_output, Table &tbl_Aggregate_TD_1899_output, Table &tbl_Aggregate_TD_1227_output, Table &tbl_Aggregate_TD_1569_output, Table &tbl_Aggregate_TD_1737_output, Table &tbl_Aggregate_TD_1694_output, Table &tbl_Aggregate_TD_1525_output, Table &tbl_Aggregate_TD_1655_output, Table &tbl_Aggregate_TD_143_output, Table &tbl_Aggregate_TD_1593_output, Table &tbl_Aggregate_TD_1163_output, Table &tbl_Aggregate_TD_1143_output, Table &tbl_Aggregate_TD_145_output, Table &tbl_Aggregate_TD_1222_output, Table &tbl_Project_TD_082_output) {
+void SW_Project_TD_0675(Table &tbl_Filter_TD_1201_output, Table &tbl_Aggregate_TD_1152_output, Table &tbl_Aggregate_TD_1280_output, Table &tbl_Aggregate_TD_1450_output, Table &tbl_Aggregate_TD_1278_output, Table &tbl_Aggregate_TD_1433_output, Table &tbl_Aggregate_TD_1874_output, Table &tbl_Aggregate_TD_1723_output, Table &tbl_Aggregate_TD_1278_output, Table &tbl_Aggregate_TD_1945_output, Table &tbl_Aggregate_TD_1237_output, Table &tbl_Aggregate_TD_113_output, Table &tbl_Aggregate_TD_1164_output, Table &tbl_Aggregate_TD_1841_output, Table &tbl_Aggregate_TD_1286_output, Table &tbl_Aggregate_TD_1958_output, Table &tbl_Project_TD_0675_output) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: Project
-    // Operation: ListBuffer(CASE WHEN (scalar-subquery#9378 [] > 74129) THEN scalar-subquery#9379 [] ELSE scalar-subquery#9380 [] END AS bucket1#9381, CASE WHEN (scalar-subquery#9382 [] > 122840) THEN scalar-subquery#9383 [] ELSE scalar-subquery#9384 [] END AS bucket2#9385, CASE WHEN (scalar-subquery#9386 [] > 56580) THEN scalar-subquery#9387 [] ELSE scalar-subquery#9388 [] END AS bucket3#9389, CASE WHEN (scalar-subquery#9390 [] > 10097) THEN scalar-subquery#9391 [] ELSE scalar-subquery#9392 [] END AS bucket4#9393, CASE WHEN (scalar-subquery#9394 [] > 165306) THEN scalar-subquery#9395 [] ELSE scalar-subquery#9396 [] END AS bucket5#9397)
+    // Operation: ListBuffer(CASE WHEN (scalar-subquery#9399 [] > 74129) THEN scalar-subquery#9400 [] ELSE scalar-subquery#9401 [] END AS bucket1#9402, CASE WHEN (scalar-subquery#9403 [] > 122840) THEN scalar-subquery#9404 [] ELSE scalar-subquery#9405 [] END AS bucket2#9406, CASE WHEN (scalar-subquery#9407 [] > 56580) THEN scalar-subquery#9408 [] ELSE scalar-subquery#9409 [] END AS bucket3#9410, CASE WHEN (scalar-subquery#9411 [] > 10097) THEN scalar-subquery#9412 [] ELSE scalar-subquery#9413 [] END AS bucket4#9414, CASE WHEN (scalar-subquery#9415 [] > 165306) THEN scalar-subquery#9416 [] ELSE scalar-subquery#9417 [] END AS bucket5#9418)
     // Input: ListBuffer(r_reason_sk#351, r_reason_id#352, r_reason_desc#353)
-    // Output: ListBuffer(bucket1#9381, bucket2#9385, bucket3#9389, bucket4#9393, bucket5#9397)
-    int nrow1 = tbl_Filter_TD_1821_output.getNumRow();
+    // Output: ListBuffer(bucket1#9402, bucket2#9406, bucket3#9410, bucket4#9414, bucket5#9418)
+    int nrow1 = tbl_Filter_TD_1201_output.getNumRow();
     for (int i = 0; i < nrow1; i++) {
-        int32_t _r_reason_sk351 = tbl_Filter_TD_1821_output.getInt32(i, 0);
-        std::array<char, TPCDS_READ_MAX + 1> _r_reason_id352 = tbl_Filter_TD_1821_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
-        std::array<char, TPCDS_READ_MAX + 1> _r_reason_desc353 = tbl_Filter_TD_1821_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
-        int32_t _bucket19381 = _count19399L ? _avgss_ext_discount_amt9401 : _avgss_net_paid9403;
-        tbl_Project_TD_082_output.setInt32(i, 0, _bucket19381);
-        int32_t _bucket29385 = _count19405L ? _avgss_ext_discount_amt9407 : _avgss_net_paid9409;
-        tbl_Project_TD_082_output.setInt32(i, 1, _bucket29385);
-        int32_t _bucket39389 = _count19411L ? _avgss_ext_discount_amt9413 : _avgss_net_paid9415;
-        tbl_Project_TD_082_output.setInt32(i, 2, _bucket39389);
-        int32_t _bucket49393 = _count19417L ? _avgss_ext_discount_amt9419 : _avgss_net_paid9421;
-        tbl_Project_TD_082_output.setInt32(i, 3, _bucket49393);
-        int32_t _bucket59397 = _count19423L ? _avgss_ext_discount_amt9425 : _avgss_net_paid9427;
-        tbl_Project_TD_082_output.setInt32(i, 4, _bucket59397);
+        int32_t _r_reason_sk351 = tbl_Filter_TD_1201_output.getInt32(i, 0);
+        std::array<char, TPCDS_READ_MAX + 1> _r_reason_id352 = tbl_Filter_TD_1201_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 1);
+        std::array<char, TPCDS_READ_MAX + 1> _r_reason_desc353 = tbl_Filter_TD_1201_output.getcharN<char, TPCDS_READ_MAX + 1>(i, 2);
+        int32_t _bucket19402 = _count19420L ? _avgss_ext_discount_amt9422 : _avgss_net_paid9424;
+        tbl_Project_TD_0675_output.setInt32(i, 0, _bucket19402);
+        int32_t _bucket29406 = _count19426L ? _avgss_ext_discount_amt9428 : _avgss_net_paid9430;
+        tbl_Project_TD_0675_output.setInt32(i, 1, _bucket29406);
+        int32_t _bucket39410 = _count19432L ? _avgss_ext_discount_amt9434 : _avgss_net_paid9436;
+        tbl_Project_TD_0675_output.setInt32(i, 2, _bucket39410);
+        int32_t _bucket49414 = _count19438L ? _avgss_ext_discount_amt9440 : _avgss_net_paid9442;
+        tbl_Project_TD_0675_output.setInt32(i, 3, _bucket49414);
+        int32_t _bucket59418 = _count19444L ? _avgss_ext_discount_amt9446 : _avgss_net_paid9448;
+        tbl_Project_TD_0675_output.setInt32(i, 4, _bucket59418);
     }
-    tbl_Project_TD_082_output.setNumRow(nrow1);
-    std::cout << "tbl_Project_TD_082_output #Row: " << tbl_Project_TD_082_output.getNumRow() << std::endl;
+    tbl_Project_TD_0675_output.setNumRow(nrow1);
+    std::cout << "tbl_Project_TD_0675_output #Row: " << tbl_Project_TD_0675_output.getNumRow() << std::endl;
 }
 
