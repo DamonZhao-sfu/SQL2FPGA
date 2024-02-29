@@ -84,12 +84,12 @@ static void gen_pass_fcfg(uint32_t cfg[]) {
     cfg[n++] = (uint32_t)(1UL << 31); 
 } 
 
-void get_cfg_dat_Aggregate_TD_6625392_gqe_aggr(ap_uint<32>* buf) {
+void get_cfg_dat_Aggregate_TD_6943873_gqe_aggr(ap_uint<32>* buf) {
     // StringRowIDSubstitution: false StringRowIDBackSubstitution: false
     // Supported operation: Aggregate
-    // Operation: ListBuffer(d_month_seq#3554)
-    // Input Table: ListBuffer(d_month_seq#3554)
-    // Output Table: ListBuffer(d_month_seq#3554)
+    // Operation: ListBuffer(d_month_seq#9081)
+    // Input Table: ListBuffer(d_month_seq#9081)
+    // Output Table: ListBuffer(d_month_seq#9081)
     // Node Depth: 6
     ap_uint<32>* config = buf;
     memset(config, 0, sizeof(ap_uint<32>) * 83);
@@ -117,7 +117,7 @@ void get_cfg_dat_Aggregate_TD_6625392_gqe_aggr(ap_uint<32>* buf) {
     // eval0 -> eval1
     // NO aggregation operation - eval1
     ap_int<64> shuffle1_cfg;
-    shuffle1_cfg(7, 0) = 0; // d_month_seq#3554
+    shuffle1_cfg(7, 0) = 0; // d_month_seq#9081
     shuffle1_cfg(15, 8) = -1;
     shuffle1_cfg(23, 16) = -1;
     shuffle1_cfg(31, 24) = -1;
@@ -154,7 +154,7 @@ void get_cfg_dat_Aggregate_TD_6625392_gqe_aggr(ap_uint<32>* buf) {
 
     // filter -> groupBy
     ap_int<64> shuffle3_cfg;
-    shuffle3_cfg(7, 0) = 0; // d_month_seq#3554
+    shuffle3_cfg(7, 0) = 0; // d_month_seq#9081
     shuffle3_cfg(15, 8) = -1;
     shuffle3_cfg(23, 16) = -1;
     shuffle3_cfg(31, 24) = -1;
