@@ -8162,7 +8162,8 @@ class SQL2FPGA_QPlan {
                   var orig_tbl_col_idx = -1
                   for (orig_tbl <- orig_table_columns) {
                     for (col <- orig_tbl) {
-                      if (columnTableMap(ch) == columnTableMap(col)) {
+
+                      if (columnTableMap.get(ch.split("#").head) == columnTableMap.get(col.split("#").head)) {
                         orig_tbl_idx = orig_table_columns.indexOf(orig_tbl)
                         orig_tbl_col_idx = orig_tbl.indexOf(col)
                       }
