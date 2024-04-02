@@ -5551,7 +5551,7 @@ class SQL2FPGA_QPlan {
     var remove_join_key_list = new ListBuffer[String]
     var join_key_list = node_iter.getJoinKeyTerms(node_iter._joining_expression(0), false)
     for (key_pair <- join_key_list) {
-      var key_pair_formatted = key_pair.split(" ").to(ListBuffer)
+      var key_pair_formatted = key_pair.split(" ").to[ListBuffer]
       key_pair_formatted.remove(1, 1) // "=" or "!=" in key pair term
       for (key <- key_pair_formatted) {
         if (!node_iter._outputCols.contains(key)) {
@@ -5809,7 +5809,7 @@ class SQL2FPGA_QPlan {
       var costSum = 0
       for (key_pair <- join_key_list) {
         print("key_pair" + " - " + key_pair + " - ")
-        var key_pair_formatted = key_pair.split(" ").to(ListBuffer)
+        var key_pair_formatted = key_pair.split(" ").to[ListBuffer]
         print("key_pair_formated: " + " - " + key_pair_formatted + " - ")
 
         key_pair_formatted.remove(1, 1) // "=" or "!=" in key pair term
@@ -5846,7 +5846,7 @@ class SQL2FPGA_QPlan {
       var join_key_list = joinNode.getJoinKeyTerms(joinNode._joining_expression(0), false)
       for (key_pair <- join_key_list) {
         print(" - " + key_pair + " - ")
-        var key_pair_formatted = key_pair.split(" ").to(ListBuffer)
+        var key_pair_formatted = key_pair.split(" ").to[ListBuffer]
         key_pair_formatted.remove(1, 1) // "=" or "!=" in key pair term
         for (key <- key_pair_formatted) {
           var tmp_ch = childrenNode(0)
@@ -5872,7 +5872,7 @@ class SQL2FPGA_QPlan {
     var bottom_join_key_list = bottomJoinNode.getJoinKeyTerms(bottomJoinNode._joining_expression(0), false)
     var bottom_join_children = new ListBuffer[SQL2FPGA_QPlan]
     for (key_pair <- bottom_join_key_list) {
-      var key_pair_formatted = key_pair.split(" ").to(ListBuffer)
+      var key_pair_formatted = key_pair.split(" ").to[ListBuffer]
       key_pair_formatted.remove(1, 1) // "=" or "!=" in key pair term
       for (key <- key_pair_formatted) {
         var tmp_ch = childrenNode(0)
@@ -5923,7 +5923,7 @@ class SQL2FPGA_QPlan {
       var middle_join_key_list = middleJoinNode.getJoinKeyTerms(middleJoinNode._joining_expression(0), false)
       var middle_join_children = new ListBuffer[SQL2FPGA_QPlan]
       for (key_pair <- middle_join_key_list) {
-        var key_pair_formatted = key_pair.split(" ").to(ListBuffer)
+        var key_pair_formatted = key_pair.split(" ").to[ListBuffer]
         key_pair_formatted.remove(1, 1) // "=" or "!=" in key pair term
         for (key <- key_pair_formatted) {
           var tmp_ch = childrenNode(0)

@@ -111,7 +111,7 @@ class TpchSchemaProvider(sc: SparkSession, inputDir: String, format: String) {
       l_receiptdate = row.getAs[DateType](12).toString.replace("-", "").toInt,
       l_shipinstruct = row.getAs[String](13).trim,
       l_shipmode = row.getAs[String](14).trim,
-      l_comment = row.getAs[String](15).trim,
+      l_comment = row.getAs[String](15).trim
     )
   }).toDF(),
 
@@ -211,7 +211,7 @@ class TpchSchemaProvider(sc: SparkSession, inputDir: String, format: String) {
       s_acctbal = row.getAs[java.math.BigDecimal](5).multiply(new BigDecimal("100")).intValueExact(),
       s_comment = row.getAs[String](6).trim
     )
-  }).toDF(),
+  }).toDF()
 
     /*   "customer" -> sc.read.textFile(inputDir + "/customer.tbl*").map(_.split('|')).map(p =>
           Customer(p(0).trim.toInt, p(1).trim, p(2).trim, p(3).trim.toInt, p(4).trim, (p(5).trim.toDouble*100).toInt, p(6).trim, p(7).trim)).toDF(),

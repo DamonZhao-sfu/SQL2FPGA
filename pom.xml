@@ -1,15 +1,22 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <artifactId>gluten-parent</artifactId>
+    <groupId>io.glutenproject</groupId>
+    <version>1.2.0-SNAPSHOT</version>
+  </parent>
+
   <groupId>sfu.ca.hiaccel</groupId>
   <artifactId>SQL2FPGA</artifactId>
   <version>1.0-SNAPSHOT</version>
-  <packaging>pom</packaging>
+  <packaging>jar</packaging>
   <inceptionYear>2008</inceptionYear>
-  <modules>
+  <!--<modules>
     <module>jvm-native-processor</module>
-  </modules>
+  </modules>-->
   <properties>
-    <scala.version>2.13.0</scala.version>
+    <scala.version>2.12.0</scala.version>
   </properties>
 
   <repositories>
@@ -48,14 +55,26 @@
     </dependency>
     <dependency>
       <groupId>org.apache.spark</groupId>
-      <artifactId>spark-core_2.13</artifactId>
-      <version>3.2.1</version>
+      <artifactId>spark-core_2.12</artifactId>
+      <version>3.2.2</version>
       <scope>compile</scope>
+    </dependency>
+     <dependency>
+        <groupId>org.apache.hadoop</groupId>
+        <artifactId>hadoop-common</artifactId>
+        <version>2.7.4</version>
+        <scope>provided</scope>
+        <exclusions>
+          <exclusion>
+              <groupId>commons-beanutils</groupId>
+              <artifactId>commons-beanutils</artifactId>
+          </exclusion>
+        </exclusions>
     </dependency>
     <dependency>
       <groupId>org.apache.spark</groupId>
-      <artifactId>spark-sql_2.13</artifactId>
-      <version>3.2.1</version>
+      <artifactId>spark-sql_2.12</artifactId>
+      <version>3.2.2</version>
       <scope>compile</scope>
     </dependency>
   </dependencies>
@@ -68,23 +87,25 @@
     <artifactId>maven-assembly-plugin</artifactId>
     <version>2.2-beta-5</version>
     <configuration>
-      <descriptorRefs>
-        <descriptorRef>jar-with-dependencies</descriptorRef>
-      </descriptorRefs>
       <archive>
         <manifest>
           <mainClass>sfu.ca.hiaccel.SQL2FPGA_Top</mainClass>
         </manifest>
       </archive>
     </configuration>
-    <executions>
-      <execution>
-        <phase>package</phase>
+      <executions>
+        <execution>
+          <id>disable-inheritance-assembly</id>
+          <phase>none</phase>
+          <goals>
+            <goal>single</goal>
+          </goals>
+        </execution>
+      </executions>
+        <!--<phase>package</phase>
         <goals>
           <goal>single</goal>
-        </goals>
-      </execution>
-    </executions>
+        </goals>-->
   </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
