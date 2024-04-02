@@ -646,22 +646,8 @@ class SQL2FPGA_QParser {
       }
     }
   }
-  def parse_SparkQPlan_to_SQL2FPGAQPlan_TPCH(SparkOptQPlan: QueryPlan[_], qConfig: SQL2FPGA_QConfig, schemaProvider: TpchSchemaProvider): Unit = {
-    var num_indent = 0
-    // Init parsing
-    parse_optimized_query(SparkOptQPlan, num_indent, null, _qPlan, qConfig.scale_factor)
-    parse_optimized_query(SparkOptQPlan, num_indent, null, _qPlan_backup, qConfig.scale_factor)
-    // Establish parent-children linking
-    _qPlan.addChildrenParentConnections(schemaProvider.dfMap, qConfig.pure_sw_mode)
-    _qPlan_backup.addChildrenParentConnections(schemaProvider.dfMap, qConfig.pure_sw_mode)
-    // Debug printouts
-    if (DEBUG_PARSER) {
-      println("print plan in order:")
-      _qPlan.printPlan_InOrder(schemaProvider.dfMap)
-      println(columnDictionary.toString())
-    }
-  }
-  def parse_SparkQPlan_to_SQL2FPGAQPlan_TPCDS(SparkOptQPlan: QueryPlan[_], qConfig: SQL2FPGA_QConfig, schemaProvider: TpcdsSchemaProvider): Unit = {
+
+  def parse_SparkQPlan_to_SQL2FPGAQPlan(SparkOptQPlan: QueryPlan[_], qConfig: SQL2FPGA_QConfig, schemaProvider: SchemaProvider): Unit = {
     var num_indent = 0
     // Init parsing
     parse_optimized_query(SparkOptQPlan, num_indent, null, _qPlan, qConfig.scale_factor)
@@ -675,5 +661,6 @@ class SQL2FPGA_QParser {
       println(columnDictionary.toString())
     }
   }
+
 }
 

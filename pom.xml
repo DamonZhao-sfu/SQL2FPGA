@@ -16,7 +16,8 @@
     <module>jvm-native-processor</module>
   </modules>-->
   <properties>
-    <scala.version>2.12.0</scala.version>
+    <scala.version>2.12.15</scala.version>
+    <spark.version>3.3.2</spark.version>
   </properties>
 
   <repositories>
@@ -34,7 +35,6 @@
       <url>http://scala-tools.org/repo-releases</url>
     </pluginRepository>
   </pluginRepositories>
-
   <dependencies>
     <dependency>
       <groupId>org.scala-lang</groupId>
@@ -55,6 +55,27 @@
     </dependency>
     <dependency>
       <groupId>org.apache.spark</groupId>
+      <artifactId>spark-sql_2.12</artifactId>
+      <version>${spark.version}</version>
+    </dependency>
+    <dependency>
+    <groupId>org.apache.spark</groupId>
+    <artifactId>spark-catalyst_2.12</artifactId>
+      <version>${spark.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.spark</groupId>
+      <artifactId>spark-core_2.12</artifactId>
+      <version>${spark.version}</version>
+    </dependency>
+    <dependency>
+        <groupId>org.apache.hadoop</groupId>
+        <artifactId>hadoop-common</artifactId>
+        <version>2.7.4</version>
+        <scope>compile</scope>
+    </dependency>
+    <!--   <!-<dependency>
+      <groupId>org.apache.spark</groupId>
       <artifactId>spark-core_2.12</artifactId>
       <version>3.2.2</version>
       <scope>compile</scope>
@@ -63,20 +84,14 @@
         <groupId>org.apache.hadoop</groupId>
         <artifactId>hadoop-common</artifactId>
         <version>2.7.4</version>
-        <scope>provided</scope>
-        <exclusions>
-          <exclusion>
-              <groupId>commons-beanutils</groupId>
-              <artifactId>commons-beanutils</artifactId>
-          </exclusion>
-        </exclusions>
+        <scope>compile</scope>
     </dependency>
-    <dependency>
-      <groupId>org.apache.spark</groupId>
-      <artifactId>spark-sql_2.12</artifactId>
-      <version>3.2.2</version>
-      <scope>compile</scope>
-    </dependency>
+     <dependency>
+        <groupId>org.apache.hadoop</groupId>
+        <artifactId>hadoop-common</artifactId>
+        <version>2.7.4</version>
+        <scope>compile</scope>
+    </dependency>-->
   </dependencies>
 
   <build>
@@ -87,25 +102,23 @@
     <artifactId>maven-assembly-plugin</artifactId>
     <version>2.2-beta-5</version>
     <configuration>
+      <descriptorRefs>
+        <descriptorRef>jar-with-dependencies</descriptorRef>
+      </descriptorRefs>
       <archive>
         <manifest>
           <mainClass>sfu.ca.hiaccel.SQL2FPGA_Top</mainClass>
         </manifest>
       </archive>
     </configuration>
-      <executions>
-        <execution>
-          <id>disable-inheritance-assembly</id>
-          <phase>none</phase>
-          <goals>
-            <goal>single</goal>
-          </goals>
-        </execution>
-      </executions>
-        <!--<phase>package</phase>
+    <executions>
+      <execution>
+        <phase>package</phase>
         <goals>
           <goal>single</goal>
-        </goals>-->
+        </goals>
+      </execution>
+    </executions>
   </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>

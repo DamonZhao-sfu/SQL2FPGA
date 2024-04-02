@@ -39,7 +39,7 @@ git clone https://github.com/SFU-HiAccel/SQL2FPGA.git
     * Select `pom.xml` project file
     * Select Scala version to match 2.13
     * Build module `SQL2FPGA_Top`
-    * You can also execute 'mvn package && java -jar target/SQL2FPGA-1.0-SNAPSHOT-jar-with-dependencies.jar' to run the main function.
+    * You can also execute 'mvn clean package && java -jar target/SQL2FPGA-1.0-SNAPSHOT-jar-with-dependencies.jar' to run the main function.
 
 2. Run SQL2FPGA Project on TPC-H Dataset
     * Download TPC-H Benchmark Generator

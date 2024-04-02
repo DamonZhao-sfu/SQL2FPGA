@@ -1,6 +1,8 @@
 package sfu.ca.hiaccel.TPCDS
 
 import org.apache.spark.sql.{DataFrame, SparkSession}
+import sfu.ca.hiaccel.SchemaProvider
+
 import java.math.BigDecimal
 // TPC-DS table schemasd
 
@@ -501,11 +503,10 @@ case class tpcds_warehouse(
                                 ss_net_profit             : Int  //decimal(7,2)
                               )
 
-class TpcdsSchemaProvider(sc: SparkSession, inputDir: String, format: String) {
+class TpcdsSchemaProvider(sc: SparkSession, inputDir: String, format: String) extends SchemaProvider {
   import sc.implicits._
 
-
-  val dfMap = Map(
+  dfMap = Map(
   "customer" -> sc.read.format(format)
   .load("file://" + inputDir + "/customer").toDF(),
 

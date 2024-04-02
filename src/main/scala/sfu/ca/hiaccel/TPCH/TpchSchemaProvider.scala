@@ -1,6 +1,7 @@
 package sfu.ca.hiaccel.TPCH
 
 import java.math.BigDecimal
+import sfu.ca.hiaccel.SchemaProvider
 import org.apache.spark.sql.types.DateType
 import org.apache.spark.sql.{DataFrame, SparkSession}
 
@@ -88,10 +89,10 @@ case class Supplier(
 
 
 
-class TpchSchemaProvider(sc: SparkSession, inputDir: String, format: String) {
+class TpchSchemaProvider(sc: SparkSession, inputDir: String, format: String) extends SchemaProvider {
   import sc.implicits._
   
-  val dfMap = Map(
+  dfMap = Map(
     "lineitem" -> sc.read.format(format)
   .load("file://" + inputDir + "/lineitem")
   .map(row => {

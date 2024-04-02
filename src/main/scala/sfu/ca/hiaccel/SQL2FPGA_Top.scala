@@ -108,7 +108,7 @@ object SQL2FPGA_Top {
       //----------------------------------------------------------------------------------------------------------------
       // Parsing SparkSQL Optimized Logical Plan
       var qParser = new SQL2FPGA_QParser
-      qParser.parse_SparkQPlan_to_SQL2FPGAQPlan_TPCH(df.queryExecution.optimizedPlan, qConfig, schemaProvider)
+      qParser.parse_SparkQPlan_to_SQL2FPGAQPlan(df.queryExecution.optimizedPlan, qConfig, schemaProvider)
 
       //----------------------------------------------------------------------------------------------------------------
       // SQL2FPGA QPlan Optimizations
@@ -204,7 +204,7 @@ object SQL2FPGA_Top {
       //----------------------------------------------------------------------------------------------------------------
       // Parsing SparkSQL Optimized Logical Plan
       var qParser = new SQL2FPGA_QParser
-      qParser.parse_SparkQPlan_to_SQL2FPGAQPlan_TPCDS(df.queryExecution.optimizedPlan, qConfig, schemaProvider)
+      qParser.parse_SparkQPlan_to_SQL2FPGAQPlan(df.queryExecution.optimizedPlan, qConfig, schemaProvider)
 
       //----------------------------------------------------------------------------------------------------------------
       // SQL2FPGA QPlan Optimizations
