@@ -1,10 +1,24 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package sfu.ca.hiaccel.TPCH
 
 import org.apache.spark.sql._
 
-/**
- * TPC-H Query 10
- */
+/** TPC-H Query 10 */
 class TPCH_Q10 extends TPCH_Queries {
 
   override def TPCH_execute(sc: SparkSession, schemaProvider: TpchSchemaProvider): DataFrame = {
@@ -23,17 +37,18 @@ class TPCH_Q10 extends TPCH_Queries {
 
     // sc.sql("select c_custkey, c_name, sum(l_extendedprice * (100 - l_discount)) as revenue, c_acctbal, n_name, c_address, c_phone, c_comment " +
     // sc.sql("select c_custkey, c_name, sum(l_extendedprice * (100 - l_discount)) as revenue, c_acctbal, n_name, c_address, c_phone " +
-    sc.sql("select c_custkey, c_name, sum(l_extendedprice * (100 - l_discount)) as revenue, c_acctbal, n_name " +
-      "from customer, orders, lineitem, nation " +
-      "where c_custkey = o_custkey " +
-      "and l_orderkey = o_orderkey " +
-      "and o_orderdate >= 19940801 " +
-      "and o_orderdate < 19940801 + 300 " +
-      "and l_returnflag = 82 " +
-      "and c_nationkey = n_nationkey " +
-      // "group by c_custkey, c_name, c_acctbal, c_phone, n_name, c_address, c_comment " +
-      // "group by c_custkey, c_name, c_acctbal, c_phone, n_name, c_address " +
-      "group by c_custkey, c_name, c_acctbal, n_name " +
-      "order by revenue desc")
+    sc.sql(
+      "select c_custkey, c_name, sum(l_extendedprice * (100 - l_discount)) as revenue, c_acctbal, n_name " +
+        "from customer, orders, lineitem, nation " +
+        "where c_custkey = o_custkey " +
+        "and l_orderkey = o_orderkey " +
+        "and o_orderdate >= 19940801 " +
+        "and o_orderdate < 19940801 + 300 " +
+        "and l_returnflag = 82 " +
+        "and c_nationkey = n_nationkey " +
+        // "group by c_custkey, c_name, c_acctbal, c_phone, n_name, c_address, c_comment " +
+        // "group by c_custkey, c_name, c_acctbal, c_phone, n_name, c_address " +
+        "group by c_custkey, c_name, c_acctbal, n_name " +
+        "order by revenue desc")
   }
 }

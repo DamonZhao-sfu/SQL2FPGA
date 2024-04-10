@@ -1,11 +1,24 @@
-
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package sfu.ca.hiaccel.TPCH
 
 import org.apache.spark.sql._
 
-/**
- * TPC-H Query 23 - Alec's Testing Query - operator performance model
- */
+/** TPC-H Query 23 - Alec's Testing Query - operator performance model */
 class TPCH_Q23 extends TPCH_Queries {
 
   override def TPCH_execute(sc: SparkSession, schemaProvider: TpchSchemaProvider): DataFrame = {
@@ -101,7 +114,6 @@ class TPCH_Q23 extends TPCH_Queries {
 //      "from lineitem " +
 //      "group by l_returnflag, l_linestatus")
 
-
     // HATS Tests
 //    // Filter only
 //    sc.sql("SELECT l_partkey, l_extendedprice, l_shipdate, l_quantity, l_orderkey, l_receiptdate, l_commitdate, l_suppkey " +
@@ -111,9 +123,10 @@ class TPCH_Q23 extends TPCH_Queries {
 //    sc.sql("SELECT l_partkey, l_extendedprice, l_shipdate, l_quantity, (l_quantity * 10) AS _10xqty, l_receiptdate, l_commitdate, l_suppkey " +
 //      "FROM lineitem")
     // Filter + Evaluate
-    sc.sql("SELECT l_partkey, l_extendedprice, l_shipdate, l_quantity, (l_quantity * 10) AS _10xqty, l_receiptdate, l_commitdate, l_suppkey " +
-      "FROM lineitem " +
-      "WHERE l_shipdate <= 19980101")
+    sc.sql(
+      "SELECT l_partkey, l_extendedprice, l_shipdate, l_quantity, (l_quantity * 10) AS _10xqty, l_receiptdate, l_commitdate, l_suppkey " +
+        "FROM lineitem " +
+        "WHERE l_shipdate <= 19980101")
 //    // Evaluate + Filter
 //    sc.sql("SELECT l_partkey, l_extendedprice, l_shipdate, l_quantity, l_orderkey, l_receiptdate, l_commitdate, l_suppkey " +
 //      "FROM lineitem " +

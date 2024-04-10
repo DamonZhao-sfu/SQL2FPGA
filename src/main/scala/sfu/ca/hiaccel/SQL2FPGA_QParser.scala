@@ -1,42 +1,60 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package sfu.ca.hiaccel
 
 import org.apache.spark.sql.catalyst.expressions.{Coalesce, Expression}
 import org.apache.spark.sql.catalyst.plans.QueryPlan
 import org.apache.spark.sql.catalyst.plans.logical.{Aggregate, AppendColumns, AppendColumnsWithObject, BinaryNode, DeserializeToObject, Distinct, Expand, Filter, Generate, GlobalLimit, Join, LocalLimit, LogicalPlan, MapElements, Project, Repartition, RepartitionByExpression, Sample, SerializeFromObject, Sort, SubqueryAlias, TypedFilter, UnaryNode, Union, Window}
 import org.apache.spark.sql.execution.datasources.LogicalRelation
-import sfu.ca.hiaccel.SQL2FPGA_Top.{DEBUG_PARSER, columnCodeMap, columnDictionary, columnTableMap}
-import sfu.ca.hiaccel.TPCH.TpchSchemaProvider
-import sfu.ca.hiaccel.TPCH.TPCH_Queries
-import sfu.ca.hiaccel.TPCDS.TpcdsSchemaProvider
+
+import sfu.ca.hiaccel.SQL2FPGA_Top.{columnCodeMap, columnDictionary, columnTableMap, DEBUG_PARSER}
 import sfu.ca.hiaccel.TPCDS.TPCDS_Queries
+import sfu.ca.hiaccel.TPCDS.TpcdsSchemaProvider
+import sfu.ca.hiaccel.TPCH.TPCH_Queries
+import sfu.ca.hiaccel.TPCH.TpchSchemaProvider
+
 import scala.collection.mutable.ListBuffer
 
 //----------------------------------------------------------------------------------------------------------------
 // SQL parsing functions: Spark AST -> SQL2FPGA AST
 //----------------------------------------------------------------------------------------------------------------
 class SQL2FPGA_QParser {
-  //------------------------
+  // ------------------------
   // definitions
-  //------------------------
+  // ------------------------
   private var _qPlan: SQL2FPGA_QPlan = new SQL2FPGA_QPlan
   private var _qPlan_backup: SQL2FPGA_QPlan = new SQL2FPGA_QPlan
-  //------------------------
+  // ------------------------
   // getters
-  //------------------------
+  // ------------------------
   def qPlan = _qPlan
   def qPlan_backup = _qPlan_backup
-  //------------------------
+  // ------------------------
   // setters
-  //------------------------
-  def qPlan_= (newValue: SQL2FPGA_QPlan): Unit = {
+  // ------------------------
+  def qPlan_=(newValue: SQL2FPGA_QPlan): Unit = {
     _qPlan = newValue
   }
-  def qPlan_backup_= (newValue: SQL2FPGA_QPlan): Unit = {
+  def qPlan_backup_=(newValue: SQL2FPGA_QPlan): Unit = {
     _qPlan_backup = newValue
   }
-  //------------------------
+  // ------------------------
   // functions
-  //-----------------------// TODO add tpcds support
+  // -----------------------// TODO add tpcds support
   def getTableRow(tbl_name: String, scale_factor: Int): Int = {
     var result = 0
     tbl_name match {
@@ -71,16 +89,16 @@ class SQL2FPGA_QParser {
     }
   }
 
-
   // read parquet
-  def printReadLogicalRelation(r: LogicalRelation,
-                                num_indent: Int,
-                                root_required_col: ListBuffer[String],
-                                fpga_plan: SQL2FPGA_QPlan,
-                                sf: Int): Unit = {
+  def printReadLogicalRelation(
+      r: LogicalRelation,
+      num_indent: Int,
+      root_required_col: ListBuffer[String],
+      fpga_plan: SQL2FPGA_QPlan,
+      sf: Int): Unit = {
     var nodeType = "SerializeFromObject"
-    //nodeType = r.simpleString(0)l
-    println("nodeType is " +  nodeType)
+    // nodeType = r.simpleString(0)l
+    println("nodeType is " + nodeType)
     fpga_plan.nodeType = nodeType
     var tpch_table = ""
     var parent_required_col = new ListBuffer[String]()
@@ -116,12 +134,12 @@ class SQL2FPGA_QParser {
 
   }
 
-
-  def printUnaryOperation(u: UnaryNode,
-                          num_indent: Int,
-                          root_required_col: ListBuffer[String],
-                          fpga_plan: SQL2FPGA_QPlan,
-                          sf: Int): Unit = {
+  def printUnaryOperation(
+      u: UnaryNode,
+      num_indent: Int,
+      root_required_col: ListBuffer[String],
+      fpga_plan: SQL2FPGA_QPlan,
+      sf: Int): Unit = {
     print(num_indent.toString)
     var nodeType = ""
 //    for (ptrn <- u.nodePatterns) {
@@ -130,7 +148,7 @@ class SQL2FPGA_QParser {
 //      nodeType = nodeType.concat(ptrn.toString)
 //    }
     nodeType = u.nodeName
-    println("nodeType is " +  nodeType)
+    println("nodeType is " + nodeType)
     fpga_plan.nodeType = nodeType
     var validOp = true
     var isProject = false
@@ -222,7 +240,9 @@ class SQL2FPGA_QParser {
           }
         }
         for (_expr <- al_aggr.aggregateExpressions) {
-          if (_expr.getClass.getName != "org.apache.spark.sql.catalyst.expressions.AttributeReference") {
+          if (
+            _expr.getClass.getName != "org.apache.spark.sql.catalyst.expressions.AttributeReference"
+          ) {
             print(_expr.toString + ", ")
             operation += _expr.toString
             aggregate_operation += _expr.toString
@@ -293,8 +313,7 @@ class SQL2FPGA_QParser {
           fpga_plan.outputCols = parent_required_col
           print("\n")
           isProject = true
-        }
-        else { // aggregation is needed
+        } else { // aggregation is needed
           print_indent(num_indent)
           print("Output: ")
           var outputCols = new ListBuffer[String]()
@@ -311,7 +330,7 @@ class SQL2FPGA_QParser {
           var groupBy_operation = new ListBuffer[String]()
           var aggregate_expression = new ListBuffer[Expression]()
           for (item <- al_proj.projectList.toList) {
-            //aggregate columns
+            // aggregate columns
             if (!al_proj.outputSet.toList.contains(item)) {
               print(item.toString + ", ")
               print(" || " + item.getClass + " || ")
@@ -425,7 +444,6 @@ class SQL2FPGA_QParser {
           print(item + ", ")
         }
 
-
       }
       case _: AppendColumns => println(" AppendColumns ")
       case _: AppendColumnsWithObject => println(" AppendColumnsWithObject ")
@@ -454,9 +472,15 @@ class SQL2FPGA_QParser {
           var table: String = _attr.dataType.catalogString
           val tbl_last = table.split("\\.").last
           print(" " + tbl_last + ": ")
-          if (tbl_last.split('_').head.toLowerCase() == "customer" &&
-            (tbl_last.split('_').last.toLowerCase() == "tpcds"|| tbl_last.split('_').last.toLowerCase() == "tpch")) {
-            tcph_table = tbl_last.split('_').head.toLowerCase() // get "customer" from "customer_tpch/tpcds"
+          if (
+            tbl_last.split('_').head.toLowerCase() == "customer" &&
+            (tbl_last.split('_').last.toLowerCase() == "tpcds" || tbl_last
+              .split('_')
+              .last
+              .toLowerCase() == "tpch")
+          ) {
+            tcph_table =
+              tbl_last.split('_').head.toLowerCase() // get "customer" from "customer_tpch/tpcds"
           } else {
             tcph_table = tbl_last.toLowerCase()
           }
@@ -513,13 +537,18 @@ class SQL2FPGA_QParser {
     }
   }
 
-  def printUnionOperation(union: Union, num_indent: Int, root_required_col: ListBuffer[String], fpga_plan: SQL2FPGA_QPlan, sf: Int): Unit = {
+  def printUnionOperation(
+      union: Union,
+      num_indent: Int,
+      root_required_col: ListBuffer[String],
+      fpga_plan: SQL2FPGA_QPlan,
+      sf: Int): Unit = {
     print(num_indent.toString)
     print_indent(num_indent)
     var nodeType = ""
     nodeType = union.nodeName
     fpga_plan.nodeType = nodeType
-    print("nodeType is " +  nodeType)
+    print("nodeType is " + nodeType)
     fpga_plan.outputCols = root_required_col
     var operation = new ListBuffer[String]()
     operation += union.nodePatterns.toString()
@@ -532,15 +561,16 @@ class SQL2FPGA_QParser {
       current_children += next_fpga_plan
       fpga_plan.children = current_children
     }
-    fpga_plan.operation =  operation
+    fpga_plan.operation = operation
 
   }
 
-  def printBinaryOperation(b: BinaryNode,
-                           num_indent: Int,
-                           root_required_col: ListBuffer[String],
-                           fpga_plan: SQL2FPGA_QPlan,
-                           sf: Int): Unit = {
+  def printBinaryOperation(
+      b: BinaryNode,
+      num_indent: Int,
+      root_required_col: ListBuffer[String],
+      fpga_plan: SQL2FPGA_QPlan,
+      sf: Int): Unit = {
     print(num_indent.toString)
     print_indent(num_indent)
     var nodeType = ""
@@ -550,17 +580,16 @@ class SQL2FPGA_QParser {
 //    }
     nodeType = b.nodeName
     fpga_plan.nodeType = nodeType
-    println("nodeType is " +  nodeType)
+    println("nodeType is " + nodeType)
 
     print("\n")
     b match {
 
       case al_join: Join =>
-          
-
         var nodeType = "JOIN_" + al_join.joinType.toString.toUpperCase()
         // for case like JOIN_EXISTENCEJOIN(EXISTS#10340)
-        fpga_plan.nodeType = nodeType.replaceAll("#", "").replaceAll("\\(", "").replaceAll("\\)", "")
+        fpga_plan.nodeType =
+          nodeType.replaceAll("#", "").replaceAll("\\(", "").replaceAll("\\)", "")
         print_indent(num_indent)
         print("Output: ")
         for (_output <- root_required_col) {
@@ -594,11 +623,15 @@ class SQL2FPGA_QParser {
           println(al_join.right.output)
 
           var join_clauses = fpga_plan.getJoinKeyTerms(fpga_plan.joining_expression(0), false)
-          var isSpecialSemiJoin = fpga_plan.nodeType == "JOIN_LEFTSEMI" && join_clauses.length == 2 &&
-            ((join_clauses(0).contains("!=") && !join_clauses(1).contains("!=")) || (!join_clauses(0).contains("!=") && join_clauses(1).contains("!=")))
+          var isSpecialSemiJoin =
+            fpga_plan.nodeType == "JOIN_LEFTSEMI" && join_clauses.length == 2 &&
+              ((join_clauses(0).contains("!=") && !join_clauses(1).contains(
+                "!=")) || (!join_clauses(0).contains("!=") && join_clauses(1).contains("!=")))
           fpga_plan.isSpecialSemiJoin = isSpecialSemiJoin
-          var isSpecialAntiJoin = fpga_plan.nodeType == "JOIN_LEFTANTI" && join_clauses.length == 2 &&
-            ((join_clauses(0).contains("!=") && !join_clauses(1).contains("!=")) || (!join_clauses(0).contains("!=") && join_clauses(1).contains("!=")))
+          var isSpecialAntiJoin =
+            fpga_plan.nodeType == "JOIN_LEFTANTI" && join_clauses.length == 2 &&
+              ((join_clauses(0).contains("!=") && !join_clauses(1).contains(
+                "!=")) || (!join_clauses(0).contains("!=") && join_clauses(1).contains("!=")))
           fpga_plan.isSpecialAntiJoin = isSpecialAntiJoin
         }
       case al_other => println("unsupported" + al_other.getClass.getName)
@@ -613,18 +646,19 @@ class SQL2FPGA_QParser {
     }
   }
 
-  def parse_optimized_query(plan: QueryPlan[_],
-                            num_indent: Int,
-                            root_required_col: ListBuffer[String],
-                            fpga_plan: SQL2FPGA_QPlan,
-                            scale_factor: Int): Unit = {
+  def parse_optimized_query(
+      plan: QueryPlan[_],
+      num_indent: Int,
+      root_required_col: ListBuffer[String],
+      fpga_plan: SQL2FPGA_QPlan,
+      scale_factor: Int): Unit = {
     var parent_required_col = new ListBuffer[String]()
     if (root_required_col == null || root_required_col.isEmpty) {
       for (_attr <- plan.outputSet) {
         parent_required_col += _attr.toString
       }
     } else {
-      //parent_required_col = root_required_col
+      // parent_required_col = root_required_col
       for (root_col <- root_required_col) {
         if (!parent_required_col.contains(root_col)) {
           parent_required_col += root_col
@@ -635,32 +669,36 @@ class SQL2FPGA_QParser {
     println(parent_required_col.toString())
 
     plan match {
-      case u: UnaryNode => printUnaryOperation(u, num_indent, parent_required_col, fpga_plan, scale_factor)
-      case b: BinaryNode => printBinaryOperation(b, num_indent, parent_required_col, fpga_plan, scale_factor)
+      case u: UnaryNode =>
+        printUnaryOperation(u, num_indent, parent_required_col, fpga_plan, scale_factor)
+      case b: BinaryNode =>
+        printBinaryOperation(b, num_indent, parent_required_col, fpga_plan, scale_factor)
       case r: LogicalRelation => {
-         printReadLogicalRelation(r, num_indent, parent_required_col, fpga_plan, scale_factor)
+        printReadLogicalRelation(r, num_indent, parent_required_col, fpga_plan, scale_factor)
       }
-      case un: Union => printUnionOperation(un, num_indent, parent_required_col, fpga_plan, scale_factor)
+      case un: Union =>
+        printUnionOperation(un, num_indent, parent_required_col, fpga_plan, scale_factor)
       case _ => {
         println("Unsupported plan" + plan)
       }
     }
   }
 
-  def parse_SparkQPlan_to_SQL2FPGAQPlan(SparkOptQPlan: QueryPlan[_], qConfig: SQL2FPGA_QConfig, schemaProvider: SchemaProvider): Unit = {
+  def parse_SparkQPlan_to_SQL2FPGAQPlan(
+      SparkOptQPlan: QueryPlan[_],
+      qConfig: SQL2FPGA_QConfig): Unit = {
     var num_indent = 0
     // Init parsing
     parse_optimized_query(SparkOptQPlan, num_indent, null, _qPlan, qConfig.scale_factor)
     parse_optimized_query(SparkOptQPlan, num_indent, null, _qPlan_backup, qConfig.scale_factor)
     // Establish parent-children linking
-    _qPlan.addChildrenParentConnections(schemaProvider.dfMap, qConfig.pure_sw_mode)
-    _qPlan_backup.addChildrenParentConnections(schemaProvider.dfMap, qConfig.pure_sw_mode)
+    _qPlan.addChildrenParentConnections()
+    _qPlan_backup.addChildrenParentConnections()
     // Debug printouts
-    if (DEBUG_PARSER) {
-      _qPlan.printPlan_InOrder(schemaProvider.dfMap)
-      println(columnDictionary.toString())
-    }
+    //if (DEBUG_PARSER) {
+   //   _qPlan.printPlan_InOrder(schemaProvider.dfMap)
+    //  println(columnDictionary.toString())
+    //}
   }
 
 }
-

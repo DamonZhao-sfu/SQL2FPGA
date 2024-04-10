@@ -1,19 +1,36 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package sfu.ca.hiaccel
 
 import java.io.{BufferedWriter, File, FileWriter}
+
 import scala.collection.mutable.{ListBuffer, Queue, Stack}
 
 class SQL2FPGA_Codegen {
-  //----------------------------------------------------------------------------------------------------------------
+  // ----------------------------------------------------------------------------------------------------------------
   // Code gen functions: SQL2FPGA AST -> c++ exection code
-  //----------------------------------------------------------------------------------------------------------------
+  // ----------------------------------------------------------------------------------------------------------------
   def resetVisitTag(rootNode: SQL2FPGA_QPlan): Unit = {
     if (rootNode == null) return
 
     var q_node = Queue[SQL2FPGA_QPlan]()
     q_node.enqueue(rootNode)
 
-    while(!q_node.isEmpty) {
+    while (!q_node.isEmpty) {
       var this_node = q_node.dequeue()
       // reset visit tag
       this_node.genHostCodeVisited = false
@@ -26,7 +43,12 @@ class SQL2FPGA_Codegen {
     }
   }
 
-  def writeHostCode_wrapper_top(root: SQL2FPGA_QPlan, bw: BufferedWriter, queryNo: Int, pure_sw_mode: Int, TPCH_or_DS: Int): Unit ={
+  def writeHostCode_wrapper_top(
+      root: SQL2FPGA_QPlan,
+      bw: BufferedWriter,
+      queryNo: Int,
+      pure_sw_mode: Int,
+      TPCH_or_DS: Int): Unit = {
     bw.write("#include <sys/time.h> \n")
     bw.write("#include <algorithm> \n")
     bw.write("#include <cstring> \n")
@@ -56,13 +78,13 @@ class SQL2FPGA_Codegen {
       bw.write("        std::cout << \"ERROR: xclbin path is not set!\\n\"; \n")
       bw.write("        return 1; \n")
       bw.write("    } \n")
-      //gqe-join
+      // gqe-join
       bw.write("    std::string xclbin_path_h; \n")
       bw.write("    if (!parser.getCmdOption(\"-xclbin_h\", xclbin_path_h)) { \n")
       bw.write("        std::cout << \"ERROR: xclbin_h path is not set!\\n\"; \n")
       bw.write("        return 1; \n")
       bw.write("    } \n")
-      //gqe-aggr
+      // gqe-aggr
       bw.write("    std::string xclbin_path_a; \n")
       bw.write("    if (!parser.getCmdOption(\"-xclbin_a\", xclbin_path_a)) { \n")
       bw.write("        std::cout << \"ERROR: xclbin_a path is not set!\\n\"; \n")
@@ -86,7 +108,8 @@ class SQL2FPGA_Codegen {
     bw.write("    } \n")
     bw.write("    if (num_rep > 20) { \n")
     bw.write("        num_rep = 20; \n")
-    bw.write("        std::cout << \"WARNING: limited repeat to \" << num_rep << \" times\\n.\"; \n")
+    bw.write(
+      "        std::cout << \"WARNING: limited repeat to \" << num_rep << \" times\\n.\"; \n")
     bw.write("    } \n")
 
     bw.write("    int scale = 1; \n")
@@ -103,7 +126,7 @@ class SQL2FPGA_Codegen {
     bw.write("    std::cout << \"NOTE:running in sf\" << scale << \" data\\n\"; \n\n")
 
     if (TPCH_or_DS == 0) {
-      //Alec-added TPCH
+      // Alec-added TPCH
       bw.write("    int32_t lineitem_n = SF1_LINEITEM; \n")
       bw.write("    int32_t supplier_n = SF1_SUPPLIER; \n")
       bw.write("    int32_t nation_n = SF1_NATION; \n")
@@ -123,7 +146,7 @@ class SQL2FPGA_Codegen {
       bw.write("        partsupp_n = SF30_PARTSUPP; \n")
       bw.write("    } \n")
     } else if (TPCH_or_DS == 1) {
-      //Alec-added TPCDS
+      // Alec-added TPCDS
       bw.write("    int32_t customer_n = 	100000; \n")
       bw.write("    int32_t customer_address_n = 	50000; \n")
       bw.write("    int32_t customer_demographics_n = 	1920800; \n")
@@ -151,14 +174,14 @@ class SQL2FPGA_Codegen {
     }
     bw.write("    // ********************************************************** // \n")
   }
-  def writeHostCode_section(l: ListBuffer[String], bw: BufferedWriter): Unit ={
-    if (l.nonEmpty){
-      for (ln <- l){
+  def writeHostCode_section(l: ListBuffer[String], bw: BufferedWriter): Unit = {
+    if (l.nonEmpty) {
+      for (ln <- l) {
         bw.write("    " + ln + "\n")
       }
     }
   }
-  def isDescdentOfNonUniqueNode(root: SQL2FPGA_QPlan): Boolean ={
+  def isDescdentOfNonUniqueNode(root: SQL2FPGA_QPlan): Boolean = {
     var result = false
     // check if 'ch' is a descendant of a non-unique node
     var descendantOfRepeatedNode = false
@@ -180,15 +203,18 @@ class SQL2FPGA_Codegen {
     }
     return result
   }
-  def writeHostCode_tables_inoutTbl_definition(parent: SQL2FPGA_QPlan, root: SQL2FPGA_QPlan, bw: BufferedWriter): Unit ={
+  def writeHostCode_tables_inoutTbl_definition(
+      parent: SQL2FPGA_QPlan,
+      root: SQL2FPGA_QPlan,
+      bw: BufferedWriter): Unit = {
     var q_entire_plan = Queue[SQL2FPGA_QPlan]()
     q_entire_plan.enqueue(root)
 
-    //Breadth traversal queue
+    // Breadth traversal queue
     var q_node = Queue[SQL2FPGA_QPlan]()
     q_node.enqueue(root)
 
-    while(!q_node.isEmpty) {
+    while (!q_node.isEmpty) {
       // traversal step
       var this_node = q_node.dequeue()
       for (ch <- this_node.children) {
@@ -199,7 +225,7 @@ class SQL2FPGA_Codegen {
       for (ch <- this_node.children) {
         if (q_entire_plan.contains(ch)) {
           tmp_q.clear()
-          while(!q_entire_plan.isEmpty) {
+          while (!q_entire_plan.isEmpty) {
             var tmp_node = q_entire_plan.dequeue()
             if (tmp_node != ch) {
               tmp_q.enqueue(tmp_node)
@@ -212,21 +238,24 @@ class SQL2FPGA_Codegen {
         }
       }
     }
-    //Final write out to file buffer
-    while(q_entire_plan.nonEmpty) {
+    // Final write out to file buffer
+    while (q_entire_plan.nonEmpty) {
       var tmp_node = q_entire_plan.dequeue()
       writeHostCode_section(tmp_node.fpgaOutputCode, bw)
     }
   }
-  def writeHostCode_tables_inoutTbl_allocateDevBuffer(parent: SQL2FPGA_QPlan, root: SQL2FPGA_QPlan, bw: BufferedWriter): Unit ={
+  def writeHostCode_tables_inoutTbl_allocateDevBuffer(
+      parent: SQL2FPGA_QPlan,
+      root: SQL2FPGA_QPlan,
+      bw: BufferedWriter): Unit = {
     var q_entire_plan = Queue[SQL2FPGA_QPlan]()
     q_entire_plan.enqueue(root)
 
-    //Breadth traversal queue
+    // Breadth traversal queue
     var q_node = Queue[SQL2FPGA_QPlan]()
     q_node.enqueue(root)
 
-    while(!q_node.isEmpty) {
+    while (!q_node.isEmpty) {
       // traversal step
       var this_node = q_node.dequeue()
       for (ch <- this_node.children) {
@@ -237,7 +266,7 @@ class SQL2FPGA_Codegen {
       for (ch <- this_node.children) {
         if (q_entire_plan.contains(ch)) {
           tmp_q.clear()
-          while(!q_entire_plan.isEmpty) {
+          while (!q_entire_plan.isEmpty) {
             var tmp_node = q_entire_plan.dequeue()
             if (tmp_node != ch) {
               tmp_q.enqueue(tmp_node)
@@ -250,28 +279,34 @@ class SQL2FPGA_Codegen {
         }
       }
     }
-    //Final write out to file buffer
-    while(q_entire_plan.nonEmpty) {
+    // Final write out to file buffer
+    while (q_entire_plan.nonEmpty) {
       var tmp_node = q_entire_plan.dequeue()
       writeHostCode_section(tmp_node.fpgaOutputDevAllocateCode, bw)
     }
   }
-  def writeHostCode_tables(parent: SQL2FPGA_QPlan, root: SQL2FPGA_QPlan, bw: BufferedWriter): Unit ={
+  def writeHostCode_tables(
+      parent: SQL2FPGA_QPlan,
+      root: SQL2FPGA_QPlan,
+      bw: BufferedWriter): Unit = {
     writeHostCode_tables_inoutTbl_definition(parent, root, bw)
     resetVisitTag(root)
     bw.write("    // ********************** Allocate Device Buffer ******************** // \n")
     writeHostCode_tables_inoutTbl_allocateDevBuffer(parent, root, bw)
     resetVisitTag(root)
   }
-  def writeHostCode_config(parent: SQL2FPGA_QPlan, root: SQL2FPGA_QPlan, bw: BufferedWriter): Unit ={
+  def writeHostCode_config(
+      parent: SQL2FPGA_QPlan,
+      root: SQL2FPGA_QPlan,
+      bw: BufferedWriter): Unit = {
     var q_entire_plan = Queue[SQL2FPGA_QPlan]()
     q_entire_plan.enqueue(root)
 
-    //Breadth traversal queue
+    // Breadth traversal queue
     var q_node = Queue[SQL2FPGA_QPlan]()
     q_node.enqueue(root)
 
-    while(!q_node.isEmpty) {
+    while (!q_node.isEmpty) {
       // traversal step
       var this_node = q_node.dequeue()
       for (ch <- this_node.children) {
@@ -282,7 +317,7 @@ class SQL2FPGA_Codegen {
       for (ch <- this_node.children) {
         if (q_entire_plan.contains(ch)) {
           tmp_q.clear()
-          while(!q_entire_plan.isEmpty) {
+          while (!q_entire_plan.isEmpty) {
             var tmp_node = q_entire_plan.dequeue()
             if (tmp_node != ch) {
               tmp_q.enqueue(tmp_node)
@@ -295,21 +330,24 @@ class SQL2FPGA_Codegen {
         }
       }
     }
-    //Final write out to file buffer
-    while(q_entire_plan.nonEmpty) {
+    // Final write out to file buffer
+    while (q_entire_plan.nonEmpty) {
       var tmp_node = q_entire_plan.dequeue()
       writeHostCode_section(tmp_node.fpgaConfigCode, bw)
     }
   }
-  def writeHostCode_kernelSetup(parent: SQL2FPGA_QPlan, root: SQL2FPGA_QPlan, bw: BufferedWriter): Unit ={
+  def writeHostCode_kernelSetup(
+      parent: SQL2FPGA_QPlan,
+      root: SQL2FPGA_QPlan,
+      bw: BufferedWriter): Unit = {
     var q_entire_plan = Queue[SQL2FPGA_QPlan]()
     q_entire_plan.enqueue(root)
 
-    //Breadth traversal queue
+    // Breadth traversal queue
     var q_node = Queue[SQL2FPGA_QPlan]()
     q_node.enqueue(root)
 
-    while(!q_node.isEmpty) {
+    while (!q_node.isEmpty) {
       // traversal step
       var this_node = q_node.dequeue()
       for (ch <- this_node.children) {
@@ -320,7 +358,7 @@ class SQL2FPGA_Codegen {
       for (ch <- this_node.children) {
         if (q_entire_plan.contains(ch)) {
           tmp_q.clear()
-          while(!q_entire_plan.isEmpty) {
+          while (!q_entire_plan.isEmpty) {
             var tmp_node = q_entire_plan.dequeue()
             if (tmp_node != ch) {
               tmp_q.enqueue(tmp_node)
@@ -333,21 +371,24 @@ class SQL2FPGA_Codegen {
         }
       }
     }
-    //Final write out to file buffer
-    while(q_entire_plan.nonEmpty) {
+    // Final write out to file buffer
+    while (q_entire_plan.nonEmpty) {
       var tmp_node = q_entire_plan.dequeue()
       writeHostCode_section(tmp_node.fpgaKernelSetupCode, bw)
     }
   }
-  def writeHostCode_transferEngine(parent: SQL2FPGA_QPlan, root: SQL2FPGA_QPlan, bw: BufferedWriter): Unit ={
+  def writeHostCode_transferEngine(
+      parent: SQL2FPGA_QPlan,
+      root: SQL2FPGA_QPlan,
+      bw: BufferedWriter): Unit = {
     var q_entire_plan = Queue[SQL2FPGA_QPlan]()
     q_entire_plan.enqueue(root)
 
-    //Breadth traversal queue
+    // Breadth traversal queue
     var q_node = Queue[SQL2FPGA_QPlan]()
     q_node.enqueue(root)
 
-    while(!q_node.isEmpty) {
+    while (!q_node.isEmpty) {
       // traversal step
       var this_node = q_node.dequeue()
       for (ch <- this_node.children) {
@@ -358,7 +399,7 @@ class SQL2FPGA_Codegen {
       for (ch <- this_node.children) {
         if (q_entire_plan.contains(ch)) {
           tmp_q.clear()
-          while(!q_entire_plan.isEmpty) {
+          while (!q_entire_plan.isEmpty) {
             var tmp_node = q_entire_plan.dequeue()
             if (tmp_node != ch) {
               tmp_q.enqueue(tmp_node)
@@ -371,21 +412,24 @@ class SQL2FPGA_Codegen {
         }
       }
     }
-    //Final write out to file buffer
-    while(q_entire_plan.nonEmpty) {
+    // Final write out to file buffer
+    while (q_entire_plan.nonEmpty) {
       var tmp_node = q_entire_plan.dequeue()
       writeHostCode_section(tmp_node.fpgaTransEngineSetupCode, bw)
     }
   }
-  def writeHostCode_events(parent: SQL2FPGA_QPlan, root: SQL2FPGA_QPlan, bw: BufferedWriter): Unit ={
+  def writeHostCode_events(
+      parent: SQL2FPGA_QPlan,
+      root: SQL2FPGA_QPlan,
+      bw: BufferedWriter): Unit = {
     var q_entire_plan = Queue[SQL2FPGA_QPlan]()
     q_entire_plan.enqueue(root)
 
-    //Breadth traversal queue
+    // Breadth traversal queue
     var q_node = Queue[SQL2FPGA_QPlan]()
     q_node.enqueue(root)
 
-    while(!q_node.isEmpty) {
+    while (!q_node.isEmpty) {
       // traversal step
       var this_node = q_node.dequeue()
       for (ch <- this_node.children) {
@@ -396,7 +440,7 @@ class SQL2FPGA_Codegen {
       for (ch <- this_node.children) {
         if (q_entire_plan.contains(ch)) {
           tmp_q.clear()
-          while(!q_entire_plan.isEmpty) {
+          while (!q_entire_plan.isEmpty) {
             var tmp_node = q_entire_plan.dequeue()
             if (tmp_node != ch) {
               tmp_q.enqueue(tmp_node)
@@ -409,13 +453,16 @@ class SQL2FPGA_Codegen {
         }
       }
     }
-    //Final write out to file buffer
-    while(q_entire_plan.nonEmpty) {
+    // Final write out to file buffer
+    while (q_entire_plan.nonEmpty) {
       var tmp_node = q_entire_plan.dequeue()
       writeHostCode_section(tmp_node.fpgaKernelEventsCode, bw)
     }
   }
-  def writeHostCode_operation(parent: SQL2FPGA_QPlan, root: SQL2FPGA_QPlan, bw: BufferedWriter): Unit ={
+  def writeHostCode_operation(
+      parent: SQL2FPGA_QPlan,
+      root: SQL2FPGA_QPlan,
+      bw: BufferedWriter): Unit = {
     //    for (ch <- root.children) {
     //      writeHostCode_operation(root, ch, bw)
     //    }
@@ -442,11 +489,11 @@ class SQL2FPGA_Codegen {
     //    }
     var q_entire_plan = Queue[SQL2FPGA_QPlan]()
     q_entire_plan.enqueue(root)
-    //Breadth traversal queue
+    // Breadth traversal queue
     var q_node = Queue[SQL2FPGA_QPlan]()
     q_node.enqueue(root)
 
-    while(!q_node.isEmpty) {
+    while (!q_node.isEmpty) {
       // traversal step
       var this_node = q_node.dequeue()
       for (ch <- this_node.children) {
@@ -457,7 +504,7 @@ class SQL2FPGA_Codegen {
       for (ch <- this_node.children) {
         if (q_entire_plan.contains(ch)) {
           tmp_q.clear()
-          while(!q_entire_plan.isEmpty) {
+          while (!q_entire_plan.isEmpty) {
             var tmp_node = q_entire_plan.dequeue()
             if (tmp_node != ch) {
               tmp_q.enqueue(tmp_node)
@@ -470,26 +517,28 @@ class SQL2FPGA_Codegen {
         }
       }
     }
-    //Final write out to stack to file buffer
+    // Final write out to stack to file buffer
     var s_entire_plan = Stack[SQL2FPGA_QPlan]()
-    while(q_entire_plan.nonEmpty) {
+    while (q_entire_plan.nonEmpty) {
       var tmp_node = q_entire_plan.dequeue()
       s_entire_plan.push(tmp_node)
     }
-    //Final write out to file buffer
-    while(s_entire_plan.nonEmpty) {
+    // Final write out to file buffer
+    while (s_entire_plan.nonEmpty) {
       var tmp_node = s_entire_plan.pop()
-      if (tmp_node.operation.nonEmpty){
+      if (tmp_node.operation.nonEmpty) {
         var timeVal_id = scala.util.Random.nextInt(1000000)
-        bw.write("    struct timeval " + "tv_r_" + tmp_node.nodeType + "_" + tmp_node.treeDepth.toString + "_" + timeVal_id + "_s, " + "tv_r_" + tmp_node.nodeType + "_" + tmp_node.treeDepth.toString + "_" + timeVal_id + "_e;" + "\n")
-        bw.write("    gettimeofday(&" + "tv_r_" + tmp_node.nodeType + "_" + tmp_node.treeDepth.toString + "_" + timeVal_id + "_s, 0);" + "\n")
+        bw.write(
+          "    struct timeval " + "tv_r_" + tmp_node.nodeType + "_" + tmp_node.treeDepth.toString + "_" + timeVal_id + "_s, " + "tv_r_" + tmp_node.nodeType + "_" + tmp_node.treeDepth.toString + "_" + timeVal_id + "_e;" + "\n")
+        bw.write(
+          "    gettimeofday(&" + "tv_r_" + tmp_node.nodeType + "_" + tmp_node.treeDepth.toString + "_" + timeVal_id + "_s, 0);" + "\n")
         if (tmp_node.cpuORfpga == 0) { // CPU SW implementation
           writeHostCode_section(tmp_node.fpgaSWCode, bw)
-        }
-        else if (tmp_node.cpuORfpga == 1) { // FPGA HW implementation
+        } else if (tmp_node.cpuORfpga == 1) { // FPGA HW implementation
           writeHostCode_section(tmp_node.fpgaKernelRunCode, bw)
         }
-        bw.write("    gettimeofday(&" + "tv_r_" + tmp_node.nodeType + "_" + tmp_node.treeDepth.toString + "_" + timeVal_id + "_e, 0);" + "\n\n")
+        bw.write(
+          "    gettimeofday(&" + "tv_r_" + tmp_node.nodeType + "_" + tmp_node.treeDepth.toString + "_" + timeVal_id + "_e, 0);" + "\n\n")
 
         tmp_node.executionTimeCode += "std::cout << \"" + tmp_node.nodeType + "_" + tmp_node.treeDepth.toString + ": \" << tvdiff(&tv_r_" + tmp_node.nodeType + "_" + tmp_node.treeDepth.toString + "_" + timeVal_id + "_s, " + "&tv_r_" + tmp_node.nodeType + "_" + tmp_node.treeDepth.toString + "_" + timeVal_id + "_e) / 1000.0 << \" ms \" "
         var tbl_size_str = " << "
@@ -502,14 +551,17 @@ class SQL2FPGA_Codegen {
     }
 
   }
-  def writeHostCode_executionTime(parent: SQL2FPGA_QPlan, root: SQL2FPGA_QPlan, bw: BufferedWriter): Unit ={
+  def writeHostCode_executionTime(
+      parent: SQL2FPGA_QPlan,
+      root: SQL2FPGA_QPlan,
+      bw: BufferedWriter): Unit = {
     var q_entire_plan = Queue[SQL2FPGA_QPlan]()
     q_entire_plan.enqueue(root)
-    //Breadth traversal queue
+    // Breadth traversal queue
     var q_node = Queue[SQL2FPGA_QPlan]()
     q_node.enqueue(root)
 
-    while(!q_node.isEmpty) {
+    while (!q_node.isEmpty) {
       // traversal step
       var this_node = q_node.dequeue()
       for (ch <- this_node.children) {
@@ -520,7 +572,7 @@ class SQL2FPGA_Codegen {
       for (ch <- this_node.children) {
         if (q_entire_plan.contains(ch)) {
           tmp_q.clear()
-          while(!q_entire_plan.isEmpty) {
+          while (!q_entire_plan.isEmpty) {
             var tmp_node = q_entire_plan.dequeue()
             if (tmp_node != ch) {
               tmp_q.enqueue(tmp_node)
@@ -533,19 +585,23 @@ class SQL2FPGA_Codegen {
         }
       }
     }
-    //Final write out to stack to file buffer
+    // Final write out to stack to file buffer
     var s_entire_plan = Stack[SQL2FPGA_QPlan]()
-    while(q_entire_plan.nonEmpty) {
+    while (q_entire_plan.nonEmpty) {
       var tmp_node = q_entire_plan.dequeue()
       s_entire_plan.push(tmp_node)
     }
-    //Final write out to file buffer
-    while(s_entire_plan.nonEmpty) {
+    // Final write out to file buffer
+    while (s_entire_plan.nonEmpty) {
       var tmp_node = s_entire_plan.pop()
       writeHostCode_section(tmp_node.executionTimeCode, bw)
     }
   }
-  def writeHostCode_Core(root: SQL2FPGA_QPlan, bw: BufferedWriter, pure_sw_mode: Int, sf: Int): Unit ={
+  def writeHostCode_Core(
+      root: SQL2FPGA_QPlan,
+      bw: BufferedWriter,
+      pure_sw_mode: Int,
+      sf: Int): Unit = {
     if (pure_sw_mode != 1) {
       bw.write("    // Get CL devices. \n")
       // TODO: assume we have 2 FPGAs, what kind of overlay (gqe-join or gqe-aggr) should occupy the FPGAs?
@@ -554,7 +610,8 @@ class SQL2FPGA_Codegen {
         bw.write("    cl::Device device_h = devices[0]; \n")
         bw.write("    // Create context_h and command queue for selected device \n")
         bw.write("    cl::Context context_h(device_h); \n")
-        bw.write("    cl::CommandQueue q_h(context_h, device_h, CL_QUEUE_PROFILING_ENABLE | CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE); \n")
+        bw.write(
+          "    cl::CommandQueue q_h(context_h, device_h, CL_QUEUE_PROFILING_ENABLE | CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE); \n")
         bw.write("    std::string devName_h = device_h.getInfo<CL_DEVICE_NAME>(); \n")
         bw.write("    std::cout << \"Selected Device \" << devName_h << \"\\n\"; \n")
         bw.write("    cl::Program::Binaries xclBins_h = xcl::import_binary_file(xclbin_path_h); \n")
@@ -566,7 +623,8 @@ class SQL2FPGA_Codegen {
         bw.write("    cl::Device device_a = devices[1]; \n")
         bw.write("    // Create context_a and command queue for selected device \n")
         bw.write("    cl::Context context_a(device_a); \n")
-        bw.write("    cl::CommandQueue q_a(context_a, device_a, CL_QUEUE_PROFILING_ENABLE | CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE); \n")
+        bw.write(
+          "    cl::CommandQueue q_a(context_a, device_a, CL_QUEUE_PROFILING_ENABLE | CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE); \n")
         bw.write("    std::string devName_a = device_a.getInfo<CL_DEVICE_NAME>(); \n")
         bw.write("    std::cout << \"Selected Device \" << devName_a << \"\\n\"; \n")
         bw.write("    cl::Program::Binaries xclBins_a = xcl::import_binary_file(xclbin_path_a); \n")
@@ -579,10 +637,12 @@ class SQL2FPGA_Codegen {
       bw.write("    // *********************** Partition Infomation ********************* // \n")
       bw.write("    int hpTimes_join = 32; \n")
       bw.write("    int power_of_hpTimes_join = log2(hpTimes_join); \n")
-      bw.write("    std::cout << \"Number of partition (gqeJoin) is: \" << hpTimes_join << std::endl; \n")
+      bw.write(
+        "    std::cout << \"Number of partition (gqeJoin) is: \" << hpTimes_join << std::endl; \n")
       bw.write("    int hpTimes_aggr = 256; \n")
       bw.write("    int power_of_hpTimes_aggr = log2(hpTimes_aggr); \n")
-      bw.write("    std::cout << \"Number of partition (gqeAggr) is: \" << hpTimes_aggr << std::endl; \n")
+      bw.write(
+        "    std::cout << \"Number of partition (gqeAggr) is: \" << hpTimes_aggr << std::endl; \n")
     }
     bw.write("    // ****************************** Tables **************************** // \n")
     writeHostCode_tables(null, root, bw)
@@ -618,13 +678,16 @@ class SQL2FPGA_Codegen {
     writeHostCode_operation(null, root, bw)
     resetVisitTag(root)
     bw.write("    gettimeofday(&tv_r_e, 0); \n")
-    bw.write("    // **************************** Print Execution Time ************************** // \n")
+    bw.write(
+      "    // **************************** Print Execution Time ************************** // \n")
     writeHostCode_executionTime(null, root, bw)
     resetVisitTag(root)
-    bw.write("    std::cout << std::endl << \" Total execution time: \" << tvdiff(&tv_r_s, &tv_r_e) / 1000 << \" ms\"; \n\n")
+    bw.write(
+      "    std::cout << std::endl << \" Total execution time: \" << tvdiff(&tv_r_s, &tv_r_e) / 1000 << \" ms\"; \n\n")
   }
-  def writeHostCode_wrapper_bottom(bw: BufferedWriter, goldenOutput: ListBuffer[String]): Unit ={
-    bw.write("    std::cout << std::endl << \" Spark elapsed time: \" << " + goldenOutput.last + " * 1000 << \"ms\" << std::endl; \n")
+  def writeHostCode_wrapper_bottom(bw: BufferedWriter, goldenOutput: ListBuffer[String]): Unit = {
+    bw.write(
+      "    std::cout << std::endl << \" Spark elapsed time: \" << " + goldenOutput.last + " * 1000 << \"ms\" << std::endl; \n")
 //    bw.write("    std::cout << \" Spark Output (first 5 of " + (goldenOutput.length - 1).toString  + " lines)\" << std::endl; \n")
 //    var idx = 0
 //    for (line <- goldenOutput) {
@@ -636,7 +699,7 @@ class SQL2FPGA_Codegen {
     bw.write("    return 0; \n")
     bw.write("}\n")
   }
-  def writeFPGAConfigCode_header(bw: BufferedWriter): Unit ={
+  def writeFPGAConfigCode_header(bw: BufferedWriter): Unit = {
     bw.write("#include \"ap_int.h\" \n")
     bw.write("#include \"xf_database/dynamic_alu_host.hpp\"\n")
     bw.write("#include \"xf_database/enums.hpp\"\n")
@@ -723,22 +786,22 @@ class SQL2FPGA_Codegen {
     bw.write("    cfg[n++] = (uint32_t)(1UL << 31); \n")
     bw.write("} \n\n")
   }
-  def writeFPGAConfigCode_section(l: ListBuffer[String], bw: BufferedWriter): Unit ={
-    if (l.nonEmpty){
-      for (ln <- l){
+  def writeFPGAConfigCode_section(l: ListBuffer[String], bw: BufferedWriter): Unit = {
+    if (l.nonEmpty) {
+      for (ln <- l) {
         bw.write(ln + "\n")
       }
     }
     bw.write("\n");
   }
-  def writeFPGAConfigCode_Core(root: SQL2FPGA_QPlan, bw: BufferedWriter): Unit ={
+  def writeFPGAConfigCode_Core(root: SQL2FPGA_QPlan, bw: BufferedWriter): Unit = {
     var q_entire_plan = Queue[SQL2FPGA_QPlan]()
     q_entire_plan.enqueue(root)
-    //Breadth traversal queue
+    // Breadth traversal queue
     var q_node = Queue[SQL2FPGA_QPlan]()
     q_node.enqueue(root)
 
-    while(!q_node.isEmpty) {
+    while (!q_node.isEmpty) {
       // traversal step
       var this_node = q_node.dequeue()
       for (ch <- this_node.children) {
@@ -749,7 +812,7 @@ class SQL2FPGA_Codegen {
       for (ch <- this_node.children) {
         if (q_entire_plan.contains(ch)) {
           tmp_q.clear()
-          while(!q_entire_plan.isEmpty) {
+          while (!q_entire_plan.isEmpty) {
             var tmp_node = q_entire_plan.dequeue()
             if (tmp_node != ch) {
               tmp_q.enqueue(tmp_node)
@@ -762,42 +825,42 @@ class SQL2FPGA_Codegen {
         }
       }
     }
-    //Final write out to stack to file buffer
+    // Final write out to stack to file buffer
     var s_entire_plan = Stack[SQL2FPGA_QPlan]()
-    while(q_entire_plan.nonEmpty) {
+    while (q_entire_plan.nonEmpty) {
       var tmp_node = q_entire_plan.dequeue()
       s_entire_plan.push(tmp_node)
     }
-    //Final write out to file buffer
-    while(s_entire_plan.nonEmpty) { // both HW and SW operator can generate SWFuncCode - gqe-aggr
+    // Final write out to file buffer
+    while (s_entire_plan.nonEmpty) { // both HW and SW operator can generate SWFuncCode - gqe-aggr
       var tmp_node = s_entire_plan.pop()
-      if (tmp_node.operation.nonEmpty && tmp_node.cpuORfpga == 1){
+      if (tmp_node.operation.nonEmpty && tmp_node.cpuORfpga == 1) {
         writeFPGAConfigCode_section(tmp_node.fpgaConfigFuncCode, bw)
       }
     }
   }
-  def writeSWConfigCode_header(bw: BufferedWriter): Unit ={
+  def writeSWConfigCode_header(bw: BufferedWriter): Unit = {
     bw.write("#include <regex> \n")
     bw.write("#include <stdint.h> \n")
     bw.write("#include \"utils.hpp\"\n")
     bw.write("\n")
   }
-  def writeSWConfigCode_section(l: ListBuffer[String], bw: BufferedWriter): Unit ={
-    if (l.nonEmpty){
-      for (ln <- l){
+  def writeSWConfigCode_section(l: ListBuffer[String], bw: BufferedWriter): Unit = {
+    if (l.nonEmpty) {
+      for (ln <- l) {
         bw.write(ln + "\n")
       }
     }
     bw.write("\n");
   }
-  def writeSWConfigCode_Core(root: SQL2FPGA_QPlan, bw: BufferedWriter): Unit ={
+  def writeSWConfigCode_Core(root: SQL2FPGA_QPlan, bw: BufferedWriter): Unit = {
     var q_entire_plan = Queue[SQL2FPGA_QPlan]()
     q_entire_plan.enqueue(root)
-    //Breadth traversal queue
+    // Breadth traversal queue
     var q_node = Queue[SQL2FPGA_QPlan]()
     q_node.enqueue(root)
 
-    while(!q_node.isEmpty) {
+    while (!q_node.isEmpty) {
       // traversal step
       var this_node = q_node.dequeue()
       for (ch <- this_node.children) {
@@ -809,7 +872,7 @@ class SQL2FPGA_Codegen {
       for (ch <- this_node.children) {
         if (q_entire_plan.contains(ch)) {
           tmp_q.clear()
-          while(!q_entire_plan.isEmpty) {
+          while (!q_entire_plan.isEmpty) {
             var tmp_node = q_entire_plan.dequeue()
             if (tmp_node != ch) {
               tmp_q.enqueue(tmp_node)
@@ -822,14 +885,14 @@ class SQL2FPGA_Codegen {
         }
       }
     }
-    //Final write out to stack to file buffer
+    // Final write out to stack to file buffer
     var s_entire_plan = Stack[SQL2FPGA_QPlan]()
-    while(q_entire_plan.nonEmpty) {
+    while (q_entire_plan.nonEmpty) {
       var tmp_node = q_entire_plan.dequeue()
       s_entire_plan.push(tmp_node)
     }
-    //Final write out to file buffer
-    while(s_entire_plan.nonEmpty) {
+    // Final write out to file buffer
+    while (s_entire_plan.nonEmpty) {
       var tmp_node = s_entire_plan.pop()
       // if (tmp_node.operation.nonEmpty && tmp_node.cpuORfpga == 0){ // only SW operator can generate SWFuncCode
       if (tmp_node.operation.nonEmpty) { // both HW and SW operator can generate SWFuncCode - gqe-aggr
@@ -837,7 +900,16 @@ class SQL2FPGA_Codegen {
       }
     }
   }
-  def genHostCode(root: SQL2FPGA_QPlan, pure_sw_mode: Int, num_fpga_device: Int, queryNo: Int, goldenOutput: ListBuffer[String], sf: Int, num_overlay_orig: Int, num_overlay_fused: Int, TPCH_or_DS: Int): Unit ={
+  def genHostCode(
+      root: SQL2FPGA_QPlan,
+      pure_sw_mode: Int,
+      num_fpga_device: Int,
+      queryNo: Int,
+      goldenOutput: ListBuffer[String],
+      sf: Int,
+      num_overlay_orig: Int,
+      num_overlay_fused: Int,
+      TPCH_or_DS: Int): Unit = {
     // host.cpp
     var hostCodeFileName = "test_q" + queryNo + ".cpp"
     val outFile = new File(hostCodeFileName)
@@ -849,7 +921,7 @@ class SQL2FPGA_Codegen {
     writeHostCode_wrapper_bottom(bw, goldenOutput)
     bw.close()
   }
-  def genFPGAConfigCode(root: SQL2FPGA_QPlan, queryNo: Int, sf: Int): Unit ={
+  def genFPGAConfigCode(root: SQL2FPGA_QPlan, queryNo: Int, sf: Int): Unit = {
     // cfgFunc.hpp
     var cfgFuncFileName = "cfgFunc_q" + queryNo + ".hpp"
     val outFile = new File(cfgFuncFileName)
@@ -859,7 +931,7 @@ class SQL2FPGA_Codegen {
     resetVisitTag(root)
     bw.close()
   }
-  def genSWConfigCode(root: SQL2FPGA_QPlan, queryNo: Int, sf: Int): Unit ={
+  def genSWConfigCode(root: SQL2FPGA_QPlan, queryNo: Int, sf: Int): Unit = {
     // swFunc.hpp
     var swFuncFileName = "q" + queryNo + ".hpp"
     val outFile = new File(swFuncFileName)
@@ -869,7 +941,11 @@ class SQL2FPGA_Codegen {
     resetVisitTag(root)
     bw.close()
   }
-  def writeSparkSQLEvaluationResults(queryNo: Int, sf: Int, runtime_s: Float, bw: BufferedWriter): Unit = {
-    bw.write(queryNo.toString + "(sf"+ sf.toString +"): " + runtime_s.toString + " s\n")
+  def writeSparkSQLEvaluationResults(
+      queryNo: Int,
+      sf: Int,
+      runtime_s: Float,
+      bw: BufferedWriter): Unit = {
+    bw.write(queryNo.toString + "(sf" + sf.toString + "): " + runtime_s.toString + " s\n")
   }
 }
