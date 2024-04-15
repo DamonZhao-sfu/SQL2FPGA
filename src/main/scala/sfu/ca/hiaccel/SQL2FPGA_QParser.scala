@@ -89,7 +89,6 @@ class SQL2FPGA_QParser {
     }
   }
 
-  // read parquet
   def printReadLogicalRelation(
       r: LogicalRelation,
       num_indent: Int,
@@ -100,11 +99,11 @@ class SQL2FPGA_QParser {
     // nodeType = r.simpleString(0)l
     println("nodeType is " + nodeType)
     fpga_plan.nodeType = nodeType
-    var tpch_table = ""
+    var table = ""
     var parent_required_col = new ListBuffer[String]()
     r.relation match {
       case hadoopFsRelation: org.apache.spark.sql.execution.datasources.HadoopFsRelation => {
-        tpch_table = hadoopFsRelation.location.rootPaths.headOption.get.toString.split("/").last
+        table = hadoopFsRelation.location.rootPaths.headOption.get.toString.split("/").last
       }
     }
 
@@ -126,10 +125,10 @@ class SQL2FPGA_QParser {
       var col: String = _column
       val col_first = col.split("#").head
       print(col_first + ", ")
-      columnTableMap += (col -> (tpch_table, col))
-      columnTableMap += (col_first -> (tpch_table, col_first))
+      columnTableMap += (col -> (table, col))
+      columnTableMap += (col_first -> (table, col_first))
     }
-    fpga_plan.numTableRow = getTableRow(tpch_table, sf)
+    fpga_plan.numTableRow = getTableRow(table, sf)
     print("\n")
 
   }
@@ -695,10 +694,10 @@ class SQL2FPGA_QParser {
     _qPlan.addChildrenParentConnections()
     _qPlan_backup.addChildrenParentConnections()
     // Debug printouts
-    //if (DEBUG_PARSER) {
-   //   _qPlan.printPlan_InOrder(schemaProvider.dfMap)
+    // if (DEBUG_PARSER) {
+    //   _qPlan.printPlan_InOrder(schemaProvider.dfMap)
     //  println(columnDictionary.toString())
-    //}
+    // }
   }
 
 }

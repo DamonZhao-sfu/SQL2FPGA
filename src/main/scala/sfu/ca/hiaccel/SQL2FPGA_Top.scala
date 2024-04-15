@@ -40,8 +40,7 @@ object SQL2FPGA_Top {
   qConfig.tpch_queryNum_end = 22
   // 2,20
 
-  qConfig.tpch_queryNum_list = ListBuffer(1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,
-    18, 19, 20, 21, 22) // 3, 13, 15, 18, 20
+  qConfig.tpch_queryNum_list = ListBuffer(22) // 3, 13, 15, 18, 20
 
   qConfig.pure_sw_mode = 0
   qConfig.query_plan_optimization_enable = "00000"
@@ -149,7 +148,7 @@ object SQL2FPGA_Top {
       qParser.parse_SparkQPlan_to_SQL2FPGAQPlan(
         df.queryExecution.sparkPlan.logicalLink.get,
         qConfig
-        )
+      )
 
       // ----------------------------------------------------------------------------------------------------------------
       // SQL2FPGA QPlan Optimizations
@@ -157,38 +156,38 @@ object SQL2FPGA_Top {
       // cascaded-join transformations
       if (qConfig.query_plan_optimization_enable(0) == '1') {
         // TODO: HAIKAI 20240107 Query 2 has join reorder has bug
-        qParser.qPlan.applyCascadedJoinOptTransform(qParser, queryNo, qConfig, schemaProvider.dfMap)
+        qParser.qPlan.applyCascadedJoinOptTransform(qParser, queryNo, qConfig)
       }
       // stringDataType transformations
       if (qConfig.query_plan_optimization_enable(1) == '1') {
-        qParser.qPlan.applyStringDataTypeOptTransform(qParser, qConfig, schemaProvider.dfMap)
+        qParser.qPlan.applyStringDataTypeOptTransform(qParser, qConfig)
       }
       // special-join (outer join + anti join) transformations
       if (qConfig.query_plan_optimization_enable(2) == '1') {
-        qParser.qPlan.applySpecialJoinOptTransform(qParser, qConfig, schemaProvider.dfMap)
+        qParser.qPlan.applySpecialJoinOptTransform(qParser, qConfig)
       }
       // redundant operator removal transformation
       if (qConfig.query_plan_optimization_enable(3) == '1') {
-        qParser.qPlan.applyRedundantNodeRemovalOptTransform(
-          qParser,
-          queryNo,
-          qConfig,
-          schemaProvider.dfMap)
+        qParser.qPlan.applyRedundantNodeRemovalOptTransform(qParser, queryNo, qConfig)
       } else {
-        qParser.qPlan.allocateOperators(queryNo, schemaProvider.dfMap, qConfig.pure_sw_mode)
+        qParser.qPlan.allocateOperators(queryNo, qConfig.pure_sw_mode)
       }
       // fpga overlay transformations
       if (qConfig.query_plan_optimization_enable(4) == '1') {
         val (a, b) =
-          qParser.qPlan.applyFPGAOverlayOptTransform(qParser, qConfig, schemaProvider.dfMap)
+          qParser.qPlan.applyFPGAOverlayOptTransform(qParser, qConfig)
         num_overlay_orig = a
         num_overlay_fused = b
       }
+      println("optimizedPlan" + df.queryExecution.optimizedPlan)
+      println("logicalLink" + df.queryExecution.sparkPlan.logicalLink)
+      println("logical" + df.queryExecution.logical)
+      println("commandExecuted" + df.queryExecution.commandExecuted)
 
       // ----------------------------------------------------------------------------------------------------------------
       // Code Gen
       // ----------------------------------------------------------------------------------------------------------------
-      qParser.qPlan.genCode(null, schemaProvider.dfMap, qConfig, queryNo)
+      qParser.qPlan.genCode(null, qConfig)
 
       // ----------------------------------------------------------------------------------------------------------------
       // Write Execution Code
@@ -198,7 +197,6 @@ object SQL2FPGA_Top {
         qConfig.pure_sw_mode,
         qConfig.num_fpga_device,
         queryNo,
-        query.getGoldenOutput(),
         qConfig.scale_factor,
         num_overlay_orig,
         num_overlay_fused,
@@ -263,16 +261,17 @@ object SQL2FPGA_Top {
       // Spark SQL Parsing: SQL->SparkSQL Execution Plan
       // ----------------------------------------------------------------------------------------------------------------
       // Raw SparkSQL Optimized Logical Plan
-      println(df.queryExecution.sparkPlan.logicalLink.get)
+      println("optimizedPlan" + df.queryExecution.optimizedPlan)
+      println("logicalLink" + df.queryExecution.sparkPlan.logicalLink)
+      println("logical" + df.queryExecution.logical)
+      println("commandExecuted" + df.queryExecution.commandExecuted)
 
       // ----------------------------------------------------------------------------------------------------------------
       // SQL2FPGA Parsing: SparkSQL Execution Plan->SQL2FPGA QPlan
       // ----------------------------------------------------------------------------------------------------------------
       // Parsing SparkSQL Optimized Logical Plan
       var qParser = new SQL2FPGA_QParser
-      qParser.parse_SparkQPlan_to_SQL2FPGAQPlan(
-        df.queryExecution.sparkPlan.logicalLink.get,
-        qConfig)
+      qParser.parse_SparkQPlan_to_SQL2FPGAQPlan(df.queryExecution.optimizedPlan, qConfig)
 
       // ----------------------------------------------------------------------------------------------------------------
       // SQL2FPGA QPlan Optimizations
@@ -280,34 +279,26 @@ object SQL2FPGA_Top {
       // cascaded-join transformations
       if (qConfig.query_plan_optimization_enable(0) == '1') {
         if (queryNo != 9 && queryNo != 10 && queryNo != 4)
-          qParser.qPlan.applyCascadedJoinOptTransform(
-            qParser,
-            queryNo,
-            qConfig,
-            schemaProvider.dfMap)
+          qParser.qPlan.applyCascadedJoinOptTransform(qParser, queryNo, qConfig)
       }
       // stringDataType transformations
       if (qConfig.query_plan_optimization_enable(1) == '1') {
-        qParser.qPlan.applyStringDataTypeOptTransform(qParser, qConfig, schemaProvider.dfMap)
+        qParser.qPlan.applyStringDataTypeOptTransform(qParser, qConfig)
       }
       // special-join (outer join + anti join) transformations
       if (qConfig.query_plan_optimization_enable(2) == '1') {
-        qParser.qPlan.applySpecialJoinOptTransform(qParser, qConfig, schemaProvider.dfMap)
+        qParser.qPlan.applySpecialJoinOptTransform(qParser, qConfig)
       }
       // redundant operator removal transformation
       if (qConfig.query_plan_optimization_enable(3) == '1') {
-        qParser.qPlan.applyRedundantNodeRemovalOptTransform(
-          qParser,
-          queryNo,
-          qConfig,
-          schemaProvider.dfMap)
+        qParser.qPlan.applyRedundantNodeRemovalOptTransform(qParser, queryNo, qConfig)
       } else {
-        qParser.qPlan.allocateOperators(queryNo, schemaProvider.dfMap, qConfig.pure_sw_mode)
+        qParser.qPlan.allocateOperators(queryNo, qConfig.pure_sw_mode)
       }
       // fpga overlay transformations
       if (qConfig.query_plan_optimization_enable(4) == '1') {
         val (a, b) =
-          qParser.qPlan.applyFPGAOverlayOptTransform(qParser, qConfig, schemaProvider.dfMap)
+          qParser.qPlan.applyFPGAOverlayOptTransform(qParser, qConfig)
         num_overlay_orig = a;
         num_overlay_fused = b
       }
@@ -315,7 +306,7 @@ object SQL2FPGA_Top {
       // ----------------------------------------------------------------------------------------------------------------
       // Code Gen
       // ----------------------------------------------------------------------------------------------------------------
-      qParser.qPlan.genCode(null, schemaProvider.dfMap, qConfig, queryNo)
+      qParser.qPlan.genCode(null, qConfig)
 
       // ----------------------------------------------------------------------------------------------------------------
       // Write Execution Code
@@ -325,7 +316,6 @@ object SQL2FPGA_Top {
         qConfig.pure_sw_mode,
         qConfig.num_fpga_device,
         queryNo,
-        query.getGoldenOutput(),
         qConfig.scale_factor,
         num_overlay_orig,
         num_overlay_fused,
@@ -346,7 +336,7 @@ object SQL2FPGA_Top {
     qConfig.tpcds_queryNum_end = 99
 
     qConfig.tpcds_queryNum_list = ListBuffer(
-      5
+      99
       // 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99
     ) // 1, 2, 3, 5, 6, 7, 8, 9
 

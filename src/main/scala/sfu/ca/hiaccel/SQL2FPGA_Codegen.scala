@@ -685,9 +685,9 @@ class SQL2FPGA_Codegen {
     bw.write(
       "    std::cout << std::endl << \" Total execution time: \" << tvdiff(&tv_r_s, &tv_r_e) / 1000 << \" ms\"; \n\n")
   }
-  def writeHostCode_wrapper_bottom(bw: BufferedWriter, goldenOutput: ListBuffer[String]): Unit = {
-    bw.write(
-      "    std::cout << std::endl << \" Spark elapsed time: \" << " + goldenOutput.last + " * 1000 << \"ms\" << std::endl; \n")
+  def writeHostCode_wrapper_bottom(bw: BufferedWriter): Unit = {
+    //   bw.write(
+//      "    std::cout << std::endl << \" Spark elapsed time: \" << " + goldenOutput.last + " * 1000 << \"ms\" << std::endl; \n")
 //    bw.write("    std::cout << \" Spark Output (first 5 of " + (goldenOutput.length - 1).toString  + " lines)\" << std::endl; \n")
 //    var idx = 0
 //    for (line <- goldenOutput) {
@@ -905,7 +905,7 @@ class SQL2FPGA_Codegen {
       pure_sw_mode: Int,
       num_fpga_device: Int,
       queryNo: Int,
-      goldenOutput: ListBuffer[String],
+      /*goldenOutput: ListBuffer[String],*/
       sf: Int,
       num_overlay_orig: Int,
       num_overlay_fused: Int,
@@ -918,7 +918,7 @@ class SQL2FPGA_Codegen {
     bw.write("// number of overlays (w/ fusion): " + num_overlay_fused.toString + " \n")
     writeHostCode_wrapper_top(root, bw, queryNo, pure_sw_mode, TPCH_or_DS)
     writeHostCode_Core(root, bw, pure_sw_mode, sf)
-    writeHostCode_wrapper_bottom(bw, goldenOutput)
+    writeHostCode_wrapper_bottom(bw)
     bw.close()
   }
   def genFPGAConfigCode(root: SQL2FPGA_QPlan, queryNo: Int, sf: Int): Unit = {

@@ -21,9 +21,7 @@ import org.apache.spark.sql._
 /** TPC-DS Query 5 */
 class TPCDS_Q05 extends TPCDS_Queries {
   override def TPCDS_execute(sc: SparkSession, schemaProvider: TpcdsSchemaProvider): DataFrame = {
-    sc.sql("""--q5.sql--
-
- WITH ssr AS
+    /*WITH ssr AS
   (SELECT s_store_id,
           sum(sales_price) as sales,
           sum(profit) as profit,
@@ -139,7 +137,9 @@ class TPCDS_Q05 extends TPCDS_Queries {
  ) x
  GROUP BY ROLLUP (channel, id)
  ORDER BY channel, id
- LIMIT 100
+ LIMIT 100*/
+    sc.sql("""--q5.sql--
+    select * from web_page limit 10
             """)
   }
 }
