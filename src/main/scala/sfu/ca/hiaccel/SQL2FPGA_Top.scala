@@ -36,6 +36,7 @@ object SQL2FPGA_Top {
   val INPUT_DIR_TPCDS = "/localhdd/hza215/spark_benchmark/tpcds/orc"
   val OUTPUT_DIR_TPCDS = "/localhdd/hza215/tpch-parquet"
   qConfig.format = "orc"
+  qConfig.basePath = "/localhdd/hza215/Vitis_Libraries/database/L2/demos/obj_FPGA_1_xilinx_u280_xdma_201920_3"
   qConfig.tpch_queryNum_start = 1
   qConfig.tpch_queryNum_end = 22
   // 2,20
@@ -200,9 +201,9 @@ object SQL2FPGA_Top {
         qConfig.scale_factor,
         num_overlay_orig,
         num_overlay_fused,
-        0)
-      codegen.genFPGAConfigCode(qParser.qPlan, queryNo, qConfig.scale_factor)
-      codegen.genSWConfigCode(qParser.qPlan, queryNo, qConfig.scale_factor)
+        0, qConfig.basePath)
+      codegen.genFPGAConfigCode(qParser.qPlan, queryNo, qConfig.scale_factor, qConfig.basePath)
+      codegen.genSWConfigCode(qParser.qPlan, queryNo, qConfig.scale_factor, qConfig.basePath)
 
       println("Query #" + queryNo)
       println("End of SQL2FPGA Compiler")
@@ -319,10 +320,20 @@ object SQL2FPGA_Top {
         qConfig.scale_factor,
         num_overlay_orig,
         num_overlay_fused,
-        1)
-      codegen.genFPGAConfigCode(qParser.qPlan, queryNo, qConfig.scale_factor)
-      codegen.genSWConfigCode(qParser.qPlan, queryNo, qConfig.scale_factor)
+        1, qConfig.basePath)
+      codegen.genFPGAConfigCode(qParser.qPlan, queryNo, qConfig.scale_factor, qConfig.basePath)
+      codegen.genSWConfigCode(qParser.qPlan, queryNo, qConfig.scale_factor, qConfig.basePath)
 
+      val linker = new SQL2FPGA_Linker
+      val libPath = "/localhdd/hza215/gluten/SQL2FPGA/libsql2fpga.so"
+      linker.compileCppToSharedLibrary(queryNo, qConfig, libPath)
+      System.load(libPath)
+      val wrapper = new JNIWrapper();
+      wrapper.runQuery(Array("-xclbin", "/localhdd/hza215/Vitis_Libraries/database/L2/demos/build_join_partition/xclbin_xilinx_u280_xdma_201920_3_hw/gqe_join.xclbin",
+      "-xclbin_a", "/localhdd/hza215/Vitis_Libraries/database/L2/demos/build_aggr_partition/xclbin_xilinx_u280_xdma_201920_3_hw/gqe_aggr.xclbin",
+      "-xclbin_h", "/localhdd/hza215/Vitis_Libraries/database/L2/demos/build_join_partition/xclbin_xilinx_u280_xdma_201920_3_hw/gqe_join.xclbin",
+      "-in", "/localhdd/hza215/spark_benchmark/tpcds/orc",
+      "-c", "1"))
       println("Query #" + queryNo)
       println("End of SQL2FPGA Compiler")
     }
@@ -336,7 +347,7 @@ object SQL2FPGA_Top {
     qConfig.tpcds_queryNum_end = 99
 
     qConfig.tpcds_queryNum_list = ListBuffer(
-      99
+      72
       // 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99
     ) // 1, 2, 3, 5, 6, 7, 8, 9
 
@@ -346,7 +357,7 @@ object SQL2FPGA_Top {
       .builder()
       .master("local[1]")
       .appName("SQL2FPGA Query Demo")
-      .config("spark.driver.memory", "64g")
+      .config("spark.driver.memory", "32g")
       .config("spark.driver.cores", "32")
       .config("spark.executor.memory", "64g")
       .config("spark.executor.cores", "32")

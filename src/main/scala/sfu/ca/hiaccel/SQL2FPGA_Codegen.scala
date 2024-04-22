@@ -69,6 +69,32 @@ class SQL2FPGA_Codegen {
     bw.write("#include \"cfgFunc_q" + queryNo + ".hpp\" \n")
     bw.write("#include \"q" + queryNo + ".hpp\" \n")
     bw.write("\n")
+
+    bw.write("#include <jni.h>\n\n")
+    bw.write("extern int main(int argc, const char* argv[]);\n\n")
+    bw.write("extern \"C\" {\n")
+
+    bw.write("JNIEXPORT void JNICALL Java_sfu_ca_hiaccel_JNIWrapper_runQuery(JNIEnv *env, jobject, jobjectArray argv) {\n")
+    bw.write("    // Convert jobjectArray to char**\n")
+    bw.write("    jsize len = env->GetArrayLength(argv);\n")
+    bw.write("    const char **args = new const char*[len + 1]; // Add one for the program name\n")
+    bw.write("    args[0] = \"program_name\"; // Assuming \"program_name\" is your program's name\n")
+    bw.write("    for (int i = 0; i < len; ++i) {\n")
+    bw.write("        jstring arg = (jstring)env->GetObjectArrayElement(argv, i);\n")
+    bw.write("        const char *argStr = env->GetStringUTFChars(arg, 0);\n")
+    bw.write("        args[i + 1] = strdup(argStr); // Offset by 1 to accommodate program name\n")
+    bw.write("        env->ReleaseStringUTFChars(arg, argStr);\n")
+    bw.write("    }\n\n")
+    bw.write("    // Call your main function\n")
+    bw.write("    int result = main(len + 1, args);\n\n")
+    bw.write("    // Cleanup\n")
+    bw.write("    for (int i = 1; i <= len; ++i) { // Start from 1 to skip the program name\n")
+    bw.write("        delete[] args[i];\n")
+    bw.write("    }\n")
+    bw.write("    delete[] args;\n")
+    bw.write("}\n\n")
+    
+    
     bw.write("int main(int argc, const char* argv[]) { \n")
     bw.write("    std::cout << \"\\n------------ TPC-H Query Test -------------\\n\"; \n")
     bw.write("    ArgParser parser(argc, argv); \n")
@@ -698,6 +724,7 @@ class SQL2FPGA_Codegen {
 //    }
     bw.write("    return 0; \n")
     bw.write("}\n")
+    bw.write("}\n")
   }
   def writeFPGAConfigCode_header(bw: BufferedWriter): Unit = {
     bw.write("#include \"ap_int.h\" \n")
@@ -909,9 +936,10 @@ class SQL2FPGA_Codegen {
       sf: Int,
       num_overlay_orig: Int,
       num_overlay_fused: Int,
-      TPCH_or_DS: Int): Unit = {
+      TPCH_or_DS: Int,
+      basePath: String): Unit = {
     // host.cpp
-    var hostCodeFileName = "test_q" + queryNo + ".cpp"
+    var hostCodeFileName = basePath + "/" + "test_q" + queryNo + ".cpp"
     val outFile = new File(hostCodeFileName)
     val bw = new BufferedWriter(new FileWriter(outFile, false))
     bw.write("// number of overlays (w/o fusion): " + num_overlay_orig.toString + " \n")
@@ -921,9 +949,9 @@ class SQL2FPGA_Codegen {
     writeHostCode_wrapper_bottom(bw)
     bw.close()
   }
-  def genFPGAConfigCode(root: SQL2FPGA_QPlan, queryNo: Int, sf: Int): Unit = {
+  def genFPGAConfigCode(root: SQL2FPGA_QPlan, queryNo: Int, sf: Int, basePath: String): Unit = {
     // cfgFunc.hpp
-    var cfgFuncFileName = "cfgFunc_q" + queryNo + ".hpp"
+    var cfgFuncFileName = basePath + "/" + "cfgFunc_q" + queryNo + ".hpp"
     val outFile = new File(cfgFuncFileName)
     val bw = new BufferedWriter(new FileWriter(outFile, false))
     writeFPGAConfigCode_header(bw)
@@ -931,9 +959,9 @@ class SQL2FPGA_Codegen {
     resetVisitTag(root)
     bw.close()
   }
-  def genSWConfigCode(root: SQL2FPGA_QPlan, queryNo: Int, sf: Int): Unit = {
+  def genSWConfigCode(root: SQL2FPGA_QPlan, queryNo: Int, sf: Int, basePath: String): Unit = {
     // swFunc.hpp
-    var swFuncFileName = "q" + queryNo + ".hpp"
+    var swFuncFileName = basePath + "/" + "q" + queryNo + ".hpp"
     val outFile = new File(swFuncFileName)
     val bw = new BufferedWriter(new FileWriter(outFile, false))
     writeSWConfigCode_header(bw)
