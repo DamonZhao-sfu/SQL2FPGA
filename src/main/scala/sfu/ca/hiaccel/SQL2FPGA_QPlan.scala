@@ -94,8 +94,11 @@ class SQL2FPGA_QPlan {
   private var _fpgaOutputDevAllocateCode: ListBuffer[String] = new ListBuffer[String]()
   private var _executionTimeCode: ListBuffer[String] = new ListBuffer[String]()
   val withFunctionPattern: Regex =
-    """([^=()\s]+\(.*?\)|[^=()<>\s]+)\s*(=|!=|<=>)\s*([^=()<>\s]+\(.*?\)|[^=()<>\s]+)""".r
-  val withOperatorPattern: Regex = """\(?([\w#]+).*?\)?\s*(=|!=|<=>)\s*\(?([\w#]+).*?\)?""".r
+  """([^=()\s]+\(.*?\)|[^=()<>\s]+)#?\d*\s*(=|!=|<=>|<|>|<=|>=)\s*([^=()<>\s]+\(.*?\)|[^=()<>\s]+)#?\d*""".r
+  val withOperatorPattern: Regex = """\(?([\w#]+)#?\d*.*?\)?\s*(=|!=|<=>)\s*\(?([\w#]+)#?\d*.*?\)?""".r  
+  //val withFunctionPattern: Regex =
+  //  """([^=()\s]+\(.*?\)|[^=()<>\s]+)\s*(=|!=|<=>|<|>|<=|>=)\s*([^=()<>\s]+\(.*?\)|[^=()<>\s]+)""".r
+  //val withOperatorPattern: Regex = """\(?([\w#]+).*?\)?\s*(=|!=|<=>)\s*\(?([\w#]+).*?\)?""".r
   def limit = _limit
   def treeDepth = _treeDepth
   def genCodeVisited = _genCodeVisited
@@ -349,7 +352,7 @@ class SQL2FPGA_QPlan {
   }
 
   def extractEquailty(expression: String): String = {
-    val pattern: Regex = "(=|!=|<=>)".r
+    val pattern: Regex = "(=|!=|<=>|<|>|<=|>=)".r
     pattern.findFirstIn(expression).get(0).toString
   }
 
@@ -586,7 +589,7 @@ class SQL2FPGA_QPlan {
 
   def getJoinOperator(thisNode: SQL2FPGA_QPlan): SQL2FPGA_QPlan = {
     if (
-      thisNode._nodeType == "JOIN_INNER" || thisNode._nodeType == "JOIN_LEFTANTI" || thisNode._nodeType == "JOIN_LEFTSEMI"
+      thisNode._nodeType == "JOIN_INNER" || thisNode._nodeType == "JOIN_LEFTANTI" || thisNode._nodeType == "JOIN_LEFTSEMI" || thisNode._nodeType == "JOIN_LEFTOUTER"
     ) {
       return thisNode
     }
@@ -1527,6 +1530,56 @@ class SQL2FPGA_QPlan {
 
           terms += this_term
         }
+      } else if (
+        expr.getClass.getName == "org.apache.spark.sql.catalyst.expressions.LessThan" 
+      ) {
+        // org.apache.spark.sql.catalyst.expressions.Cast
+        var leftChildName = expr.children(0).getClass.getName
+        var rightChildName = expr.children(1).getClass.getName
+        if (
+          (leftChildName == "org.apache.spark.sql.catalyst.expressions.AttributeReference" ||
+            leftChildName == "org.apache.spark.sql.catalyst.expressions.Substring" ||
+            leftChildName == "org.apache.spark.sql.catalyst.expressions.Subtract") &&
+          (rightChildName == "org.apache.spark.sql.catalyst.expressions.AttributeReference" ||
+            rightChildName == "org.apache.spark.sql.catalyst.expressions.Substring" ||
+            rightChildName == "org.apache.spark.sql.catalyst.expressions.Subtract")
+        ) {
+          var left_sub = getJoinKeyTerms(expr.children(0), false)
+          var right_sub = getJoinKeyTerms(expr.children(1), false)
+          var this_term = ""
+          if (negate)
+            this_term =
+              left_sub(0) + " >= " + right_sub(0) // (expr.toString).replace(" = ", " != ")
+          else
+            this_term = left_sub(0) + " < " + right_sub(0) // expr.toString
+
+          terms += this_term
+        }
+      } else if (
+        expr.getClass.getName == "org.apache.spark.sql.catalyst.expressions.GreaterThan" 
+      ) {
+        // org.apache.spark.sql.catalyst.expressions.Cast
+        var leftChildName = expr.children(0).getClass.getName
+        var rightChildName = expr.children(1).getClass.getName
+        if (
+          (leftChildName == "org.apache.spark.sql.catalyst.expressions.AttributeReference" ||
+            leftChildName == "org.apache.spark.sql.catalyst.expressions.Substring" ||
+            leftChildName == "org.apache.spark.sql.catalyst.expressions.Subtract") &&
+          (rightChildName == "org.apache.spark.sql.catalyst.expressions.AttributeReference" ||
+            rightChildName == "org.apache.spark.sql.catalyst.expressions.Substring" ||
+            rightChildName == "org.apache.spark.sql.catalyst.expressions.Subtract")
+        ) {
+          var left_sub = getJoinKeyTerms(expr.children(0), false)
+          var right_sub = getJoinKeyTerms(expr.children(1), false)
+          var this_term = ""
+          if (negate)
+            this_term =
+              left_sub(0) + " <= " + right_sub(0) // (expr.toString).replace(" = ", " != ")
+          else
+            this_term = left_sub(0) + " > " + right_sub(0) // expr.toString
+
+          terms += this_term
+        }
       } else if (expr.getClass.getName == "org.apache.spark.sql.catalyst.expressions.Subtract") {
         var key_term = new ListBuffer[String]()
         key_term += expr.toString
@@ -1650,6 +1703,11 @@ class SQL2FPGA_QPlan {
       } else if (expr.getClass.getName == "org.apache.spark.sql.catalyst.expressions.LessThan") {
         if (negate)
           terms += (expr.toString).replace(" < ", " >= ")
+        else
+          terms += expr.toString
+      } else if (expr.getClass.getName == "org.apache.spark.sql.catalyst.expressions.GreaterThan") {
+        if (negate)
+          terms += (expr.toString).replace(" > ", " <= ")
         else
           terms += expr.toString
       } else {
@@ -6993,7 +7051,8 @@ class SQL2FPGA_QPlan {
             var tbl_col_type = getColumnType(i_col, dfmap)
             // current Xilinx DB tool does not support string datatype
             // if (tbl_col_type == "StringType") {
-            if (tbl_col_type == "StringType: " && this_node._stringRowIDSubstitution == false) {
+            if (tbl_col_type == "StringType" && this_node._stringRowIDSubstitution == false) {
+              println(" CPU BECAUSE NO string")
               cpuORfpgaExecution = 0
             }
           }
@@ -7006,6 +7065,8 @@ class SQL2FPGA_QPlan {
             var isGroupByOp =
               this_node._nodeType == "Aggregate" && this_node._groupBy_operation.nonEmpty
             if (!isGroupByOp) {
+              println("output: " + this_node._outputCols)
+              println(" CPU BECAUSE > 8 col & NOT AGGREGATE")
               cpuORfpgaExecution = 0
             }
           }
@@ -7013,6 +7074,8 @@ class SQL2FPGA_QPlan {
             // if the number input columns is more than 8, execute this node on CPU
             if (ch._outputCols.length > 8) {
               // below was to enforce 8 output columns
+              println("output: " + ch._outputCols)
+              println(" CPU BECAUSE > 8 col")
               cpuORfpgaExecution = 0
             }
             // if any input col is StringType, execute this node on CPU
@@ -7022,6 +7085,7 @@ class SQL2FPGA_QPlan {
               if (
                 tbl_col_type == "StringType" && (ch._stringRowIDSubstitution == false || this_node._stringRowIDSubstitution == false)
               ) {
+                println(" CPU BECAUSE NO string")
                 cpuORfpgaExecution = 0
               }
             }
@@ -7034,6 +7098,7 @@ class SQL2FPGA_QPlan {
             var allValidClauses = isAllFilterClausesValid(this_node._filtering_expression)
             var includeSubQuery = this_node._children.length > 1
             if (clauseCountExceedLimit || !allValidClauses || includeSubQuery) { // overlays only support 4 filtering clauses
+              println(" CPU BECAUSE clauseCountExceedLimit || !allValidClauses || includeSubQuery")
               cpuORfpgaExecution = 0
             }
             // FIXME: Alec-added temp test - come back here Alec hack
@@ -7069,6 +7134,7 @@ class SQL2FPGA_QPlan {
             if (
               join_clauses.length > 2 || invalid_join_connect || join_filter_clauses.length != 0
             ) {
+              println("no support for join term > 2, non-AND joining relation, filtering, and leftouter join")
               cpuORfpgaExecution = 0
             }
             if (qConfig.tpch_or_tpcds == 0 && qNum == 2) {
@@ -7089,6 +7155,7 @@ class SQL2FPGA_QPlan {
             var num_evaluation_expr = 0
             for (aggr_expr <- _aggregate_expression) {
               if (!isValidAggregateExpression(aggr_expr)) {
+                println("not valid aggregation")
                 cpuORfpgaExecution = 0
               }
               if (!isPureAggrOperation_sub(aggr_expr)) {
@@ -7097,6 +7164,7 @@ class SQL2FPGA_QPlan {
             }
             // making sure there is no more than 2 aggr operations because there is only two eval units in the overlays
             if (num_evaluation_expr > 2) {
+              println("there is more than 2 aggr operations ")
               cpuORfpgaExecution = 0
             }
             // support groupBy operation
@@ -7106,6 +7174,7 @@ class SQL2FPGA_QPlan {
               // TODO cont.: adding enums::AOP_LAST - always keeping the last occurance of the col element
               for (expr <- this_node._aggregate_expression) {
                 if (isPureEvalOperation_sub(expr)) {
+                  println("pure eval group by")
                   cpuORfpgaExecution = 0
                 }
               }
@@ -10661,11 +10730,10 @@ class SQL2FPGA_QPlan {
         join_left_table_name = leftmost_operator._children.last._fpgaOutputTableName
         join_right_table_name = rightmost_operator._children.head._fpgaOutputTableName
       }
-
+      println("print join operator" + join_operator)
       //////// Alec-added: code section below is correct //////////////////////////////
       if (
-        join_operator._nodeType == "JOIN_LEFTSEMI" || (join_operator._nodeType == "JOIN_LEFTANTI" && join_operator._operation.head
-          .contains("OR isnull")) || (join_operator._nodeType == "JOIN_LEFTANTI")
+        join_operator._nodeType == "JOIN_LEFTSEMI" || (join_operator._nodeType == "JOIN_LEFTANTI" && !join_operator._operation.isEmpty && join_operator._operation.head.contains("OR isnull")) || (join_operator._nodeType == "JOIN_LEFTANTI")
       ) {
         joinTblOrderSwapped = true
         var temp_operator = rightmost_operator

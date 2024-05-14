@@ -147,30 +147,30 @@ class SQL2FPGA_Codegen {
       bw.write("    } \n")
     } else if (TPCH_or_DS == 1) {
       // Alec-added TPCDS
-      bw.write("    int32_t customer_n = 	100000; \n")
-      bw.write("    int32_t customer_address_n = 	50000; \n")
-      bw.write("    int32_t customer_demographics_n = 	1920800; \n")
-      bw.write("    int32_t date_dim_n = 	73049; \n")
-      bw.write("    int32_t household_demographics_n = 	7200; \n")
-      bw.write("    int32_t income_band_n = 	20; \n")
-      bw.write("    int32_t item_n = 	18000; \n")
-      bw.write("    int32_t promotion_n = 	300; \n")
-      bw.write("    int32_t reason_n = 	35; \n")
-      bw.write("    int32_t ship_mode_n = 	20; \n")
-      bw.write("    int32_t store_n = 	12; \n")
-      bw.write("    int32_t time_dim_n = 	86400; \n")
-      bw.write("    int32_t warehouse_n = 	5; \n")
-      bw.write("    int32_t web_site_n = 	30; \n")
-      bw.write("    int32_t web_page_n = 	60; \n")
-      bw.write("    int32_t inventory_n = 	11745000; \n")
-      bw.write("    int32_t store_returns_n = 	300000; \n")
-      bw.write("    int32_t web_sales_n = 	719384; \n")
-      bw.write("    int32_t web_returns_n = 	71763; \n")
-      bw.write("    int32_t call_center_n = 	6; \n")
-      bw.write("    int32_t catalog_page_n = 	11718; \n")
-      bw.write("    int32_t catalog_returns_n = 	144067; \n")
-      bw.write("    int32_t catalog_sales_n = 	1441548; \n")
-      bw.write("    int32_t store_sales_n = 	2880404    ; \n")
+      bw.write("    int32_t customer_n = 	100000 * scale; \n")
+      bw.write("    int32_t customer_address_n = 	50000 * scale ; \n")
+      bw.write("    int32_t customer_demographics_n = 	1920800 * scale ; \n")
+      bw.write("    int32_t date_dim_n = 	73049 * scale ; \n")
+      bw.write("    int32_t household_demographics_n = 	7200 * scale; \n")
+      bw.write("    int32_t income_band_n = 	20 * scale ; \n")
+      bw.write("    int32_t item_n = 	18000* scale; \n")
+      bw.write("    int32_t promotion_n = 	300* scale; \n")
+      bw.write("    int32_t reason_n = 	35* scale; \n")
+      bw.write("    int32_t ship_mode_n = 	20* scale; \n")
+      bw.write("    int32_t store_n = 	12* scale; \n")
+      bw.write("    int32_t time_dim_n = 	86400* scale; \n")
+      bw.write("    int32_t warehouse_n = 	5* scale; \n")
+      bw.write("    int32_t web_site_n = 	30* scale; \n")
+      bw.write("    int32_t web_page_n = 	60* scale; \n")
+      bw.write("    int32_t inventory_n = 	11745000* scale; \n")
+      bw.write("    int32_t store_returns_n = 	300000* scale; \n")
+      bw.write("    int32_t web_sales_n = 	719384* scale; \n")
+      bw.write("    int32_t web_returns_n = 	71763* scale; \n")
+      bw.write("    int32_t call_center_n = 	6* scale; \n")
+      bw.write("    int32_t catalog_page_n = 	11718* scale; \n")
+      bw.write("    int32_t catalog_returns_n = 	144067* scale; \n")
+      bw.write("    int32_t catalog_sales_n = 	1441548* scale; \n")
+      bw.write("    int32_t store_sales_n = 	2880404 * scale   ; \n")
     }
     bw.write("    // ********************************************************** // \n")
   }
@@ -688,14 +688,14 @@ class SQL2FPGA_Codegen {
   def writeHostCode_wrapper_bottom(bw: BufferedWriter, goldenOutput: ListBuffer[String]): Unit = {
     bw.write(
       "    std::cout << std::endl << \" Spark elapsed time: \" << " + goldenOutput.last + " * 1000 << \"ms\" << std::endl; \n")
-//    bw.write("    std::cout << \" Spark Output (first 5 of " + (goldenOutput.length - 1).toString  + " lines)\" << std::endl; \n")
-//    var idx = 0
-//    for (line <- goldenOutput) {
-//      if (idx < 5) {
-//        bw.write("    std::cout << \"" + line + "\" << std::endl; \n")
-//      }
-//      idx += 1
-//    }
+    bw.write("    std::cout << \" Spark Output (first 5 of " + (goldenOutput.length - 1).toString  + " lines)\" << std::endl; \n")
+    var idx = 0
+    for (line <- goldenOutput) {
+      if (idx < 5) {
+        bw.write("    std::cout << \"" + line + "\" << std::endl; \n")
+      }
+      idx += 1
+    }
     bw.write("    return 0; \n")
     bw.write("}\n")
   }

@@ -102,7 +102,7 @@ class TpchSchemaProvider(sc: SparkSession, inputDir: String, format: String)
   extends SchemaProvider {
   import sc.implicits._
 
-  dfMap = Map(
+  /*dfMap = Map(
     "lineitem" -> sc.read
       .format(format)
       .load("file://" + inputDir + "/lineitem")
@@ -123,12 +123,12 @@ class TpchSchemaProvider(sc: SparkSession, inputDir: String, format: String)
               row.getAs[java.math.BigDecimal](7).multiply(new BigDecimal("100")).intValueExact(),
             l_returnflag = row.getAs[String](8)(0).toInt,
             l_linestatus = row.getAs[String](9)(0).toInt,
-            l_shipdate = row.getAs[DateType](10).toString.replace("-", "").toInt,
-            l_commitdate = row.getAs[DateType](11).toString.replace("-", "").toInt,
-            l_receiptdate = row.getAs[DateType](12).toString.replace("-", "").toInt,
-            l_shipinstruct = row.getAs[String](13).trim,
-            l_shipmode = row.getAs[String](14).trim,
-            l_comment = row.getAs[String](15).trim
+            l_commitdate = row.getAs[DateType](10).toString.replace("-", "").toInt,
+            l_receiptdate = row.getAs[DateType](11).toString.replace("-", "").toInt,
+            l_shipinstruct = row.getAs[String](12).trim,
+            l_shipmode = row.getAs[String](13).trim,
+            l_comment = row.getAs[String](14).trim,
+            l_shipdate = row.getAs[DateType](15).toString.replace("-", "").toInt
           )
         })
       .toDF(),
@@ -271,15 +271,16 @@ class TpchSchemaProvider(sc: SparkSession, inputDir: String, format: String)
         "supplier" -> sc.read.textFile(inputDir + "/supplier.tbl*").map(_.split('|')).map(p =>
           Supplier(p(0).trim.toInt, p(1).trim, p(2).trim, p(3).trim.toInt, p(4).trim, (p(5).trim.toDouble*100).toInt, p(6).trim)).toDF()
      */
-
-    /* "part" -> sc.read.format("parquet").load("file://" + inputDir + "/part"),
-   "order" -> sc.read.format("parquet").load("file://" + inputDir + "/orders"),
-   "customer" -> sc.read.format("parquet").load("file://" + inputDir + "/customer"),
-   "supplier" -> sc.read.format("parquet").load("file://" + inputDir + "/supplier"),
-   "partsupp" -> sc.read.format("parquet").load("file://" + inputDir + "/partsupp"),
-   "region" -> sc.read.format("parquet").load("file://" + inputDir + "/region"),
-   "nation" -> sc.read.format("parquet").load("file://" + inputDir + "/nation")*/
-
+*/
+dfMap = Map(
+   "lineitem" -> sc.read.format("orc").load("file://" + inputDir + "/lineitem"),
+   "part" -> sc.read.format("orc").load("file://" + inputDir + "/part"),
+   "orders" -> sc.read.format("orc").load("file://" + inputDir + "/orders"),
+   "customer" -> sc.read.format("orc").load("file://" + inputDir + "/customer"),
+   "supplier" -> sc.read.format("orc").load("file://" + inputDir + "/supplier"),
+   "partsupp" -> sc.read.format("orc").load("file://" + inputDir + "/partsupp"),
+   "region" -> sc.read.format("orc").load("file://" + inputDir + "/region"),
+   "nation" -> sc.read.format("orc").load("file://" + inputDir + "/nation")
   )
 
   // for implicits
