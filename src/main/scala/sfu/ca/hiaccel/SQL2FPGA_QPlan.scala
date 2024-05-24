@@ -10316,7 +10316,7 @@ class SQL2FPGA_QPlan {
           }
         }
         var outputTblCol = new ListBuffer[String]()
-        var max_num_rows = 6100000 * sf
+        var max_num_rows = 100000
         var tbl_name_fpga_table = "tbl_" + _fpgaNodeName + "_output" + "_preprocess"
         var tbl_name = "tbl_" + _fpgaNodeName + "_output"
 
@@ -10730,7 +10730,6 @@ class SQL2FPGA_QPlan {
         join_left_table_name = leftmost_operator._children.last._fpgaOutputTableName
         join_right_table_name = rightmost_operator._children.head._fpgaOutputTableName
       }
-      println("print join operator" + join_operator)
       //////// Alec-added: code section below is correct //////////////////////////////
       if (
         join_operator._nodeType == "JOIN_LEFTSEMI" || (join_operator._nodeType == "JOIN_LEFTANTI" && !join_operator._operation.isEmpty && join_operator._operation.head.contains("OR isnull")) || (join_operator._nodeType == "JOIN_LEFTANTI")

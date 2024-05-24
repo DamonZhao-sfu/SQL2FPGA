@@ -147,30 +147,59 @@ class SQL2FPGA_Codegen {
       bw.write("    } \n")
     } else if (TPCH_or_DS == 1) {
       // Alec-added TPCDS
-      bw.write("    int32_t customer_n = 	100000 * scale; \n")
-      bw.write("    int32_t customer_address_n = 	50000 * scale ; \n")
-      bw.write("    int32_t customer_demographics_n = 	1920800 * scale ; \n")
-      bw.write("    int32_t date_dim_n = 	73049 * scale ; \n")
-      bw.write("    int32_t household_demographics_n = 	7200 * scale; \n")
-      bw.write("    int32_t income_band_n = 	20 * scale ; \n")
-      bw.write("    int32_t item_n = 	18000* scale; \n")
-      bw.write("    int32_t promotion_n = 	300* scale; \n")
-      bw.write("    int32_t reason_n = 	35* scale; \n")
-      bw.write("    int32_t ship_mode_n = 	20* scale; \n")
-      bw.write("    int32_t store_n = 	12* scale; \n")
-      bw.write("    int32_t time_dim_n = 	86400* scale; \n")
-      bw.write("    int32_t warehouse_n = 	5* scale; \n")
-      bw.write("    int32_t web_site_n = 	30* scale; \n")
-      bw.write("    int32_t web_page_n = 	60* scale; \n")
-      bw.write("    int32_t inventory_n = 	11745000* scale; \n")
-      bw.write("    int32_t store_returns_n = 	300000* scale; \n")
-      bw.write("    int32_t web_sales_n = 	719384* scale; \n")
-      bw.write("    int32_t web_returns_n = 	71763* scale; \n")
-      bw.write("    int32_t call_center_n = 	6* scale; \n")
-      bw.write("    int32_t catalog_page_n = 	11718* scale; \n")
-      bw.write("    int32_t catalog_returns_n = 	144067* scale; \n")
-      bw.write("    int32_t catalog_sales_n = 	1441548* scale; \n")
-      bw.write("    int32_t store_sales_n = 	2880404 * scale   ; \n")
+      /*
+      
+      customer 12000000
+      customer_address 6000000
+      customer_demographics 1920800
+      date_dim 73049
+      household_demographics 7200
+      income_band 20
+      item 300000
+      promotion 1500
+      reason 65
+      ship_mode 20
+      store 1002
+      time_dim 86400
+      warehosue 20
+      web_site 54
+      web_page 3000
+      inventory 783000000
+      store_returns 288009578
+      web_sales 719959864
+      web_returns 72002305
+      call_center 42
+      catalog_page 30000
+      catalog_returns 144004725
+      catalog_sales 1439976202
+      store_sales 2879966589
+      */
+
+
+      bw.write("    int32_t customer_n = 	12000000; \n")
+      bw.write("    int32_t customer_address_n = 	6000000; \n")
+      bw.write("    int32_t customer_demographics_n = 	1920800; \n")
+      bw.write("    int32_t date_dim_n = 	73049; \n")
+      bw.write("    int32_t household_demographics_n = 	7200; \n")
+      bw.write("    int32_t income_band_n = 	20; \n")
+      bw.write("    int32_t item_n = 	300000; \n")
+      bw.write("    int32_t promotion_n = 	1500; \n")
+      bw.write("    int32_t reason_n = 	65; \n")
+      bw.write("    int32_t ship_mode_n = 	20; \n")
+      bw.write("    int32_t store_n = 	1002; \n")
+      bw.write("    int32_t time_dim_n = 	86400; \n")
+      bw.write("    int32_t warehouse_n = 	20; \n")
+      bw.write("    int32_t web_site_n = 	54; \n")
+      bw.write("    int32_t web_page_n = 	3000; \n")
+      bw.write("    int32_t inventory_n = 	783000000; \n")
+      bw.write("    int32_t store_returns_n = 	288009578; \n")
+      bw.write("    int32_t web_sales_n = 	719959864; \n")
+      bw.write("    int32_t web_returns_n = 	72002305; \n")
+      bw.write("    int32_t call_center_n = 	42; \n")
+      bw.write("    int32_t catalog_page_n = 	30000; \n")
+      bw.write("    int32_t catalog_returns_n = 	144004725; \n")
+      bw.write("    int32_t catalog_sales_n = 	1439976202; \n")
+      bw.write("    int32_t store_sales_n = 	 2879966589; \n")
     }
     bw.write("    // ********************************************************** // \n")
   }
