@@ -31,7 +31,7 @@ object SQL2FPGA_Top {
 
   // SQL2FPGA_QConfig
   var qConfig = new SQL2FPGA_QConfig
-  val INPUT_DIR_TPCH = "/mnt/glusterfs/users/hza214/orc_1"
+  val INPUT_DIR_TPCH = "/mnt/glusterfs/users/hza214/orc_tpch_1g_nonpartition"
   val OUTPUT_DIR_TPCH = "/localhdd/hza215/spark_benchmark/tpch/"
   val INPUT_DIR_TPCDS = "/mnt/glusterfs/users/hza214/orc_1"
   val OUTPUT_DIR_TPCDS = "/localhdd/hza215/spark_benchmark/tpcds/"
@@ -40,12 +40,12 @@ object SQL2FPGA_Top {
   qConfig.tpch_queryNum_end = 22
   // 2,20
 
-  qConfig.tpch_queryNum_list = ListBuffer(1) // 3, 13, 15, 18, 20
+  qConfig.tpch_queryNum_list = ListBuffer(3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22) // 3, 13, 15, 18, 20
 
   qConfig.pure_sw_mode = 0
-  qConfig.query_plan_optimization_enable = "01000"
-  qConfig.scale_factor = 30
-  qConfig.tpch_or_tpcds = 1
+  qConfig.query_plan_optimization_enable = "11111"
+  qConfig.scale_factor = 1
+  qConfig.tpch_or_tpcds = 0
 
   // Macro defines
   val DEBUG_ALL = false

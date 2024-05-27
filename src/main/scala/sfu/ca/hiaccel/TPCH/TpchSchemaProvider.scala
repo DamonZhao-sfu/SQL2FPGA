@@ -102,33 +102,33 @@ class TpchSchemaProvider(sc: SparkSession, inputDir: String, format: String)
   extends SchemaProvider {
   import sc.implicits._
 
-  /*dfMap = Map(
+  dfMap = Map(
     "lineitem" -> sc.read
       .format(format)
       .load("file://" + inputDir + "/lineitem")
       .map(
         row => {
           Lineitem(
-            l_orderkey = row.getAs[Long](0).toInt,
-            l_partkey = row.getAs[Long](1).toInt,
-            l_suppkey = row.getAs[Long](2).toInt,
-            l_linenumber = row.getAs[Int](3),
+            l_orderkey = row.getAs[Long]("l_orderkey").toInt,
+            l_partkey = row.getAs[Long]("l_partkey").toInt,
+            l_suppkey = row.getAs[Long]("l_suppkey").toInt,
+            l_linenumber = row.getAs[Int]("l_linenumber"),
             l_quantity =
-              row.getAs[java.math.BigDecimal](4).multiply(new BigDecimal("100")).intValueExact(),
+              row.getAs[java.math.BigDecimal]("l_quantity").multiply(new BigDecimal("100")).intValueExact(),
             l_extendedprice =
-              row.getAs[java.math.BigDecimal](5).multiply(new BigDecimal("100")).intValueExact(),
+              row.getAs[java.math.BigDecimal]("l_extendedprice").multiply(new BigDecimal("100")).intValueExact(),
             l_discount =
-              row.getAs[java.math.BigDecimal](6).multiply(new BigDecimal("100")).intValueExact(),
+              row.getAs[java.math.BigDecimal]("l_discount").multiply(new BigDecimal("100")).intValueExact(),
             l_tax =
-              row.getAs[java.math.BigDecimal](7).multiply(new BigDecimal("100")).intValueExact(),
-            l_returnflag = row.getAs[String](8)(0).toInt,
-            l_linestatus = row.getAs[String](9)(0).toInt,
-            l_commitdate = row.getAs[DateType](10).toString.replace("-", "").toInt,
-            l_receiptdate = row.getAs[DateType](11).toString.replace("-", "").toInt,
-            l_shipinstruct = row.getAs[String](12).trim,
-            l_shipmode = row.getAs[String](13).trim,
-            l_comment = row.getAs[String](14).trim,
-            l_shipdate = row.getAs[DateType](15).toString.replace("-", "").toInt
+              row.getAs[java.math.BigDecimal]("l_tax").multiply(new BigDecimal("100")).intValueExact(),
+            l_returnflag = row.getAs[String]("l_returnflag")(0).toInt,
+            l_linestatus = row.getAs[String]("l_linestatus")(0).toInt,
+            l_commitdate = row.getAs[DateType]("l_commitdate").toString.replace("-", "").toInt,
+            l_receiptdate = row.getAs[DateType]("l_receiptdate").toString.replace("-", "").toInt,
+            l_shipinstruct = row.getAs[String]("l_shipinstruct").trim,
+            l_shipmode = row.getAs[String]("l_shipmode").trim,
+            l_comment = row.getAs[String]("l_comment").trim,
+            l_shipdate = row.getAs[DateType]("l_shipdate").toString.replace("-", "").toInt
           )
         })
       .toDF(),
@@ -138,15 +138,15 @@ class TpchSchemaProvider(sc: SparkSession, inputDir: String, format: String)
       .map(
         row => {
           Customer(
-            c_custkey = row.getAs[Long](0).toInt,
-            c_name = row.getAs[String](1).trim,
-            c_address = row.getAs[String](2).trim,
-            c_nationkey = row.getAs[Long](3).toInt,
-            c_phone = row.getAs[String](4).trim,
+            c_custkey = row.getAs[Long]("c_custkey").toInt,
+            c_name = row.getAs[String]("c_name").trim,
+            c_address = row.getAs[String]("c_address").trim,
+            c_nationkey = row.getAs[Long]("c_nationkey").toInt,
+            c_phone = row.getAs[String]("c_phone").trim,
             c_acctbal =
-              row.getAs[java.math.BigDecimal](5).multiply(new BigDecimal("100")).intValueExact(),
-            c_comment = row.getAs[String](6).trim,
-            c_mktsegment = row.getAs[String](7).trim
+              row.getAs[java.math.BigDecimal]("c_acctbal").multiply(new BigDecimal("100")).intValueExact(),
+            c_comment = row.getAs[String]("c_comment").trim,
+            c_mktsegment = row.getAs[String]("c_mktsegment").trim
           )
         })
       .toDF(),
@@ -156,10 +156,10 @@ class TpchSchemaProvider(sc: SparkSession, inputDir: String, format: String)
       .map(
         row => {
           Nation(
-            n_nationkey = row.getAs[Long](0).toInt,
-            n_name = row.getAs[String](1).trim,
-            n_regionkey = row.getAs[Long](2).toInt,
-            n_comment = row.getAs[String](3).trim
+            n_nationkey = row.getAs[Long]("n_nationkey").toInt,
+            n_name = row.getAs[String]("n_name").trim,
+            n_regionkey = row.getAs[Long]("n_regionkey").toInt,
+            n_comment = row.getAs[String]("n_comment").trim
           )
         })
       .toDF(),
@@ -169,9 +169,9 @@ class TpchSchemaProvider(sc: SparkSession, inputDir: String, format: String)
       .map(
         row => {
           Region(
-            r_regionkey = row.getAs[Long](0).toInt,
-            r_name = row.getAs[String](1).trim,
-            r_comment = row.getAs[String](2)
+            r_regionkey = row.getAs[Long]("r_regionkey").toInt,
+            r_name = row.getAs[String]("r_name").trim,
+            r_comment = row.getAs[String]("r_comment")
           )
         })
       .toDF(),
@@ -181,16 +181,16 @@ class TpchSchemaProvider(sc: SparkSession, inputDir: String, format: String)
       .map(
         row => {
           Orders(
-            o_orderkey = row.getAs[Long](0).toInt,
-            o_custkey = row.getAs[Long](1).toInt,
-            o_orderstatus = row.getAs[String](2)(0).toInt,
+            o_orderkey = row.getAs[Long]("o_orderkey").toInt,
+            o_custkey = row.getAs[Long]("o_custkey").toInt,
+            o_orderstatus = row.getAs[String]("o_orderstatus")(0).toInt,
             o_totalprice =
-              row.getAs[java.math.BigDecimal](3).multiply(new BigDecimal("100")).intValueExact(),
-            o_orderdate = row.getAs[DateType](4).toString.replace("-", "").toInt,
-            o_orderpriority = row.getAs[String](5).trim,
-            o_clerk = row.getAs[String](6).trim,
-            o_shippriority = row.getAs[Int](7),
-            o_comment = row.getAs[String](8).trim
+              row.getAs[java.math.BigDecimal]("o_totalprice").multiply(new BigDecimal("100")).intValueExact(),
+            o_orderdate = row.getAs[DateType]("o_orderdate").toString.replace("-", "").toInt,
+            o_orderpriority = row.getAs[String]("o_orderpriority").trim,
+            o_clerk = row.getAs[String]("o_clerk").trim,
+            o_shippriority = row.getAs[Int]("o_shippriority"),
+            o_comment = row.getAs[String]("o_comment").trim
           )
         })
       .toDF(),
@@ -200,16 +200,16 @@ class TpchSchemaProvider(sc: SparkSession, inputDir: String, format: String)
       .map(
         row => {
           Part(
-            p_partkey = row.getAs[Long](0).toInt,
-            p_name = row.getAs[String](1).trim,
-            p_mfgr = row.getAs[String](2).trim,
-            p_brand = row.getAs[String](3).trim,
-            p_type = row.getAs[String](4).trim,
-            p_size = row.getAs[Int](5),
-            p_container = row.getAs[String](6).trim,
+            p_partkey = row.getAs[Long]("p_partkey").toInt,
+            p_name = row.getAs[String]("p_name").trim,
+            p_mfgr = row.getAs[String]("p_mfgr").trim,
+            p_brand = row.getAs[String]("p_brand").trim,
+            p_type = row.getAs[String]("p_type").trim,
+            p_size = row.getAs[Int]("p_size"),
+            p_container = row.getAs[String]("p_container").trim,
             p_retailprice =
-              row.getAs[java.math.BigDecimal](7).multiply(new BigDecimal("100")).intValueExact(),
-            p_comment = row.getAs[String](8).trim
+              row.getAs[java.math.BigDecimal]("p_retailprice").multiply(new BigDecimal("100")).intValueExact(),
+            p_comment = row.getAs[String]("p_comment").trim
           )
         })
       .toDF(),
@@ -219,12 +219,12 @@ class TpchSchemaProvider(sc: SparkSession, inputDir: String, format: String)
       .map(
         row => {
           Partsupp(
-            ps_partkey = row.getAs[Long](0).toInt,
-            ps_suppkey = row.getAs[Long](1).toInt,
-            ps_availqty = row.getAs[Int](2),
+            ps_partkey = row.getAs[Long]("ps_partkey").toInt,
+            ps_suppkey = row.getAs[Long]("ps_suppkey").toInt,
+            ps_availqty = row.getAs[Int]("ps_availqty"),
             ps_supplycost =
-              row.getAs[java.math.BigDecimal](3).multiply(new BigDecimal("100")).intValueExact(),
-            ps_comment = row.getAs[String](4).trim
+              row.getAs[java.math.BigDecimal]("ps_supplycost").multiply(new BigDecimal("100")).intValueExact(),
+            ps_comment = row.getAs[String]("ps_comment").trim
           )
         })
       .toDF(),
@@ -234,17 +234,17 @@ class TpchSchemaProvider(sc: SparkSession, inputDir: String, format: String)
       .map(
         row => {
           Supplier(
-            s_suppkey = row.getAs[Long](0).toInt,
-            s_name = row.getAs[String](1).trim,
-            s_address = row.getAs[String](2).trim,
-            s_nationkey = row.getAs[Long](3).toInt,
-            s_phone = row.getAs[String](4).trim,
+            s_suppkey = row.getAs[Long]("s_suppkey").toInt,
+            s_name = row.getAs[String]("s_name").trim,
+            s_address = row.getAs[String]("s_address").trim,
+            s_nationkey = row.getAs[Long]("s_nationkey").toInt,
+            s_phone = row.getAs[String]("s_phone").trim,
             s_acctbal =
-              row.getAs[java.math.BigDecimal](5).multiply(new BigDecimal("100")).intValueExact(),
-            s_comment = row.getAs[String](6).trim
+              row.getAs[java.math.BigDecimal]("s_acctbal").multiply(new BigDecimal("100")).intValueExact(),
+            s_comment = row.getAs[String]("s_comment").trim
           )
         })
-      .toDF()
+      .toDF())
 
     /*   "customer" -> sc.read.textFile(inputDir + "/customer.tbl*").map(_.split('|')).map(p =>
           Customer(p(0).trim.toInt, p(1).trim, p(2).trim, p(3).trim.toInt, p(4).trim, (p(5).trim.toDouble*100).toInt, p(6).trim, p(7).trim)).toDF(),
@@ -271,7 +271,7 @@ class TpchSchemaProvider(sc: SparkSession, inputDir: String, format: String)
         "supplier" -> sc.read.textFile(inputDir + "/supplier.tbl*").map(_.split('|')).map(p =>
           Supplier(p(0).trim.toInt, p(1).trim, p(2).trim, p(3).trim.toInt, p(4).trim, (p(5).trim.toDouble*100).toInt, p(6).trim)).toDF()
      */
-*/
+/*
 dfMap = Map(
    "lineitem" -> sc.read.format("orc").load("file://" + inputDir + "/lineitem"),
    "part" -> sc.read.format("orc").load("file://" + inputDir + "/part"),
@@ -281,17 +281,17 @@ dfMap = Map(
    "partsupp" -> sc.read.format("orc").load("file://" + inputDir + "/partsupp"),
    "region" -> sc.read.format("orc").load("file://" + inputDir + "/region"),
    "nation" -> sc.read.format("orc").load("file://" + inputDir + "/nation")
-  )
+  )*/
 
   // for implicits
 //  val customer: DataFrame = dfMap("customer")
-  val lineitem: DataFrame = dfMap("lineitem")
+ /* val lineitem: DataFrame = dfMap("lineitem")
   val nation: DataFrame = dfMap("nation")
   val region: DataFrame = dfMap("region")
   val orders: DataFrame = dfMap("orders")
   val part: DataFrame = dfMap("part")
   val partsupp: DataFrame = dfMap("partsupp")
-  val supplier: DataFrame = dfMap("supplier")
+  val supplier: DataFrame = dfMap("supplier")*/
 
   dfMap.foreach {
     case (key, value) => {
